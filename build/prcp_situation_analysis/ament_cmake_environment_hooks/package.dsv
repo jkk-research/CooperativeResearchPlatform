@@ -1,0 +1,4 @@
+source;share/prcp_situation_analysis/local_setup.bash
+source;share/prcp_situation_analysis/local_setup.dsv
+source;share/prcp_situation_analysis/local_setup.sh
+source;share/prcp_situation_analysis/local_setup.zsh
