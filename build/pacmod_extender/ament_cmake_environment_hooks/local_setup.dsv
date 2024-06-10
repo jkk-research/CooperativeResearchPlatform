@@ -1,0 +1,2 @@
+source;share/pacmod_extender/environment/ament_prefix_path.sh
+source;share/pacmod_extender/environment/path.sh

@@ -1,0 +1,404 @@
+[0.288s] Invoking command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_msgs -DCMAKE_INSTALL_PREFIX=/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs
+[0.501s] -- The C compiler identification is GNU 11.4.0
+[0.588s] -- The CXX compiler identification is GNU 11.4.0
+[0.602s] -- Detecting C compiler ABI info
+[0.723s] -- Detecting C compiler ABI info - done
+[0.729s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.730s] -- Detecting C compile features
+[0.732s] -- Detecting C compile features - done
+[0.735s] -- Detecting CXX compiler ABI info
+[0.855s] -- Detecting CXX compiler ABI info - done
+[0.861s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.861s] -- Detecting CXX compile features
+[0.863s] -- Detecting CXX compile features - done
+[0.876s] -- Found ament_cmake: 1.3.7 (/home/gfigneczi1/autoware/install/ament_cmake/share/ament_cmake/cmake)
+[1.134s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+[1.372s] -- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)
+[1.538s] -- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[1.570s] -- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[1.599s] -- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[1.680s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.758s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.947s] -- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[1.999s] -- Found rmw_cyclonedds_cpp: 1.3.4 (/opt/ros/humble/share/rmw_cyclonedds_cpp/cmake)
+[2.125s] -- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+[2.169s] -- Looking for pthread.h
+[2.280s] -- Looking for pthread.h - found
+[2.281s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[2.399s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[2.399s] -- Found Threads: TRUE  
+[2.516s] -- Found nav_msgs: 4.2.3 (/opt/ros/humble/share/nav_msgs/cmake)
+[2.569s] -- Found tier4_planning_msgs: 0.1.0 (/home/gfigneczi1/autoware/install/tier4_planning_msgs/share/tier4_planning_msgs/cmake)
+[2.682s] -- Found autoware_perception_msgs: 1.1.0 (/home/gfigneczi1/autoware/install/autoware_perception_msgs/share/autoware_perception_msgs/cmake)
+[2.711s] -- Found rosidl_default_generators: 1.2.0 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[3.270s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[7.280s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[11.129s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[11.438s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[11.505s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[11.794s] -- Found PythonLibs: /usr/lib/aarch64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[11.794s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[11.794s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[11.794s] -- Using PYTHON_LIBRARIES: /usr/lib/aarch64-linux-gnu/libpython3.10.so
+[11.943s] -- Found PythonExtra: .so  
+[15.285s] -- Configuring done
+[15.741s] -- Generating done
+[15.761s] -- Build files have been written to: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs
+[15.845s] Invoked command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_msgs -DCMAKE_INSTALL_PREFIX=/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs
+[15.868s] Invoking command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake --build /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs -- -j4 -l4
+[16.297s] [  1%] [34m[1mGenerating C code for ROS interfaces[0m
+[16.363s] [  2%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[16.390s] [  2%] Built target ament_cmake_python_copy_crp_msgs
+[17.892s] [  2%] Built target crp_msgs__cpp
+[18.025s] [  3%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[18.122s] running egg_info
+[18.122s] creating crp_msgs.egg-info
+[18.122s] writing crp_msgs.egg-info/PKG-INFO
+[18.122s] writing dependency_links to crp_msgs.egg-info/dependency_links.txt
+[18.123s] writing top-level names to crp_msgs.egg-info/top_level.txt
+[18.123s] writing manifest file 'crp_msgs.egg-info/SOURCES.txt'
+[18.129s] reading manifest file 'crp_msgs.egg-info/SOURCES.txt'
+[18.147s] writing manifest file 'crp_msgs.egg-info/SOURCES.txt'
+[18.199s] [  3%] Built target ament_cmake_python_build_crp_msgs_egg
+[18.229s] [  5%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[18.251s] [  6%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[18.264s] [  7%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_c.dir/rosidl_generator_c/crp_msgs/msg/detail/traffic_rule__functions.c.o[0m
+[18.592s] [  8%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_c.dir/rosidl_generator_c/crp_msgs/msg/detail/path_with_traffic_rules__functions.c.o[0m
+[18.719s] [ 10%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/crp_msgs/msg/traffic_rule__type_support.cpp.o[0m
+[18.766s] [ 11%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_c.dir/rosidl_generator_c/crp_msgs/msg/detail/world__functions.c.o[0m
+[18.857s] [ 12%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_c.dir/rosidl_generator_c/crp_msgs/msg/detail/target_space__functions.c.o[0m
+[19.094s] [ 13%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_c.dir/rosidl_generator_c/crp_msgs/msg/detail/scenario__functions.c.o[0m
+[19.125s] [ 15%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/crp_msgs/msg/detail/traffic_rule__type_support.cpp.o[0m
+[19.177s] [ 16%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/crp_msgs/msg/detail/dds_fastrtps/traffic_rule__type_support.cpp.o[0m
+[19.262s] [ 17%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_c.dir/rosidl_generator_c/crp_msgs/msg/detail/ego__functions.c.o[0m
+[19.281s] [ 18%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/crp_msgs/msg/path_with_traffic_rules__type_support.cpp.o[0m
+[19.430s] [ 20%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_c.dir/rosidl_generator_c/crp_msgs/msg/detail/ego_status__functions.c.o[0m
+[19.726s] [ 21%] [32m[1mLinking C shared library libcrp_msgs__rosidl_generator_c.so[0m
+[19.811s] [ 22%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/crp_msgs/msg/world__type_support.cpp.o[0m
+[19.836s] [ 24%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/crp_msgs/msg/detail/dds_fastrtps/path_with_traffic_rules__type_support.cpp.o[0m
+[19.856s] [ 25%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/crp_msgs/msg/detail/path_with_traffic_rules__type_support.cpp.o[0m
+[19.880s] [ 25%] Built target crp_msgs__rosidl_generator_c
+[19.926s] [ 26%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/crp_msgs/msg/detail/dds_fastrtps/world__type_support.cpp.o[0m
+[20.101s] [ 27%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/crp_msgs/msg/target_space__type_support.cpp.o[0m
+[20.376s] [ 29%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/crp_msgs/msg/detail/dds_fastrtps/target_space__type_support.cpp.o[0m
+[20.425s] [ 30%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/crp_msgs/msg/detail/world__type_support.cpp.o[0m
+[20.429s] [ 31%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/crp_msgs/msg/detail/dds_fastrtps/scenario__type_support.cpp.o[0m
+[20.602s] [ 32%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/crp_msgs/msg/scenario__type_support.cpp.o[0m
+[20.831s] [ 34%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/crp_msgs/msg/detail/target_space__type_support.cpp.o[0m
+[20.941s] [ 35%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/crp_msgs/msg/detail/dds_fastrtps/ego__type_support.cpp.o[0m
+[20.965s] [ 36%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/crp_msgs/msg/ego__type_support.cpp.o[0m
+[21.084s] [ 37%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/crp_msgs/msg/detail/dds_fastrtps/ego_status__type_support.cpp.o[0m
+[21.191s] [ 39%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/crp_msgs/msg/ego_status__type_support.cpp.o[0m
+[21.358s] [ 40%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/crp_msgs/msg/detail/scenario__type_support.cpp.o[0m
+[21.446s] [ 41%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/crp_msgs/msg/detail/ego__type_support.cpp.o[0m
+[21.491s] [ 43%] [32m[1mLinking CXX shared library libcrp_msgs__rosidl_typesupport_cpp.so[0m
+[21.526s] [ 44%] [32m[1mLinking CXX shared library libcrp_msgs__rosidl_typesupport_fastrtps_cpp.so[0m
+[21.669s] [ 44%] Built target crp_msgs__rosidl_typesupport_cpp
+[21.692s] [ 44%] Built target crp_msgs__rosidl_typesupport_fastrtps_cpp
+[21.712s] [ 45%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[21.762s] [ 46%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[21.781s] [ 48%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/crp_msgs/msg/detail/ego_status__type_support.cpp.o[0m
+[22.185s] [ 49%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[22.210s] [ 50%] [32m[1mLinking CXX shared library libcrp_msgs__rosidl_typesupport_introspection_cpp.so[0m
+[22.428s] [ 50%] Built target crp_msgs__rosidl_typesupport_introspection_cpp
+[22.575s] [ 51%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/crp_msgs/msg/detail/traffic_rule__type_support.c.o[0m
+[22.637s] [ 53%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/crp_msgs/msg/detail/path_with_traffic_rules__type_support.c.o[0m
+[22.657s] [ 54%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/crp_msgs/msg/detail/traffic_rule__type_support_c.cpp.o[0m
+[22.682s] [ 55%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/crp_msgs/msg/detail/world__type_support.c.o[0m
+[22.758s] [ 56%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/crp_msgs/msg/traffic_rule__type_support.cpp.o[0m
+[22.758s] [ 58%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/crp_msgs/msg/detail/target_space__type_support.c.o[0m
+[22.779s] [ 59%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/crp_msgs/msg/detail/scenario__type_support.c.o[0m
+[22.892s] [ 60%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/crp_msgs/msg/detail/ego_status__type_support.c.o[0m
+[22.892s] [ 62%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/crp_msgs/msg/path_with_traffic_rules__type_support.cpp.o[0m
+[22.895s] [ 63%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/crp_msgs/msg/detail/ego__type_support.c.o[0m
+[22.990s] [ 65%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/crp_msgs/msg/target_space__type_support.cpp.o[0m
+[22.995s] [ 65%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/crp_msgs/msg/world__type_support.cpp.o[0m
+[23.034s] [ 67%] [32m[1mLinking C shared library libcrp_msgs__rosidl_typesupport_introspection_c.so[0m
+[23.094s] [ 68%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/crp_msgs/msg/scenario__type_support.cpp.o[0m
+[23.101s] [ 69%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/crp_msgs/msg/ego__type_support.cpp.o[0m
+[23.108s] [ 70%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/crp_msgs/msg/detail/path_with_traffic_rules__type_support_c.cpp.o[0m
+[23.159s] [ 70%] Built target crp_msgs__rosidl_typesupport_introspection_c
+[23.180s] [ 72%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/crp_msgs/msg/detail/world__type_support_c.cpp.o[0m
+[23.194s] [ 73%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/crp_msgs/msg/ego_status__type_support.cpp.o[0m
+[23.213s] [ 74%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/crp_msgs/msg/detail/target_space__type_support_c.cpp.o[0m
+[23.349s] [ 75%] [32m[1mLinking CXX shared library libcrp_msgs__rosidl_typesupport_c.so[0m
+[23.491s] [ 77%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/crp_msgs/msg/detail/scenario__type_support_c.cpp.o[0m
+[23.506s] [ 78%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/crp_msgs/msg/detail/ego__type_support_c.cpp.o[0m
+[23.515s] [ 78%] Built target crp_msgs__rosidl_typesupport_c
+[23.534s] [ 79%] [32mBuilding CXX object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/crp_msgs/msg/detail/ego_status__type_support_c.cpp.o[0m
+[23.827s] [ 81%] [32m[1mLinking CXX shared library libcrp_msgs__rosidl_typesupport_fastrtps_c.so[0m
+[23.908s] [ 81%] Built target crp_msgs__rosidl_typesupport_fastrtps_c
+[23.968s] [ 81%] Built target crp_msgs
+[24.010s] [ 82%] [34m[1mGenerating Python code for ROS interfaces[0m
+[24.729s] [ 82%] Built target crp_msgs__py
+[24.809s] [ 83%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_py.dir/rosidl_generator_py/crp_msgs/msg/_traffic_rule_s.c.o[0m
+[24.810s] [ 86%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_py.dir/rosidl_generator_py/crp_msgs/msg/_world_s.c.o[0m
+[24.810s] [ 87%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_py.dir/rosidl_generator_py/crp_msgs/msg/_target_space_s.c.o[0m
+[24.811s] [ 87%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_py.dir/rosidl_generator_py/crp_msgs/msg/_path_with_traffic_rules_s.c.o[0m
+[25.035s] [ 88%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_py.dir/rosidl_generator_py/crp_msgs/msg/_ego_s.c.o[0m
+[25.045s] [ 89%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_py.dir/rosidl_generator_py/crp_msgs/msg/_scenario_s.c.o[0m
+[25.062s] [ 91%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_generator_py.dir/rosidl_generator_py/crp_msgs/msg/_ego_status_s.c.o[0m
+[25.177s] [ 92%] [32m[1mLinking C shared library rosidl_generator_py/crp_msgs/libcrp_msgs__rosidl_generator_py.so[0m
+[25.237s] [ 92%] Built target crp_msgs__rosidl_generator_py
+[25.288s] [ 93%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[25.289s] [ 94%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_c.c.o[0m
+[25.305s] [ 96%] [32mBuilding C object CMakeFiles/crp_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[25.408s] [ 97%] [32m[1mLinking C shared library rosidl_generator_py/crp_msgs/crp_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so[0m
+[25.417s] [100%] [32m[1mLinking C shared library rosidl_generator_py/crp_msgs/crp_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so[0m
+[25.417s] [100%] [32m[1mLinking C shared library rosidl_generator_py/crp_msgs/crp_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so[0m
+[25.482s] [100%] Built target crp_msgs__rosidl_typesupport_fastrtps_c__pyext
+[25.498s] [100%] Built target crp_msgs__rosidl_typesupport_introspection_c__pyext
+[25.498s] [100%] Built target crp_msgs__rosidl_typesupport_c__pyext
+[25.520s] Invoked command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake --build /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs -- -j4 -l4
+[26.383s] Invoking command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake --install /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs
+[26.397s] -- Install configuration: ""
+[26.397s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/ament_index/resource_index/rosidl_interfaces/crp_msgs
+[26.397s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[26.397s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[26.397s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego_status.h
+[26.397s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/world.h
+[26.397s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/target_space.h
+[26.397s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/rosidl_generator_c__visibility_control.h
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__functions.c
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__functions.h
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__functions.c
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__struct.h
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__functions.c
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__struct.h
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__type_support.h
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__functions.h
+[26.398s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__struct.h
+[26.399s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__struct.h
+[26.399s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__functions.h
+[26.399s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__type_support.h
+[26.399s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__functions.h
+[26.399s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__struct.h
+[26.399s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__functions.h
+[26.400s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__functions.c
+[26.400s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__functions.h
+[26.400s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__type_support.h
+[26.400s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__functions.c
+[26.400s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__functions.h
+[26.400s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__type_support.h
+[26.400s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__struct.h
+[26.400s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__struct.h
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__type_support.h
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__type_support.h
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__functions.c
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__functions.c
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__type_support.h
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/scenario.h
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/traffic_rule.h
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/path_with_traffic_rules.h
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego.h
+[26.401s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/library_path.sh
+[26.402s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/library_path.dsv
+[26.404s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_generator_c.so
+[26.404s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_generator_c.so" to ""
+[26.404s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[26.404s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[26.404s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[26.404s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__rosidl_typesupport_fastrtps_c.h
+[26.405s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__rosidl_typesupport_fastrtps_c.h
+[26.405s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__rosidl_typesupport_fastrtps_c.h
+[26.405s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__rosidl_typesupport_fastrtps_c.h
+[26.405s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__rosidl_typesupport_fastrtps_c.h
+[26.405s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__rosidl_typesupport_fastrtps_c.h
+[26.405s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__rosidl_typesupport_fastrtps_c.h
+[26.405s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[26.405s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_fastrtps_c.so
+[26.406s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_fastrtps_c.so" to ""
+[26.406s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[26.406s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[26.406s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego_status.hpp
+[26.406s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego.hpp
+[26.407s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/world.hpp
+[26.407s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/path_with_traffic_rules.hpp
+[26.407s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/traffic_rule.hpp
+[26.407s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[26.407s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__traits.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__struct.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__traits.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__struct.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__builder.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__traits.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__traits.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__builder.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__builder.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__traits.hpp
+[26.408s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__traits.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__builder.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__traits.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__builder.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__struct.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__struct.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__builder.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__builder.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__struct.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__struct.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__struct.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/target_space.hpp
+[26.409s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/scenario.hpp
+[26.410s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[26.410s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[26.410s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[26.410s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[26.410s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__rosidl_typesupport_fastrtps_cpp.hpp
+[26.410s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__rosidl_typesupport_fastrtps_cpp.hpp
+[26.410s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__rosidl_typesupport_fastrtps_cpp.hpp
+[26.410s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__rosidl_typesupport_fastrtps_cpp.hpp
+[26.410s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__rosidl_typesupport_fastrtps_cpp.hpp
+[26.410s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__rosidl_typesupport_fastrtps_cpp.hpp
+[26.411s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/dds_fastrtps
+[26.411s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__rosidl_typesupport_fastrtps_cpp.hpp
+[26.411s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_fastrtps_cpp.so
+[26.411s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""
+[26.412s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[26.412s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[26.412s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[26.412s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__rosidl_typesupport_introspection_c.h
+[26.412s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__rosidl_typesupport_introspection_c.h
+[26.412s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__type_support.c
+[26.412s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__type_support.c
+[26.412s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__rosidl_typesupport_introspection_c.h
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__type_support.c
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__rosidl_typesupport_introspection_c.h
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__type_support.c
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__rosidl_typesupport_introspection_c.h
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__rosidl_typesupport_introspection_c.h
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__type_support.c
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__type_support.c
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__rosidl_typesupport_introspection_c.h
+[26.413s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__type_support.c
+[26.414s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[26.414s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_introspection_c.so
+[26.414s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_introspection_c.so" to ""
+[26.414s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_c.so
+[26.414s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_c.so" to ""
+[26.414s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[26.415s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[26.415s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[26.415s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__rosidl_typesupport_introspection_cpp.hpp
+[26.415s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__type_support.cpp
+[26.415s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__type_support.cpp
+[26.415s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__rosidl_typesupport_introspection_cpp.hpp
+[26.415s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__type_support.cpp
+[26.415s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__rosidl_typesupport_introspection_cpp.hpp
+[26.416s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__type_support.cpp
+[26.416s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__rosidl_typesupport_introspection_cpp.hpp
+[26.416s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__rosidl_typesupport_introspection_cpp.hpp
+[26.416s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__type_support.cpp
+[26.417s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__type_support.cpp
+[26.417s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__rosidl_typesupport_introspection_cpp.hpp
+[26.417s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__type_support.cpp
+[26.417s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__rosidl_typesupport_introspection_cpp.hpp
+[26.417s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_introspection_cpp.so
+[26.420s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_introspection_cpp.so" to ""
+[26.420s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_cpp.so
+[26.421s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_cpp.so" to ""
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/pythonpath.sh
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/pythonpath.dsv
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info/SOURCES.txt
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info/PKG-INFO
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info/top_level.txt
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info/dependency_links.txt
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs
+[26.421s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/__init__.py
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_introspection_c.c
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/__init__.py
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_world_s.c
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_traffic_rule.py
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_target_space.py
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_traffic_rule_s.c
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego.py
+[26.422s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_world.py
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego_status_s.c
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_target_space_s.c
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego_s.c
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_scenario.py
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego_status.py
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_path_with_traffic_rules_s.c
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_path_with_traffic_rules.py
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_scenario_s.c
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_c.c
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/libcrp_msgs__rosidl_generator_py.so
+[26.423s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so
+[26.475s] Listing '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/__init__.py'...
+[26.476s] Listing '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/__init__.py'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego.py'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego_status.py'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_path_with_traffic_rules.py'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_scenario.py'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_target_space.py'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_traffic_rule.py'...
+[26.476s] Compiling '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_world.py'...
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so
+[26.476s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so" to ""
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so
+[26.476s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so" to ""
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so
+[26.476s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so" to ""
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_generator_py.so
+[26.476s] -- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_generator_py.so" to ""
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/TrafficRule.idl
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/PathWithTrafficRules.idl
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/World.idl
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/TargetSpace.idl
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/Scenario.idl
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/Ego.idl
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/EgoStatus.idl
+[26.476s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/TrafficRule.msg
+[26.477s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/PathWithTrafficRules.msg
+[26.477s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/World.msg
+[26.479s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/TargetSpace.msg
+[26.479s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/Scenario.msg
+[26.479s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/Ego.msg
+[26.479s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/EgoStatus.msg
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/ament_index/resource_index/package_run_dependencies/crp_msgs
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/ament_index/resource_index/parent_prefix_path/crp_msgs
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/ament_prefix_path.sh
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/ament_prefix_path.dsv
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/path.sh
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/path.dsv
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/local_setup.bash
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/local_setup.sh
+[26.480s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/local_setup.zsh
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/local_setup.dsv
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/package.dsv
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/ament_index/resource_index/packages/crp_msgs
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_cExport.cmake
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_cExport-noconfig.cmake
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_cppExport.cmake
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+[26.481s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[26.482s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_introspection_cExport.cmake
+[26.482s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[26.482s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_cExport.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_cExport-noconfig.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_cppExport.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_pyExport.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_pyExport-noconfig.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/rosidl_cmake-extras.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[26.483s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[26.484s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[26.484s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[26.484s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgsConfig.cmake
+[26.484s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgsConfig-version.cmake
+[26.484s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/package.xml
+[26.486s] Invoked command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake --install /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs
