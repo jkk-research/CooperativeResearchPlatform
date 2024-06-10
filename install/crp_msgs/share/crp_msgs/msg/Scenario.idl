@@ -1,0 +1,27 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from crp_msgs/msg/Scenario.msg
+// generated code does not contain a copyright notice
+
+#include "autoware_perception_msgs/msg/PredictedObject.idl"
+#include "crp_msgs/msg/PathWithTrafficRules.idl"
+#include "nav_msgs/msg/OccupancyGrid.idl"
+#include "std_msgs/msg/Float32.idl"
+#include "std_msgs/msg/Header.idl"
+
+module crp_msgs {
+  module msg {
+    struct Scenario {
+      std_msgs::msg::Header header;
+
+      sequence<autoware_perception_msgs::msg::PredictedObject> local_moving_objects;
+
+      sequence<autoware_perception_msgs::msg::PredictedObject> local_obstacles;
+
+      sequence<crp_msgs::msg::PathWithTrafficRules> paths;
+
+      nav_msgs::msg::OccupancyGrid free_space;
+
+      std_msgs::msg::Float32 maximum_speed;
+    };
+  };
+};
