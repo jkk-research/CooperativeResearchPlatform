@@ -1,0 +1,27 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from crp_msgs/msg/TargetSpace.msg
+// generated code does not contain a copyright notice
+
+#include "autoware_perception_msgs/msg/PredictedObject.idl"
+#include "crp_msgs/msg/PathWithTrafficRules.idl"
+#include "geometry_msgs/msg/PoseWithCovariance.idl"
+#include "nav_msgs/msg/OccupancyGrid.idl"
+#include "std_msgs/msg/Header.idl"
+
+module crp_msgs {
+  module msg {
+    struct TargetSpace {
+      std_msgs::msg::Header header;
+
+      geometry_msgs::msg::PoseWithCovariance stopping_pose;
+
+      nav_msgs::msg::OccupancyGrid free_space;
+
+      crp_msgs::msg::PathWithTrafficRules path;
+
+      sequence<autoware_perception_msgs::msg::PredictedObject> relevant_objects;
+
+      sequence<autoware_perception_msgs::msg::PredictedObject> relevant_obstacles;
+    };
+  };
+};

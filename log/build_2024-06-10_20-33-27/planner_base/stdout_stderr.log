@@ -1,0 +1,44 @@
+[35m[1mConsolidate compiler generated dependencies of target wrapper_base[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o[0m
+In file included from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:1[m[K:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/include/planner_base/wrapperBase.hpp:27:21:[m[K [01;31m[Kerror: [m[K‘[01m[KPlannerInputPose2D[m[K’ was not declared in this scope
+   27 |         std::vector<[01;31m[KPlannerInputPose2D[m[K> pathPoint;
+      |                     [01;31m[K^~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/include/planner_base/wrapperBase.hpp:27:39:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+   27 |         std::vector<PlannerInputPose2D[01;31m[K>[m[K pathPoint;
+      |                                       [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/include/planner_base/wrapperBase.hpp:27:39:[m[K [01;31m[Kerror: [m[Ktemplate argument 2 is invalid
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/include/planner_base/wrapperBase.hpp:35:21:[m[K [01;31m[Kerror: [m[K‘[01m[KPlannerInputPose2D[m[K’ was not declared in this scope; did you mean ‘[01m[KPlannerInputPath[m[K’?
+   35 |         std::vector<[01;31m[KPlannerInputPose2D[m[K> pathPoint;
+      |                     [01;31m[K^~~~~~~~~~~~~~~~~~[m[K
+      |                     [32m[KPlannerInputPath[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/include/planner_base/wrapperBase.hpp:35:39:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+   35 |         std::vector<PlannerInputPose2D[01;31m[K>[m[K pathPoint;
+      |                                       [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/include/planner_base/wrapperBase.hpp:35:39:[m[K [01;31m[Kerror: [m[Ktemplate argument 2 is invalid
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::WrapperBase::strategyCallback(tier4_planning_msgs::msg::Scenario_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:22:98:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kmsg[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   22 | void crp::apl::WrapperBase::strategyCallback([01;35m[Kconst tier4_planning_msgs::msg::Scenario::SharedPtr msg[m[K)
+      |                                              [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::WrapperBase::targetSpaceCallback(crp_msgs::msg::TargetSpace_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:29:93:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kmsg[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   29 | void crp::apl::WrapperBase::targetSpaceCallback([01;35m[Kconst crp_msgs::msg::TargetSpace::SharedPtr msg[m[K)
+      |                                                 [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::WrapperBase::egoCallback(crp_msgs::msg::Ego_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:36:77:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kmsg[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   36 | void crp::apl::WrapperBase::egoCallback([01;35m[Kconst crp_msgs::msg::Ego::SharedPtr msg[m[K)
+      |                                         [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::WrapperBase::outputCPP2ROS(const crp::apl::WrapperBase::PlannerOutput&, autoware_planning_msgs::msg::Trajectory&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:43:65:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   43 | void crp::apl::WrapperBase::outputCPP2ROS([01;35m[Kconst PlannerOutput & output[m[K, autoware_planning_msgs::msg::Trajectory & msg)
+      |                                           [01;35m[K~~~~~~~~~~~~~~~~~~~~~~^~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:43:115:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kmsg[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   43 | void crp::apl::WrapperBase::outputCPP2ROS(const PlannerOutput & output, [01;35m[Kautoware_planning_msgs::msg::Trajectory & msg[m[K)
+      |                                                                         [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::WrapperBase::publishTrajectory(const crp::apl::WrapperBase::PlannerOutput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/src/wrapperBase.cpp:50:69:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Ktrajectory[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   50 | void crp::apl::WrapperBase::publishTrajectory([01;35m[Kconst PlannerOutput & trajectory[m[K)
+      |                                               [01;35m[K~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/wrapper_base.dir/build.make:76: CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/wrapper_base.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

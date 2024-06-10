@@ -1,0 +1,4 @@
+source;share/pacmod_extender/local_setup.bash
+source;share/pacmod_extender/local_setup.dsv
+source;share/pacmod_extender/local_setup.sh
+source;share/pacmod_extender/local_setup.zsh
