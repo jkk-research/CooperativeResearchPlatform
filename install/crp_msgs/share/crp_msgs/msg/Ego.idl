@@ -1,0 +1,24 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from crp_msgs/msg/Ego.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/AccelWithCovariance.idl"
+#include "geometry_msgs/msg/PoseWithCovariance.idl"
+#include "geometry_msgs/msg/TwistWithCovariance.idl"
+#include "std_msgs/msg/Header.idl"
+
+module crp_msgs {
+  module msg {
+    struct Ego {
+      std_msgs::msg::Header header;
+
+      geometry_msgs::msg::PoseWithCovariance pose;
+
+      geometry_msgs::msg::TwistWithCovariance twist;
+
+      geometry_msgs::msg::AccelWithCovariance accel;
+
+      float wheel_angle;
+    };
+  };
+};

@@ -1,0 +1,16 @@
+[0.000000] (-) TimerEvent: {}
+[0.000286] (-) JobUnselected: {'identifier': 'crp_msgs'}
+[0.000312] (-) JobUnselected: {'identifier': 'pacmod_extender'}
+[0.000381] (-) JobUnselected: {'identifier': 'plan_behavior_planning'}
+[0.000495] (-) JobUnselected: {'identifier': 'plan_lat_lane_follow'}
+[0.000508] (-) JobUnselected: {'identifier': 'plan_lon_emergency'}
+[0.000561] (-) JobUnselected: {'identifier': 'plan_lon_intelligent_speed_adjust'}
+[0.000706] (-) JobUnselected: {'identifier': 'plan_motion_planning'}
+[0.000774] (-) JobUnselected: {'identifier': 'planner_base'}
+[0.000825] (-) JobUnselected: {'identifier': 'prcp_sensor_abstraction'}
+[0.000851] (-) JobUnselected: {'identifier': 'prcp_situation_analysis'}
+[0.000864] (plan_lat_lane_follow_ldm) JobQueued: {'identifier': 'plan_lat_lane_follow_ldm', 'dependencies': OrderedDict([('crp_msgs', '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs'), ('planner_base', '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base')])}
+[0.002096] (plan_lat_lane_follow_ldm) JobStarted: {'identifier': 'plan_lat_lane_follow_ldm'}
+[0.097919] (plan_lat_lane_follow_ldm) JobEnded: {'identifier': 'plan_lat_lane_follow_ldm', 'rc': 1}
+[0.099895] (-) TimerEvent: {}
+[0.108723] (-) EventReactorShutdown: {}
