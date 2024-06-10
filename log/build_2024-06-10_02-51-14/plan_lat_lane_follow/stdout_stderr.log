@@ -1,0 +1,42 @@
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.7 (/home/gfigneczi1/autoware/install/ament_cmake/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3.10 (found version "3.10.12") found components: Interpreter 
+-- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_cyclonedds_cpp: 1.3.4 (/opt/ros/humble/share/rmw_cyclonedds_cpp/cmake)
+-- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found planner_base: 0.0.0 (/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/plan_lat_lane_follow
+[ 50%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow.dir/src/wrapper.cpp.o[0m
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow/src/wrapper.cpp:[m[K In member function ‘[01m[Kvirtual void crp::apl::PlanLatLaneFollowHandler::plan(const crp::apl::WrapperBase::PlannerInput&, crp::apl::WrapperBase::PlannerOutput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow/src/wrapper.cpp:9:68:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+    9 | void crp::apl::PlanLatLaneFollowHandler::plan([01;35m[Kconst PlannerInput & input[m[K, PlannerOutput & output)
+      |                                               [01;35m[K~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow/src/wrapper.cpp:9:91:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+    9 | void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, [01;35m[KPlannerOutput & output[m[K)
+      |                                                                           [01;35m[K~~~~~~~~~~~~~~~~^~~~~~[m[K
+[100%] [32m[1mLinking CXX executable plan_lat_lane_follow[0m
+[100%] Built target plan_lat_lane_follow
