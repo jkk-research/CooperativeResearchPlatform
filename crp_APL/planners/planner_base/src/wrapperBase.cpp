@@ -217,6 +217,17 @@ void crp::apl::WrapperBase::convertOutputToMsg(const PlannerOutput & output, aut
     }
 }
 
+bool crp::apl::WrapperBase::inputPlausibilityCheck(const PlannerInput & input)
+{
+    bool m_inputPlausible = false;
+    if (input.path.pathPoints.size()>1)
+    {
+        m_inputPlausible = true;
+    }
+
+    return m_inputPlausible;
+}
+
 
 void crp::apl::WrapperBase::publishTrajectory(const PlannerOutput & trajectory)
 {
