@@ -1,0 +1,31 @@
+[ 50%] [32mBuilding CXX object CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o[0m
+[100%] [32m[1mLinking CXX shared library libwrapper_base.so[0m
+[100%] Built target wrapper_base
+-- Install configuration: ""
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/include/
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/include//planner_base
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/include//planner_base/wrapperBase.hpp
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/lib/libwrapper_base.so
+-- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/lib/libwrapper_base.so" to ""
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/environment/library_path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/environment/library_path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/ament_index/resource_index/package_run_dependencies/planner_base
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/ament_index/resource_index/parent_prefix_path/planner_base
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/environment/ament_prefix_path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/environment/path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/environment/path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/local_setup.bash
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/local_setup.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/local_setup.zsh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/local_setup.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/package.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/ament_index/resource_index/packages/planner_base
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/wrapper_baseExport.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/wrapper_baseExport-noconfig.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/planner_baseConfig.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/planner_baseConfig-version.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/package.xml
