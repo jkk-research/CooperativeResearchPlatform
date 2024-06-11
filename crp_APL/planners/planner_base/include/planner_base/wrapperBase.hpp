@@ -105,6 +105,7 @@ protected:
     };
 
     virtual void plan(const PlannerInput & input, PlannerOutput & output) = 0;
+    bool inputPlausibilityCheck(const PlannerInput & input);
 
 private:
     void strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg);
