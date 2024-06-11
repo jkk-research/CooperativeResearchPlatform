@@ -158,9 +158,9 @@ cdr_serialize(
   std_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
     ros_message.header,
     cdr);
-  // Member: stopping_pose
+  // Member: target_pose
   geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
-    ros_message.stopping_pose,
+    ros_message.target_pose,
     cdr);
   // Member: free_space
   nav_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
@@ -203,9 +203,9 @@ cdr_deserialize(
   std_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
     cdr, ros_message.header);
 
-  // Member: stopping_pose
+  // Member: target_pose
   geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
-    cdr, ros_message.stopping_pose);
+    cdr, ros_message.target_pose);
 
   // Member: free_space
   nav_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
@@ -260,11 +260,11 @@ get_serialized_size(
   current_alignment +=
     std_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
     ros_message.header, current_alignment);
-  // Member: stopping_pose
+  // Member: target_pose
 
   current_alignment +=
     geometry_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
-    ros_message.stopping_pose, current_alignment);
+    ros_message.target_pose, current_alignment);
   // Member: free_space
 
   current_alignment +=
@@ -344,7 +344,7 @@ max_serialized_size_TargetSpace(
     }
   }
 
-  // Member: stopping_pose
+  // Member: target_pose
   {
     size_t array_size = 1;
 

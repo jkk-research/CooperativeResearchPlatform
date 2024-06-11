@@ -76,7 +76,7 @@ class TargetSpace(metaclass=Metaclass_TargetSpace):
 
     __slots__ = [
         '_header',
-        '_stopping_pose',
+        '_target_pose',
         '_free_space',
         '_path',
         '_relevant_objects',
@@ -85,7 +85,7 @@ class TargetSpace(metaclass=Metaclass_TargetSpace):
 
     _fields_and_field_types = {
         'header': 'std_msgs/Header',
-        'stopping_pose': 'geometry_msgs/PoseWithCovariance',
+        'target_pose': 'geometry_msgs/PoseWithCovariance',
         'free_space': 'nav_msgs/OccupancyGrid',
         'path': 'crp_msgs/PathWithTrafficRules',
         'relevant_objects': 'sequence<autoware_perception_msgs/PredictedObject>',
@@ -108,7 +108,7 @@ class TargetSpace(metaclass=Metaclass_TargetSpace):
         from std_msgs.msg import Header
         self.header = kwargs.get('header', Header())
         from geometry_msgs.msg import PoseWithCovariance
-        self.stopping_pose = kwargs.get('stopping_pose', PoseWithCovariance())
+        self.target_pose = kwargs.get('target_pose', PoseWithCovariance())
         from nav_msgs.msg import OccupancyGrid
         self.free_space = kwargs.get('free_space', OccupancyGrid())
         from crp_msgs.msg import PathWithTrafficRules
@@ -147,7 +147,7 @@ class TargetSpace(metaclass=Metaclass_TargetSpace):
             return False
         if self.header != other.header:
             return False
-        if self.stopping_pose != other.stopping_pose:
+        if self.target_pose != other.target_pose:
             return False
         if self.free_space != other.free_space:
             return False
@@ -179,18 +179,18 @@ class TargetSpace(metaclass=Metaclass_TargetSpace):
         self._header = value
 
     @builtins.property
-    def stopping_pose(self):
-        """Message field 'stopping_pose'."""
-        return self._stopping_pose
+    def target_pose(self):
+        """Message field 'target_pose'."""
+        return self._target_pose
 
-    @stopping_pose.setter
-    def stopping_pose(self, value):
+    @target_pose.setter
+    def target_pose(self, value):
         if __debug__:
             from geometry_msgs.msg import PoseWithCovariance
             assert \
                 isinstance(value, PoseWithCovariance), \
-                "The 'stopping_pose' field must be a sub message of type 'PoseWithCovariance'"
-        self._stopping_pose = value
+                "The 'target_pose' field must be a sub message of type 'PoseWithCovariance'"
+        self._target_pose = value
 
     @builtins.property
     def free_space(self):

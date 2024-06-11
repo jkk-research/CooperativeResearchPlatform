@@ -1,6 +1,6 @@
 set(_AMENT_PACKAGE_NAME "prcp_situation_analysis")
 set(prcp_situation_analysis_VERSION "0.0.0")
-set(prcp_situation_analysis_MAINTAINER "david <jodavid512@gmail.com>")
+set(prcp_situation_analysis_MAINTAINER "AnonymDavid <jozsa.david@sze.hu>")
 set(prcp_situation_analysis_BUILD_DEPENDS "rclcpp" "crp_msgs" "nav_msgs" "autoware_map_msgs" "autoware_perception_msgs" "autoware_localization_msgs" "tier4_planning_msgs")
 set(prcp_situation_analysis_BUILDTOOL_DEPENDS "ament_cmake")
 set(prcp_situation_analysis_BUILD_EXPORT_DEPENDS "rclcpp" "crp_msgs" "nav_msgs" "autoware_map_msgs" "autoware_perception_msgs" "autoware_localization_msgs" "tier4_planning_msgs")

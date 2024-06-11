@@ -20,7 +20,7 @@ extern "C"
 // Include directives for member types
 // Member 'header'
 #include "std_msgs/msg/detail/header__struct.h"
-// Member 'stopping_pose'
+// Member 'target_pose'
 #include "geometry_msgs/msg/detail/pose_with_covariance__struct.h"
 // Member 'free_space'
 #include "nav_msgs/msg/detail/occupancy_grid__struct.h"
@@ -34,7 +34,7 @@ extern "C"
 typedef struct crp_msgs__msg__TargetSpace
 {
   std_msgs__msg__Header header;
-  geometry_msgs__msg__PoseWithCovariance stopping_pose;
+  geometry_msgs__msg__PoseWithCovariance target_pose;
   nav_msgs__msg__OccupancyGrid free_space;
   crp_msgs__msg__PathWithTrafficRules path;
   autoware_perception_msgs__msg__PredictedObject__Sequence relevant_objects;

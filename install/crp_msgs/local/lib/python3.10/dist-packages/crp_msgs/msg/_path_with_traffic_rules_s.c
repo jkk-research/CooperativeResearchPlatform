@@ -16,12 +16,6 @@
 #include "crp_msgs/msg/detail/path_with_traffic_rules__struct.h"
 #include "crp_msgs/msg/detail/path_with_traffic_rules__functions.h"
 
-#include "rosidl_runtime_c/primitives_sequence.h"
-#include "rosidl_runtime_c/primitives_sequence_functions.h"
-
-// Nested array functions includes
-#include "crp_msgs/msg/detail/traffic_rule__functions.h"
-// end nested array functions include
 ROSIDL_GENERATOR_C_IMPORT
 bool std_msgs__msg__header__convert_from_py(PyObject * _pymsg, void * _ros_message);
 ROSIDL_GENERATOR_C_IMPORT
@@ -93,32 +87,10 @@ bool crp_msgs__msg__path_with_traffic_rules__convert_from_py(PyObject * _pymsg, 
     if (!field) {
       return false;
     }
-    PyObject * seq_field = PySequence_Fast(field, "expected a sequence in 'traffic_rules'");
-    if (!seq_field) {
+    if (!crp_msgs__msg__traffic_rule__convert_from_py(field, &ros_message->traffic_rules)) {
       Py_DECREF(field);
       return false;
     }
-    Py_ssize_t size = PySequence_Size(field);
-    if (-1 == size) {
-      Py_DECREF(seq_field);
-      Py_DECREF(field);
-      return false;
-    }
-    if (!crp_msgs__msg__TrafficRule__Sequence__init(&(ros_message->traffic_rules), size)) {
-      PyErr_SetString(PyExc_RuntimeError, "unable to create crp_msgs__msg__TrafficRule__Sequence ros_message");
-      Py_DECREF(seq_field);
-      Py_DECREF(field);
-      return false;
-    }
-    crp_msgs__msg__TrafficRule * dest = ros_message->traffic_rules.data;
-    for (Py_ssize_t i = 0; i < size; ++i) {
-      if (!crp_msgs__msg__traffic_rule__convert_from_py(PySequence_Fast_GET_ITEM(seq_field, i), &dest[i])) {
-        Py_DECREF(seq_field);
-        Py_DECREF(field);
-        return false;
-      }
-    }
-    Py_DECREF(seq_field);
     Py_DECREF(field);
   }
 
@@ -173,24 +145,10 @@ PyObject * crp_msgs__msg__path_with_traffic_rules__convert_to_py(void * raw_ros_
   }
   {  // traffic_rules
     PyObject * field = NULL;
-    size_t size = ros_message->traffic_rules.size;
-    field = PyList_New(size);
+    field = crp_msgs__msg__traffic_rule__convert_to_py(&ros_message->traffic_rules);
     if (!field) {
       return NULL;
     }
-    crp_msgs__msg__TrafficRule * item;
-    for (size_t i = 0; i < size; ++i) {
-      item = &(ros_message->traffic_rules.data[i]);
-      PyObject * pyitem = crp_msgs__msg__traffic_rule__convert_to_py(item);
-      if (!pyitem) {
-        Py_DECREF(field);
-        return NULL;
-      }
-      int rc = PyList_SetItem(field, i, pyitem);
-      (void)rc;
-      assert(rc == 0);
-    }
-    assert(PySequence_Check(field));
     {
       int rc = PyObject_SetAttrString(_pymessage, "traffic_rules", field);
       Py_DECREF(field);

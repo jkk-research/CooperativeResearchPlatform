@@ -617,13 +617,22 @@ CMakeFiles/ego_abstraction.dir/src/egoAbstraction.cpp.o: \
  /opt/ros/humble/include/rclcpp/rclcpp/wait_set_policies/thread_safe_synchronization.hpp \
  /opt/ros/humble/include/rclcpp/rclcpp/wait_set_policies/detail/write_preferring_read_write_lock.hpp \
  /opt/ros/humble/include/rclcpp/rclcpp/wait_set_template.hpp \
- /home/gfigneczi1/autoware/install/autoware_localization_msgs/include/autoware_localization_msgs/autoware_localization_msgs/msg/kinematic_state.hpp \
- /home/gfigneczi1/autoware/install/autoware_localization_msgs/include/autoware_localization_msgs/autoware_localization_msgs/msg/detail/kinematic_state__struct.hpp \
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose_with_covariance_stamped.hpp \
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__struct.hpp \
  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__struct.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance__struct.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__struct.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__struct.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__struct.hpp \
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__builder.hpp \
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__traits.hpp \
+ /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__traits.hpp \
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance__traits.hpp \
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__traits.hpp \
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__traits.hpp \
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__traits.hpp \
+ /home/gfigneczi1/autoware/install/autoware_localization_msgs/include/autoware_localization_msgs/autoware_localization_msgs/msg/kinematic_state.hpp \
+ /home/gfigneczi1/autoware/install/autoware_localization_msgs/include/autoware_localization_msgs/autoware_localization_msgs/msg/detail/kinematic_state__struct.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/twist_with_covariance__struct.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/twist__struct.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3__struct.hpp \
@@ -631,13 +640,16 @@ CMakeFiles/ego_abstraction.dir/src/egoAbstraction.cpp.o: \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/accel__struct.hpp \
  /home/gfigneczi1/autoware/install/autoware_localization_msgs/include/autoware_localization_msgs/autoware_localization_msgs/msg/detail/kinematic_state__builder.hpp \
  /home/gfigneczi1/autoware/install/autoware_localization_msgs/include/autoware_localization_msgs/autoware_localization_msgs/msg/detail/kinematic_state__traits.hpp \
- /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__traits.hpp \
- /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance__traits.hpp \
- /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__traits.hpp \
- /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__traits.hpp \
- /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__traits.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/twist_with_covariance__traits.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/twist__traits.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3__traits.hpp \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/accel_with_covariance__traits.hpp \
- /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/accel__traits.hpp
+ /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/accel__traits.hpp \
+ /opt/ros/humble/include/nav_msgs/nav_msgs/msg/odometry.hpp \
+ /opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/odometry__struct.hpp \
+ /opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/odometry__builder.hpp \
+ /opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/odometry__traits.hpp \
+ /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego_status.hpp \
+ /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__struct.hpp \
+ /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__builder.hpp \
+ /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__traits.hpp

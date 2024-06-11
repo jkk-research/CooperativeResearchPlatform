@@ -3,9 +3,9 @@
 <package format="3">
   <name>prcp_sensor_abstraction</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="jodavid512@gmail.com">david</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Converts inputs to predefined abstract messages.</description>
+  <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
+  <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
@@ -15,6 +15,10 @@
   <depend>autoware_localization_msgs</depend>
   <depend>autoware_map_msgs</depend>
   <depend>tier4_planning_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>lanelet2_core</depend>
+  <depend>autoware_lanelet2_extension</depend>
+  <depend>crp_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

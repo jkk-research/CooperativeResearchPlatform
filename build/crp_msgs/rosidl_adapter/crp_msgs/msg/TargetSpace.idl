@@ -13,7 +13,7 @@ module crp_msgs {
     struct TargetSpace {
       std_msgs::msg::Header header;
 
-      geometry_msgs::msg::PoseWithCovariance stopping_pose;
+      geometry_msgs::msg::PoseWithCovariance target_pose;
 
       nav_msgs::msg::OccupancyGrid free_space;
 

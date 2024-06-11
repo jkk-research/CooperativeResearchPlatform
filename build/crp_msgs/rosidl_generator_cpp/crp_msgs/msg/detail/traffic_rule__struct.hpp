@@ -46,7 +46,9 @@ struct TrafficRule_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->lane_edge_type = 0;
+      this->lane_edge_type_left = 0;
+      this->lane_edge_type_right = 0;
+      this->maximum_speed = 0.0f;
     }
   }
 
@@ -57,7 +59,9 @@ struct TrafficRule_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->lane_edge_type = 0;
+      this->lane_edge_type_left = 0;
+      this->lane_edge_type_right = 0;
+      this->maximum_speed = 0.0f;
     }
   }
 
@@ -68,9 +72,15 @@ struct TrafficRule_
   using _stop_pose_type =
     geometry_msgs::msg::PoseWithCovariance_<ContainerAllocator>;
   _stop_pose_type stop_pose;
-  using _lane_edge_type_type =
+  using _lane_edge_type_left_type =
     uint8_t;
-  _lane_edge_type_type lane_edge_type;
+  _lane_edge_type_left_type lane_edge_type_left;
+  using _lane_edge_type_right_type =
+    uint8_t;
+  _lane_edge_type_right_type lane_edge_type_right;
+  using _maximum_speed_type =
+    float;
+  _maximum_speed_type maximum_speed;
 
   // setters for named parameter idiom
   Type & set__header(
@@ -85,10 +95,22 @@ struct TrafficRule_
     this->stop_pose = _arg;
     return *this;
   }
-  Type & set__lane_edge_type(
+  Type & set__lane_edge_type_left(
     const uint8_t & _arg)
   {
-    this->lane_edge_type = _arg;
+    this->lane_edge_type_left = _arg;
+    return *this;
+  }
+  Type & set__lane_edge_type_right(
+    const uint8_t & _arg)
+  {
+    this->lane_edge_type_right = _arg;
+    return *this;
+  }
+  Type & set__maximum_speed(
+    const float & _arg)
+  {
+    this->maximum_speed = _arg;
     return *this;
   }
 
@@ -140,7 +162,13 @@ struct TrafficRule_
     if (this->stop_pose != other.stop_pose) {
       return false;
     }
-    if (this->lane_edge_type != other.lane_edge_type) {
+    if (this->lane_edge_type_left != other.lane_edge_type_left) {
+      return false;
+    }
+    if (this->lane_edge_type_right != other.lane_edge_type_right) {
+      return false;
+    }
+    if (this->maximum_speed != other.maximum_speed) {
       return false;
     }
     return true;

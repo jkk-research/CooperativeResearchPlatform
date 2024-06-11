@@ -110,13 +110,13 @@ bool crp_msgs__msg__ego__convert_from_py(PyObject * _pymsg, void * _ros_message)
     }
     Py_DECREF(field);
   }
-  {  // wheel_angle
-    PyObject * field = PyObject_GetAttrString(_pymsg, "wheel_angle");
+  {  // tire_angle_front
+    PyObject * field = PyObject_GetAttrString(_pymsg, "tire_angle_front");
     if (!field) {
       return false;
     }
     assert(PyFloat_Check(field));
-    ros_message->wheel_angle = (float)PyFloat_AS_DOUBLE(field);
+    ros_message->tire_angle_front = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
 
@@ -197,11 +197,11 @@ PyObject * crp_msgs__msg__ego__convert_to_py(void * raw_ros_message)
       }
     }
   }
-  {  // wheel_angle
+  {  // tire_angle_front
     PyObject * field = NULL;
-    field = PyFloat_FromDouble(ros_message->wheel_angle);
+    field = PyFloat_FromDouble(ros_message->tire_angle_front);
     {
-      int rc = PyObject_SetAttrString(_pymessage, "wheel_angle", field);
+      int rc = PyObject_SetAttrString(_pymessage, "tire_angle_front", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

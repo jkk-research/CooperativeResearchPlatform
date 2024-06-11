@@ -29,7 +29,9 @@ typedef struct crp_msgs__msg__TrafficRule
   std_msgs__msg__Header header;
   /// TODO: Define constants for lane edge type (e.g. uint8 type_name=0)
   geometry_msgs__msg__PoseWithCovariance stop_pose;
-  uint8_t lane_edge_type;
+  uint8_t lane_edge_type_left;
+  uint8_t lane_edge_type_right;
+  float maximum_speed;
 } crp_msgs__msg__TrafficRule;
 
 // Struct for a sequence of crp_msgs__msg__TrafficRule.

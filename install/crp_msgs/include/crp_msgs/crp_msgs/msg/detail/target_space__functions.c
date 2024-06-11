@@ -14,7 +14,7 @@
 // Include directives for member types
 // Member `header`
 #include "std_msgs/msg/detail/header__functions.h"
-// Member `stopping_pose`
+// Member `target_pose`
 #include "geometry_msgs/msg/detail/pose_with_covariance__functions.h"
 // Member `free_space`
 #include "nav_msgs/msg/detail/occupancy_grid__functions.h"
@@ -35,8 +35,8 @@ crp_msgs__msg__TargetSpace__init(crp_msgs__msg__TargetSpace * msg)
     crp_msgs__msg__TargetSpace__fini(msg);
     return false;
   }
-  // stopping_pose
-  if (!geometry_msgs__msg__PoseWithCovariance__init(&msg->stopping_pose)) {
+  // target_pose
+  if (!geometry_msgs__msg__PoseWithCovariance__init(&msg->target_pose)) {
     crp_msgs__msg__TargetSpace__fini(msg);
     return false;
   }
@@ -71,8 +71,8 @@ crp_msgs__msg__TargetSpace__fini(crp_msgs__msg__TargetSpace * msg)
   }
   // header
   std_msgs__msg__Header__fini(&msg->header);
-  // stopping_pose
-  geometry_msgs__msg__PoseWithCovariance__fini(&msg->stopping_pose);
+  // target_pose
+  geometry_msgs__msg__PoseWithCovariance__fini(&msg->target_pose);
   // free_space
   nav_msgs__msg__OccupancyGrid__fini(&msg->free_space);
   // path
@@ -95,9 +95,9 @@ crp_msgs__msg__TargetSpace__are_equal(const crp_msgs__msg__TargetSpace * lhs, co
   {
     return false;
   }
-  // stopping_pose
+  // target_pose
   if (!geometry_msgs__msg__PoseWithCovariance__are_equal(
-      &(lhs->stopping_pose), &(rhs->stopping_pose)))
+      &(lhs->target_pose), &(rhs->target_pose)))
   {
     return false;
   }
@@ -142,9 +142,9 @@ crp_msgs__msg__TargetSpace__copy(
   {
     return false;
   }
-  // stopping_pose
+  // target_pose
   if (!geometry_msgs__msg__PoseWithCovariance__copy(
-      &(input->stopping_pose), &(output->stopping_pose)))
+      &(input->target_pose), &(output->target_pose)))
   {
     return false;
   }

@@ -1,0 +1,256 @@
+[0.222s] Invoking command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake --build /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs -- -j4 -l4
+[0.372s] [  1%] Built target crp_msgs__cpp
+[0.395s] [ 12%] Built target crp_msgs__rosidl_generator_c
+[0.420s] [ 12%] Built target ament_cmake_python_copy_crp_msgs
+[0.472s] [ 24%] Built target crp_msgs__rosidl_typesupport_cpp
+[0.525s] [ 35%] Built target crp_msgs__rosidl_typesupport_introspection_cpp
+[0.534s] [ 46%] Built target crp_msgs__rosidl_typesupport_fastrtps_cpp
+[0.550s] [ 58%] Built target crp_msgs__rosidl_typesupport_fastrtps_c
+[0.581s] [ 69%] Built target crp_msgs__rosidl_typesupport_introspection_c
+[0.594s] [ 81%] Built target crp_msgs__rosidl_typesupport_c
+[0.657s] [ 81%] Built target crp_msgs
+[0.713s] [ 82%] Built target crp_msgs__py
+[0.782s] [ 92%] Built target crp_msgs__rosidl_generator_py
+[0.859s] [ 94%] Built target crp_msgs__rosidl_typesupport_c__pyext
+[0.869s] running egg_info
+[0.870s] writing crp_msgs.egg-info/PKG-INFO
+[0.871s] writing dependency_links to crp_msgs.egg-info/dependency_links.txt
+[0.871s] writing top-level names to crp_msgs.egg-info/top_level.txt
+[0.872s] reading manifest file 'crp_msgs.egg-info/SOURCES.txt'
+[0.873s] writing manifest file 'crp_msgs.egg-info/SOURCES.txt'
+[0.885s] [ 97%] Built target crp_msgs__rosidl_typesupport_fastrtps_c__pyext
+[0.885s] [100%] Built target crp_msgs__rosidl_typesupport_introspection_c__pyext
+[0.905s] [100%] Built target ament_cmake_python_build_crp_msgs_egg
+[0.974s] Invoked command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake --build /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs -- -j4 -l4
+[1.860s] Invoking command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake --install /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs
+[1.874s] -- Install configuration: ""
+[1.874s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/ament_index/resource_index/rosidl_interfaces/crp_msgs
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego_status.h
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/world.h
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/target_space.h
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/rosidl_generator_c__visibility_control.h
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__functions.c
+[1.881s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__functions.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__functions.c
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__struct.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__functions.c
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__struct.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__type_support.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__functions.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__struct.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__struct.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__functions.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__type_support.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__functions.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__struct.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__functions.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__functions.c
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__functions.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__type_support.h
+[1.882s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__functions.c
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__functions.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__type_support.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__struct.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__struct.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__type_support.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__type_support.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__functions.c
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__functions.c
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__type_support.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/scenario.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/traffic_rule.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/path_with_traffic_rules.h
+[1.883s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/library_path.sh
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/library_path.dsv
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_generator_c.so
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__rosidl_typesupport_fastrtps_c.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__rosidl_typesupport_fastrtps_c.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__rosidl_typesupport_fastrtps_c.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__rosidl_typesupport_fastrtps_c.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__rosidl_typesupport_fastrtps_c.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__rosidl_typesupport_fastrtps_c.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__rosidl_typesupport_fastrtps_c.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_fastrtps_c.so
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego_status.hpp
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/ego.hpp
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/world.hpp
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/path_with_traffic_rules.hpp
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/traffic_rule.hpp
+[1.884s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__traits.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__struct.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__traits.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__struct.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__builder.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__traits.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__traits.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__builder.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__builder.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__traits.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__traits.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__builder.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__traits.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__builder.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__struct.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__struct.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__builder.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__builder.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__struct.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__struct.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__struct.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/target_space.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/scenario.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__rosidl_typesupport_fastrtps_cpp.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__rosidl_typesupport_fastrtps_cpp.hpp
+[1.885s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__rosidl_typesupport_fastrtps_cpp.hpp
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__rosidl_typesupport_fastrtps_cpp.hpp
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__rosidl_typesupport_fastrtps_cpp.hpp
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__rosidl_typesupport_fastrtps_cpp.hpp
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/dds_fastrtps
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__rosidl_typesupport_fastrtps_cpp.hpp
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_fastrtps_cpp.so
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__rosidl_typesupport_introspection_c.h
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__rosidl_typesupport_introspection_c.h
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__type_support.c
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__type_support.c
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__rosidl_typesupport_introspection_c.h
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__type_support.c
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__rosidl_typesupport_introspection_c.h
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__type_support.c
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__rosidl_typesupport_introspection_c.h
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__rosidl_typesupport_introspection_c.h
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__type_support.c
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__type_support.c
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__rosidl_typesupport_introspection_c.h
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__type_support.c
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_introspection_c.so
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_c.so
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__rosidl_typesupport_introspection_cpp.hpp
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__type_support.cpp
+[1.886s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__type_support.cpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__rosidl_typesupport_introspection_cpp.hpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__type_support.cpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/scenario__rosidl_typesupport_introspection_cpp.hpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__type_support.cpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/traffic_rule__rosidl_typesupport_introspection_cpp.hpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego__rosidl_typesupport_introspection_cpp.hpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__type_support.cpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__type_support.cpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/world__rosidl_typesupport_introspection_cpp.hpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__type_support.cpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/ego_status__rosidl_typesupport_introspection_cpp.hpp
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_introspection_cpp.so
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_typesupport_cpp.so
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/pythonpath.sh
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/pythonpath.dsv
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info
+[1.887s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info/SOURCES.txt
+[1.887s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info/PKG-INFO
+[1.887s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info/top_level.txt
+[1.887s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs-0.0.0-py3.10.egg-info/dependency_links.txt
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/__init__.py
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_introspection_c.c
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/__init__.py
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_world_s.c
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_traffic_rule.py
+[1.887s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_target_space.py
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_traffic_rule_s.c
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego.py
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_world.py
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego_status_s.c
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_target_space_s.c
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego_s.c
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_scenario.py
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_ego_status.py
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_path_with_traffic_rules_s.c
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_path_with_traffic_rules.py
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg/_scenario_s.c
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/_crp_msgs_s.ep.rosidl_typesupport_c.c
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/libcrp_msgs__rosidl_generator_py.so
+[1.888s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so
+[1.920s] Listing '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs'...
+[1.920s] Listing '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/msg'...
+[1.923s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-aarch64-linux-gnu.so
+[1.923s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_introspection_c.cpython-310-aarch64-linux-gnu.so
+[1.924s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/local/lib/python3.10/dist-packages/crp_msgs/crp_msgs_s__rosidl_typesupport_c.cpython-310-aarch64-linux-gnu.so
+[1.924s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib/libcrp_msgs__rosidl_generator_py.so
+[1.924s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/TrafficRule.idl
+[1.924s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/PathWithTrafficRules.idl
+[1.924s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/World.idl
+[1.924s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/TargetSpace.idl
+[1.924s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/Scenario.idl
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/Ego.idl
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/EgoStatus.idl
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/TrafficRule.msg
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/PathWithTrafficRules.msg
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/World.msg
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/TargetSpace.msg
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/Scenario.msg
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/Ego.msg
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/msg/EgoStatus.msg
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/ament_index/resource_index/package_run_dependencies/crp_msgs
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/ament_index/resource_index/parent_prefix_path/crp_msgs
+[1.925s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/ament_prefix_path.sh
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/ament_prefix_path.dsv
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/path.sh
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/environment/path.dsv
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/local_setup.bash
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/local_setup.sh
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/local_setup.zsh
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/local_setup.dsv
+[1.926s] -- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/package.dsv
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/ament_index/resource_index/packages/crp_msgs
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_cExport.cmake
+[1.926s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_cExport-noconfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_cppExport.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_introspection_cExport.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_cExport.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_cExport-noconfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_cppExport.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_pyExport.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/export_crp_msgs__rosidl_generator_pyExport-noconfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/rosidl_cmake-extras.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgsConfig.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake/crp_msgsConfig-version.cmake
+[1.927s] -- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/package.xml
+[1.937s] Invoked command in '/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/gfigneczi1/autoware/install/simulator_compatibility_test:/home/gfigneczi1/autoware/install/ad_api_visualizers:/opt/ros/humble /usr/bin/cmake --install /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs
