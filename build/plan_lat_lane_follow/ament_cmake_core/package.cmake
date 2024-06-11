@@ -1,6 +1,6 @@
 set(_AMENT_PACKAGE_NAME "plan_lat_lane_follow")
 set(plan_lat_lane_follow_VERSION "0.0.0")
-set(plan_lat_lane_follow_MAINTAINER "david <jodavid512@gmail.com>")
+set(plan_lat_lane_follow_MAINTAINER "AnonymDavid <jozsa.david@sze.hu>")
 set(plan_lat_lane_follow_BUILD_DEPENDS "rclcpp" "planner_base")
 set(plan_lat_lane_follow_BUILDTOOL_DEPENDS "ament_cmake")
 set(plan_lat_lane_follow_BUILD_EXPORT_DEPENDS "rclcpp" "planner_base")

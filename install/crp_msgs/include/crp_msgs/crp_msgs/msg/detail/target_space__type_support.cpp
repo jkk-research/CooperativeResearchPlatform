@@ -146,14 +146,14 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember TargetSpace_m
     nullptr  // resize(index) function pointer
   },
   {
-    "stopping_pose",  // name
+    "target_pose",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_MESSAGE,  // type
     0,  // upper bound of string
     ::rosidl_typesupport_introspection_cpp::get_message_type_support_handle<geometry_msgs::msg::PoseWithCovariance>(),  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(crp_msgs::msg::TargetSpace, stopping_pose),  // bytes offset in struct
+    offsetof(crp_msgs::msg::TargetSpace, target_pose),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer

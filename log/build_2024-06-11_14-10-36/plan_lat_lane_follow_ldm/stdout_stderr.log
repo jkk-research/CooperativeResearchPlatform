@@ -1,0 +1,21 @@
+[35m[1mConsolidate compiler generated dependencies of target plan_lat_lane_follow_ldm[0m
+[ 12%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/src/functionCode/src/linearDriverModel.cpp.o[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapper.cpp.o[0m
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:[m[K In member function ‘[01m[Kvoid LinearDriverModel::plan(const crp::apl::PlannerInput&, crp::apl::PlannerOutput&, const LDMParamIn&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:34:33:[m[K [01;31m[Kerror: [m[K‘[01m[KcorridorCoefficients[m[K’ was not declared in this scope
+   34 |       controlLogic.calcValidity([01;31m[KcorridorCoefficients[m[K, egoPoseGlobal, parameters, firstCycle);
+      |                                 [01;31m[K^~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:34:55:[m[K [01;31m[Kerror: [m[K‘[01m[KegoPoseGlobal[m[K’ was not declared in this scope; did you mean ‘[01m[KegoPoseGlobalPlan[m[K’?
+   34 |       controlLogic.calcValidity(corridorCoefficients, [01;31m[KegoPoseGlobal[m[K, parameters, firstCycle);
+      |                                                       [01;31m[K^~~~~~~~~~~~~[m[K
+      |                                                       [32m[KegoPoseGlobalPlan[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:28:34:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   28 |    [01;35m[Kconst crp::apl::PlannerInput& input[m[K,
+      |    [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:29:29:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   29 |    [01;35m[Kcrp::apl::PlannerOutput& output[m[K,
+      |    [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~[m[K
+gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:104: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/functionCode/src/linearDriverModel.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/plan_lat_lane_follow_ldm.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

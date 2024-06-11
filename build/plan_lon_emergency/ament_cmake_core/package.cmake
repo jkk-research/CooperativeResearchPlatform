@@ -1,6 +1,6 @@
 set(_AMENT_PACKAGE_NAME "plan_lon_emergency")
 set(plan_lon_emergency_VERSION "0.0.0")
-set(plan_lon_emergency_MAINTAINER "david <jodavid512@gmail.com>")
+set(plan_lon_emergency_MAINTAINER "AnonymDavid <jozsa.david@sze.hu>")
 set(plan_lon_emergency_BUILD_DEPENDS "rclcpp" "planner_base")
 set(plan_lon_emergency_BUILDTOOL_DEPENDS "ament_cmake")
 set(plan_lon_emergency_BUILD_EXPORT_DEPENDS "rclcpp" "planner_base")

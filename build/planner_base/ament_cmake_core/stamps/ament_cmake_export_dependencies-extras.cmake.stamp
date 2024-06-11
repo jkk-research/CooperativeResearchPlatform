@@ -1,6 +1,6 @@
 # generated from ament_cmake_export_dependencies/cmake/ament_cmake_export_dependencies-extras.cmake.in
 
-set(_exported_dependencies "rclcpp;crp_msgs;tier4_planning_msgs;autoware_planning_msgs")
+set(_exported_dependencies "rclcpp;crp_msgs;tier4_planning_msgs;autoware_planning_msgs;tf2;tf2_geometry_msgs")
 
 find_package(ament_cmake_libraries QUIET REQUIRED)
 

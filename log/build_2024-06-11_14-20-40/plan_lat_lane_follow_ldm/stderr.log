@@ -1,0 +1,152 @@
+In file included from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel.hpp:18[m[K,
+                 from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:14[m[K:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kcrp[m[K’ does not name a type
+   24 |    bool calcValidity(const [01;31m[Kcrp[m[K::apl::PlannerInput& input, const LDMParamIn&, const bool);
+      |                            [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:36:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K::[m[K’ token
+   24 |    bool calcValidity(const crp::apl[01;31m[K::[m[KPlannerInput& input, const LDMParamIn&, const bool);
+      |                                    [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:36:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K::[m[K’ token
+   24 |    bool calcValidity[34m[K([m[Kconst crp::apl[01;31m[K:[m[K[32m[K:[m[KPlannerInput& input, const LDMParamIn&, const bool);
+      |                     [34m[K~[m[K              [01;31m[K^[m[K[32m[K~[m[K
+      |                                    [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:33:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+   24 |    bool calcValidity(const crp::[01;31m[Kapl[m[K::PlannerInput& input, const LDMParamIn&, const bool);
+      |                                 [01;31m[K^~~[m[K
+      |                                    [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:38:[m[K [01;31m[Kerror: [m[K‘[01m[KPlannerInput[m[K’ in namespace ‘[01m[K::[m[K’ does not name a type
+   24 |    bool calcValidity(const crp::apl::[01;31m[KPlannerInput[m[K& input, const LDMParamIn&, const bool);
+      |                                      [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kcrp[m[K’ does not name a type
+   26 |    void corridorValidityCalc(const [01;31m[Kcrp[m[K::apl::PlannerInput& input);
+      |                                    [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:44:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K::[m[K’ token
+   26 |    void corridorValidityCalc(const crp::apl[01;31m[K::[m[KPlannerInput& input);
+      |                                            [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:44:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K::[m[K’ token
+   26 |    void corridorValidityCalc[34m[K([m[Kconst crp::apl[01;31m[K:[m[K[32m[K:[m[KPlannerInput& input);
+      |                             [34m[K~[m[K              [01;31m[K^[m[K[32m[K~[m[K
+      |                                            [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:41:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+   26 |    void corridorValidityCalc(const crp::[01;31m[Kapl[m[K::PlannerInput& input);
+      |                                         [01;31m[K^~~[m[K
+      |                                            [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:46:[m[K [01;31m[Kerror: [m[K‘[01m[KPlannerInput[m[K’ in namespace ‘[01m[K::[m[K’ does not name a type
+   26 |    void corridorValidityCalc(const crp::apl::[01;31m[KPlannerInput[m[K& input);
+      |                                              [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:[m[K In member function ‘[01m[Kvoid LinearDriverModel::plan(const crp::apl::PlannerInput&, crp::apl::PlannerOutput&, const LDMParamIn&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:33:9:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[KtriggerPlanner[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-variable-Wunused-variable]8;;[m[K]
+   33 |    bool [01;35m[KtriggerPlanner[m[K =
+      |         [01;35m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:29:29:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   29 |    [01;35m[Kcrp::apl::PlannerOutput& output[m[K,
+      |    [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~[m[K
+In file included from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:14[m[K:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kcrp[m[K’ does not name a type
+   24 |    bool calcValidity(const [01;31m[Kcrp[m[K::apl::PlannerInput& input, const LDMParamIn&, const bool);
+      |                            [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:36:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K::[m[K’ token
+   24 |    bool calcValidity(const crp::apl[01;31m[K::[m[KPlannerInput& input, const LDMParamIn&, const bool);
+      |                                    [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:36:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K::[m[K’ token
+   24 |    bool calcValidity[34m[K([m[Kconst crp::apl[01;31m[K:[m[K[32m[K:[m[KPlannerInput& input, const LDMParamIn&, const bool);
+      |                     [34m[K~[m[K              [01;31m[K^[m[K[32m[K~[m[K
+      |                                    [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:33:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+   24 |    bool calcValidity(const crp::[01;31m[Kapl[m[K::PlannerInput& input, const LDMParamIn&, const bool);
+      |                                 [01;31m[K^~~[m[K
+      |                                    [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:38:[m[K [01;31m[Kerror: [m[K‘[01m[KPlannerInput[m[K’ in namespace ‘[01m[K::[m[K’ does not name a type
+   24 |    bool calcValidity(const crp::apl::[01;31m[KPlannerInput[m[K& input, const LDMParamIn&, const bool);
+      |                                      [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kcrp[m[K’ does not name a type
+   26 |    void corridorValidityCalc(const [01;31m[Kcrp[m[K::apl::PlannerInput& input);
+      |                                    [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:44:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K::[m[K’ token
+   26 |    void corridorValidityCalc(const crp::apl[01;31m[K::[m[KPlannerInput& input);
+      |                                            [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:44:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K::[m[K’ token
+   26 |    void corridorValidityCalc[34m[K([m[Kconst crp::apl[01;31m[K:[m[K[32m[K:[m[KPlannerInput& input);
+      |                             [34m[K~[m[K              [01;31m[K^[m[K[32m[K~[m[K
+      |                                            [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:41:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+   26 |    void corridorValidityCalc(const crp::[01;31m[Kapl[m[K::PlannerInput& input);
+      |                                         [01;31m[K^~~[m[K
+      |                                            [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:46:[m[K [01;31m[Kerror: [m[K‘[01m[KPlannerInput[m[K’ in namespace ‘[01m[K::[m[K’ does not name a type
+   26 |    void corridorValidityCalc(const crp::apl::[01;31m[KPlannerInput[m[K& input);
+      |                                              [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:18:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kcrp[m[K’ does not name a type
+   18 |    const [01;31m[Kcrp[m[K::apl::PlannerInput& input)
+      |          [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:18:18:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K::[m[K’ token
+   18 |    const crp::apl[01;31m[K::[m[KPlannerInput& input)
+      |                  [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:18:18:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K::[m[K’ token
+   18 |    const crp::apl[01;31m[K:[m[K[32m[K:[m[KPlannerInput& input)
+      |                  [01;31m[K^[m[K[32m[K~[m[K
+      |                  [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:17:40:[m[K [01;36m[Knote: [m[Kto match this ‘[01m[K([m[K’
+   17 | void ControlLogic::corridorValidityCalc[01;36m[K([m[K
+      |                                        [01;36m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:18:18:[m[K [01;31m[Kerror: [m[Kexpected initializer before ‘[01m[K::[m[K’ token
+   18 |    const crp::apl[01;31m[K::[m[KPlannerInput& input)
+      |                  [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:128:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kcrp[m[K’ does not name a type
+  128 |    const [01;31m[Kcrp[m[K::apl::PlannerInput& input,
+      |          [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:128:18:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K::[m[K’ token
+  128 |    const crp::apl[01;31m[K::[m[KPlannerInput& input,
+      |                  [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:128:18:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K::[m[K’ token
+  128 |    const crp::apl[01;31m[K:[m[K[32m[K:[m[KPlannerInput& input,
+      |                  [01;31m[K^[m[K[32m[K~[m[K
+      |                  [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:127:32:[m[K [01;36m[Knote: [m[Kto match this ‘[01m[K([m[K’
+  127 | bool ControlLogic::calcValidity[01;36m[K([m[K
+      |                                [01;36m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel_controlLogic.cpp:128:18:[m[K [01;31m[Kerror: [m[Kexpected initializer before ‘[01m[K::[m[K’ token
+  128 |    const crp::apl[01;31m[K::[m[KPlannerInput& input,
+      |                  [01;31m[K^~[m[K
+In file included from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel.hpp:18[m[K,
+                 from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/linearDriverModel_driverModel.cpp:14[m[K:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kcrp[m[K’ does not name a type
+   24 |    bool calcValidity(const [01;31m[Kcrp[m[K::apl::PlannerInput& input, const LDMParamIn&, const bool);
+      |                            [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:36:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K::[m[K’ token
+   24 |    bool calcValidity(const crp::apl[01;31m[K::[m[KPlannerInput& input, const LDMParamIn&, const bool);
+      |                                    [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:36:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K::[m[K’ token
+   24 |    bool calcValidity[34m[K([m[Kconst crp::apl[01;31m[K:[m[K[32m[K:[m[KPlannerInput& input, const LDMParamIn&, const bool);
+      |                     [34m[K~[m[K              [01;31m[K^[m[K[32m[K~[m[K
+      |                                    [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:33:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+   24 |    bool calcValidity(const crp::[01;31m[Kapl[m[K::PlannerInput& input, const LDMParamIn&, const bool);
+      |                                 [01;31m[K^~~[m[K
+      |                                    [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:24:38:[m[K [01;31m[Kerror: [m[K‘[01m[KPlannerInput[m[K’ in namespace ‘[01m[K::[m[K’ does not name a type
+   24 |    bool calcValidity(const crp::apl::[01;31m[KPlannerInput[m[K& input, const LDMParamIn&, const bool);
+      |                                      [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:36:[m[K [01;31m[Kerror: [m[K‘[01m[Kcrp[m[K’ does not name a type
+   26 |    void corridorValidityCalc(const [01;31m[Kcrp[m[K::apl::PlannerInput& input);
+      |                                    [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:44:[m[K [01;31m[Kerror: [m[Kexpected unqualified-id before ‘[01m[K::[m[K’ token
+   26 |    void corridorValidityCalc(const crp::apl[01;31m[K::[m[KPlannerInput& input);
+      |                                            [01;31m[K^~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:44:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K::[m[K’ token
+   26 |    void corridorValidityCalc[34m[K([m[Kconst crp::apl[01;31m[K:[m[K[32m[K:[m[KPlannerInput& input);
+      |                             [34m[K~[m[K              [01;31m[K^[m[K[32m[K~[m[K
+      |                                            [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:41:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ at end of member declaration
+   26 |    void corridorValidityCalc(const crp::[01;31m[Kapl[m[K::PlannerInput& input);
+      |                                         [01;31m[K^~~[m[K
+      |                                            [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/../../inc/linearDriverModel/linearDriverModel_controlLogic.hpp:26:46:[m[K [01;31m[Kerror: [m[K‘[01m[KPlannerInput[m[K’ in namespace ‘[01m[K::[m[K’ does not name a type
+   26 |    void corridorValidityCalc(const crp::apl::[01;31m[KPlannerInput[m[K& input);
+      |                                              [01;31m[K^~~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:90: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/functionCode/src/linearDriverModel_controlLogic.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:104: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/functionCode/src/linearDriverModel.cpp.o] Error 1
+gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:118: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/functionCode/src/linearDriverModelDriverModel/linearDriverModel_driverModel.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/plan_lat_lane_follow_ldm.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

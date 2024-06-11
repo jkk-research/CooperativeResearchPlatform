@@ -80,13 +80,31 @@ bool crp_msgs__msg__traffic_rule__convert_from_py(PyObject * _pymsg, void * _ros
     }
     Py_DECREF(field);
   }
-  {  // lane_edge_type
-    PyObject * field = PyObject_GetAttrString(_pymsg, "lane_edge_type");
+  {  // lane_edge_type_left
+    PyObject * field = PyObject_GetAttrString(_pymsg, "lane_edge_type_left");
     if (!field) {
       return false;
     }
     assert(PyLong_Check(field));
-    ros_message->lane_edge_type = (uint8_t)PyLong_AsUnsignedLong(field);
+    ros_message->lane_edge_type_left = (uint8_t)PyLong_AsUnsignedLong(field);
+    Py_DECREF(field);
+  }
+  {  // lane_edge_type_right
+    PyObject * field = PyObject_GetAttrString(_pymsg, "lane_edge_type_right");
+    if (!field) {
+      return false;
+    }
+    assert(PyLong_Check(field));
+    ros_message->lane_edge_type_right = (uint8_t)PyLong_AsUnsignedLong(field);
+    Py_DECREF(field);
+  }
+  {  // maximum_speed
+    PyObject * field = PyObject_GetAttrString(_pymsg, "maximum_speed");
+    if (!field) {
+      return false;
+    }
+    assert(PyFloat_Check(field));
+    ros_message->maximum_speed = (float)PyFloat_AS_DOUBLE(field);
     Py_DECREF(field);
   }
 
@@ -139,11 +157,33 @@ PyObject * crp_msgs__msg__traffic_rule__convert_to_py(void * raw_ros_message)
       }
     }
   }
-  {  // lane_edge_type
+  {  // lane_edge_type_left
     PyObject * field = NULL;
-    field = PyLong_FromUnsignedLong(ros_message->lane_edge_type);
+    field = PyLong_FromUnsignedLong(ros_message->lane_edge_type_left);
     {
-      int rc = PyObject_SetAttrString(_pymessage, "lane_edge_type", field);
+      int rc = PyObject_SetAttrString(_pymessage, "lane_edge_type_left", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // lane_edge_type_right
+    PyObject * field = NULL;
+    field = PyLong_FromUnsignedLong(ros_message->lane_edge_type_right);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "lane_edge_type_right", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // maximum_speed
+    PyObject * field = NULL;
+    field = PyFloat_FromDouble(ros_message->maximum_speed);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "maximum_speed", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

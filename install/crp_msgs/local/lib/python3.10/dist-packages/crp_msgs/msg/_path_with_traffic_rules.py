@@ -75,13 +75,13 @@ class PathWithTrafficRules(metaclass=Metaclass_PathWithTrafficRules):
     _fields_and_field_types = {
         'header': 'std_msgs/Header',
         'path': 'tier4_planning_msgs/PathWithLaneId',
-        'traffic_rules': 'sequence<crp_msgs/TrafficRule>',
+        'traffic_rules': 'crp_msgs/TrafficRule',
     }
 
     SLOT_TYPES = (
         rosidl_parser.definition.NamespacedType(['std_msgs', 'msg'], 'Header'),  # noqa: E501
         rosidl_parser.definition.NamespacedType(['tier4_planning_msgs', 'msg'], 'PathWithLaneId'),  # noqa: E501
-        rosidl_parser.definition.UnboundedSequence(rosidl_parser.definition.NamespacedType(['crp_msgs', 'msg'], 'TrafficRule')),  # noqa: E501
+        rosidl_parser.definition.NamespacedType(['crp_msgs', 'msg'], 'TrafficRule'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -92,7 +92,8 @@ class PathWithTrafficRules(metaclass=Metaclass_PathWithTrafficRules):
         self.header = kwargs.get('header', Header())
         from tier4_planning_msgs.msg import PathWithLaneId
         self.path = kwargs.get('path', PathWithLaneId())
-        self.traffic_rules = kwargs.get('traffic_rules', [])
+        from crp_msgs.msg import TrafficRule
+        self.traffic_rules = kwargs.get('traffic_rules', TrafficRule())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -173,17 +174,7 @@ class PathWithTrafficRules(metaclass=Metaclass_PathWithTrafficRules):
     def traffic_rules(self, value):
         if __debug__:
             from crp_msgs.msg import TrafficRule
-            from collections.abc import Sequence
-            from collections.abc import Set
-            from collections import UserList
-            from collections import UserString
             assert \
-                ((isinstance(value, Sequence) or
-                  isinstance(value, Set) or
-                  isinstance(value, UserList)) and
-                 not isinstance(value, str) and
-                 not isinstance(value, UserString) and
-                 all(isinstance(v, TrafficRule) for v in value) and
-                 True), \
-                "The 'traffic_rules' field must be a set or sequence and each value of type 'TrafficRule'"
+                isinstance(value, TrafficRule), \
+                "The 'traffic_rules' field must be a sub message of type 'TrafficRule'"
         self._traffic_rules = value

@@ -54,7 +54,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plan_lat_lane_follow_ldm/plan_lat_lane_follow_ldm")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plan_lat_lane_follow_ldm/plan_lat_lane_follow_ldm"
-         OLD_RPATH "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/lib:/opt/ros/humble/lib:/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib:/home/gfigneczi1/autoware/install/autoware_perception_msgs/lib:/home/gfigneczi1/autoware/install/tier4_planning_msgs/lib:/home/gfigneczi1/autoware/install/autoware_common_msgs/lib:/home/gfigneczi1/autoware/install/autoware_planning_msgs/lib:"
+         OLD_RPATH "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/lib:/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib:/home/gfigneczi1/autoware/install/tier4_planning_msgs/lib:/home/gfigneczi1/autoware/install/autoware_common_msgs/lib:/home/gfigneczi1/autoware/install/autoware_planning_msgs/lib:/home/gfigneczi1/autoware/install/autoware_perception_msgs/lib:/opt/ros/humble/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/plan_lat_lane_follow_ldm/plan_lat_lane_follow_ldm")

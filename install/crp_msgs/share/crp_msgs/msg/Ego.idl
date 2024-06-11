@@ -18,7 +18,7 @@ module crp_msgs {
 
       geometry_msgs::msg::AccelWithCovariance accel;
 
-      float wheel_angle;
+      float tire_angle_front;
     };
   };
 };

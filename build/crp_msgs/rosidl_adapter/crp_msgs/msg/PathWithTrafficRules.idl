@@ -13,7 +13,7 @@ module crp_msgs {
 
       tier4_planning_msgs::msg::PathWithLaneId path;
 
-      sequence<crp_msgs::msg::TrafficRule> traffic_rules;
+      crp_msgs::msg::TrafficRule traffic_rules;
     };
   };
 };

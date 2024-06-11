@@ -62,12 +62,12 @@ class EgoStatus(metaclass=Metaclass_EgoStatus):
 
     __slots__ = [
         '_header',
-        '_wheel_status',
+        '_tire_angle_front',
     ]
 
     _fields_and_field_types = {
         'header': 'std_msgs/Header',
-        'wheel_status': 'float',
+        'tire_angle_front': 'float',
     }
 
     SLOT_TYPES = (
@@ -81,7 +81,7 @@ class EgoStatus(metaclass=Metaclass_EgoStatus):
             ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
         from std_msgs.msg import Header
         self.header = kwargs.get('header', Header())
-        self.wheel_status = kwargs.get('wheel_status', float())
+        self.tire_angle_front = kwargs.get('tire_angle_front', float())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -114,7 +114,7 @@ class EgoStatus(metaclass=Metaclass_EgoStatus):
             return False
         if self.header != other.header:
             return False
-        if self.wheel_status != other.wheel_status:
+        if self.tire_angle_front != other.tire_angle_front:
             return False
         return True
 
@@ -138,16 +138,16 @@ class EgoStatus(metaclass=Metaclass_EgoStatus):
         self._header = value
 
     @builtins.property
-    def wheel_status(self):
-        """Message field 'wheel_status'."""
-        return self._wheel_status
+    def tire_angle_front(self):
+        """Message field 'tire_angle_front'."""
+        return self._tire_angle_front
 
-    @wheel_status.setter
-    def wheel_status(self, value):
+    @tire_angle_front.setter
+    def tire_angle_front(self, value):
         if __debug__:
             assert \
                 isinstance(value, float), \
-                "The 'wheel_status' field must be of type 'float'"
+                "The 'tire_angle_front' field must be of type 'float'"
             assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
-                "The 'wheel_status' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
-        self._wheel_status = value
+                "The 'tire_angle_front' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._tire_angle_front = value

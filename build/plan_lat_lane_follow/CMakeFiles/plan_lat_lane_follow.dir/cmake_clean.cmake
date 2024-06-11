@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/plan_lat_lane_follow.dir/src/wrapper.cpp.o"
-  "CMakeFiles/plan_lat_lane_follow.dir/src/wrapper.cpp.o.d"
+  "CMakeFiles/plan_lat_lane_follow.dir/src/wrapperPlanLatLaneFollow.cpp.o"
+  "CMakeFiles/plan_lat_lane_follow.dir/src/wrapperPlanLatLaneFollow.cpp.o.d"
   "plan_lat_lane_follow"
   "plan_lat_lane_follow.pdb"
 )

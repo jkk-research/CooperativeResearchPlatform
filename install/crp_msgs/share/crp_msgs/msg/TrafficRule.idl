@@ -14,7 +14,11 @@ module crp_msgs {
         "TODO: Define constants for lane edge type (e.g. uint8 type_name=0)")
       geometry_msgs::msg::PoseWithCovariance stop_pose;
 
-      uint8 lane_edge_type;
+      uint8 lane_edge_type_left;
+
+      uint8 lane_edge_type_right;
+
+      float maximum_speed;
     };
   };
 };

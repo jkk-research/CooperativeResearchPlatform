@@ -21,15 +21,15 @@ namespace msg
 namespace builder
 {
 
-class Init_Ego_wheel_angle
+class Init_Ego_tire_angle_front
 {
 public:
-  explicit Init_Ego_wheel_angle(::crp_msgs::msg::Ego & msg)
+  explicit Init_Ego_tire_angle_front(::crp_msgs::msg::Ego & msg)
   : msg_(msg)
   {}
-  ::crp_msgs::msg::Ego wheel_angle(::crp_msgs::msg::Ego::_wheel_angle_type arg)
+  ::crp_msgs::msg::Ego tire_angle_front(::crp_msgs::msg::Ego::_tire_angle_front_type arg)
   {
-    msg_.wheel_angle = std::move(arg);
+    msg_.tire_angle_front = std::move(arg);
     return std::move(msg_);
   }
 
@@ -43,10 +43,10 @@ public:
   explicit Init_Ego_accel(::crp_msgs::msg::Ego & msg)
   : msg_(msg)
   {}
-  Init_Ego_wheel_angle accel(::crp_msgs::msg::Ego::_accel_type arg)
+  Init_Ego_tire_angle_front accel(::crp_msgs::msg::Ego::_accel_type arg)
   {
     msg_.accel = std::move(arg);
-    return Init_Ego_wheel_angle(msg_);
+    return Init_Ego_tire_angle_front(msg_);
   }
 
 private:
