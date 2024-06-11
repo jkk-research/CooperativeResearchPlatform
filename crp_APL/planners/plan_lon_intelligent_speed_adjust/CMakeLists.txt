@@ -13,7 +13,7 @@ find_package(planner_base REQUIRED)
 include_directories(include ${planner_base_INCLUDE_DIRS})
 
 
-add_executable(plan_lon_intelligent_speed_adjust src/wrapper.cpp)
+add_executable(plan_lon_intelligent_speed_adjust src/wrapperPlanLonIntelligentSpeedAdjust.cpp)
 ament_target_dependencies(plan_lon_intelligent_speed_adjust rclcpp planner_base)
 
 install(TARGETS
