@@ -1,6 +1,6 @@
 set(_AMENT_PACKAGE_NAME "plan_behavior_planning")
 set(plan_behavior_planning_VERSION "0.0.0")
-set(plan_behavior_planning_MAINTAINER "david <jodavid512@gmail.com>")
+set(plan_behavior_planning_MAINTAINER "AnonymDavid <jozsa.david@sze.hu>")
 set(plan_behavior_planning_BUILD_DEPENDS "rclcpp" "crp_msgs" "autoware_planning_msgs" "tier4_planning_msgs")
 set(plan_behavior_planning_BUILDTOOL_DEPENDS "ament_cmake")
 set(plan_behavior_planning_BUILD_EXPORT_DEPENDS "rclcpp" "crp_msgs" "autoware_planning_msgs" "tier4_planning_msgs")

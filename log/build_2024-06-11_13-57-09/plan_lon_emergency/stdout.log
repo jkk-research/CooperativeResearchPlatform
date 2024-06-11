@@ -1,0 +1,22 @@
+[35m[1mConsolidate compiler generated dependencies of target plan_lon_emergency[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/plan_lon_emergency.dir/src/wrapperPlanLonEmergency.cpp.o[0m
+[100%] [32m[1mLinking CXX executable plan_lon_emergency[0m
+[100%] Built target plan_lon_emergency
+-- Install configuration: ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/lib/plan_lon_emergency/plan_lon_emergency
+-- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/lib/plan_lon_emergency/plan_lon_emergency" to ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/ament_index/resource_index/package_run_dependencies/plan_lon_emergency
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/ament_index/resource_index/parent_prefix_path/plan_lon_emergency
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/environment/ament_prefix_path.sh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/environment/ament_prefix_path.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/environment/path.sh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/environment/path.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/local_setup.bash
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/local_setup.sh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/local_setup.zsh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/local_setup.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/package.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/ament_index/resource_index/packages/plan_lon_emergency
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/cmake/plan_lon_emergencyConfig.cmake
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/cmake/plan_lon_emergencyConfig-version.cmake
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_emergency/share/plan_lon_emergency/package.xml

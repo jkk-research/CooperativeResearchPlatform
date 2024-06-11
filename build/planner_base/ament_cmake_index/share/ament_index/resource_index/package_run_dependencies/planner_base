@@ -1,1 +1,1 @@
-rclcpp;crp_msgs;tier4_planning_msgs;autoware_planning_msgs;ament_lint_auto;ament_lint_common
+rclcpp;crp_msgs;tier4_planning_msgs;autoware_planning_msgs;autoware_perception_msgs;tf2;tf2_geometry_msgs;nav_msgs;ament_lint_auto;ament_lint_common

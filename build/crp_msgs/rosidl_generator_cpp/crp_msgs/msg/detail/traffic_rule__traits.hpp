@@ -45,10 +45,24 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
-  // member: lane_edge_type
+  // member: lane_edge_type_left
   {
-    out << "lane_edge_type: ";
-    rosidl_generator_traits::value_to_yaml(msg.lane_edge_type, out);
+    out << "lane_edge_type_left: ";
+    rosidl_generator_traits::value_to_yaml(msg.lane_edge_type_left, out);
+    out << ", ";
+  }
+
+  // member: lane_edge_type_right
+  {
+    out << "lane_edge_type_right: ";
+    rosidl_generator_traits::value_to_yaml(msg.lane_edge_type_right, out);
+    out << ", ";
+  }
+
+  // member: maximum_speed
+  {
+    out << "maximum_speed: ";
+    rosidl_generator_traits::value_to_yaml(msg.maximum_speed, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -75,13 +89,33 @@ inline void to_block_style_yaml(
     to_block_style_yaml(msg.stop_pose, out, indentation + 2);
   }
 
-  // member: lane_edge_type
+  // member: lane_edge_type_left
   {
     if (indentation > 0) {
       out << std::string(indentation, ' ');
     }
-    out << "lane_edge_type: ";
-    rosidl_generator_traits::value_to_yaml(msg.lane_edge_type, out);
+    out << "lane_edge_type_left: ";
+    rosidl_generator_traits::value_to_yaml(msg.lane_edge_type_left, out);
+    out << "\n";
+  }
+
+  // member: lane_edge_type_right
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "lane_edge_type_right: ";
+    rosidl_generator_traits::value_to_yaml(msg.lane_edge_type_right, out);
+    out << "\n";
+  }
+
+  // member: maximum_speed
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "maximum_speed: ";
+    rosidl_generator_traits::value_to_yaml(msg.maximum_speed, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

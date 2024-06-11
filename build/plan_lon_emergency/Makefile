@@ -210,29 +210,29 @@ plan_lon_emergency/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lon_emergency.dir/build.make CMakeFiles/plan_lon_emergency.dir/build
 .PHONY : plan_lon_emergency/fast
 
-src/wrapper.o: src/wrapper.cpp.o
-.PHONY : src/wrapper.o
+src/wrapperPlanLonEmergency.o: src/wrapperPlanLonEmergency.cpp.o
+.PHONY : src/wrapperPlanLonEmergency.o
 
 # target to build an object file
-src/wrapper.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lon_emergency.dir/build.make CMakeFiles/plan_lon_emergency.dir/src/wrapper.cpp.o
-.PHONY : src/wrapper.cpp.o
+src/wrapperPlanLonEmergency.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lon_emergency.dir/build.make CMakeFiles/plan_lon_emergency.dir/src/wrapperPlanLonEmergency.cpp.o
+.PHONY : src/wrapperPlanLonEmergency.cpp.o
 
-src/wrapper.i: src/wrapper.cpp.i
-.PHONY : src/wrapper.i
+src/wrapperPlanLonEmergency.i: src/wrapperPlanLonEmergency.cpp.i
+.PHONY : src/wrapperPlanLonEmergency.i
 
 # target to preprocess a source file
-src/wrapper.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lon_emergency.dir/build.make CMakeFiles/plan_lon_emergency.dir/src/wrapper.cpp.i
-.PHONY : src/wrapper.cpp.i
+src/wrapperPlanLonEmergency.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lon_emergency.dir/build.make CMakeFiles/plan_lon_emergency.dir/src/wrapperPlanLonEmergency.cpp.i
+.PHONY : src/wrapperPlanLonEmergency.cpp.i
 
-src/wrapper.s: src/wrapper.cpp.s
-.PHONY : src/wrapper.s
+src/wrapperPlanLonEmergency.s: src/wrapperPlanLonEmergency.cpp.s
+.PHONY : src/wrapperPlanLonEmergency.s
 
 # target to generate assembly for a file
-src/wrapper.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lon_emergency.dir/build.make CMakeFiles/plan_lon_emergency.dir/src/wrapper.cpp.s
-.PHONY : src/wrapper.cpp.s
+src/wrapperPlanLonEmergency.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lon_emergency.dir/build.make CMakeFiles/plan_lon_emergency.dir/src/wrapperPlanLonEmergency.cpp.s
+.PHONY : src/wrapperPlanLonEmergency.cpp.s
 
 # Help Target
 help:
@@ -250,9 +250,9 @@ help:
 	@echo "... plan_lon_emergency_uninstall"
 	@echo "... uninstall"
 	@echo "... plan_lon_emergency"
-	@echo "... src/wrapper.o"
-	@echo "... src/wrapper.i"
-	@echo "... src/wrapper.s"
+	@echo "... src/wrapperPlanLonEmergency.o"
+	@echo "... src/wrapperPlanLonEmergency.i"
+	@echo "... src/wrapperPlanLonEmergency.s"
 .PHONY : help
 
 

@@ -3,9 +3,9 @@
 <package format="3">
   <name>pacmod_extender</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="jodavid512@gmail.com">david</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Extends the pacmod3 package with more CAN decodings for Lexus rx450h.</description>
+  <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
+  <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

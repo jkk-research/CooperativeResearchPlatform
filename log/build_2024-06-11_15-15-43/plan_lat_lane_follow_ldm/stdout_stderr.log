@@ -1,0 +1,179 @@
+[35m[1mConsolidate compiler generated dependencies of target plan_lat_lane_follow_ldm[0m
+[ 11%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapperPlanLatLaneFollowLdm.cpp.o[0m
+[ 22%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp.o[0m
+In file included from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:1[m[K:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/../inc/polynomialRegression.hpp:22:4:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ does not name a type
+   22 |    [01;31m[Kuint8_t[m[K forwardElimination(float (&gaussMatrix)[4][5]);
+      |    [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/../inc/polynomialRegression.hpp:5:1:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+    4 | #include <vector>
+  +++ |+[32m[K#include <cstdint>[m[K
+    5 | 
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/../inc/polynomialRegression.hpp:32:52:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ has not been declared
+   32 |    double calculateSubDeterminant(double Mx[4][4], [01;31m[Kuint8_t[m[K);
+      |                                                    [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/../inc/polynomialRegression.hpp:33:34:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ has not been declared
+   33 |    void calculateModifiedMMatrix([01;31m[Kuint8_t[m[K);
+      |                                  [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::PolynomialSubfunctions::gaussElimination(float (&)[4][5], float (&)[4])[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:6:4:[m[K [01;31m[Kerror: [m[K‘[01m[Kint8_t[m[K’ was not declared in this scope
+    6 |    [01;31m[Kint8_t[m[K singular = forwardElimination(gaussMatrix);
+      |    [01;31m[K^~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:2:1:[m[K [01;36m[Knote: [m[K‘[01m[Kint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+    1 | #include "../inc/polynomialRegression.hpp"
+  +++ |+[32m[K#include <cstdint>[m[K
+    2 | 
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:8:8:[m[K [01;31m[Kerror: [m[K‘[01m[Ksingular[m[K’ was not declared in this scope
+    8 |    if ([01;31m[Ksingular[m[K != -1)
+      |        [01;31m[K^~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K In member function ‘[01m[Kstd::vector<float> crp::apl::PolynomialSubfunctions::fitThirdOrderPolynomial(std::vector<float>, std::vector<float>)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:33:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ was not declared in this scope
+   33 |    for ([01;31m[Kuint8_t[m[K i = 0; i < 4; i++)
+      |         [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:33:9:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:33:24:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+   33 |    for (uint8_t i = 0; [01;31m[Ki[m[K < 4; i++)
+      |                        [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K At global scope:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:48:1:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ does not name a type
+   48 | [01;31m[Kuint8_t[m[K crp::apl::PolynomialSubfunctions::forwardElimination(float (&gaussMatrix)[4][5])
+      | [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:48:1:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::PolynomialSubfunctions::backSubstitute(float (&)[4][5])[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:94:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kint8_t[m[K’ was not declared in this scope
+   94 |    for ([01;31m[Kint8_t[m[K i{3}; i >= 0; i--)
+      |         [01;31m[K^~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:94:9:[m[K [01;36m[Knote: [m[K‘[01m[Kint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:94:22:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+   94 |    for (int8_t i{3}; [01;31m[Ki[m[K >= 0; i--)
+      |                      [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:94:28:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K)[m[K’ before ‘[01m[K;[m[K’ token
+   94 |    for [34m[K([m[Kint8_t i{3}; i >= 0[01;31m[K;[m[K i--)
+      |        [34m[K~[m[K                   [01;31m[K^[m[K
+      |                            [32m[K)[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:94:4:[m[K [01;35m[Kwarning: [m[Kthis ‘[01m[Kfor[m[K’ clause does not guard... [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wmisleading-indentation-Wmisleading-indentation]8;;[m[K]
+   94 |    [01;35m[Kfor[m[K (int8_t i{3}; i >= 0; i--)
+      |    [01;35m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:94:30:[m[K [01;36m[Knote: [m[K...this statement, but the latter is misleadingly indented as if it were guarded by the ‘[01m[Kfor[m[K’
+   94 |    for (int8_t i{3}; i >= 0; [01;36m[Ki[m[K--)
+      |                              [01;36m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:94:30:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:92:63:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[KgaussMatrix[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   92 | void crp::apl::PolynomialSubfunctions::backSubstitute([01;35m[Kfloat (&gaussMatrix)[4][5][m[K)
+      |                                                       [01;35m[K~~~~~~~~^~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::PolynomialSubfunctions::calculateBvector(std::vector<float>, std::vector<float>)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:110:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ was not declared in this scope
+  110 |    for ([01;31m[Kuint8_t[m[K i = 0; i < 4; i++)
+      |         [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:110:9:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:110:24:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+  110 |    for (uint8_t i = 0; [01;31m[Ki[m[K < 4; i++)
+      |                        [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:113:12:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint16_t[m[K’ was not declared in this scope
+  113 |       for ([01;31m[Kuint16_t[m[K j = 0; j < y.size(); j++)
+      |            [01;31m[K^~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:113:12:[m[K [01;36m[Knote: [m[K‘[01m[Kuint16_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:113:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kj[m[K’ was not declared in this scope
+  113 |       for (uint16_t j = 0; [01;31m[Kj[m[K < y.size(); j++)
+      |                            [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:115:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kpow[m[K’ was not declared in this scope
+  115 |          sum = sum + [01;31m[Kpow[m[K(x.at(j), i) * y.at(j);
+      |                      [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::PolynomialSubfunctions::calculateMmatrix(std::vector<float>, std::vector<float>)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:126:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ was not declared in this scope
+  126 |    for ([01;31m[Kuint8_t[m[K i = 0; i < 7; i++)
+      |         [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:126:9:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:126:24:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+  126 |    for (uint8_t i = 0; [01;31m[Ki[m[K < 7; i++)
+      |                        [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:129:12:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint16_t[m[K’ was not declared in this scope
+  129 |       for ([01;31m[Kuint16_t[m[K j = 0; j < x.size(); j++)
+      |            [01;31m[K^~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:129:12:[m[K [01;36m[Knote: [m[K‘[01m[Kuint16_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:129:28:[m[K [01;31m[Kerror: [m[K‘[01m[Kj[m[K’ was not declared in this scope
+  129 |       for (uint16_t j = 0; [01;31m[Kj[m[K < x.size(); j++)
+      |                            [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:131:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kpow[m[K’ was not declared in this scope
+  131 |          sum = sum + [01;31m[Kpow[m[K(x.at(j), i);
+      |                      [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:135:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ was not declared in this scope
+  135 |    for ([01;31m[Kuint8_t[m[K i = 0; i < 4; i++)
+      |         [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:135:9:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:135:24:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+  135 |    for (uint8_t i = 0; [01;31m[Ki[m[K < 4; i++)
+      |                        [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:137:19:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[Kj[m[K’
+  137 |       for (uint8_t[01;31m[K [m[K[32m[Kj[m[K = 0; j < 4; j++)
+      |                   [01;31m[K^[m[K[32m[K~[m[K
+      |                   [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:137:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kj[m[K’ was not declared in this scope
+  137 |       for (uint8_t j = 0; [01;31m[Kj[m[K < 4; j++)
+      |                           [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:123:30:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Ky[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+  123 |     [01;35m[Kconst std::vector<float> y[m[K)
+      |     [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K In member function ‘[01m[Kdouble crp::apl::PolynomialSubfunctions::calculateDeterminant(double (*)[4])[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:147:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ was not declared in this scope
+  147 |    for ([01;31m[Kuint8_t[m[K i = 0; i < 4; i++)
+      |         [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:147:9:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:147:24:[m[K [01;31m[Kerror: [m[K‘[01m[Ki[m[K’ was not declared in this scope
+  147 |    for (uint8_t i = 0; [01;31m[Ki[m[K < 4; i++)
+      |                        [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K At global scope:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:164:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ has not been declared
+  164 |     [01;31m[Kuint8_t[m[K i)
+      |     [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K In member function ‘[01m[Kdouble crp::apl::PolynomialSubfunctions::calculateSubDeterminant(double (*)[4], int)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:167:4:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ was not declared in this scope
+  167 |    [01;31m[Kuint8_t[m[K columns[3];
+      |    [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:167:4:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:171:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kcolumns[m[K’ was not declared in this scope
+  171 |          [01;31m[Kcolumns[m[K[0] = 1;
+      |          [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:191:16:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[Kj[m[K’
+  191 |    for (uint8_t[01;31m[K [m[K[32m[Kj[m[K = 0; j < 3; j++)
+      |                [01;31m[K^[m[K[32m[K~[m[K
+      |                [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:191:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kj[m[K’ was not declared in this scope
+  191 |    for (uint8_t j = 0; [01;31m[Kj[m[K < 3; j++)
+      |                        [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:193:19:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[Kk[m[K’
+  193 |       for (uint8_t[01;31m[K [m[K[32m[Kk[m[K = 0; k < 3; k++)
+      |                   [01;31m[K^[m[K[32m[K~[m[K
+      |                   [32m[K;[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:193:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kk[m[K’ was not declared in this scope
+  193 |       for (uint8_t k = 0; [01;31m[Kk[m[K < 3; k++)
+      |                           [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:195:30:[m[K [01;31m[Kerror: [m[K‘[01m[Kcolumns[m[K’ was not declared in this scope
+  195 |          m[j][k] = Mx[j + 1][[01;31m[Kcolumns[m[K[k]];
+      |                              [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:[m[K At global scope:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:204:6:[m[K [01;31m[Kerror: [m[Kvariable or field ‘[01m[KcalculateModifiedMMatrix[m[K’ declared void
+  204 | void [01;31m[Kcrp[m[K::apl::PolynomialSubfunctions::calculateModifiedMMatrix(uint8_t k)
+      |      [01;31m[K^~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:204:65:[m[K [01;31m[Kerror: [m[K‘[01m[Kuint8_t[m[K’ was not declared in this scope
+  204 | void crp::apl::PolynomialSubfunctions::calculateModifiedMMatrix([01;31m[Kuint8_t[m[K k)
+      |                                                                 [01;31m[K^~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp:204:65:[m[K [01;36m[Knote: [m[K‘[01m[Kuint8_t[m[K’ is defined in header ‘[01m[K<cstdint>[m[K’; did you forget to ‘[01m[K#include <cstdint>[m[K’?
+gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:174: CMakeFiles/plan_lat_lane_follow_ldm.dir/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/crp_utils/geometryUtils/src/polynomialRegression.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:[m[K In member function ‘[01m[Kvirtual void crp::apl::PlanLatLaneFollowHandler::plan(const crp::apl::PlannerInput&, crp::apl::PlannerOutput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:12:22:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[KtrajectoryOutput[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+   12 |     TrajectoryOutput [01;35m[KtrajectoryOutput[m[K = m_linearDriverModel.runCoeffsLite(
+      |                      [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:9:68:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+    9 | void crp::apl::PlanLatLaneFollowHandler::plan([01;35m[Kconst PlannerInput & input[m[K, PlannerOutput & output)
+      |                                               [01;35m[K~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:9:91:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+    9 | void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, [01;35m[KPlannerOutput & output[m[K)
+      |                                                                           [01;35m[K~~~~~~~~~~~~~~~~^~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::PlanLatLaneFollowHandler::fitPolynomialOnWaypoints(const crp::apl::PlannerInput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:20:26:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   20 |     [01;35m[Kconst PlannerInput & input[m[K)
+      |     [01;35m[K~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/plan_lat_lane_follow_ldm.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

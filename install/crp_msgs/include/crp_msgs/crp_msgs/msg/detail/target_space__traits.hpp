@@ -17,7 +17,7 @@
 // Include directives for member types
 // Member 'header'
 #include "std_msgs/msg/detail/header__traits.hpp"
-// Member 'stopping_pose'
+// Member 'target_pose'
 #include "geometry_msgs/msg/detail/pose_with_covariance__traits.hpp"
 // Member 'free_space'
 #include "nav_msgs/msg/detail/occupancy_grid__traits.hpp"
@@ -45,10 +45,10 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
-  // member: stopping_pose
+  // member: target_pose
   {
-    out << "stopping_pose: ";
-    to_flow_style_yaml(msg.stopping_pose, out);
+    out << "target_pose: ";
+    to_flow_style_yaml(msg.target_pose, out);
     out << ", ";
   }
 
@@ -116,13 +116,13 @@ inline void to_block_style_yaml(
     to_block_style_yaml(msg.header, out, indentation + 2);
   }
 
-  // member: stopping_pose
+  // member: target_pose
   {
     if (indentation > 0) {
       out << std::string(indentation, ' ');
     }
-    out << "stopping_pose:\n";
-    to_block_style_yaml(msg.stopping_pose, out, indentation + 2);
+    out << "target_pose:\n";
+    to_block_style_yaml(msg.target_pose, out, indentation + 2);
   }
 
   // member: free_space

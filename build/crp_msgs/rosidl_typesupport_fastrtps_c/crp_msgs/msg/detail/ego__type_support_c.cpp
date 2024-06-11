@@ -165,9 +165,9 @@ static bool _Ego__cdr_serialize(
     }
   }
 
-  // Field name: wheel_angle
+  // Field name: tire_angle_front
   {
-    cdr << ros_message->wheel_angle;
+    cdr << ros_message->tire_angle_front;
   }
 
   return true;
@@ -238,9 +238,9 @@ static bool _Ego__cdr_deserialize(
     }
   }
 
-  // Field name: wheel_angle
+  // Field name: tire_angle_front
   {
-    cdr >> ros_message->wheel_angle;
+    cdr >> ros_message->tire_angle_front;
   }
 
   return true;
@@ -276,9 +276,9 @@ size_t get_serialized_size_crp_msgs__msg__Ego(
 
   current_alignment += get_serialized_size_geometry_msgs__msg__AccelWithCovariance(
     &(ros_message->accel), current_alignment);
-  // field.name wheel_angle
+  // field.name tire_angle_front
   {
-    size_t item_size = sizeof(ros_message->wheel_angle);
+    size_t item_size = sizeof(ros_message->tire_angle_front);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -387,7 +387,7 @@ size_t max_serialized_size_crp_msgs__msg__Ego(
       is_plain &= inner_is_plain;
     }
   }
-  // member: wheel_angle
+  // member: tire_angle_front
   {
     size_t array_size = 1;
 
@@ -404,7 +404,7 @@ size_t max_serialized_size_crp_msgs__msg__Ego(
     using DataType = crp_msgs__msg__Ego;
     is_plain =
       (
-      offsetof(DataType, wheel_angle) +
+      offsetof(DataType, tire_angle_front) +
       last_member_size
       ) == ret_val;
   }

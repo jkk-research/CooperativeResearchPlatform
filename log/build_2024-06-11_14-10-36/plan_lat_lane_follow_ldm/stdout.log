@@ -1,0 +1,3 @@
+[35m[1mConsolidate compiler generated dependencies of target plan_lat_lane_follow_ldm[0m
+[ 12%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/src/functionCode/src/linearDriverModel.cpp.o[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapper.cpp.o[0m

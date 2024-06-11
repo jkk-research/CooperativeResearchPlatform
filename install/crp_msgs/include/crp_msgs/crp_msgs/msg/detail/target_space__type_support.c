@@ -17,9 +17,9 @@
 #include "std_msgs/msg/header.h"
 // Member `header`
 #include "std_msgs/msg/detail/header__rosidl_typesupport_introspection_c.h"
-// Member `stopping_pose`
+// Member `target_pose`
 #include "geometry_msgs/msg/pose_with_covariance.h"
-// Member `stopping_pose`
+// Member `target_pose`
 #include "geometry_msgs/msg/detail/pose_with_covariance__rosidl_typesupport_introspection_c.h"
 // Member `free_space`
 #include "nav_msgs/msg/occupancy_grid.h"
@@ -184,14 +184,14 @@ static rosidl_typesupport_introspection_c__MessageMember crp_msgs__msg__TargetSp
     NULL  // resize(index) function pointer
   },
   {
-    "stopping_pose",  // name
+    "target_pose",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
     0,  // upper bound of string
     NULL,  // members of sub message (initialized later)
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(crp_msgs__msg__TargetSpace, stopping_pose),  // bytes offset in struct
+    offsetof(crp_msgs__msg__TargetSpace, target_pose),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer

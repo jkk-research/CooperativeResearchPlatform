@@ -30,7 +30,7 @@ typedef struct crp_msgs__msg__PathWithTrafficRules
 {
   std_msgs__msg__Header header;
   tier4_planning_msgs__msg__PathWithLaneId path;
-  crp_msgs__msg__TrafficRule__Sequence traffic_rules;
+  crp_msgs__msg__TrafficRule traffic_rules;
 } crp_msgs__msg__PathWithTrafficRules;
 
 // Struct for a sequence of crp_msgs__msg__PathWithTrafficRules.

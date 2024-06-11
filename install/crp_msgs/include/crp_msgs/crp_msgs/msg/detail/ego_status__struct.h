@@ -25,7 +25,7 @@ extern "C"
 typedef struct crp_msgs__msg__EgoStatus
 {
   std_msgs__msg__Header header;
-  float wheel_status;
+  float tire_angle_front;
 } crp_msgs__msg__EgoStatus;
 
 // Struct for a sequence of crp_msgs__msg__EgoStatus.

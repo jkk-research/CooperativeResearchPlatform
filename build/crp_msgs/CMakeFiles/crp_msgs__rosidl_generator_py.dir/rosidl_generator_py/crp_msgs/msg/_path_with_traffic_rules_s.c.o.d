@@ -221,6 +221,4 @@ CMakeFiles/crp_msgs__rosidl_generator_py.dir/rosidl_generator_py/crp_msgs/msg/_p
  /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_generator_c/crp_msgs/msg/detail/traffic_rule__struct.h \
  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance__struct.h \
  /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_generator_c/crp_msgs/msg/detail/path_with_traffic_rules__functions.h \
- /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_generator_c/crp_msgs/msg/rosidl_generator_c__visibility_control.h \
- /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/primitives_sequence_functions.h \
- /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_generator_c/crp_msgs/msg/detail/traffic_rule__functions.h
+ /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_generator_c/crp_msgs/msg/rosidl_generator_c__visibility_control.h

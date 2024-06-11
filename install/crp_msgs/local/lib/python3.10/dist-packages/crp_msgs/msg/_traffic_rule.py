@@ -7,6 +7,8 @@
 
 import builtins  # noqa: E402, I100
 
+import math  # noqa: E402, I100
+
 import rosidl_parser.definition  # noqa: E402, I100
 
 
@@ -65,19 +67,25 @@ class TrafficRule(metaclass=Metaclass_TrafficRule):
     __slots__ = [
         '_header',
         '_stop_pose',
-        '_lane_edge_type',
+        '_lane_edge_type_left',
+        '_lane_edge_type_right',
+        '_maximum_speed',
     ]
 
     _fields_and_field_types = {
         'header': 'std_msgs/Header',
         'stop_pose': 'geometry_msgs/PoseWithCovariance',
-        'lane_edge_type': 'uint8',
+        'lane_edge_type_left': 'uint8',
+        'lane_edge_type_right': 'uint8',
+        'maximum_speed': 'float',
     }
 
     SLOT_TYPES = (
         rosidl_parser.definition.NamespacedType(['std_msgs', 'msg'], 'Header'),  # noqa: E501
         rosidl_parser.definition.NamespacedType(['geometry_msgs', 'msg'], 'PoseWithCovariance'),  # noqa: E501
         rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
+        rosidl_parser.definition.BasicType('uint8'),  # noqa: E501
+        rosidl_parser.definition.BasicType('float'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
@@ -88,7 +96,9 @@ class TrafficRule(metaclass=Metaclass_TrafficRule):
         self.header = kwargs.get('header', Header())
         from geometry_msgs.msg import PoseWithCovariance
         self.stop_pose = kwargs.get('stop_pose', PoseWithCovariance())
-        self.lane_edge_type = kwargs.get('lane_edge_type', int())
+        self.lane_edge_type_left = kwargs.get('lane_edge_type_left', int())
+        self.lane_edge_type_right = kwargs.get('lane_edge_type_right', int())
+        self.maximum_speed = kwargs.get('maximum_speed', float())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -123,7 +133,11 @@ class TrafficRule(metaclass=Metaclass_TrafficRule):
             return False
         if self.stop_pose != other.stop_pose:
             return False
-        if self.lane_edge_type != other.lane_edge_type:
+        if self.lane_edge_type_left != other.lane_edge_type_left:
+            return False
+        if self.lane_edge_type_right != other.lane_edge_type_right:
+            return False
+        if self.maximum_speed != other.maximum_speed:
             return False
         return True
 
@@ -161,16 +175,46 @@ class TrafficRule(metaclass=Metaclass_TrafficRule):
         self._stop_pose = value
 
     @builtins.property
-    def lane_edge_type(self):
-        """Message field 'lane_edge_type'."""
-        return self._lane_edge_type
+    def lane_edge_type_left(self):
+        """Message field 'lane_edge_type_left'."""
+        return self._lane_edge_type_left
 
-    @lane_edge_type.setter
-    def lane_edge_type(self, value):
+    @lane_edge_type_left.setter
+    def lane_edge_type_left(self, value):
         if __debug__:
             assert \
                 isinstance(value, int), \
-                "The 'lane_edge_type' field must be of type 'int'"
+                "The 'lane_edge_type_left' field must be of type 'int'"
             assert value >= 0 and value < 256, \
-                "The 'lane_edge_type' field must be an unsigned integer in [0, 255]"
-        self._lane_edge_type = value
+                "The 'lane_edge_type_left' field must be an unsigned integer in [0, 255]"
+        self._lane_edge_type_left = value
+
+    @builtins.property
+    def lane_edge_type_right(self):
+        """Message field 'lane_edge_type_right'."""
+        return self._lane_edge_type_right
+
+    @lane_edge_type_right.setter
+    def lane_edge_type_right(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, int), \
+                "The 'lane_edge_type_right' field must be of type 'int'"
+            assert value >= 0 and value < 256, \
+                "The 'lane_edge_type_right' field must be an unsigned integer in [0, 255]"
+        self._lane_edge_type_right = value
+
+    @builtins.property
+    def maximum_speed(self):
+        """Message field 'maximum_speed'."""
+        return self._maximum_speed
+
+    @maximum_speed.setter
+    def maximum_speed(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, float), \
+                "The 'maximum_speed' field must be of type 'float'"
+            assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
+                "The 'maximum_speed' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._maximum_speed = value
