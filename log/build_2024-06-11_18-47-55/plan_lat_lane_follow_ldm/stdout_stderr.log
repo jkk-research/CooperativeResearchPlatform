@@ -1,0 +1,28 @@
+[35m[1mConsolidate compiler generated dependencies of target plan_lat_lane_follow_ldm[0m
+[ 11%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/src/functionCode/src/linearDriverModelDriverModel/linearDriverModel_driverModel.cpp.o[0m
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/linearDriverModel_driverModel.cpp:[m[K In member function ‘[01m[Kvoid DriverModel::driverModelPlannerLite(const ScenarioPolynomials&, const PolynomialCoeffsThreeSegments&, const LDMParamIn&, NodePoints&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/linearDriverModel_driverModel.cpp:25:44:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%f[m[K’ expects argument of type ‘[01m[Kdouble[m[K’, but argument 2 has type ‘[01m[Kconst value_type[m[K’ {aka ‘[01m[Kconst PolynomialCoeffs[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
+   25 |       printf("corridorPolynomials.coeffs: [01;35m[K%f[m[K\n", corridorPolynomials.coeffs[i]);
+      |                                           [01;35m[K~^[m[K
+      |                                            [01;35m[K|[m[K
+      |                                            [01;35m[Kdouble[m[K
+[ 22%] [32m[1mLinking CXX executable plan_lat_lane_follow_ldm[0m
+[100%] Built target plan_lat_lane_follow_ldm
+-- Install configuration: ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/lib/plan_lat_lane_follow_ldm/plan_lat_lane_follow_ldm
+-- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/lib/plan_lat_lane_follow_ldm/plan_lat_lane_follow_ldm" to ""
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/ament_index/resource_index/package_run_dependencies/plan_lat_lane_follow_ldm
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/ament_index/resource_index/parent_prefix_path/plan_lat_lane_follow_ldm
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/environment/ament_prefix_path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/environment/path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/environment/path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/local_setup.bash
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/local_setup.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/local_setup.zsh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/local_setup.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/package.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/ament_index/resource_index/packages/plan_lat_lane_follow_ldm
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/cmake/plan_lat_lane_follow_ldmConfig.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/cmake/plan_lat_lane_follow_ldmConfig-version.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/package.xml
