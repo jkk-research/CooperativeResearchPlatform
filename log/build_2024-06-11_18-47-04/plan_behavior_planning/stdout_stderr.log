@@ -1,0 +1,20 @@
+[ 50%] Built target behavior_planner
+[100%] Built target mission_planner
+-- Install configuration: ""
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/lib/plan_behavior_planning/mission_planner
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/lib/plan_behavior_planning/behavior_planner
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/ament_index/resource_index/package_run_dependencies/plan_behavior_planning
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/ament_index/resource_index/parent_prefix_path/plan_behavior_planning
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/environment/ament_prefix_path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/environment/path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/environment/path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/local_setup.bash
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/local_setup.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/local_setup.zsh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/local_setup.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/package.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/ament_index/resource_index/packages/plan_behavior_planning
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/cmake/plan_behavior_planningConfig.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/cmake/plan_behavior_planningConfig-version.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_behavior_planning/share/plan_behavior_planning/package.xml

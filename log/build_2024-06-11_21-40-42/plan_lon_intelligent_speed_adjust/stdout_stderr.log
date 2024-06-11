@@ -1,0 +1,28 @@
+[ 50%] [32mBuilding CXX object CMakeFiles/plan_lon_intelligent_speed_adjust.dir/src/wrapperPlanLonIntelligentSpeedAdjust.cpp.o[0m
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lon_intelligent_speed_adjust/src/wrapperPlanLonIntelligentSpeedAdjust.cpp:[m[K In member function ‘[01m[Kvirtual void crp::apl::WrapperPlanLonIntelligentSpeedAdjust::plan(const crp::apl::PlannerInput&, crp::apl::PlannerOutput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lon_intelligent_speed_adjust/src/wrapperPlanLonIntelligentSpeedAdjust.cpp:9:80:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+    9 | void crp::apl::WrapperPlanLonIntelligentSpeedAdjust::plan([01;35m[Kconst PlannerInput & input[m[K, PlannerOutput & output)
+      |                                                           [01;35m[K~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lon_intelligent_speed_adjust/src/wrapperPlanLonIntelligentSpeedAdjust.cpp:9:103:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+    9 | void crp::apl::WrapperPlanLonIntelligentSpeedAdjust::plan(const PlannerInput & input, [01;35m[KPlannerOutput & output[m[K)
+      |                                                                                       [01;35m[K~~~~~~~~~~~~~~~~^~~~~~[m[K
+[100%] [32m[1mLinking CXX executable plan_lon_intelligent_speed_adjust[0m
+[100%] Built target plan_lon_intelligent_speed_adjust
+-- Install configuration: ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/lib/plan_lon_intelligent_speed_adjust/plan_lon_intelligent_speed_adjust
+-- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/lib/plan_lon_intelligent_speed_adjust/plan_lon_intelligent_speed_adjust" to ""
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/ament_index/resource_index/package_run_dependencies/plan_lon_intelligent_speed_adjust
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/ament_index/resource_index/parent_prefix_path/plan_lon_intelligent_speed_adjust
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/environment/ament_prefix_path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/environment/path.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/environment/path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/local_setup.bash
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/local_setup.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/local_setup.zsh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/local_setup.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/package.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/ament_index/resource_index/packages/plan_lon_intelligent_speed_adjust
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/cmake/plan_lon_intelligent_speed_adjustConfig.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/cmake/plan_lon_intelligent_speed_adjustConfig-version.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lon_intelligent_speed_adjust/share/plan_lon_intelligent_speed_adjust/package.xml
