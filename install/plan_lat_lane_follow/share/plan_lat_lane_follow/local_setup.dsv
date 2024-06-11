@@ -1,0 +1,2 @@
+source;share/plan_lat_lane_follow/environment/ament_prefix_path.sh
+source;share/plan_lat_lane_follow/environment/path.sh

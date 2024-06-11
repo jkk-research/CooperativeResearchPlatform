@@ -89,12 +89,12 @@ bool crp_msgs__msg__target_space__convert_from_py(PyObject * _pymsg, void * _ros
     }
     Py_DECREF(field);
   }
-  {  // stopping_pose
-    PyObject * field = PyObject_GetAttrString(_pymsg, "stopping_pose");
+  {  // target_pose
+    PyObject * field = PyObject_GetAttrString(_pymsg, "target_pose");
     if (!field) {
       return false;
     }
-    if (!geometry_msgs__msg__pose_with_covariance__convert_from_py(field, &ros_message->stopping_pose)) {
+    if (!geometry_msgs__msg__pose_with_covariance__convert_from_py(field, &ros_message->target_pose)) {
       Py_DECREF(field);
       return false;
     }
@@ -224,14 +224,14 @@ PyObject * crp_msgs__msg__target_space__convert_to_py(void * raw_ros_message)
       }
     }
   }
-  {  // stopping_pose
+  {  // target_pose
     PyObject * field = NULL;
-    field = geometry_msgs__msg__pose_with_covariance__convert_to_py(&ros_message->stopping_pose);
+    field = geometry_msgs__msg__pose_with_covariance__convert_to_py(&ros_message->target_pose);
     if (!field) {
       return NULL;
     }
     {
-      int rc = PyObject_SetAttrString(_pymessage, "stopping_pose", field);
+      int rc = PyObject_SetAttrString(_pymessage, "target_pose", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

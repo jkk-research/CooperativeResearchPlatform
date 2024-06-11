@@ -1,6 +1,6 @@
 set(_AMENT_PACKAGE_NAME "pacmod_extender")
 set(pacmod_extender_VERSION "0.0.0")
-set(pacmod_extender_MAINTAINER "david <jodavid512@gmail.com>")
+set(pacmod_extender_MAINTAINER "AnonymDavid <jozsa.david@sze.hu>")
 set(pacmod_extender_BUILD_DEPENDS "rclcpp" "pacmod3_msgs" "can_msgs" "geometry_msgs")
 set(pacmod_extender_BUILDTOOL_DEPENDS "ament_cmake")
 set(pacmod_extender_BUILD_EXPORT_DEPENDS "rclcpp" "pacmod3_msgs" "can_msgs" "geometry_msgs")

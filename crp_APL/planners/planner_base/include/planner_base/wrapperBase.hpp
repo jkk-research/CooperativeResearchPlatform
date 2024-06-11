@@ -70,7 +70,7 @@ private:
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
-#include "plannerInterfaces/plannerInterfaces.hpp"
+#include "../../../interfaces/plannerInterfaces/plannerInterfaces.hpp"
 
 
 namespace crp

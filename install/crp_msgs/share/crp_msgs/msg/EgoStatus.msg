@@ -1,3 +1,3 @@
 std_msgs/Header header
 
-float32 wheel_status
+float32 tire_angle_front

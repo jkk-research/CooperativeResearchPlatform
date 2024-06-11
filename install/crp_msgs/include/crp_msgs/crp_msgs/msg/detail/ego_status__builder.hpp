@@ -21,15 +21,15 @@ namespace msg
 namespace builder
 {
 
-class Init_EgoStatus_wheel_status
+class Init_EgoStatus_tire_angle_front
 {
 public:
-  explicit Init_EgoStatus_wheel_status(::crp_msgs::msg::EgoStatus & msg)
+  explicit Init_EgoStatus_tire_angle_front(::crp_msgs::msg::EgoStatus & msg)
   : msg_(msg)
   {}
-  ::crp_msgs::msg::EgoStatus wheel_status(::crp_msgs::msg::EgoStatus::_wheel_status_type arg)
+  ::crp_msgs::msg::EgoStatus tire_angle_front(::crp_msgs::msg::EgoStatus::_tire_angle_front_type arg)
   {
-    msg_.wheel_status = std::move(arg);
+    msg_.tire_angle_front = std::move(arg);
     return std::move(msg_);
   }
 
@@ -43,10 +43,10 @@ public:
   Init_EgoStatus_header()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_EgoStatus_wheel_status header(::crp_msgs::msg::EgoStatus::_header_type arg)
+  Init_EgoStatus_tire_angle_front header(::crp_msgs::msg::EgoStatus::_header_type arg)
   {
     msg_.header = std::move(arg);
-    return Init_EgoStatus_wheel_status(msg_);
+    return Init_EgoStatus_tire_angle_front(msg_);
   }
 
 private:

@@ -752,8 +752,175 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
   /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory_point__struct.hpp \
   /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory__builder.hpp \
   /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory__traits.hpp \
-  /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory_point__traits.hpp
+  /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory_point__traits.hpp \
+  /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/trajectory_point.hpp \
+  /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory_point__builder.hpp \
+  /home/gfigneczi1/autoware/install/autoware_perception_msgs/include/autoware_perception_msgs/autoware_perception_msgs/msg/object_classification.hpp \
+  /home/gfigneczi1/autoware/install/autoware_perception_msgs/include/autoware_perception_msgs/autoware_perception_msgs/msg/detail/object_classification__builder.hpp \
+  /home/gfigneczi1/autoware/install/autoware_perception_msgs/include/autoware_perception_msgs/autoware_perception_msgs/msg/predicted_path.hpp \
+  /home/gfigneczi1/autoware/install/autoware_perception_msgs/include/autoware_perception_msgs/autoware_perception_msgs/msg/detail/predicted_path__builder.hpp \
+  /opt/ros/humble/include/nav_msgs/nav_msgs/msg/occupancy_grid.hpp \
+  /opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/occupancy_grid__builder.hpp \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/Quaternion.h \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/Vector3.h \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/Scalar.h \
+  /usr/include/c++/11/math.h \
+  /usr/include/c++/11/cfloat \
+  /usr/lib/gcc/aarch64-linux-gnu/11/include/float.h \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/MinMax.h \
+  /opt/ros/humble/include/tf2/tf2/visibility_control.h \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/QuadWord.h \
+  /opt/ros/humble/include/tf2_geometry_msgs/tf2_geometry_msgs/tf2_geometry_msgs.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/point_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/quaternion_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion_stamped__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion_stamped__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/transform.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/transform_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/vector3.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/vector3_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3_stamped__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3_stamped__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/point.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/point32.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point32__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_stamped__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_stamped__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose_with_covariance.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose_with_covariance_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/polygon_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/polygon_stamped__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/polygon_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/polygon_stamped__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/wrench.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/wrench_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench_stamped__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench_stamped__traits.hpp \
+  /usr/include/kdl/frames.hpp \
+  /usr/include/kdl/utilities/kdl-config.h \
+  /usr/include/kdl/utilities/utility.h \
+  /usr/include/kdl/utilities/kdl-config.h \
+  /usr/include/kdl/frames.inl \
+  /opt/ros/humble/include/tf2/tf2/convert.h \
+  /opt/ros/humble/include/tf2/tf2/exceptions.h \
+  /opt/ros/humble/include/tf2/tf2/impl/convert.h \
+  /opt/ros/humble/include/tf2/tf2/transform_datatypes.h \
+  /opt/ros/humble/include/tf2/tf2/time.h \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/Transform.h \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/Matrix3x3.h \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/Quaternion.h \
+  /opt/ros/humble/include/tf2/tf2/LinearMath/Vector3.h \
+  /opt/ros/humble/include/tf2_ros/tf2_ros/buffer_interface.h \
+  /opt/ros/humble/include/tf2_ros/tf2_ros/visibility_control.h \
+  /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/interfaces/plannerInterfaces/plannerInterfaces.hpp
 
+
+/opt/ros/humble/include/tf2_ros/tf2_ros/visibility_control.h:
+
+/opt/ros/humble/include/tf2_ros/tf2_ros/buffer_interface.h:
+
+/opt/ros/humble/include/tf2/tf2/LinearMath/Transform.h:
+
+/opt/ros/humble/include/tf2/tf2/transform_datatypes.h:
+
+/opt/ros/humble/include/tf2/tf2/exceptions.h:
+
+/opt/ros/humble/include/tf2/tf2/convert.h:
+
+/usr/include/kdl/utilities/kdl-config.h:
+
+/usr/include/kdl/frames.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench_stamped__builder.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench_stamped__struct.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench__struct.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/polygon_stamped__struct.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/polygon_stamped.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance__builder.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_stamped__traits.hpp:
+
+/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/interfaces/plannerInterfaces/plannerInterfaces.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_stamped__builder.hpp:
+
+/opt/ros/humble/include/tf2/tf2/time.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_stamped__struct.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose_stamped.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/point32.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__builder.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__builder.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__traits.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__builder.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/transform_stamped.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/transform.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion_stamped__traits.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion_stamped__builder.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion_stamped__struct.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__traits.hpp:
+
+/opt/ros/humble/include/tf2_geometry_msgs/tf2_geometry_msgs/tf2_geometry_msgs.hpp:
+
+/opt/ros/humble/include/tf2/tf2/LinearMath/MinMax.h:
+
+/usr/include/c++/11/cfloat:
+
+/opt/ros/humble/include/tf2/tf2/LinearMath/Quaternion.h:
+
+/opt/ros/humble/include/nav_msgs/nav_msgs/msg/detail/occupancy_grid__builder.hpp:
+
+/home/gfigneczi1/autoware/install/autoware_perception_msgs/include/autoware_perception_msgs/autoware_perception_msgs/msg/detail/predicted_path__builder.hpp:
+
+/home/gfigneczi1/autoware/install/autoware_perception_msgs/include/autoware_perception_msgs/autoware_perception_msgs/msg/predicted_path.hpp:
+
+/home/gfigneczi1/autoware/install/autoware_perception_msgs/include/autoware_perception_msgs/autoware_perception_msgs/msg/object_classification.hpp:
+
+/home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/trajectory_point.hpp:
 
 /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory__traits.hpp:
 
@@ -811,9 +978,13 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/path_point__struct.hpp:
 
+/home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory_point__builder.hpp:
+
 /home/gfigneczi1/autoware/install/tier4_planning_msgs/include/tier4_planning_msgs/tier4_planning_msgs/msg/detail/path_point_with_lane_id__struct.hpp:
 
 /home/gfigneczi1/autoware/install/tier4_planning_msgs/include/tier4_planning_msgs/tier4_planning_msgs/msg/detail/path_with_lane_id__struct.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench__traits.hpp:
 
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/path_with_traffic_rules__struct.hpp:
 
@@ -826,6 +997,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__struct.hpp:
 
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/include/crp_msgs/crp_msgs/msg/detail/target_space__struct.hpp:
+
+/opt/ros/humble/include/tf2/tf2/LinearMath/QuadWord.h:
 
 /opt/ros/humble/include/rclcpp/rclcpp/wait_set_policies/thread_safe_synchronization.hpp:
 
@@ -919,6 +1092,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_logging_interface.hpp:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/quaternion_stamped.hpp:
+
 /opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_clock_interface.hpp:
 
 /opt/ros/humble/include/rclcpp/rclcpp/generic_subscription.hpp:
@@ -961,6 +1136,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /opt/ros/humble/include/rclcpp/rclcpp/detail/rmw_implementation_specific_publisher_payload.hpp:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__struct.hpp:
+
 /opt/ros/humble/include/rclcpp/rclcpp/publisher_options.hpp:
 
 /opt/ros/humble/include/rclcpp/rclcpp/loaned_message.hpp:
@@ -996,6 +1173,10 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /usr/include/c++/11/tr1/modified_bessel_func.tcc:
 
 /usr/include/c++/11/tr1/legendre_function.tcc:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3__builder.hpp:
+
+/opt/ros/humble/include/tf2/tf2/LinearMath/Scalar.h:
 
 /usr/include/c++/11/tr1/hypergeometric.tcc:
 
@@ -1035,6 +1216,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/aarch64-linux-gnu/bits/long-double.h:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__struct.hpp:
+
 /usr/include/c++/11/bits/stl_heap.h:
 
 /home/gfigneczi1/autoware/install/autoware_planning_msgs/include/autoware_planning_msgs/autoware_planning_msgs/msg/detail/trajectory__struct.hpp:
@@ -1052,6 +1235,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:
 
 /usr/include/c++/11/bits/basic_string.h:
+
+/opt/ros/humble/include/tf2/tf2/LinearMath/Matrix3x3.h:
 
 /usr/include/c++/11/bits/shared_ptr_base.h:
 
@@ -1105,6 +1290,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/mutex:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__builder.hpp:
+
 /opt/ros/humble/include/rcpputils/rcpputils/thread_safety_annotations.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/types/__fpos_t.h:
@@ -1123,6 +1310,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /opt/ros/humble/include/rmw/rmw/topic_endpoint_info_array.h:
 
+/opt/ros/humble/include/nav_msgs/nav_msgs/msg/occupancy_grid.hpp:
+
 /usr/include/c++/11/ext/string_conversions.h:
 
 /opt/ros/humble/include/rcl/rcl/graph.h:
@@ -1132,6 +1321,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /usr/include/c++/11/ext/concurrence.h:
 
 /usr/include/aarch64-linux-gnu/sys/single_threaded.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/wrench.hpp:
 
 /opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/get_node_base_interface.hpp:
 
@@ -1179,6 +1370,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/bits/quoted_string.h:
 
+/home/gfigneczi1/autoware/install/autoware_perception_msgs/include/autoware_perception_msgs/autoware_perception_msgs/msg/detail/object_classification__builder.hpp:
+
 /usr/include/c++/11/tr1/beta_function.tcc:
 
 /usr/include/aarch64-linux-gnu/bits/waitstatus.h:
@@ -1207,6 +1400,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/wchar.h:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose_with_covariance.hpp:
+
 /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/polygon__struct.hpp:
 
 /usr/include/c++/11/iosfwd:
@@ -1231,6 +1426,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/bits/memoryfwd.h:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/vector3_stamped.hpp:
+
 /opt/ros/humble/include/rclcpp/rclcpp/wait_set_policies/sequential_synchronization.hpp:
 
 /opt/ros/humble/include/rcl_yaml_param_parser/rcl_yaml_param_parser/parser.h:
@@ -1245,11 +1442,15 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/ios:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point32__builder.hpp:
+
 /usr/include/c++/11/bits/unique_ptr.h:
 
 /usr/include/c++/11/bits/uses_allocator.h:
 
 /usr/include/c++/11/bits/unique_lock.h:
+
+/usr/lib/gcc/aarch64-linux-gnu/11/include/float.h:
 
 /usr/include/aarch64-linux-gnu/bits/wchar.h:
 
@@ -1266,6 +1467,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /usr/include/aarch64-linux-gnu/sys/ucontext.h:
 
 /usr/include/c++/11/streambuf:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/point.hpp:
 
 /usr/lib/gcc/aarch64-linux-gnu/11/include/stddef.h:
 
@@ -1285,13 +1488,19 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/bits/shared_ptr_atomic.h:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench_stamped__traits.hpp:
+
 /opt/ros/humble/include/rmw/rmw/init.h:
 
 /usr/include/aarch64-linux-gnu/bits/procfs.h:
 
+/opt/ros/humble/include/tf2/tf2/impl/convert.h:
+
 /usr/include/aarch64-linux-gnu/bits/types/sigevent_t.h:
 
 /usr/include/c++/11/bits/postypes.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/point_stamped.hpp:
 
 /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/floating_point_range__struct.hpp:
 
@@ -1301,9 +1510,13 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/bits/predefined_ops.h:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/vector3.hpp:
+
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/planner_base/include/planner_base/wrapperBase.hpp:
 
 /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/bounded_vector.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3_stamped__builder.hpp:
 
 /usr/include/asm-generic/errno-base.h:
 
@@ -1337,6 +1550,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/bits/functexcept.h:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/wrench__builder.hpp:
+
 /usr/include/aarch64-linux-gnu/asm/types.h:
 
 /usr/include/aarch64-linux-gnu/bits/sigaction.h:
@@ -1352,6 +1567,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /usr/include/aarch64-linux-gnu/sys/select.h:
 
 /usr/include/c++/11/bits/basic_string.tcc:
+
+/usr/include/kdl/frames.inl:
 
 /usr/include/aarch64-linux-gnu/bits/timesize.h:
 
@@ -1465,11 +1682,15 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/bits/stl_construct.h:
 
+/opt/ros/humble/include/tf2/tf2/LinearMath/Vector3.h:
+
 /usr/include/c++/11/bits/shared_ptr.h:
 
 /usr/include/stdc-predef.h:
 
 /usr/include/asm-generic/posix_types.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__struct.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/confname.h:
 
@@ -1486,6 +1707,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /usr/include/alloca.h:
 
 /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/message_type_support_decl.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform__struct.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/time64.h:
 
@@ -1514,6 +1737,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h:
 
 /usr/include/c++/11/bits/stl_algo.h:
+
+/usr/include/kdl/utilities/utility.h:
 
 /usr/include/aarch64-linux-gnu/asm/sve_context.h:
 
@@ -1603,6 +1828,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/bits/stl_tempbuf.h:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/wrench_stamped.hpp:
+
 /usr/include/stdio.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/clockid_t.h:
@@ -1646,6 +1873,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /usr/include/c++/11/bits/exception_defines.h:
 
 /opt/ros/humble/include/rclcpp/rclcpp/event.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/polygon_stamped__traits.hpp:
 
 /usr/include/pthread.h:
 
@@ -1849,11 +2078,15 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /opt/ros/humble/include/rcutils/rcutils/types/rcutils_ret.h:
 
+/usr/include/c++/11/math.h:
+
 /opt/ros/humble/include/libstatistics_collector/libstatistics_collector/visibility_control.hpp:
 
 /opt/ros/humble/include/rclcpp/rclcpp/network_flow_endpoint.hpp:
 
 /opt/ros/humble/include/rmw/rmw/init_options.h:
+
+/opt/ros/humble/include/tf2/tf2/visibility_control.h:
 
 /opt/ros/humble/include/rmw/rmw/domain_id.h:
 
@@ -1879,9 +2112,13 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /usr/include/c++/11/bits/stream_iterator.h:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/polygon_stamped__builder.hpp:
+
 /opt/ros/humble/include/rmw/rmw/security_options.h:
 
 /opt/ros/humble/include/rcl/rcl/macros.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__builder.hpp:
 
 /opt/ros/humble/include/rcutils/rcutils/error_handling.h:
 
@@ -1917,6 +2154,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /opt/ros/humble/include/rclcpp/rclcpp/experimental/buffers/ring_buffer_implementation.hpp:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose_with_covariance_stamped__traits.hpp:
+
 /usr/include/c++/11/ext/atomicity.h:
 
 /opt/ros/humble/include/rcutils/rcutils/types/uint8_array.h:
@@ -1936,6 +2175,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /opt/ros/humble/include/rmw/rmw/events_statuses/message_lost.h:
 
 /opt/ros/humble/include/rmw/rmw/events_statuses/offered_deadline_missed.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform__traits.hpp:
 
 /opt/ros/humble/include/rclcpp/rclcpp/memory_strategies.hpp:
 
@@ -1972,6 +2213,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /opt/ros/humble/include/rmw/rmw/event_callback_type.h:
 
 /opt/ros/humble/include/rcl/rcl/node.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3_stamped__struct.hpp:
 
 /opt/ros/humble/include/rcl/rcl/node_options.h:
 
@@ -2085,6 +2328,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 
 /opt/ros/humble/include/rclcpp/rclcpp/duration.hpp:
 
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3_stamped__traits.hpp:
+
 /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__struct.hpp:
 
 /opt/ros/humble/include/rcutils/rcutils/logging.h:
@@ -2120,6 +2365,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /opt/ros/humble/include/rclcpp/rclcpp/exceptions.hpp:
 
 /opt/ros/humble/include/rmw/rmw/error_handling.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform__builder.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
@@ -2204,6 +2451,8 @@ CMakeFiles/wrapper_base.dir/src/wrapperBase.cpp.o: /home/gfigneczi1/ros2_ws/src/
 /opt/ros/humble/include/rclcpp/rclcpp/parameter.hpp:
 
 /opt/ros/humble/include/rclcpp/rclcpp/detail/resolve_use_intra_process.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose_with_covariance_stamped.hpp:
 
 /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/time__builder.hpp:
 

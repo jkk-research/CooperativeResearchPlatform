@@ -1,0 +1,65 @@
+-- Found ament_cmake: 1.3.7 (/home/gfigneczi1/autoware/install/ament_cmake/share/ament_cmake/cmake)
+-- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_cyclonedds_cpp: 1.3.4 (/opt/ros/humble/share/rmw_cyclonedds_cpp/cmake)
+-- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+-- Found nav_msgs: 4.2.3 (/opt/ros/humble/share/nav_msgs/cmake)
+-- Found autoware_perception_msgs: 1.1.0 (/home/gfigneczi1/autoware/install/autoware_perception_msgs/share/autoware_perception_msgs/cmake)
+-- Found autoware_localization_msgs: 1.1.0 (/home/gfigneczi1/autoware/install/autoware_localization_msgs/share/autoware_localization_msgs/cmake)
+-- Found autoware_map_msgs: 1.1.0 (/home/gfigneczi1/autoware/install/autoware_map_msgs/share/autoware_map_msgs/cmake)
+-- Found tier4_planning_msgs: 0.1.0 (/home/gfigneczi1/autoware/install/tier4_planning_msgs/share/tier4_planning_msgs/cmake)
+-- Found mrt_cmake_modules: 1.0.9 (/opt/ros/humble/share/mrt_cmake_modules/cmake)
+-- Found Boost: /usr/lib/aarch64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: wserialization thread random serialization log_setup prg_exec_monitor wave system chrono filesystem locale timer date_time regex graph program_options unit_test_framework log atomic iostreams 
+-- Found OpenMP_C: -fopenmp (found version "4.5") 
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5")  
+-- Found autoware_lanelet2_extension: 0.5.0 (/home/gfigneczi1/autoware/install/autoware_lanelet2_extension/share/autoware_lanelet2_extension/cmake)
+-- Found pugixml: /usr/lib/aarch64-linux-gnu/libpugixml.so  
+-- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") 
+-- Found GeographicLib: /usr/lib/aarch64-linux-gnu/libGeographic.so  
+-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+-- Found Eigen3: TRUE (found version "3.4.0") 
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Found crp_msgs: 0.0.0 (/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/share/crp_msgs/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/prcp_sensor_abstraction
+[35m[1mConsolidate compiler generated dependencies of target ego_abstraction[0m
+[35m[1mConsolidate compiler generated dependencies of target scenario_abstraction[0m
+[35m[1mConsolidate compiler generated dependencies of target world_abstraction[0m
+[ 16%] [32mBuilding CXX object CMakeFiles/ego_abstraction.dir/src/egoAbstraction.cpp.o[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/world_abstraction.dir/src/worldAbstraction.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/scenario_abstraction.dir/src/scenarioAbstraction.cpp.o[0m
+[ 66%] [32m[1mLinking CXX executable world_abstraction[0m
+[ 66%] Built target world_abstraction
+[ 83%] [32m[1mLinking CXX executable scenario_abstraction[0m
+[ 83%] Built target scenario_abstraction
+[100%] [32m[1mLinking CXX executable ego_abstraction[0m
+[100%] Built target ego_abstraction
+-- Install configuration: ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/lib/prcp_sensor_abstraction/world_abstraction
+-- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/lib/prcp_sensor_abstraction/world_abstraction" to ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/lib/prcp_sensor_abstraction/scenario_abstraction
+-- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/lib/prcp_sensor_abstraction/scenario_abstraction" to ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/lib/prcp_sensor_abstraction/ego_abstraction
+-- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/lib/prcp_sensor_abstraction/ego_abstraction" to ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/ament_index/resource_index/package_run_dependencies/prcp_sensor_abstraction
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/ament_index/resource_index/parent_prefix_path/prcp_sensor_abstraction
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/environment/ament_prefix_path.sh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/environment/ament_prefix_path.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/environment/path.sh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/environment/path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/local_setup.bash
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/local_setup.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/local_setup.zsh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/local_setup.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/package.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/ament_index/resource_index/packages/prcp_sensor_abstraction
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/cmake/prcp_sensor_abstractionConfig.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/cmake/prcp_sensor_abstractionConfig-version.cmake
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/prcp_sensor_abstraction/share/prcp_sensor_abstraction/package.xml

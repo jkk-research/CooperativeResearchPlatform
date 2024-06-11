@@ -36,7 +36,7 @@ extern "C"
 
 #include "autoware_perception_msgs/msg/detail/predicted_object__functions.h"  // relevant_objects, relevant_obstacles
 #include "crp_msgs/msg/detail/path_with_traffic_rules__functions.h"  // path
-#include "geometry_msgs/msg/detail/pose_with_covariance__functions.h"  // stopping_pose
+#include "geometry_msgs/msg/detail/pose_with_covariance__functions.h"  // target_pose
 #include "nav_msgs/msg/detail/occupancy_grid__functions.h"  // free_space
 #include "std_msgs/msg/detail/header__functions.h"  // header
 
@@ -135,7 +135,7 @@ static bool _TargetSpace__cdr_serialize(
     }
   }
 
-  // Field name: stopping_pose
+  // Field name: target_pose
   {
     const message_type_support_callbacks_t * callbacks =
       static_cast<const message_type_support_callbacks_t *>(
@@ -143,7 +143,7 @@ static bool _TargetSpace__cdr_serialize(
         rosidl_typesupport_fastrtps_c, geometry_msgs, msg, PoseWithCovariance
       )()->data);
     if (!callbacks->cdr_serialize(
-        &ros_message->stopping_pose, cdr))
+        &ros_message->target_pose, cdr))
     {
       return false;
     }
@@ -241,7 +241,7 @@ static bool _TargetSpace__cdr_deserialize(
     }
   }
 
-  // Field name: stopping_pose
+  // Field name: target_pose
   {
     const message_type_support_callbacks_t * callbacks =
       static_cast<const message_type_support_callbacks_t *>(
@@ -249,7 +249,7 @@ static bool _TargetSpace__cdr_deserialize(
         rosidl_typesupport_fastrtps_c, geometry_msgs, msg, PoseWithCovariance
       )()->data);
     if (!callbacks->cdr_deserialize(
-        cdr, &ros_message->stopping_pose))
+        cdr, &ros_message->target_pose))
     {
       return false;
     }
@@ -358,10 +358,10 @@ size_t get_serialized_size_crp_msgs__msg__TargetSpace(
 
   current_alignment += get_serialized_size_std_msgs__msg__Header(
     &(ros_message->header), current_alignment);
-  // field.name stopping_pose
+  // field.name target_pose
 
   current_alignment += get_serialized_size_geometry_msgs__msg__PoseWithCovariance(
-    &(ros_message->stopping_pose), current_alignment);
+    &(ros_message->target_pose), current_alignment);
   // field.name free_space
 
   current_alignment += get_serialized_size_nav_msgs__msg__OccupancyGrid(
@@ -442,7 +442,7 @@ size_t max_serialized_size_crp_msgs__msg__TargetSpace(
       is_plain &= inner_is_plain;
     }
   }
-  // member: stopping_pose
+  // member: target_pose
   {
     size_t array_size = 1;
 

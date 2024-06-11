@@ -85,15 +85,15 @@ private:
   ::crp_msgs::msg::TargetSpace msg_;
 };
 
-class Init_TargetSpace_stopping_pose
+class Init_TargetSpace_target_pose
 {
 public:
-  explicit Init_TargetSpace_stopping_pose(::crp_msgs::msg::TargetSpace & msg)
+  explicit Init_TargetSpace_target_pose(::crp_msgs::msg::TargetSpace & msg)
   : msg_(msg)
   {}
-  Init_TargetSpace_free_space stopping_pose(::crp_msgs::msg::TargetSpace::_stopping_pose_type arg)
+  Init_TargetSpace_free_space target_pose(::crp_msgs::msg::TargetSpace::_target_pose_type arg)
   {
-    msg_.stopping_pose = std::move(arg);
+    msg_.target_pose = std::move(arg);
     return Init_TargetSpace_free_space(msg_);
   }
 
@@ -107,10 +107,10 @@ public:
   Init_TargetSpace_header()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_TargetSpace_stopping_pose header(::crp_msgs::msg::TargetSpace::_header_type arg)
+  Init_TargetSpace_target_pose header(::crp_msgs::msg::TargetSpace::_header_type arg)
   {
     msg_.header = std::move(arg);
-    return Init_TargetSpace_stopping_pose(msg_);
+    return Init_TargetSpace_target_pose(msg_);
   }
 
 private:

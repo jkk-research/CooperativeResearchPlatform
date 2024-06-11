@@ -36,7 +36,7 @@ crp_msgs__msg__PathWithTrafficRules__init(crp_msgs__msg__PathWithTrafficRules * 
     return false;
   }
   // traffic_rules
-  if (!crp_msgs__msg__TrafficRule__Sequence__init(&msg->traffic_rules, 0)) {
+  if (!crp_msgs__msg__TrafficRule__init(&msg->traffic_rules)) {
     crp_msgs__msg__PathWithTrafficRules__fini(msg);
     return false;
   }
@@ -54,7 +54,7 @@ crp_msgs__msg__PathWithTrafficRules__fini(crp_msgs__msg__PathWithTrafficRules * 
   // path
   tier4_planning_msgs__msg__PathWithLaneId__fini(&msg->path);
   // traffic_rules
-  crp_msgs__msg__TrafficRule__Sequence__fini(&msg->traffic_rules);
+  crp_msgs__msg__TrafficRule__fini(&msg->traffic_rules);
 }
 
 bool
@@ -76,7 +76,7 @@ crp_msgs__msg__PathWithTrafficRules__are_equal(const crp_msgs__msg__PathWithTraf
     return false;
   }
   // traffic_rules
-  if (!crp_msgs__msg__TrafficRule__Sequence__are_equal(
+  if (!crp_msgs__msg__TrafficRule__are_equal(
       &(lhs->traffic_rules), &(rhs->traffic_rules)))
   {
     return false;
@@ -105,7 +105,7 @@ crp_msgs__msg__PathWithTrafficRules__copy(
     return false;
   }
   // traffic_rules
-  if (!crp_msgs__msg__TrafficRule__Sequence__copy(
+  if (!crp_msgs__msg__TrafficRule__copy(
       &(input->traffic_rules), &(output->traffic_rules)))
   {
     return false;

@@ -9,7 +9,7 @@ module crp_msgs {
     struct EgoStatus {
       std_msgs::msg::Header header;
 
-      float wheel_status;
+      float tire_angle_front;
     };
   };
 };

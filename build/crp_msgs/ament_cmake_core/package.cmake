@@ -1,6 +1,6 @@
 set(_AMENT_PACKAGE_NAME "crp_msgs")
 set(crp_msgs_VERSION "0.0.0")
-set(crp_msgs_MAINTAINER "david <jodavid512@gmail.com>")
+set(crp_msgs_MAINTAINER "AnonymDavid <jozsa.david@sze.hu>")
 set(crp_msgs_BUILD_DEPENDS "rclcpp" "std_msgs" "nav_msgs" "geometry_msgs" "tier4_planning_msgs" "autoware_perception_msgs" "rosidl_default_generators")
 set(crp_msgs_BUILDTOOL_DEPENDS "ament_cmake")
 set(crp_msgs_BUILD_EXPORT_DEPENDS "rclcpp" "std_msgs" "nav_msgs" "geometry_msgs" "tier4_planning_msgs" "autoware_perception_msgs" "rosidl_default_generators")

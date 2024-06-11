@@ -60,8 +60,8 @@ cdr_serialize(
   std_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
     ros_message.header,
     cdr);
-  // Member: wheel_status
-  cdr << ros_message.wheel_status;
+  // Member: tire_angle_front
+  cdr << ros_message.tire_angle_front;
   return true;
 }
 
@@ -75,8 +75,8 @@ cdr_deserialize(
   std_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
     cdr, ros_message.header);
 
-  // Member: wheel_status
-  cdr >> ros_message.wheel_status;
+  // Member: tire_angle_front
+  cdr >> ros_message.tire_angle_front;
 
   return true;
 }
@@ -99,9 +99,9 @@ get_serialized_size(
   current_alignment +=
     std_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
     ros_message.header, current_alignment);
-  // Member: wheel_status
+  // Member: tire_angle_front
   {
-    size_t item_size = sizeof(ros_message.wheel_status);
+    size_t item_size = sizeof(ros_message.tire_angle_front);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -148,7 +148,7 @@ max_serialized_size_EgoStatus(
     }
   }
 
-  // Member: wheel_status
+  // Member: tire_angle_front
   {
     size_t array_size = 1;
 
@@ -165,7 +165,7 @@ max_serialized_size_EgoStatus(
     using DataType = crp_msgs::msg::EgoStatus;
     is_plain =
       (
-      offsetof(DataType, wheel_status) +
+      offsetof(DataType, tire_angle_front) +
       last_member_size
       ) == ret_val;
   }
