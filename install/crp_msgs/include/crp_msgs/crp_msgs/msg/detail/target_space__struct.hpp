@@ -18,7 +18,7 @@
 // Include directives for member types
 // Member 'header'
 #include "std_msgs/msg/detail/header__struct.hpp"
-// Member 'stopping_pose'
+// Member 'target_pose'
 #include "geometry_msgs/msg/detail/pose_with_covariance__struct.hpp"
 // Member 'free_space'
 #include "nav_msgs/msg/detail/occupancy_grid__struct.hpp"
@@ -48,7 +48,7 @@ struct TargetSpace_
 
   explicit TargetSpace_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : header(_init),
-    stopping_pose(_init),
+    target_pose(_init),
     free_space(_init),
     path(_init)
   {
@@ -57,7 +57,7 @@ struct TargetSpace_
 
   explicit TargetSpace_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : header(_alloc, _init),
-    stopping_pose(_alloc, _init),
+    target_pose(_alloc, _init),
     free_space(_alloc, _init),
     path(_alloc, _init)
   {
@@ -68,9 +68,9 @@ struct TargetSpace_
   using _header_type =
     std_msgs::msg::Header_<ContainerAllocator>;
   _header_type header;
-  using _stopping_pose_type =
+  using _target_pose_type =
     geometry_msgs::msg::PoseWithCovariance_<ContainerAllocator>;
-  _stopping_pose_type stopping_pose;
+  _target_pose_type target_pose;
   using _free_space_type =
     nav_msgs::msg::OccupancyGrid_<ContainerAllocator>;
   _free_space_type free_space;
@@ -91,10 +91,10 @@ struct TargetSpace_
     this->header = _arg;
     return *this;
   }
-  Type & set__stopping_pose(
+  Type & set__target_pose(
     const geometry_msgs::msg::PoseWithCovariance_<ContainerAllocator> & _arg)
   {
-    this->stopping_pose = _arg;
+    this->target_pose = _arg;
     return *this;
   }
   Type & set__free_space(
@@ -167,7 +167,7 @@ struct TargetSpace_
     if (this->header != other.header) {
       return false;
     }
-    if (this->stopping_pose != other.stopping_pose) {
+    if (this->target_pose != other.target_pose) {
       return false;
     }
     if (this->free_space != other.free_space) {

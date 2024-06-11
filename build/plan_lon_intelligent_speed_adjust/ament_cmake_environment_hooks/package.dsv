@@ -1,0 +1,4 @@
+source;share/plan_lon_intelligent_speed_adjust/local_setup.bash
+source;share/plan_lon_intelligent_speed_adjust/local_setup.dsv
+source;share/plan_lon_intelligent_speed_adjust/local_setup.sh
+source;share/plan_lon_intelligent_speed_adjust/local_setup.zsh

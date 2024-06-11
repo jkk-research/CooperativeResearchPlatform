@@ -77,7 +77,7 @@ class Ego(metaclass=Metaclass_Ego):
         '_pose',
         '_twist',
         '_accel',
-        '_wheel_angle',
+        '_tire_angle_front',
     ]
 
     _fields_and_field_types = {
@@ -85,7 +85,7 @@ class Ego(metaclass=Metaclass_Ego):
         'pose': 'geometry_msgs/PoseWithCovariance',
         'twist': 'geometry_msgs/TwistWithCovariance',
         'accel': 'geometry_msgs/AccelWithCovariance',
-        'wheel_angle': 'float',
+        'tire_angle_front': 'float',
     }
 
     SLOT_TYPES = (
@@ -108,7 +108,7 @@ class Ego(metaclass=Metaclass_Ego):
         self.twist = kwargs.get('twist', TwistWithCovariance())
         from geometry_msgs.msg import AccelWithCovariance
         self.accel = kwargs.get('accel', AccelWithCovariance())
-        self.wheel_angle = kwargs.get('wheel_angle', float())
+        self.tire_angle_front = kwargs.get('tire_angle_front', float())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -147,7 +147,7 @@ class Ego(metaclass=Metaclass_Ego):
             return False
         if self.accel != other.accel:
             return False
-        if self.wheel_angle != other.wheel_angle:
+        if self.tire_angle_front != other.tire_angle_front:
             return False
         return True
 
@@ -213,16 +213,16 @@ class Ego(metaclass=Metaclass_Ego):
         self._accel = value
 
     @builtins.property
-    def wheel_angle(self):
-        """Message field 'wheel_angle'."""
-        return self._wheel_angle
+    def tire_angle_front(self):
+        """Message field 'tire_angle_front'."""
+        return self._tire_angle_front
 
-    @wheel_angle.setter
-    def wheel_angle(self, value):
+    @tire_angle_front.setter
+    def tire_angle_front(self, value):
         if __debug__:
             assert \
                 isinstance(value, float), \
-                "The 'wheel_angle' field must be of type 'float'"
+                "The 'tire_angle_front' field must be of type 'float'"
             assert not (value < -3.402823466e+38 or value > 3.402823466e+38) or math.isinf(value), \
-                "The 'wheel_angle' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
-        self._wheel_angle = value
+                "The 'tire_angle_front' field must be a float in [-3.402823466e+38, 3.402823466e+38]"
+        self._tire_angle_front = value

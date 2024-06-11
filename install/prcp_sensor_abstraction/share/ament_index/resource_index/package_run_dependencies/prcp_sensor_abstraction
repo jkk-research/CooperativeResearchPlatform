@@ -1,1 +1,1 @@
-rclcpp;nav_msgs;autoware_perception_msgs;autoware_localization_msgs;autoware_map_msgs;tier4_planning_msgs
+rclcpp;nav_msgs;autoware_perception_msgs;autoware_localization_msgs;autoware_map_msgs;tier4_planning_msgs;geometry_msgs;lanelet2_core;autoware_lanelet2_extension;crp_msgs

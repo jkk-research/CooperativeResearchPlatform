@@ -56,14 +56,14 @@ static rosidl_typesupport_introspection_c__MessageMember crp_msgs__msg__EgoStatu
     NULL  // resize(index) function pointer
   },
   {
-    "wheel_status",  // name
+    "tire_angle_front",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(crp_msgs__msg__EgoStatus, wheel_status),  // bytes offset in struct
+    offsetof(crp_msgs__msg__EgoStatus, tire_angle_front),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer

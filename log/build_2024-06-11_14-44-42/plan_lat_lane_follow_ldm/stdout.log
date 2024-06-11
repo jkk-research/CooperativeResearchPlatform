@@ -1,0 +1,22 @@
+[35m[1mConsolidate compiler generated dependencies of target plan_lat_lane_follow_ldm[0m
+[ 12%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapperPlanLatLaneFollowLdm.cpp.o[0m
+[ 25%] [32m[1mLinking CXX executable plan_lat_lane_follow_ldm[0m
+[100%] Built target plan_lat_lane_follow_ldm
+-- Install configuration: ""
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/lib/plan_lat_lane_follow_ldm/plan_lat_lane_follow_ldm
+-- Set runtime path of "/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/lib/plan_lat_lane_follow_ldm/plan_lat_lane_follow_ldm" to ""
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/ament_index/resource_index/package_run_dependencies/plan_lat_lane_follow_ldm
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/ament_index/resource_index/parent_prefix_path/plan_lat_lane_follow_ldm
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/environment/ament_prefix_path.sh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/environment/path.sh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/environment/path.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/local_setup.bash
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/local_setup.sh
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/local_setup.zsh
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/local_setup.dsv
+-- Installing: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/package.dsv
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/ament_index/resource_index/packages/plan_lat_lane_follow_ldm
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/cmake/plan_lat_lane_follow_ldmConfig.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/cmake/plan_lat_lane_follow_ldmConfig-version.cmake
+-- Up-to-date: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/plan_lat_lane_follow_ldm/share/plan_lat_lane_follow_ldm/package.xml

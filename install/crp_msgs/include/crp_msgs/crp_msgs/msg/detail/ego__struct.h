@@ -34,7 +34,7 @@ typedef struct crp_msgs__msg__Ego
   geometry_msgs__msg__PoseWithCovariance pose;
   geometry_msgs__msg__TwistWithCovariance twist;
   geometry_msgs__msg__AccelWithCovariance accel;
-  float wheel_angle;
+  float tire_angle_front;
 } crp_msgs__msg__Ego;
 
 // Struct for a sequence of crp_msgs__msg__Ego.

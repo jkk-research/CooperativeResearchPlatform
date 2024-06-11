@@ -1,0 +1,43 @@
+-- Found ament_cmake: 1.3.7 (/home/gfigneczi1/autoware/install/ament_cmake/share/ament_cmake/cmake)
+-- Found rclcpp: 16.0.8 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 3.1.5 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.5 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.5 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 6.1.1 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_cyclonedds_cpp: 1.3.4 (/opt/ros/humble/share/rmw_cyclonedds_cpp/cmake)
+-- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+-- Found planner_base: 0.0.0 (/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake)
+-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/plan_lat_lane_follow_ldm
+[35m[1mConsolidate compiler generated dependencies of target plan_lat_lane_follow_ldm[0m
+[ 12%] [32mBuilding CXX object CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapperPlanLatLaneFollowLdm.cpp.o[0m
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:[m[K In member function ‘[01m[Kvirtual void crp::apl::PlanLatLaneFollowHandler::plan(const crp::apl::PlannerInput&, crp::apl::PlannerOutput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:12:22:[m[K [01;35m[Kwarning: [m[Kvariable ‘[01m[KtrajectoryOutput[m[K’ set but not used [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable-Wunused-but-set-variable]8;;[m[K]
+   12 |     TrajectoryOutput [01;35m[KtrajectoryOutput[m[K = m_linearDriverModel.runCoeffsLite(
+      |                      [01;35m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:9:68:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+    9 | void crp::apl::PlanLatLaneFollowHandler::plan([01;35m[Kconst PlannerInput & input[m[K, PlannerOutput & output)
+      |                                               [01;35m[K~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:9:91:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+    9 | void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, [01;35m[KPlannerOutput & output[m[K)
+      |                                                                           [01;35m[K~~~~~~~~~~~~~~~~^~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:[m[K In member function ‘[01m[Kvoid crp::apl::PlanLatLaneFollowHandler::fitPolynomialOnWaypoints(const crp::apl::PlannerInput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:20:26:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   20 |     [01;35m[Kconst PlannerInput & input[m[K)
+      |     [01;35m[K~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:[m[K At global scope:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:24:58:[m[K [01;31m[Kerror: [m[K‘[01m[Kvoid crp::apl::generateEgoPose(const crp::apl::PlannerInput&)[m[K’ should have been declared inside ‘[01m[Kcrp::apl[m[K’
+   24 | void crp::apl::generateEgoPose(const PlannerInput & input[01;31m[K)[m[K
+      |                                                          [01;31m[K^[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:[m[K In function ‘[01m[Kvoid crp::apl::generateEgoPose(const crp::apl::PlannerInput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapperPlanLatLaneFollowLdm.cpp:26:5:[m[K [01;31m[Kerror: [m[K‘[01m[Km_egoPose[m[K’ was not declared in this scope
+   26 |     [01;31m[Km_egoPose[m[K.Pose2DCoordinates.x = input.egoPose.position.x;
+      |     [01;31m[K^~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:76: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapperPlanLatLaneFollowLdm.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/plan_lat_lane_follow_ldm.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

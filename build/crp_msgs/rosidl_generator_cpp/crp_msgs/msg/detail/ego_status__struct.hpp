@@ -43,7 +43,7 @@ struct EgoStatus_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->wheel_status = 0.0f;
+      this->tire_angle_front = 0.0f;
     }
   }
 
@@ -53,7 +53,7 @@ struct EgoStatus_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->wheel_status = 0.0f;
+      this->tire_angle_front = 0.0f;
     }
   }
 
@@ -61,9 +61,9 @@ struct EgoStatus_
   using _header_type =
     std_msgs::msg::Header_<ContainerAllocator>;
   _header_type header;
-  using _wheel_status_type =
+  using _tire_angle_front_type =
     float;
-  _wheel_status_type wheel_status;
+  _tire_angle_front_type tire_angle_front;
 
   // setters for named parameter idiom
   Type & set__header(
@@ -72,10 +72,10 @@ struct EgoStatus_
     this->header = _arg;
     return *this;
   }
-  Type & set__wheel_status(
+  Type & set__tire_angle_front(
     const float & _arg)
   {
-    this->wheel_status = _arg;
+    this->tire_angle_front = _arg;
     return *this;
   }
 
@@ -124,7 +124,7 @@ struct EgoStatus_
     if (this->header != other.header) {
       return false;
     }
-    if (this->wheel_status != other.wheel_status) {
+    if (this->tire_angle_front != other.tire_angle_front) {
       return false;
     }
     return true;

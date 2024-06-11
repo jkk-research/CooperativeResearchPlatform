@@ -47,7 +47,7 @@ crp_msgs__msg__Ego__init(crp_msgs__msg__Ego * msg)
     crp_msgs__msg__Ego__fini(msg);
     return false;
   }
-  // wheel_angle
+  // tire_angle_front
   return true;
 }
 
@@ -65,7 +65,7 @@ crp_msgs__msg__Ego__fini(crp_msgs__msg__Ego * msg)
   geometry_msgs__msg__TwistWithCovariance__fini(&msg->twist);
   // accel
   geometry_msgs__msg__AccelWithCovariance__fini(&msg->accel);
-  // wheel_angle
+  // tire_angle_front
 }
 
 bool
@@ -98,8 +98,8 @@ crp_msgs__msg__Ego__are_equal(const crp_msgs__msg__Ego * lhs, const crp_msgs__ms
   {
     return false;
   }
-  // wheel_angle
-  if (lhs->wheel_angle != rhs->wheel_angle) {
+  // tire_angle_front
+  if (lhs->tire_angle_front != rhs->tire_angle_front) {
     return false;
   }
   return true;
@@ -137,8 +137,8 @@ crp_msgs__msg__Ego__copy(
   {
     return false;
   }
-  // wheel_angle
-  output->wheel_angle = input->wheel_angle;
+  // tire_angle_front
+  output->tire_angle_front = input->tire_angle_front;
   return true;
 }
 

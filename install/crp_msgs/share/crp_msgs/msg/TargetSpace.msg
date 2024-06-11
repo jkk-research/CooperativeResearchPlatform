@@ -1,6 +1,6 @@
 std_msgs/Header header
 
-geometry_msgs/PoseWithCovariance stopping_pose
+geometry_msgs/PoseWithCovariance target_pose
 nav_msgs/OccupancyGrid free_space
 crp_msgs/PathWithTrafficRules path
 autoware_perception_msgs/PredictedObject[] relevant_objects

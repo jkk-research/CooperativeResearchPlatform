@@ -210,29 +210,29 @@ plan_lat_lane_follow/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lat_lane_follow.dir/build.make CMakeFiles/plan_lat_lane_follow.dir/build
 .PHONY : plan_lat_lane_follow/fast
 
-src/wrapper.o: src/wrapper.cpp.o
-.PHONY : src/wrapper.o
+src/wrapperPlanLatLaneFollow.o: src/wrapperPlanLatLaneFollow.cpp.o
+.PHONY : src/wrapperPlanLatLaneFollow.o
 
 # target to build an object file
-src/wrapper.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lat_lane_follow.dir/build.make CMakeFiles/plan_lat_lane_follow.dir/src/wrapper.cpp.o
-.PHONY : src/wrapper.cpp.o
+src/wrapperPlanLatLaneFollow.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lat_lane_follow.dir/build.make CMakeFiles/plan_lat_lane_follow.dir/src/wrapperPlanLatLaneFollow.cpp.o
+.PHONY : src/wrapperPlanLatLaneFollow.cpp.o
 
-src/wrapper.i: src/wrapper.cpp.i
-.PHONY : src/wrapper.i
+src/wrapperPlanLatLaneFollow.i: src/wrapperPlanLatLaneFollow.cpp.i
+.PHONY : src/wrapperPlanLatLaneFollow.i
 
 # target to preprocess a source file
-src/wrapper.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lat_lane_follow.dir/build.make CMakeFiles/plan_lat_lane_follow.dir/src/wrapper.cpp.i
-.PHONY : src/wrapper.cpp.i
+src/wrapperPlanLatLaneFollow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lat_lane_follow.dir/build.make CMakeFiles/plan_lat_lane_follow.dir/src/wrapperPlanLatLaneFollow.cpp.i
+.PHONY : src/wrapperPlanLatLaneFollow.cpp.i
 
-src/wrapper.s: src/wrapper.cpp.s
-.PHONY : src/wrapper.s
+src/wrapperPlanLatLaneFollow.s: src/wrapperPlanLatLaneFollow.cpp.s
+.PHONY : src/wrapperPlanLatLaneFollow.s
 
 # target to generate assembly for a file
-src/wrapper.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lat_lane_follow.dir/build.make CMakeFiles/plan_lat_lane_follow.dir/src/wrapper.cpp.s
-.PHONY : src/wrapper.cpp.s
+src/wrapperPlanLatLaneFollow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/plan_lat_lane_follow.dir/build.make CMakeFiles/plan_lat_lane_follow.dir/src/wrapperPlanLatLaneFollow.cpp.s
+.PHONY : src/wrapperPlanLatLaneFollow.cpp.s
 
 # Help Target
 help:
@@ -250,9 +250,9 @@ help:
 	@echo "... plan_lat_lane_follow_uninstall"
 	@echo "... uninstall"
 	@echo "... plan_lat_lane_follow"
-	@echo "... src/wrapper.o"
-	@echo "... src/wrapper.i"
-	@echo "... src/wrapper.s"
+	@echo "... src/wrapperPlanLatLaneFollow.o"
+	@echo "... src/wrapperPlanLatLaneFollow.i"
+	@echo "... src/wrapperPlanLatLaneFollow.s"
 .PHONY : help
 
 
