@@ -45,61 +45,6 @@ void crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__Pa
   crp_msgs__msg__PathWithTrafficRules__fini(message_memory);
 }
 
-size_t crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__size_function__PathWithTrafficRules__traffic_rules(
-  const void * untyped_member)
-{
-  const crp_msgs__msg__TrafficRule__Sequence * member =
-    (const crp_msgs__msg__TrafficRule__Sequence *)(untyped_member);
-  return member->size;
-}
-
-const void * crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__get_const_function__PathWithTrafficRules__traffic_rules(
-  const void * untyped_member, size_t index)
-{
-  const crp_msgs__msg__TrafficRule__Sequence * member =
-    (const crp_msgs__msg__TrafficRule__Sequence *)(untyped_member);
-  return &member->data[index];
-}
-
-void * crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__get_function__PathWithTrafficRules__traffic_rules(
-  void * untyped_member, size_t index)
-{
-  crp_msgs__msg__TrafficRule__Sequence * member =
-    (crp_msgs__msg__TrafficRule__Sequence *)(untyped_member);
-  return &member->data[index];
-}
-
-void crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__fetch_function__PathWithTrafficRules__traffic_rules(
-  const void * untyped_member, size_t index, void * untyped_value)
-{
-  const crp_msgs__msg__TrafficRule * item =
-    ((const crp_msgs__msg__TrafficRule *)
-    crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__get_const_function__PathWithTrafficRules__traffic_rules(untyped_member, index));
-  crp_msgs__msg__TrafficRule * value =
-    (crp_msgs__msg__TrafficRule *)(untyped_value);
-  *value = *item;
-}
-
-void crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__assign_function__PathWithTrafficRules__traffic_rules(
-  void * untyped_member, size_t index, const void * untyped_value)
-{
-  crp_msgs__msg__TrafficRule * item =
-    ((crp_msgs__msg__TrafficRule *)
-    crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__get_function__PathWithTrafficRules__traffic_rules(untyped_member, index));
-  const crp_msgs__msg__TrafficRule * value =
-    (const crp_msgs__msg__TrafficRule *)(untyped_value);
-  *item = *value;
-}
-
-bool crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__resize_function__PathWithTrafficRules__traffic_rules(
-  void * untyped_member, size_t size)
-{
-  crp_msgs__msg__TrafficRule__Sequence * member =
-    (crp_msgs__msg__TrafficRule__Sequence *)(untyped_member);
-  crp_msgs__msg__TrafficRule__Sequence__fini(member);
-  return crp_msgs__msg__TrafficRule__Sequence__init(member, size);
-}
-
 static rosidl_typesupport_introspection_c__MessageMember crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__PathWithTrafficRules_message_member_array[3] = {
   {
     "header",  // name
@@ -140,17 +85,17 @@ static rosidl_typesupport_introspection_c__MessageMember crp_msgs__msg__PathWith
     rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
     0,  // upper bound of string
     NULL,  // members of sub message (initialized later)
-    true,  // is array
+    false,  // is array
     0,  // array size
     false,  // is upper bound
     offsetof(crp_msgs__msg__PathWithTrafficRules, traffic_rules),  // bytes offset in struct
     NULL,  // default value
-    crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__size_function__PathWithTrafficRules__traffic_rules,  // size() function pointer
-    crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__get_const_function__PathWithTrafficRules__traffic_rules,  // get_const(index) function pointer
-    crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__get_function__PathWithTrafficRules__traffic_rules,  // get(index) function pointer
-    crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__fetch_function__PathWithTrafficRules__traffic_rules,  // fetch(index, &value) function pointer
-    crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__assign_function__PathWithTrafficRules__traffic_rules,  // assign(index, value) function pointer
-    crp_msgs__msg__PathWithTrafficRules__rosidl_typesupport_introspection_c__resize_function__PathWithTrafficRules__traffic_rules  // resize(index) function pointer
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 

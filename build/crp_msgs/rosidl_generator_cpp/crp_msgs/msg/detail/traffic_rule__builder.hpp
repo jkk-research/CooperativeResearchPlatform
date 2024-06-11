@@ -21,16 +21,48 @@ namespace msg
 namespace builder
 {
 
-class Init_TrafficRule_lane_edge_type
+class Init_TrafficRule_maximum_speed
 {
 public:
-  explicit Init_TrafficRule_lane_edge_type(::crp_msgs::msg::TrafficRule & msg)
+  explicit Init_TrafficRule_maximum_speed(::crp_msgs::msg::TrafficRule & msg)
   : msg_(msg)
   {}
-  ::crp_msgs::msg::TrafficRule lane_edge_type(::crp_msgs::msg::TrafficRule::_lane_edge_type_type arg)
+  ::crp_msgs::msg::TrafficRule maximum_speed(::crp_msgs::msg::TrafficRule::_maximum_speed_type arg)
   {
-    msg_.lane_edge_type = std::move(arg);
+    msg_.maximum_speed = std::move(arg);
     return std::move(msg_);
+  }
+
+private:
+  ::crp_msgs::msg::TrafficRule msg_;
+};
+
+class Init_TrafficRule_lane_edge_type_right
+{
+public:
+  explicit Init_TrafficRule_lane_edge_type_right(::crp_msgs::msg::TrafficRule & msg)
+  : msg_(msg)
+  {}
+  Init_TrafficRule_maximum_speed lane_edge_type_right(::crp_msgs::msg::TrafficRule::_lane_edge_type_right_type arg)
+  {
+    msg_.lane_edge_type_right = std::move(arg);
+    return Init_TrafficRule_maximum_speed(msg_);
+  }
+
+private:
+  ::crp_msgs::msg::TrafficRule msg_;
+};
+
+class Init_TrafficRule_lane_edge_type_left
+{
+public:
+  explicit Init_TrafficRule_lane_edge_type_left(::crp_msgs::msg::TrafficRule & msg)
+  : msg_(msg)
+  {}
+  Init_TrafficRule_lane_edge_type_right lane_edge_type_left(::crp_msgs::msg::TrafficRule::_lane_edge_type_left_type arg)
+  {
+    msg_.lane_edge_type_left = std::move(arg);
+    return Init_TrafficRule_lane_edge_type_right(msg_);
   }
 
 private:
@@ -43,10 +75,10 @@ public:
   explicit Init_TrafficRule_stop_pose(::crp_msgs::msg::TrafficRule & msg)
   : msg_(msg)
   {}
-  Init_TrafficRule_lane_edge_type stop_pose(::crp_msgs::msg::TrafficRule::_stop_pose_type arg)
+  Init_TrafficRule_lane_edge_type_left stop_pose(::crp_msgs::msg::TrafficRule::_stop_pose_type arg)
   {
     msg_.stop_pose = std::move(arg);
-    return Init_TrafficRule_lane_edge_type(msg_);
+    return Init_TrafficRule_lane_edge_type_left(msg_);
   }
 
 private:

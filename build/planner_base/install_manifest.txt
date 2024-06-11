@@ -16,6 +16,7 @@
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/ament_index/resource_index/packages/planner_base
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/wrapper_baseExport.cmake
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/wrapper_baseExport-noconfig.cmake
+/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/ament_cmake_export_include_directories-extras.cmake
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/ament_cmake_export_targets-extras.cmake
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/ament_cmake_export_dependencies-extras.cmake
 /home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/share/planner_base/cmake/planner_baseConfig.cmake

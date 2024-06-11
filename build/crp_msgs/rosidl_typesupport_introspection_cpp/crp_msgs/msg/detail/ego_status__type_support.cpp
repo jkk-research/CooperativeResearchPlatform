@@ -56,14 +56,14 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember EgoStatus_mes
     nullptr  // resize(index) function pointer
   },
   {
-    "wheel_status",  // name
+    "tire_angle_front",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(crp_msgs::msg::EgoStatus, wheel_status),  // bytes offset in struct
+    offsetof(crp_msgs::msg::EgoStatus, tire_angle_front),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer

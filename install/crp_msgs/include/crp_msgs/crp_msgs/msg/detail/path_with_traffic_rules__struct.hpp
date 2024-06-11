@@ -43,14 +43,16 @@ struct PathWithTrafficRules_
 
   explicit PathWithTrafficRules_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : header(_init),
-    path(_init)
+    path(_init),
+    traffic_rules(_init)
   {
     (void)_init;
   }
 
   explicit PathWithTrafficRules_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : header(_alloc, _init),
-    path(_alloc, _init)
+    path(_alloc, _init),
+    traffic_rules(_alloc, _init)
   {
     (void)_init;
   }
@@ -63,7 +65,7 @@ struct PathWithTrafficRules_
     tier4_planning_msgs::msg::PathWithLaneId_<ContainerAllocator>;
   _path_type path;
   using _traffic_rules_type =
-    std::vector<crp_msgs::msg::TrafficRule_<ContainerAllocator>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<crp_msgs::msg::TrafficRule_<ContainerAllocator>>>;
+    crp_msgs::msg::TrafficRule_<ContainerAllocator>;
   _traffic_rules_type traffic_rules;
 
   // setters for named parameter idiom
@@ -80,7 +82,7 @@ struct PathWithTrafficRules_
     return *this;
   }
   Type & set__traffic_rules(
-    const std::vector<crp_msgs::msg::TrafficRule_<ContainerAllocator>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<crp_msgs::msg::TrafficRule_<ContainerAllocator>>> & _arg)
+    const crp_msgs::msg::TrafficRule_<ContainerAllocator> & _arg)
   {
     this->traffic_rules = _arg;
     return *this;

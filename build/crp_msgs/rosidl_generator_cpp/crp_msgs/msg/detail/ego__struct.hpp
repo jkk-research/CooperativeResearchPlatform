@@ -52,7 +52,7 @@ struct Ego_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->wheel_angle = 0.0f;
+      this->tire_angle_front = 0.0f;
     }
   }
 
@@ -65,7 +65,7 @@ struct Ego_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->wheel_angle = 0.0f;
+      this->tire_angle_front = 0.0f;
     }
   }
 
@@ -82,9 +82,9 @@ struct Ego_
   using _accel_type =
     geometry_msgs::msg::AccelWithCovariance_<ContainerAllocator>;
   _accel_type accel;
-  using _wheel_angle_type =
+  using _tire_angle_front_type =
     float;
-  _wheel_angle_type wheel_angle;
+  _tire_angle_front_type tire_angle_front;
 
   // setters for named parameter idiom
   Type & set__header(
@@ -111,10 +111,10 @@ struct Ego_
     this->accel = _arg;
     return *this;
   }
-  Type & set__wheel_angle(
+  Type & set__tire_angle_front(
     const float & _arg)
   {
-    this->wheel_angle = _arg;
+    this->tire_angle_front = _arg;
     return *this;
   }
 
@@ -172,7 +172,7 @@ struct Ego_
     if (this->accel != other.accel) {
       return false;
     }
-    if (this->wheel_angle != other.wheel_angle) {
+    if (this->tire_angle_front != other.tire_angle_front) {
       return false;
     }
     return true;

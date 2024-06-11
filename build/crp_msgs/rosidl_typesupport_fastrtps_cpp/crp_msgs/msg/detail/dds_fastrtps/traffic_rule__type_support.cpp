@@ -88,8 +88,12 @@ cdr_serialize(
   geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
     ros_message.stop_pose,
     cdr);
-  // Member: lane_edge_type
-  cdr << ros_message.lane_edge_type;
+  // Member: lane_edge_type_left
+  cdr << ros_message.lane_edge_type_left;
+  // Member: lane_edge_type_right
+  cdr << ros_message.lane_edge_type_right;
+  // Member: maximum_speed
+  cdr << ros_message.maximum_speed;
   return true;
 }
 
@@ -107,8 +111,14 @@ cdr_deserialize(
   geometry_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
     cdr, ros_message.stop_pose);
 
-  // Member: lane_edge_type
-  cdr >> ros_message.lane_edge_type;
+  // Member: lane_edge_type_left
+  cdr >> ros_message.lane_edge_type_left;
+
+  // Member: lane_edge_type_right
+  cdr >> ros_message.lane_edge_type_right;
+
+  // Member: maximum_speed
+  cdr >> ros_message.maximum_speed;
 
   return true;
 }
@@ -136,9 +146,21 @@ get_serialized_size(
   current_alignment +=
     geometry_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
     ros_message.stop_pose, current_alignment);
-  // Member: lane_edge_type
+  // Member: lane_edge_type_left
   {
-    size_t item_size = sizeof(ros_message.lane_edge_type);
+    size_t item_size = sizeof(ros_message.lane_edge_type_left);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+  // Member: lane_edge_type_right
+  {
+    size_t item_size = sizeof(ros_message.lane_edge_type_right);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+  // Member: maximum_speed
+  {
+    size_t item_size = sizeof(ros_message.maximum_speed);
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
@@ -204,12 +226,29 @@ max_serialized_size_TrafficRule(
     }
   }
 
-  // Member: lane_edge_type
+  // Member: lane_edge_type_left
   {
     size_t array_size = 1;
 
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Member: lane_edge_type_right
+  {
+    size_t array_size = 1;
+
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
+  // Member: maximum_speed
+  {
+    size_t array_size = 1;
+
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
   }
 
   size_t ret_val = current_alignment - initial_alignment;
@@ -220,7 +259,7 @@ max_serialized_size_TrafficRule(
     using DataType = crp_msgs::msg::TrafficRule;
     is_plain =
       (
-      offsetof(DataType, lane_edge_type) +
+      offsetof(DataType, maximum_speed) +
       last_member_size
       ) == ret_val;
   }

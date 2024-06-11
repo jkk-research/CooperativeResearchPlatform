@@ -49,19 +49,8 @@ inline void to_flow_style_yaml(
 
   // member: traffic_rules
   {
-    if (msg.traffic_rules.size() == 0) {
-      out << "traffic_rules: []";
-    } else {
-      out << "traffic_rules: [";
-      size_t pending_items = msg.traffic_rules.size();
-      for (auto item : msg.traffic_rules) {
-        to_flow_style_yaml(item, out);
-        if (--pending_items > 0) {
-          out << ", ";
-        }
-      }
-      out << "]";
-    }
+    out << "traffic_rules: ";
+    to_flow_style_yaml(msg.traffic_rules, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -93,18 +82,8 @@ inline void to_block_style_yaml(
     if (indentation > 0) {
       out << std::string(indentation, ' ');
     }
-    if (msg.traffic_rules.size() == 0) {
-      out << "traffic_rules: []\n";
-    } else {
-      out << "traffic_rules:\n";
-      for (auto item : msg.traffic_rules) {
-        if (indentation > 0) {
-          out << std::string(indentation, ' ');
-        }
-        out << "-\n";
-        to_block_style_yaml(item, out, indentation + 2);
-      }
-    }
+    out << "traffic_rules:\n";
+    to_block_style_yaml(msg.traffic_rules, out, indentation + 2);
   }
 }  // NOLINT(readability/fn_size)
 
@@ -154,11 +133,11 @@ inline const char * name<crp_msgs::msg::PathWithTrafficRules>()
 
 template<>
 struct has_fixed_size<crp_msgs::msg::PathWithTrafficRules>
-  : std::integral_constant<bool, false> {};
+  : std::integral_constant<bool, has_fixed_size<crp_msgs::msg::TrafficRule>::value && has_fixed_size<std_msgs::msg::Header>::value && has_fixed_size<tier4_planning_msgs::msg::PathWithLaneId>::value> {};
 
 template<>
 struct has_bounded_size<crp_msgs::msg::PathWithTrafficRules>
-  : std::integral_constant<bool, false> {};
+  : std::integral_constant<bool, has_bounded_size<crp_msgs::msg::TrafficRule>::value && has_bounded_size<std_msgs::msg::Header>::value && has_bounded_size<tier4_planning_msgs::msg::PathWithLaneId>::value> {};
 
 template<>
 struct is_message<crp_msgs::msg::PathWithTrafficRules>

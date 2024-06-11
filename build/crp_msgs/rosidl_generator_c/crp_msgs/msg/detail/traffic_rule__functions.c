@@ -33,7 +33,9 @@ crp_msgs__msg__TrafficRule__init(crp_msgs__msg__TrafficRule * msg)
     crp_msgs__msg__TrafficRule__fini(msg);
     return false;
   }
-  // lane_edge_type
+  // lane_edge_type_left
+  // lane_edge_type_right
+  // maximum_speed
   return true;
 }
 
@@ -47,7 +49,9 @@ crp_msgs__msg__TrafficRule__fini(crp_msgs__msg__TrafficRule * msg)
   std_msgs__msg__Header__fini(&msg->header);
   // stop_pose
   geometry_msgs__msg__PoseWithCovariance__fini(&msg->stop_pose);
-  // lane_edge_type
+  // lane_edge_type_left
+  // lane_edge_type_right
+  // maximum_speed
 }
 
 bool
@@ -68,8 +72,16 @@ crp_msgs__msg__TrafficRule__are_equal(const crp_msgs__msg__TrafficRule * lhs, co
   {
     return false;
   }
-  // lane_edge_type
-  if (lhs->lane_edge_type != rhs->lane_edge_type) {
+  // lane_edge_type_left
+  if (lhs->lane_edge_type_left != rhs->lane_edge_type_left) {
+    return false;
+  }
+  // lane_edge_type_right
+  if (lhs->lane_edge_type_right != rhs->lane_edge_type_right) {
+    return false;
+  }
+  // maximum_speed
+  if (lhs->maximum_speed != rhs->maximum_speed) {
     return false;
   }
   return true;
@@ -95,8 +107,12 @@ crp_msgs__msg__TrafficRule__copy(
   {
     return false;
   }
-  // lane_edge_type
-  output->lane_edge_type = input->lane_edge_type;
+  // lane_edge_type_left
+  output->lane_edge_type_left = input->lane_edge_type_left;
+  // lane_edge_type_right
+  output->lane_edge_type_right = input->lane_edge_type_right;
+  // maximum_speed
+  output->maximum_speed = input->maximum_speed;
   return true;
 }
 

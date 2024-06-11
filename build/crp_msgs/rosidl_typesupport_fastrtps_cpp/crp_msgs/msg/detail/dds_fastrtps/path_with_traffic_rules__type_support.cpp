@@ -113,15 +113,9 @@ cdr_serialize(
     ros_message.path,
     cdr);
   // Member: traffic_rules
-  {
-    size_t size = ros_message.traffic_rules.size();
-    cdr << static_cast<uint32_t>(size);
-    for (size_t i = 0; i < size; i++) {
-      crp_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
-        ros_message.traffic_rules[i],
-        cdr);
-    }
-  }
+  crp_msgs::msg::typesupport_fastrtps_cpp::cdr_serialize(
+    ros_message.traffic_rules,
+    cdr);
   return true;
 }
 
@@ -140,16 +134,8 @@ cdr_deserialize(
     cdr, ros_message.path);
 
   // Member: traffic_rules
-  {
-    uint32_t cdrSize;
-    cdr >> cdrSize;
-    size_t size = static_cast<size_t>(cdrSize);
-    ros_message.traffic_rules.resize(size);
-    for (size_t i = 0; i < size; i++) {
-      crp_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
-        cdr, ros_message.traffic_rules[i]);
-    }
-  }
+  crp_msgs::msg::typesupport_fastrtps_cpp::cdr_deserialize(
+    cdr, ros_message.traffic_rules);
 
   return true;
 }
@@ -178,18 +164,10 @@ get_serialized_size(
     tier4_planning_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
     ros_message.path, current_alignment);
   // Member: traffic_rules
-  {
-    size_t array_size = ros_message.traffic_rules.size();
 
-    current_alignment += padding +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, padding);
-
-    for (size_t index = 0; index < array_size; ++index) {
-      current_alignment +=
-        crp_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
-        ros_message.traffic_rules[index], current_alignment);
-    }
-  }
+  current_alignment +=
+    crp_msgs::msg::typesupport_fastrtps_cpp::get_serialized_size(
+    ros_message.traffic_rules, current_alignment);
 
   return current_alignment - initial_alignment;
 }
@@ -254,11 +232,7 @@ max_serialized_size_PathWithTrafficRules(
 
   // Member: traffic_rules
   {
-    size_t array_size = 0;
-    full_bounded = false;
-    is_plain = false;
-    current_alignment += padding +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, padding);
+    size_t array_size = 1;
 
 
     last_member_size = 0;

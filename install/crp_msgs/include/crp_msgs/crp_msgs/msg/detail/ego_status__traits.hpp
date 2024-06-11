@@ -36,10 +36,10 @@ inline void to_flow_style_yaml(
     out << ", ";
   }
 
-  // member: wheel_status
+  // member: tire_angle_front
   {
-    out << "wheel_status: ";
-    rosidl_generator_traits::value_to_yaml(msg.wheel_status, out);
+    out << "tire_angle_front: ";
+    rosidl_generator_traits::value_to_yaml(msg.tire_angle_front, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -57,13 +57,13 @@ inline void to_block_style_yaml(
     to_block_style_yaml(msg.header, out, indentation + 2);
   }
 
-  // member: wheel_status
+  // member: tire_angle_front
   {
     if (indentation > 0) {
       out << std::string(indentation, ' ');
     }
-    out << "wheel_status: ";
-    rosidl_generator_traits::value_to_yaml(msg.wheel_status, out);
+    out << "tire_angle_front: ";
+    rosidl_generator_traits::value_to_yaml(msg.tire_angle_front, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

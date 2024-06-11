@@ -1,0 +1,45 @@
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelUtilities/linearDriverModel_polynomialSubfunctions.cpp:[m[K In member function ‘[01m[Kuint8_t PolynomialSubfunctions::forwardElimination(float (&)[4][5])[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelUtilities/linearDriverModel_polynomialSubfunctions.cpp:66:24:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K(((unsigned int)((int)k)) + 1)[m[K’ from ‘[01m[Kunsigned int[m[K’ to ‘[01m[Kuint8_t[m[K’ {aka ‘[01m[Kunsigned char[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wnarrowing-Wnarrowing]8;;[m[K]
+   66 |       for (uint8_t i{[01;35m[Kk + 1U[m[K}; i < 4U; i++)
+      |                      [01;35m[K~~^~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelUtilities/linearDriverModel_polynomialSubfunctions.cpp:90:24:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K(((unsigned int)((int)k)) + 1)[m[K’ from ‘[01m[Kunsigned int[m[K’ to ‘[01m[Kuint8_t[m[K’ {aka ‘[01m[Kunsigned char[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wnarrowing-Wnarrowing]8;;[m[K]
+   90 |       for (uint8_t i{[01;35m[Kk + 1U[m[K}; i < 4U; i++)
+      |                      [01;35m[K~~^~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelUtilities/linearDriverModel_polynomialSubfunctions.cpp:93:27:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K(((unsigned int)((int)k)) + 1)[m[K’ from ‘[01m[Kunsigned int[m[K’ to ‘[01m[Kuint8_t[m[K’ {aka ‘[01m[Kunsigned char[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wnarrowing-Wnarrowing]8;;[m[K]
+   93 |          for (uint8_t j{[01;35m[Kk + 1U[m[K}; j <= 4U; j++)
+      |                         [01;35m[K~~^~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelUtilities/linearDriverModel_polynomialSubfunctions.cpp:[m[K In member function ‘[01m[Kvoid PolynomialSubfunctions::backSubstitute(float (&)[4][5])[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelUtilities/linearDriverModel_polynomialSubfunctions.cpp:108:24:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K(((unsigned int)((int)i)) + 1)[m[K’ from ‘[01m[Kunsigned int[m[K’ to ‘[01m[Kuint8_t[m[K’ {aka ‘[01m[Kunsigned char[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wnarrowing-Wnarrowing]8;;[m[K]
+  108 |       for (uint8_t j{[01;35m[Ki + 1U[m[K}; j < 4U; j++)
+      |                      [01;35m[K~~^~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:[m[K In member function ‘[01m[Kvoid LinearDriverModel::plan(const crp::apl::PlannerInput&, crp::apl::PlannerOutput&, const LDMParamIn&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:34:33:[m[K [01;31m[Kerror: [m[K‘[01m[KcorridorCoefficients[m[K’ was not declared in this scope
+   34 |       controlLogic.calcValidity([01;31m[KcorridorCoefficients[m[K, egoPoseGlobal, parameters, firstCycle);
+      |                                 [01;31m[K^~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:34:55:[m[K [01;31m[Kerror: [m[K‘[01m[KegoPoseGlobal[m[K’ was not declared in this scope; did you mean ‘[01m[KegoPoseGlobalPlan[m[K’?
+   34 |       controlLogic.calcValidity(corridorCoefficients, [01;31m[KegoPoseGlobal[m[K, parameters, firstCycle);
+      |                                                       [01;31m[K^~~~~~~~~~~~~[m[K
+      |                                                       [32m[KegoPoseGlobalPlan[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:28:34:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   28 |    [01;35m[Kconst crp::apl::PlannerInput& input[m[K,
+      |    [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModel.cpp:29:29:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
+   29 |    [01;35m[Kcrp::apl::PlannerOutput& output[m[K,
+      |    [01;35m[K~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~[m[K
+gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:104: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/functionCode/src/linearDriverModel.cpp.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapper.cpp:[m[K In member function ‘[01m[Kvirtual void crp::apl::PlanLatLaneFollowHandler::plan(const crp::apl::PlannerInput&, crp::apl::PlannerOutput&)[m[K’:
+[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapper.cpp:12:65:[m[K [01;31m[Kerror: [m[Kconversion from ‘[01m[Kvoid[m[K’ to non-scalar type ‘[01m[KTrajectoryOutput[m[K’ requested
+   12 |     TrajectoryOutput trajectoryOutput = [01;31m[Km_linearDriverModel.plan([m[K
+      |                                         [01;31m[K~~~~~~~~~~~~~~~~~~~~~~~~^[m[K
+   13 | [01;31m[K        input,[m[K
+      |         [01;31m[K~~~~~~[m[K                                                   
+   14 | [01;31m[K        output,[m[K
+      |         [01;31m[K~~~~~~~[m[K                                                  
+   15 | [01;31m[K        m_ldmParams[m[K
+      |         [01;31m[K~~~~~~~~~~~[m[K                                              
+   16 | [01;31m[K    )[m[K;
+      |     [01;31m[K~[m[K                                                            
+gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:76: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapper.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/plan_lat_lane_follow_ldm.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

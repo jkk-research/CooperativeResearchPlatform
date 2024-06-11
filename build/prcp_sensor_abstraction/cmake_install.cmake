@@ -74,7 +74,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/prcp_sensor_abstraction/scenario_abstraction")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/prcp_sensor_abstraction/scenario_abstraction"
-         OLD_RPATH "/opt/ros/humble/lib:/home/gfigneczi1/autoware/install/autoware_perception_msgs/lib:/home/gfigneczi1/autoware/install/tier4_planning_msgs/lib:/home/gfigneczi1/autoware/install/autoware_common_msgs/lib:/home/gfigneczi1/autoware/install/autoware_planning_msgs/lib:"
+         OLD_RPATH "/home/gfigneczi1/autoware/install/autoware_map_msgs/lib:/home/gfigneczi1/autoware/install/autoware_perception_msgs/lib:/home/gfigneczi1/autoware/install/tier4_planning_msgs/lib:/home/gfigneczi1/autoware/install/autoware_planning_msgs/lib:/opt/ros/humble/lib:/home/gfigneczi1/autoware/install/autoware_utils/lib:/opt/ros/humble/lib/aarch64-linux-gnu:/home/gfigneczi1/autoware/install/autoware_lanelet2_extension/lib:/home/gfigneczi1/autoware/install/autoware_common_msgs/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/prcp_sensor_abstraction/scenario_abstraction")
@@ -94,7 +94,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/prcp_sensor_abstraction/ego_abstraction")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/prcp_sensor_abstraction/ego_abstraction"
-         OLD_RPATH "/opt/ros/humble/lib:/home/gfigneczi1/autoware/install/autoware_localization_msgs/lib:"
+         OLD_RPATH "/opt/ros/humble/lib:/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/crp_msgs/lib:/home/gfigneczi1/autoware/install/autoware_localization_msgs/lib:/home/gfigneczi1/autoware/install/tier4_planning_msgs/lib:/home/gfigneczi1/autoware/install/autoware_common_msgs/lib:/home/gfigneczi1/autoware/install/autoware_planning_msgs/lib:/home/gfigneczi1/autoware/install/autoware_perception_msgs/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/prcp_sensor_abstraction/ego_abstraction")
