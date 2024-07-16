@@ -1,3 +1,3 @@
 [submodule "crp_VIL/mpc_cam_driver"]
-	path = crp_VIL/mpc_cam_driver
+	path = crp_VIL/mpc_camera_driver
 	url = https://github.com/jkk-research/mpc_cam_driver
