@@ -3,6 +3,9 @@
 
 pacmod3_msgs::msg::LinearAccelRpt PacmodDefinitions::decodeLinAccel(const can_msgs::msg::Frame::SharedPtr msg)
 {
+    if (msg->id != LIN_ACCEL_ID)
+        throw std::invalid_argument("Invalid message ID for linear acceleration message");
+
     pacmod3_msgs::msg::LinearAccelRpt linAccel;
     linAccel.header.stamp = msg->header.stamp;
     linAccel.header.frame_id = msg->header.frame_id;
