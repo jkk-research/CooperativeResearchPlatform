@@ -14,10 +14,10 @@ find_package(autoware_planning_msgs REQUIRED)
 
 include_directories(include)
 
-add_library(handler_base SHARED
-  src/handlerBase.cpp
+add_library(wrapper_base SHARED
+  src/wrapperBase.cpp
 )
-ament_target_dependencies(handler_base rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs)
+ament_target_dependencies(wrapper_base rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs)
 
 install(
   DIRECTORY include/
@@ -25,15 +25,15 @@ install(
 )
 
 install(
-  TARGETS handler_base
-  EXPORT handler_base
+  TARGETS wrapper_base
+  EXPORT wrapper_base
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib
   RUNTIME DESTINATION bin
   INCLUDES DESTINATION include
 )
 
-ament_export_targets(handler_base HAS_LIBRARY_TARGET)
+ament_export_targets(wrapper_base HAS_LIBRARY_TARGET)
 ament_export_dependencies(rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs)
 
 ament_package()

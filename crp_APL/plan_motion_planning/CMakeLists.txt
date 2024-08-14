@@ -15,11 +15,11 @@ find_package(tier4_planning_msgs REQUIRED)
 
 include_directories(include)
 
-add_executable(motion_planner src/motionPlanner.cpp)
-ament_target_dependencies(motion_planner rclcpp crp_msgs autoware_planning_msgs tier4_planning_msgs)
+add_executable(motion_handler src/motionHandler.cpp)
+ament_target_dependencies(motion_handler rclcpp crp_msgs autoware_planning_msgs tier4_planning_msgs)
 
 install(TARGETS
-  motion_planner
+  motion_handler
   DESTINATION lib/${PROJECT_NAME}
 )
 

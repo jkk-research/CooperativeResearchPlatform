@@ -1,7 +1,7 @@
-#include "plan_lat_lane_follow/handler.hpp"
+#include "plan_lat_lane_follow/wrapper.hpp"
 
 
-crp::apl::PlanLatLaneFollowHandler::PlanLatLaneFollowHandler() : HandlerBase("plan_lat_lane_follow")
+crp::apl::PlanLatLaneFollowHandler::PlanLatLaneFollowHandler() : WrapperBase("plan_lat_lane_follow")
 {
 }
 

@@ -1,5 +1,5 @@
-#ifndef CRP_APL_HANDLER_BASE_PLANBASE_HPP
-#define CRP_APL_HANDLER_BASE_PLANBASE_HPP
+#ifndef CRP_APL_WRAPPER_BASE_PLANBASE_HPP
+#define CRP_APL_WRAPPER_BASE_PLANBASE_HPP
 
 
 #include <rclcpp/rclcpp.hpp>
@@ -14,10 +14,10 @@ namespace crp
 namespace apl
 {
 
-class HandlerBase : public rclcpp::Node
+class WrapperBase : public rclcpp::Node
 {
 public:
-    HandlerBase(const std::string & node_name, const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+    WrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
 protected:
     struct PlannerInput
@@ -53,4 +53,4 @@ private:
 
 } // namespace apl
 } // namespace crp
-#endif // CRP_APL_HANDLER_BASE_PLANBASE_HPP
+#endif // CRP_APL_WRAPPER_BASE_PLANBASE_HPP

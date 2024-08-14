@@ -13,11 +13,11 @@ find_package(planner_base REQUIRED)
 include_directories(include ${planner_base_INCLUDE_DIRS})
 
 
-add_executable(plan_lon_emergency_handler src/handler.cpp)
-ament_target_dependencies(plan_lon_emergency_handler rclcpp planner_base)
+add_executable(plan_lon_emergency src/wrapper.cpp)
+ament_target_dependencies(plan_lon_emergency rclcpp planner_base)
 
 install(TARGETS
-plan_lon_emergency_handler
+plan_lon_emergency
   DESTINATION lib/${PROJECT_NAME}
 )
 
