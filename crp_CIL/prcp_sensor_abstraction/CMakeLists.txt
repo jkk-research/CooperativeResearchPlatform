@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(autoware_perception_msgs REQUIRED)
+find_package(autoware_localization_msgs REQUIRED)
 find_package(autoware_map_msgs REQUIRED)
 find_package(tier4_planning_msgs REQUIRED)
 
@@ -23,7 +24,7 @@ add_executable(scenario_abstraction src/scenarioAbstraction.cpp)
 ament_target_dependencies(scenario_abstraction rclcpp nav_msgs autoware_perception_msgs tier4_planning_msgs)
 
 add_executable(ego_abstraction src/egoAbstraction.cpp)
-ament_target_dependencies(ego_abstraction rclcpp nav_msgs)
+ament_target_dependencies(ego_abstraction rclcpp autoware_localization_msgs)
 
 install(TARGETS
   world_abstraction

@@ -3,7 +3,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
-#include <nav_msgs/msg/odometry.hpp>
+#include <autoware_localization_msgs/msg/kinematic_state.hpp>
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
 #include <autoware_perception_msgs/msg/predicted_objects.hpp>
 #include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
@@ -28,7 +28,7 @@ private:
     void localObstaclesCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg);
     void localLanePathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg);
     void localDrivableSurfaceCallback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg);
-    void egoKinematicStateCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
+    void egoKinematicStateCallback(const autoware_localization_msgs::msg::KinematicState::SharedPtr msg);
 
     // world
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr           m_sub_global_static_map_;
@@ -39,7 +39,7 @@ private:
     rclcpp::Subscription<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_sub_local_lane_path_;
     rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_sub_local_drivable_surface_;
     // ego
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr m_sub_ego_kinematic_state_;
+    rclcpp::Subscription<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_sub_ego_kinematic_state_;
 
 
     rclcpp::Publisher<crp_msgs::msg::World>::SharedPtr    m_pub_world_;

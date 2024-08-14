@@ -3,7 +3,7 @@
 
 crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
 {
-    m_pub_kinematic_state_ = this->create_publisher<nav_msgs::msg::Odometry>("cai/ego/kinematic_state", 10);
+    m_pub_kinematic_state_ = this->create_publisher<autoware_localization_msgs::msg::KinematicState>("cai/ego/kinematic_state", 10);
 }
 
 

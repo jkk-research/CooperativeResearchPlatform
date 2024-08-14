@@ -2,7 +2,7 @@
 #define CRP_CIL_EGO_ABSTRACTION_PRCPSENSORABSTRACTION_HPP
 
 #include <rclcpp/rclcpp.hpp>
-#include <nav_msgs/msg/odometry.hpp>
+#include <autoware_localization_msgs/msg/kinematic_state.hpp>
 
 namespace crp
 {
@@ -17,7 +17,7 @@ public:
 private:
     // TODO: subscribers
 
-    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr m_pub_kinematic_state_;
+    rclcpp::Publisher<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_pub_kinematic_state_;
 };
 
 } // namespace cil

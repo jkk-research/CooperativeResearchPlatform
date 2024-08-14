@@ -10,17 +10,21 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(tier4_planning_msgs REQUIRED)
 find_package(autoware_perception_msgs REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
 
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/TrafficRule.msg"
+  "msg/PathWithTrafficRules.msg"
   "msg/World.msg"
+  "msg/TargetSpace.msg"
   "msg/Scenario.msg"
   "msg/Ego.msg"
-  "msg/TargetSpace.msg"
-  DEPENDENCIES std_msgs
+  "msg/EgoStatus.msg"
+  DEPENDENCIES std_msgs geometry_msgs nav_msgs tier4_planning_msgs autoware_perception_msgs
 )
 
 

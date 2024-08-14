@@ -18,7 +18,7 @@ crp::apl::PrcpSituationAnalysis::PrcpSituationAnalysis() : Node("input_fusion")
     m_sub_local_drivable_surface_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>(
         "cai/local_drivable_surface", 1, std::bind(&PrcpSituationAnalysis::localDrivableSurfaceCallback, this, std::placeholders::_1));
     // ego
-    m_sub_ego_kinematic_state_ = this->create_subscription<nav_msgs::msg::Odometry>(
+    m_sub_ego_kinematic_state_ = this->create_subscription<autoware_localization_msgs::msg::KinematicState>(
         "cai/ego/kinematic_state", 1, std::bind(&PrcpSituationAnalysis::egoKinematicStateCallback, this, std::placeholders::_1));
 
     
@@ -70,7 +70,7 @@ void crp::apl::PrcpSituationAnalysis::localDrivableSurfaceCallback(const nav_msg
 }
 
 
-void crp::apl::PrcpSituationAnalysis::egoKinematicStateCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
+void crp::apl::PrcpSituationAnalysis::egoKinematicStateCallback(const autoware_localization_msgs::msg::KinematicState::SharedPtr msg)
 {
     // TODO
     return;
