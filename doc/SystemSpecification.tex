@@ -376,15 +376,17 @@ This is a tier4 autoware message extension, with the following definition:
 \section{Coding rules} \label{sec:coding_rules}
 \subsection{Naming convention}
 \begin{itemize}
-    \item Use camel case everywhere if not stated otherwise
-    \item Classes and structs should start with upper case letter
-    \item Methods should start with lower case
-    \item Constant variables should be all upper case letters. Instead of camel case the words should be separated with '\_'
-    \item In classes, private and protected attributes should start with the 'm\_' prefix
-    \item In methods, the parameters should start with the '???' prefix
-    \item Pointers should comply with the previous rules but should have a '\_' suffix (or p\_ prefix ???)
-    \item Namespaces should be ??? (fully lower/upper case, like classes, ?)
-    \item Maximum namespace depth should be ???
+    \item Use camel case everywhere if not stated otherwise - example: \emph{latLaneFollow}
+    \item Classes and structs should start with upper case letter - example: \emph{MotionHandler}
+    \item Methods should be camel case (starting with small case) - example: \emph{scenarioCallback}
+    \item Method arguments have no prefix/suffix, they must be given with camel case - example: \emph{plannerInput}
+    \item Constant variables should be all capital letters. Instead of camel case the words should be separated with '\_' - example: \emph{MAX\_SPEED}
+    \item In classes all member variables should start with the 'm\_' prefix - example: \emph{m\_vxEgo}
+    \item The runtime calibratable parameters should start with the 'p\_' prefix - example: \emph{p\_mainThreshold}
+    \item In special cases (e.g., subscribers/publishers) extra name tags can be added with lower case, separated by underscore - example: \emph{m\_sub\_strategy\_}
+    \item Pointers should comply with the previous rules but should have a '\_' suffix - example: \emph{m\_sub\_strategy\_}
+    \item Namespaces should be fully lower case - example: \emph{crp}
+    \item Maximum namespace depth should be 3
     \item File and folder names should be camel case where it is not restricted (e.g. ROS2 naming rules)
 \end{itemize}
 
@@ -392,21 +394,23 @@ This is a tier4 autoware message extension, with the following definition:
 \subsubsection{General}
 \begin{itemize}
     \item Header and source files should be separated ('include' folder for headers and 'src' folder for source files)
-    \item Header files should only contain declarations, the definitions should be in a source file that includes the header    
+    \item Header files should only contain declarations, the definitions should be in a source file that includes the header
+    \item If applicable, include further header files in the main header file, not in the source file (source file (i.e., cpp) should only include its own declaration header)
+    \item Functional code should be included in a separate cmake file (with .cmake extension), which is then included in the main CMakeList.txt (this way, cmake file with functional sources is ROS agnostic)
 \end{itemize}
 
 \subsubsection{Header files}
 Every header file should…
 \begin{itemize}
-    \item have the '.hpp' extension
-    \item have header guards (\#ifndef, \#define, \#endif)
-    \item contain max. one class (???)
+    \item have the '.hpp' extension,
+    \item have header guards (\#ifndef, \#define, \#endif) and it should be all capitals,
+    \item contain max. one class.
 \end{itemize}
 
 \subsubsection{Source files}
 Every source file should…
 \begin{itemize}
-    \item have the “.cpp” extension
+    \item have the “.cpp” extension.
 \end{itemize}
 
 \subsection{ROS2}
@@ -417,6 +421,8 @@ Non-driver package names should start with and abbreviation of the following cat
     \item plan (planning)
     \item ctrl (control)
 \end{itemize}
+All dependencies must be set in the package.xml and in the CMakeList.txt.
+\newpage
 
 \section{Package documentations}
 \subsection{pacmod\_extender}
