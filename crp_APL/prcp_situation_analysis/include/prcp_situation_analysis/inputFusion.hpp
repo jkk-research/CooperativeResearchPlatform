@@ -16,10 +16,10 @@ namespace crp
 namespace apl
 {
 
-class PrcpSituationAnalysis : public rclcpp::Node
+class InputFusion : public rclcpp::Node
 {
 public:
-    PrcpSituationAnalysis();
+    InputFusion();
 
 private:
     void globalStaticMapCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg);
