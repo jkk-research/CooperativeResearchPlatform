@@ -4,8 +4,12 @@
 crp::vil::LaneletFileLoader::LaneletFileLoader() : Node("lanelet_file_loader")
 {
     std::string mapFilePath;
-    this->declare_parameter<std::string>("map_file_path", "");
-    this->get_parameter<std::string>("map_file_path", mapFilePath);
+    std::string mapOutputTopic;
+    this->declare_parameter<std::string>("map_file_path",    "");
+    this->declare_parameter<std::string>("map_output_topic", "");
+
+    this->get_parameter<std::string>("map_file_path",    mapFilePath);
+    this->get_parameter<std::string>("map_output_topic", mapOutputTopic);
 
     if (mapFilePath.empty()) {
         RCLCPP_ERROR(this->get_logger(), "map_file_path is empty");
@@ -17,7 +21,7 @@ crp::vil::LaneletFileLoader::LaneletFileLoader() : Node("lanelet_file_loader")
     }
 
     m_pub_laneletMap_ = this->create_publisher<autoware_map_msgs::msg::LaneletMapBin>(
-        "/map/global_static_map_from_file/lanelet2_map", rclcpp::QoS{1}.transient_local());
+        mapOutputTopic, rclcpp::QoS{1}.transient_local());
 
     publishLaneletMap(mapFilePath);
 }
