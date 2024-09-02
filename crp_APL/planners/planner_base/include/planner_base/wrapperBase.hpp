@@ -1,12 +1,14 @@
 #ifndef CRP_APL_WRAPPER_BASE_PLANBASE_HPP
 #define CRP_APL_WRAPPER_BASE_PLANBASE_HPP
 
-
 #include <rclcpp/rclcpp.hpp>
 #include <crp_msgs/msg/target_space.hpp>
 #include <crp_msgs/msg/ego.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
+#include <autoware_planning_msgs/msg/trajectory_point.hpp>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 
 namespace crp
@@ -27,7 +29,15 @@ protected:
 
     struct PlannerOutput
     {
-        // TODO: standar c++ definition of the output trajectory message
+        struct TrajectoryPoint
+        {
+            double x;
+            double y;
+            double z;
+            double yaw;
+            double velocity;
+        };
+        std::vector<TrajectoryPoint> trajectory;
     };
 
     virtual void plan(const PlannerInput & input, PlannerOutput & output) = 0;
@@ -46,6 +56,8 @@ private:
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                 m_sub_ego_;
 
     rclcpp::Publisher<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_pub_trajectory_;
+
+    rclcpp::TimerBase::SharedPtr m_timer_;
 
     PlannerInput  m_input;
     PlannerOutput m_output;

@@ -11,11 +11,10 @@ crp::apl::WrapperBase::WrapperBase(const std::string & node_name, const rclcpp::
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>(
         "ego", 10, std::bind(&WrapperBase::egoCallback, this, std::placeholders::_1));
 
-    // TODO: DECIDE MOTION_PLANNING AND PLANNERS COMMUNICATION
     std::string planner_name = node_name.substr(5, node_name.size()-5);
     m_pub_trajectory_ = this->create_publisher<autoware_planning_msgs::msg::Trajectory>("plan/"+planner_name+"/trajectory", 10);
 
-    // TODO: timer to run the planners (run(), 30 hz)
+    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&WrapperBase::run, this));
 }
 
 
@@ -42,25 +41,30 @@ void crp::apl::WrapperBase::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 
 void crp::apl::WrapperBase::outputCPP2ROS(const PlannerOutput & output, autoware_planning_msgs::msg::Trajectory & msg)
 {
-    // TODO: convert output struct to autoware trajectory message
-    return;
+    for (const auto & point : output.trajectory)
+    {
+        autoware_planning_msgs::msg::TrajectoryPoint p;
+        p.pose.position.x = point.x;
+        p.pose.position.y = point.y;
+        p.pose.position.z = point.z;
+        tf2::Quaternion(tf2::Vector3(0, 0, 1), point.yaw);
+        p.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), point.yaw));
+        p.longitudinal_velocity_mps = point.velocity;
+        msg.points.push_back(p);
+    }
 }
 
 
 void crp::apl::WrapperBase::publishTrajectory(const PlannerOutput & trajectory)
 {
-    // autoware_planning_msgs::msg::Trajectory msg;
-    // outputCPP2ROS(trajectory, msg);
-    // m_pub_trajectory_->publish(msg);
-
-    return;
+    autoware_planning_msgs::msg::Trajectory msg;
+    outputCPP2ROS(trajectory, msg);
+    m_pub_trajectory_->publish(msg);
 }
 
 
 void crp::apl::WrapperBase::run()
 {
-    // plan(m_input, m_output);
-    // publishTrajectory(m_output);
-
-    return;
+    plan(m_input, m_output);
+    publishTrajectory(m_output);
 }
