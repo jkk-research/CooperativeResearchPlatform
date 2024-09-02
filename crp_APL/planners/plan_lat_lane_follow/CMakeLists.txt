@@ -13,7 +13,7 @@ find_package(planner_base REQUIRED)
 include_directories(include ${planner_base_INCLUDE_DIRS})
 
 
-add_executable(plan_lat_lane_follow src/wrapper.cpp)
+add_executable(plan_lat_lane_follow src/wrapperPlanLatLaneFollow.cpp)
 ament_target_dependencies(plan_lat_lane_follow rclcpp planner_base)
 
 install(TARGETS
