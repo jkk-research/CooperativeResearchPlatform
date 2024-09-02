@@ -4,4 +4,4 @@ geometry_msgs/PoseWithCovariance  pose
 geometry_msgs/TwistWithCovariance twist
 geometry_msgs/AccelWithCovariance accel
 
-float32 wheel_angle
+float32 road_wheel_angle_front
