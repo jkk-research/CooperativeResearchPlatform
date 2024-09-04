@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>pacmod_extender</name>
+  <name>plan_lat_lane_follow</name>
   <version>0.0.0</version>
   <description>TODO: Package description</description>
   <maintainer email="jodavid512@gmail.com">david</maintainer>
@@ -10,9 +10,10 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>pacmod3_msgs</depend>
-  <depend>can_msgs</depend>
-  <depend>geometry_msgs</depend>
+  <depend>planner_base</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
