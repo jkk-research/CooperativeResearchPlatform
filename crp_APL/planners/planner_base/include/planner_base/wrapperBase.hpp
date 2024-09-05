@@ -7,8 +7,11 @@
 #include <tier4_planning_msgs/msg/scenario.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 #include <autoware_planning_msgs/msg/trajectory_point.hpp>
+#include <nav_msgs/msg/occupancy_grid.hpp>
 #include <tf2/LinearMath/Quaternion.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+
+#include "plannerInterfaces/plannerInterfaces.hpp"
 
 
 namespace crp
@@ -22,24 +25,6 @@ public:
     WrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
 protected:
-    struct PlannerInput
-    {
-        // TODO: standar c++ definitions of the input messages
-    };
-
-    struct PlannerOutput
-    {
-        struct TrajectoryPoint
-        {
-            double x;
-            double y;
-            double z;
-            double yaw;
-            double velocity;
-        };
-        std::vector<TrajectoryPoint> trajectory;
-    };
-
     virtual void plan(const PlannerInput & input, PlannerOutput & output) = 0;
 
 private:
@@ -47,6 +32,8 @@ private:
     void targetSpaceCallback(const crp_msgs::msg::TargetSpace::SharedPtr msg);
     void egoCallback(const crp_msgs::msg::Ego::SharedPtr msg);
     
+    float getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion);
+    OccupancyGrid convertMsgToOccupancyGrid(const nav_msgs::msg::OccupancyGrid & msg);
     void outputCPP2ROS(const PlannerOutput & output, autoware_planning_msgs::msg::Trajectory & msg);
     void publishTrajectory(const PlannerOutput & trajectory);
     void run();
