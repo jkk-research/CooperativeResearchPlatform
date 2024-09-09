@@ -3,9 +3,9 @@
 <package format="3">
   <name>prcp_situation_analysis</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="jodavid512@gmail.com">david</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Compresses input into 3 messages for the planners.</description>
+  <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
+  <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
