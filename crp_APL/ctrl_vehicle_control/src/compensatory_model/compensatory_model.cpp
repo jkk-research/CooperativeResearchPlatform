@@ -1,4 +1,4 @@
-#include "../../../inc/compensatory_model/compensatory_model.hpp"
+#include "compensatory_model/compensatory_model.hpp"
 
 namespace crp
 {

@@ -16,10 +16,10 @@
 #include "pacmod3_msgs/msg/vehicle_speed_rpt.hpp"
 #include "pacmod3_msgs/msg/system_rpt_float.hpp"
 
-#include "../../inc/ctrl_vehicle_control/controller_inputs.hpp"
-#include "../../inc/ctrl_vehicle_control/controller_outputs.hpp"
-#include "../../inc/lib/utils.hpp"
-#include "../../inc/compensatory_model/compensatory_model.hpp"
+#include "ctrl_vehicle_control/controller_inputs.hpp"
+#include "ctrl_vehicle_control/controller_outputs.hpp"
+#include "lib/utils.hpp"
+#include "compensatory_model/compensatory_model.hpp"
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;

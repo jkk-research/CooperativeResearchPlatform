@@ -1,4 +1,4 @@
-#include "../../../inc/lib/polynomialCalculator.hpp"
+#include "lib/polynomialCalculator.hpp"
 
 namespace crp{
     namespace apl{

@@ -17,7 +17,7 @@
 #include "pacmod3_msgs/msg/yaw_rate_rpt.hpp"
 #include "nav_msgs/msg/odometry.hpp"
 
-#include "../../../inc/lib/utils.hpp"
+#include "lib/utils.hpp"
 
 #include <iostream>
 #include <iomanip>
