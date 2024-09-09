@@ -11,6 +11,7 @@ find_package(rclcpp REQUIRED)
 find_package(crp_msgs REQUIRED)
 find_package(tier4_planning_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
+find_package(autoware_perception_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
@@ -28,7 +29,7 @@ include_directories(
 add_library(wrapper_base SHARED
   src/wrapperBase.cpp
 )
-ament_target_dependencies(wrapper_base rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs tf2 tf2_geometry_msgs nav_msgs)
+ament_target_dependencies(wrapper_base rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs autoware_perception_msgs tf2 tf2_geometry_msgs nav_msgs)
 
 install(
   DIRECTORY include/

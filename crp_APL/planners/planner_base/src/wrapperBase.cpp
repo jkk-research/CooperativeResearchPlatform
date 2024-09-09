@@ -20,8 +20,7 @@ crp::apl::WrapperBase::WrapperBase(const std::string & node_name, const rclcpp::
 
 void crp::apl::WrapperBase::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
 {
-    // TODO: fill the input
-    return;
+    m_input.currentScenario = msg->current_scenario;
 }
 
 
@@ -52,22 +51,39 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
         inputPose.pose.position.y = pathPoint.point.pose.position.y;
         inputPose.pose.theta = getYawFromQuaternion(pathPoint.point.pose.orientation);
         m_input.path.pathPoints.push_back(inputPose);
+        m_input.path.targetSpeed.push_back(pathPoint.point.longitudinal_velocity_mps);
     }
     // TODO: decide the function of laneID
-    // TODO: targetSpeed
 
-    // TODO: relevant objects
-    // TODO: relevant obstacles
+    // relevant objects
+    std::vector<PlannerInputObject> relevantObjects;
+    for (const autoware_perception_msgs::msg::PredictedObject & object : msg->relevant_objects)
+    {
+        relevantObjects.push_back(convertMsgToObjects(object));
+    }
 
-    
-    // TODO: fill the input
+    // relevant obstacles
+    std::vector<PlannerInputObject> relevantObstacles;
+    for (const autoware_perception_msgs::msg::PredictedObject & obstacle : msg->relevant_obstacles)
+    {
+        relevantObstacles.push_back(convertMsgToObjects(obstacle));
+    }
 }
 
 
 void crp::apl::WrapperBase::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 {
-    // TODO: fill the input
-    return;
+    m_input.egoPose.position.x = msg->pose.pose.position.x;
+    m_input.egoPose.position.y = msg->pose.pose.position.y;
+    m_input.egoPose.theta = getYawFromQuaternion(msg->pose.pose.orientation);
+
+    m_input.egoKinematics.vX = msg->twist.twist.linear.x;
+    m_input.egoKinematics.vY = msg->twist.twist.linear.y;
+    m_input.egoKinematics.yawRate = msg->twist.twist.angular.z;
+
+    m_input.egoKinematics.aX = msg->accel.accel.linear.x;
+    m_input.egoKinematics.aY = msg->accel.accel.linear.y;
+    m_input.egoKinematics.yawAcceleration = msg->accel.accel.angular.z;
 }
 
 
@@ -89,10 +105,10 @@ float crp::apl::WrapperBase::getYawFromQuaternion(const geometry_msgs::msg::Quat
 crp::apl::OccupancyGrid crp::apl::WrapperBase::convertMsgToOccupancyGrid(const nav_msgs::msg::OccupancyGrid & msg)
 {
     OccupancyGrid grid;
-    for (int i = 0; i < msg.info.width; i++)
+    for (uint32_t i = 0; i < msg.info.width; i++)
     {
         std::vector<float> row;
-        for (int j = 0; j < msg.info.height; j++)
+        for (uint32_t j = 0; j < msg.info.height; j++)
         {
             row.push_back(msg.data[i*msg.info.width + j]);
         }
@@ -102,7 +118,89 @@ crp::apl::OccupancyGrid crp::apl::WrapperBase::convertMsgToOccupancyGrid(const n
 }
 
 
-void crp::apl::WrapperBase::outputCPP2ROS(const PlannerOutput & output, autoware_planning_msgs::msg::Trajectory & msg)
+crp::apl::PlannerInputObject crp::apl::WrapperBase::convertMsgToObjects(const autoware_perception_msgs::msg::PredictedObject & msg)
+{
+    PlannerInputObject outObj;
+
+    // convert object ID from uint8[16] to uint32_t
+    uint32_t objectId = 0;
+    objectId |= static_cast<uint32_t>(msg.object_id.uuid[0]) << 24;
+    objectId |= static_cast<uint32_t>(msg.object_id.uuid[1]) << 16;
+    objectId |= static_cast<uint32_t>(msg.object_id.uuid[2]) << 8;
+    objectId |= static_cast<uint32_t>(msg.object_id.uuid[3]);
+
+    outObj.objectID = objectId;
+    outObj.existenceProbability = msg.existence_probability;
+
+    // select the classification with the highest probability
+    uint8_t classificationId = 0;
+    float maxClassificationProbability = 0.0f;
+    for (const autoware_perception_msgs::msg::ObjectClassification & classification : msg.classification)
+    {
+        if (classification.probability > maxClassificationProbability)
+        {
+            classificationId = classification.label;
+            maxClassificationProbability = classification.probability;
+        }
+    }
+    outObj.classificationID = classificationId;
+    outObj.classificationProbability = maxClassificationProbability;
+    // pose
+    outObj.initialPose.pose.position.x = msg.kinematics.initial_pose_with_covariance.pose.position.x;
+    outObj.initialPose.pose.position.y = msg.kinematics.initial_pose_with_covariance.pose.position.y;
+    outObj.initialPose.pose.theta = getYawFromQuaternion(msg.kinematics.initial_pose_with_covariance.pose.orientation);
+    // velocity
+    outObj.objectKinematics.vX = msg.kinematics.initial_twist_with_covariance.twist.linear.x;
+    outObj.objectKinematics.vY = msg.kinematics.initial_twist_with_covariance.twist.linear.y;
+    outObj.objectKinematics.yawRate = msg.kinematics.initial_twist_with_covariance.twist.angular.z;
+    // acceleration
+    outObj.objectKinematics.aX = msg.kinematics.initial_acceleration_with_covariance.accel.linear.x;
+    outObj.objectKinematics.aY = msg.kinematics.initial_acceleration_with_covariance.accel.linear.y;
+    outObj.objectKinematics.yawAcceleration = msg.kinematics.initial_acceleration_with_covariance.accel.angular.z;
+    // predicted path (with the highest confidence)
+    outObj.predictedPath.pathPoints.clear();
+    if (msg.kinematics.predicted_paths.size() > 0)
+    {
+        // select the path with the highest confidence
+        uint8_t maxConfidenceId = msg.kinematics.predicted_paths[0].confidence;
+        float maxConfidence = 0.0f;
+        for (uint8_t i = 1; i < msg.kinematics.predicted_paths.size(); i++)
+        {
+            const autoware_perception_msgs::msg::PredictedPath & path = msg.kinematics.predicted_paths.at(i);
+            if (path.confidence > maxConfidence)
+            {
+                maxConfidence = path.confidence;
+                maxConfidenceId = i;
+            }
+        }
+        for (const geometry_msgs::msg::Pose & pathPoint : msg.kinematics.predicted_paths.at(maxConfidenceId).path)
+        {
+            PlannerInputPose2D inputPose;
+            inputPose.pose.position.x = pathPoint.position.x;
+            inputPose.pose.position.y = pathPoint.position.y;
+            inputPose.pose.theta = getYawFromQuaternion(pathPoint.orientation);
+            outObj.predictedPath.pathPoints.push_back(inputPose);
+        }
+    }
+    // shape
+    outObj.shape.type = static_cast<Shape::ShapeType>(msg.shape.type);
+    for (const geometry_msgs::msg::Point32 & shapePoint : msg.shape.footprint.points)
+    {
+        Point3D point;
+        point.x = shapePoint.x;
+        point.y = shapePoint.y;
+        point.z = shapePoint.z;
+        outObj.shape.polygon.push_back(point);
+    }
+    outObj.shape.dimensions.x = msg.shape.dimensions.x;
+    outObj.shape.dimensions.y = msg.shape.dimensions.y;
+    outObj.shape.dimensions.z = msg.shape.dimensions.z;
+
+    return outObj;
+}
+
+
+void crp::apl::WrapperBase::convertOutputToMsg(const PlannerOutput & output, autoware_planning_msgs::msg::Trajectory & msg)
 {
     for (const auto & outputPoint : output.trajectory)
     {
@@ -120,7 +218,7 @@ void crp::apl::WrapperBase::outputCPP2ROS(const PlannerOutput & output, autoware
 void crp::apl::WrapperBase::publishTrajectory(const PlannerOutput & trajectory)
 {
     autoware_planning_msgs::msg::Trajectory msg;
-    outputCPP2ROS(trajectory, msg);
+    convertOutputToMsg(trajectory, msg);
     m_pub_trajectory_->publish(msg);
 }
 

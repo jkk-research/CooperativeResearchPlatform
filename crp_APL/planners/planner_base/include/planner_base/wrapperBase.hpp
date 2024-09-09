@@ -7,6 +7,8 @@
 #include <tier4_planning_msgs/msg/scenario.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 #include <autoware_planning_msgs/msg/trajectory_point.hpp>
+#include <autoware_perception_msgs/msg/object_classification.hpp>
+#include <autoware_perception_msgs/msg/predicted_path.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
@@ -34,7 +36,8 @@ private:
     
     float getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion);
     OccupancyGrid convertMsgToOccupancyGrid(const nav_msgs::msg::OccupancyGrid & msg);
-    void outputCPP2ROS(const PlannerOutput & output, autoware_planning_msgs::msg::Trajectory & msg);
+    PlannerInputObject convertMsgToObjects(const autoware_perception_msgs::msg::PredictedObject & msg);
+    void convertOutputToMsg(const PlannerOutput & output, autoware_planning_msgs::msg::Trajectory & msg);
     void publishTrajectory(const PlannerOutput & trajectory);
     void run();
 

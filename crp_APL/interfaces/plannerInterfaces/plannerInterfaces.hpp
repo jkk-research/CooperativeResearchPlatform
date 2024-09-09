@@ -96,13 +96,13 @@ struct PlannerInputObject
     PlannerInputPose2D        initialPose;
     PlannerInputKinematics2D  objectKinematics;
     PlannerInputTrajectory    predictedPath;
-    PlannerInputTrajectory    path;
     Shape                     shape;
 };
 
 struct PlannerInput
 {
-    // The following signals are directly taken from the 'target space' definition
+    // strategy
+    std::string currentScenario;
 
     // target pose for relevant planners
     PlannerInputPose2D targetPose;
@@ -118,6 +118,11 @@ struct PlannerInput
     OccupancyGrid freeSpace;
     // maximum allowed speed, in m/s
     float maximumSpeed{0.0f};
+
+    // ego pose
+    Pose2D egoPose;
+    // ego velocity
+    PlannerInputKinematics2D egoKinematics;
 };
 
 struct PlannerOutput
