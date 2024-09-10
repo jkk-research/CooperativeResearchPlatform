@@ -27,17 +27,18 @@ void crp::apl::WrapperBase::strategyCallback(const tier4_planning_msgs::msg::Sce
 void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace::SharedPtr msg)
 {
     // target pose
-    m_input.targetPose.pose.position.x = msg->target_pose.pose.position.x;
-    m_input.targetPose.pose.position.y = msg->target_pose.pose.position.y;
-    m_input.targetPose.pose.theta = getYawFromQuaternion(msg->target_pose.pose.orientation);
+    m_input.targetPose.position.x = msg->target_pose.pose.position.x;
+    m_input.targetPose.position.y = msg->target_pose.pose.position.y;
+    m_input.targetPose.orientation = getYawFromQuaternion(msg->target_pose.pose.orientation);
 
     // free space
     m_input.freeSpace = convertMsgToOccupancyGrid(msg->free_space);
 
     // traffic rules
-    m_input.trafficRules.stoppingPose.pose.position.x = msg->path.traffic_rules.stop_pose.pose.position.x;
-    m_input.trafficRules.stoppingPose.pose.position.y = msg->path.traffic_rules.stop_pose.pose.position.y;
-    m_input.trafficRules.stoppingPose.pose.theta = getYawFromQuaternion(msg->path.traffic_rules.stop_pose.pose.orientation);
+    m_input.trafficRules.stoppingPose.position.x = msg->path.traffic_rules.stop_pose.pose.position.x;
+    m_input.trafficRules.stoppingPose.position.y = msg->path.traffic_rules.stop_pose.pose.position.y;
+    m_input.trafficRules.stoppingPose.position.z = msg->path.traffic_rules.stop_pose.pose.position.z;
+    m_input.trafficRules.stoppingPose.orientation = getYawFromQuaternion(msg->path.traffic_rules.stop_pose.pose.orientation);
     m_input.trafficRules.laneEdgeTypeLeft = msg->path.traffic_rules.lane_edge_type_left;
     m_input.trafficRules.laneEdgeTypeRight = msg->path.traffic_rules.lane_edge_type_right;
     m_input.maximumSpeed = msg->path.traffic_rules.maximum_speed;
@@ -46,10 +47,11 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
     m_input.path.pathPoints.clear();
     for (const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint : msg->path.path.points)
     {
-        PlannerInputPose2D inputPose;
-        inputPose.pose.position.x = pathPoint.point.pose.position.x;
-        inputPose.pose.position.y = pathPoint.point.pose.position.y;
-        inputPose.pose.theta = getYawFromQuaternion(pathPoint.point.pose.orientation);
+        Pose3D inputPose;
+        inputPose.position.x = pathPoint.point.pose.position.x;
+        inputPose.position.y = pathPoint.point.pose.position.y;
+        inputPose.position.z = pathPoint.point.pose.position.z;
+        inputPose.orientation = getYawFromQuaternion(pathPoint.point.pose.orientation);
         m_input.path.pathPoints.push_back(inputPose);
         m_input.path.targetSpeed.push_back(pathPoint.point.longitudinal_velocity_mps);
     }
@@ -75,7 +77,8 @@ void crp::apl::WrapperBase::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 {
     m_input.egoPose.position.x = msg->pose.pose.position.x;
     m_input.egoPose.position.y = msg->pose.pose.position.y;
-    m_input.egoPose.theta = getYawFromQuaternion(msg->pose.pose.orientation);
+    m_input.egoPose.position.z = msg->pose.pose.position.z;
+    m_input.egoPose.orientation = getYawFromQuaternion(msg->pose.pose.orientation);
 
     m_input.egoKinematics.vX = msg->twist.twist.linear.x;
     m_input.egoKinematics.vY = msg->twist.twist.linear.y;
@@ -146,9 +149,9 @@ crp::apl::PlannerInputObject crp::apl::WrapperBase::convertMsgToObjects(const au
     outObj.classificationID = classificationId;
     outObj.classificationProbability = maxClassificationProbability;
     // pose
-    outObj.initialPose.pose.position.x = msg.kinematics.initial_pose_with_covariance.pose.position.x;
-    outObj.initialPose.pose.position.y = msg.kinematics.initial_pose_with_covariance.pose.position.y;
-    outObj.initialPose.pose.theta = getYawFromQuaternion(msg.kinematics.initial_pose_with_covariance.pose.orientation);
+    outObj.initialPose.position.x = msg.kinematics.initial_pose_with_covariance.pose.position.x;
+    outObj.initialPose.position.y = msg.kinematics.initial_pose_with_covariance.pose.position.y;
+    outObj.initialPose.orientation = getYawFromQuaternion(msg.kinematics.initial_pose_with_covariance.pose.orientation);
     // velocity
     outObj.objectKinematics.vX = msg.kinematics.initial_twist_with_covariance.twist.linear.x;
     outObj.objectKinematics.vY = msg.kinematics.initial_twist_with_covariance.twist.linear.y;
@@ -175,10 +178,11 @@ crp::apl::PlannerInputObject crp::apl::WrapperBase::convertMsgToObjects(const au
         }
         for (const geometry_msgs::msg::Pose & pathPoint : msg.kinematics.predicted_paths.at(maxConfidenceId).path)
         {
-            PlannerInputPose2D inputPose;
-            inputPose.pose.position.x = pathPoint.position.x;
-            inputPose.pose.position.y = pathPoint.position.y;
-            inputPose.pose.theta = getYawFromQuaternion(pathPoint.orientation);
+            Pose3D inputPose;
+            inputPose.position.x = pathPoint.position.x;
+            inputPose.position.y = pathPoint.position.y;
+            inputPose.position.z = pathPoint.position.z;
+            inputPose.orientation = getYawFromQuaternion(pathPoint.orientation);
             outObj.predictedPath.pathPoints.push_back(inputPose);
         }
     }
@@ -207,8 +211,8 @@ void crp::apl::WrapperBase::convertOutputToMsg(const PlannerOutput & output, aut
         autoware_planning_msgs::msg::TrajectoryPoint msgPoint;
         msgPoint.pose.position.x = outputPoint.pose.position.x;
         msgPoint.pose.position.y = outputPoint.pose.position.y;
-        tf2::Quaternion(tf2::Vector3(0, 0, 1), outputPoint.pose.theta);
-        msgPoint.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), outputPoint.pose.theta));
+        tf2::Quaternion(tf2::Vector3(0, 0, 1), outputPoint.pose.orientation);
+        msgPoint.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), outputPoint.pose.orientation));
         msgPoint.longitudinal_velocity_mps = outputPoint.velocity;
         msg.points.push_back(msgPoint);
     }

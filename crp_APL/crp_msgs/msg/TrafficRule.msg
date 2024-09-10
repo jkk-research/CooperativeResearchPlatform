@@ -5,4 +5,4 @@ std_msgs/Header header
 geometry_msgs/PoseWithCovariance stop_pose
 uint8 lane_edge_type_left
 uint8 lane_edge_type_right
-uint8 maximum_speed
+float32 maximum_speed

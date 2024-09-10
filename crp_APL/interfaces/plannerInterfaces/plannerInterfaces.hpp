@@ -10,68 +10,56 @@ namespace crp
 namespace apl
 {
 
-struct Vector2D
-{
-    float x{0.0f};
-    float y{0.0f};
-};
-
 struct Vector3D
 {
-    float x{0.0f};
-    float y{0.0f};
-    float z{0.0f};
+    float x{0.0f}; // in m
+    float y{0.0f}; // in m
+    float z{0.0f}; // in m
 };
 
-typedef Vector2D Point2D;
 typedef Vector3D Point3D;
 
-struct Pose2D
+struct Pose3D
 {
-    Point2D position;
-    float theta{0.0f};
+    Point3D position; 
+    float   orientation{0.0f}; // in rad
 };
 
 struct TrajectoryPoint
 {
-    Pose2D pose;
-    float velocity{0.0f};
+    Pose3D pose;
+    float  velocity{0.0f}; // in m/s
 };
 
 typedef std::vector<TrajectoryPoint> PlannerOutputTrajectory;
 typedef std::vector<std::vector<float>> OccupancyGrid;
 
-struct PlannerInputPose2D
-{
-    Pose2D pose;
-    float kappa {0.0f}; // road curvature in 1/m
-};
-
 struct PlannerInputTrafficRule
 {
+    // TODO: Define lane edge types
     uint8_t laneEdgeTypeLeft{0U};
     uint8_t laneEdgeTypeRight{0U};
-    PlannerInputPose2D stoppingPose;
+    Pose3D  stoppingPose;
 };
 
 struct PlannerInputTrajectory
 {
     // path extended with relevant velocity
-    std::vector<PlannerInputPose2D> pathPoints;
-    uint32_t laneID{0U};
-    std::vector<float> targetSpeed;
+    std::vector<Pose3D> pathPoints;
+    uint32_t            laneID{0U};
+    std::vector<float>  targetSpeed; // in m/s
 };
 
-struct PlannerInputKinematics2D
+struct PlannerInputKinematics3D
 {
-    // velocity in 2D
-    float vX{0.0f};
-    float vY{0.0f};
-    float yawRate{0.0f};
-    // acceleration in 2D
-    float aX{0.0f};
-    float aY{0.0f};
-    float yawAcceleration{0.0f};
+    // velocity in 3D
+    float vX{0.0f}; // in m/s
+    float vY{0.0f}; // in m/s
+    float yawRate{0.0f}; // in rad/s
+    // acceleration in 3D
+    float aX{0.0f}; // in m/s^2
+    float aY{0.0f}; // in m/s^2
+    float yawAcceleration{0.0f}; // in rad/s^2
 };
 
 struct Shape
@@ -82,9 +70,9 @@ struct Shape
         CYLINDER = 1,
         POLYGON = 2
     };
-    ShapeType type;
+    ShapeType            type;
+    Vector3D             dimensions;
     std::vector<Point3D> polygon;
-    Vector3D dimensions;
 };
 
 struct PlannerInputObject
@@ -93,8 +81,8 @@ struct PlannerInputObject
     float                     existenceProbability{0.0f};
     uint8_t                   classificationID{0U}; // classification, 0 means unknown
     float                     classificationProbability{0.0f};
-    PlannerInputPose2D        initialPose;
-    PlannerInputKinematics2D  objectKinematics;
+    Pose3D                    initialPose;
+    PlannerInputKinematics3D  objectKinematics;
     PlannerInputTrajectory    predictedPath;
     Shape                     shape;
 };
@@ -105,7 +93,7 @@ struct PlannerInput
     std::string currentScenario;
 
     // target pose for relevant planners
-    PlannerInputPose2D targetPose;
+    Pose3D targetPose;
     // moving relevant objects
     std::vector<PlannerInputObject> relevantObjects;
     // static objects as obstacles
@@ -120,9 +108,9 @@ struct PlannerInput
     float maximumSpeed{0.0f};
 
     // ego pose
-    Pose2D egoPose;
+    Pose3D egoPose;
     // ego velocity
-    PlannerInputKinematics2D egoKinematics;
+    PlannerInputKinematics3D egoKinematics;
 };
 
 struct PlannerOutput
