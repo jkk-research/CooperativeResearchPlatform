@@ -7,6 +7,7 @@
 #include "geometry_msgs/msg/pose.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/float32.hpp"
+#include "crp_msgs/msg/ego.hpp"
 
 #include "autoware_auto_control_msgs/msg/ackermann_control_command.hpp"
 #include "autoware_auto_planning_msgs/msg/trajectory.hpp"
@@ -34,8 +35,7 @@ public:
         
         traj_sub = this->create_subscription<autoware_auto_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&ctrl_vehicle_control::traj_callback, this, std::placeholders::_1));
         odom_sub = this->create_subscription<nav_msgs::msg::Odometry>("/localization/kinematic_state", 10, std::bind(&ctrl_vehicle_control::odom_callback, this, std::placeholders::_1));
-        vehSpeed_sub = this->create_subscription<pacmod3_msgs::msg::VehicleSpeedRpt>("/pacmod/vehicle_speed_rpt", 10, std::bind(&ctrl_vehicle_control::vehSpeed_callback, this, std::placeholders::_1));
-        vehSteering_sub = this->create_subscription<pacmod3_msgs::msg::SystemRptFloat>("/pacmod/steering_rpt", 10, std::bind(&ctrl_vehicle_control::vehSteering_callback, this, std::placeholders::_1));
+        ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/cai/ego", 10, std::bind(&ctrl_vehicle_control::ego_vehicle_callback, this, std::placeholders::_1));
         cmd_dummy_sub = this->create_subscription<autoware_auto_control_msgs::msg::AckermannControlCommand>("/control/command/control_cmd_dummy", 10, std::bind(&ctrl_vehicle_control::cmd_dummy_callback, this, std::placeholders::_1));
 
         this->declare_parameter("/ctrl/ffGainOffsetGround", 1.0f);
@@ -106,14 +106,10 @@ private:
         input.egoPoseGlobal[2] = theta;
     }
 
-    void vehSpeed_callback(const pacmod3_msgs::msg::VehicleSpeedRpt input_msg)
+    void ego_vehicle_callback(const crp_msgs::msg::Ego input_msg)
     {
-        input.vxEgo = input_msg.vehicle_speed;
-    }
-
-    void vehSteering_callback(const pacmod3_msgs::msg::SystemRptFloat input_msg)
-    {
-        input.egoSteeringAngle = input_msg.output;
+        input.vxEgo = input_msg.twist.twist.linear.x;
+        input.egoSteeringAngle = input_msg.road_wheel_angle_front;
     }
 
     void loop()
@@ -146,8 +142,7 @@ private:
     
     rclcpp::Subscription<autoware_auto_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub;
-    rclcpp::Subscription<pacmod3_msgs::msg::VehicleSpeedRpt>::SharedPtr vehSpeed_sub;
-    rclcpp::Subscription<pacmod3_msgs::msg::SystemRptFloat>::SharedPtr vehSteering_sub;
+    rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
     rclcpp::Subscription<autoware_auto_control_msgs::msg::AckermannControlCommand>::SharedPtr cmd_dummy_sub;
 
     autoware_auto_control_msgs::msg::AckermannControlCommand ctrl_cmd;

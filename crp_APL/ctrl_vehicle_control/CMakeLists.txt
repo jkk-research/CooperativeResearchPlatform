@@ -15,6 +15,7 @@ find_package(autoware_auto_planning_msgs REQUIRED)
 find_package(autoware_auto_vehicle_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(pacmod3_msgs REQUIRED)
+find_package(crp_msgs REQUIRED)
 
 
 include_directories(include)
@@ -24,13 +25,13 @@ add_executable(ctrl_vehicle_control src/ctrl_vehicle_control.cpp src/lib/utils.c
   src/compensatory_model/compensatory_model.cpp
   src/lib/polynomialCalculator.cpp )
 
-ament_target_dependencies(ctrl_vehicle_control  rclcpp geometry_msgs std_msgs autoware_auto_control_msgs autoware_auto_planning_msgs autoware_auto_vehicle_msgs nav_msgs pacmod3_msgs)
+ament_target_dependencies(ctrl_vehicle_control  rclcpp geometry_msgs std_msgs autoware_auto_control_msgs autoware_auto_planning_msgs autoware_auto_vehicle_msgs nav_msgs pacmod3_msgs crp_msgs)
 
 
 add_executable(model_vehicle_model src/helper_nodes/vehicle_model.cpp
     src/lib/utils.cpp)
 
-ament_target_dependencies(model_vehicle_model  rclcpp geometry_msgs std_msgs autoware_auto_control_msgs autoware_auto_planning_msgs autoware_auto_vehicle_msgs nav_msgs pacmod3_msgs)
+ament_target_dependencies(model_vehicle_model  rclcpp geometry_msgs std_msgs autoware_auto_control_msgs autoware_auto_planning_msgs autoware_auto_vehicle_msgs nav_msgs pacmod3_msgs crp_msgs)
 
 
 install(DIRECTORY launch
