@@ -42,10 +42,16 @@ struct PlannerInputTrafficRule
     Pose3D  stoppingPose;
 };
 
+struct PlannerInputPathPoint
+{
+    Pose3D pose;
+    float  curvature{0.0f}; // in 1/m
+};
+
 struct PlannerInputTrajectory
 {
     // path extended with relevant velocity
-    std::vector<Pose3D> pathPoints;
+    std::vector<PlannerInputPathPoint> pathPoints;
     uint32_t            laneID{0U};
     std::vector<float>  targetSpeed; // in m/s
 };

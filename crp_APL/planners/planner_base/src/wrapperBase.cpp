@@ -47,12 +47,12 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
     m_input.path.pathPoints.clear();
     for (const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint : msg->path.path.points)
     {
-        Pose3D inputPose;
-        inputPose.position.x = pathPoint.point.pose.position.x;
-        inputPose.position.y = pathPoint.point.pose.position.y;
-        inputPose.position.z = pathPoint.point.pose.position.z;
-        inputPose.orientation = getYawFromQuaternion(pathPoint.point.pose.orientation);
-        m_input.path.pathPoints.push_back(inputPose);
+        PlannerInputPathPoint inputPoint;
+        inputPoint.pose.position.x = pathPoint.point.pose.position.x;
+        inputPoint.pose.position.y = pathPoint.point.pose.position.y;
+        inputPoint.pose.position.z = pathPoint.point.pose.position.z;
+        inputPoint.pose.orientation = getYawFromQuaternion(pathPoint.point.pose.orientation);
+        m_input.path.pathPoints.push_back(inputPoint);
         m_input.path.targetSpeed.push_back(pathPoint.point.longitudinal_velocity_mps);
     }
     // TODO: decide the function of laneID
@@ -178,12 +178,12 @@ crp::apl::PlannerInputObject crp::apl::WrapperBase::convertMsgToObjects(const au
         }
         for (const geometry_msgs::msg::Pose & pathPoint : msg.kinematics.predicted_paths.at(maxConfidenceId).path)
         {
-            Pose3D inputPose;
-            inputPose.position.x = pathPoint.position.x;
-            inputPose.position.y = pathPoint.position.y;
-            inputPose.position.z = pathPoint.position.z;
-            inputPose.orientation = getYawFromQuaternion(pathPoint.orientation);
-            outObj.predictedPath.pathPoints.push_back(inputPose);
+            PlannerInputPathPoint inputPoint;
+            inputPoint.pose.position.x = pathPoint.position.x;
+            inputPoint.pose.position.y = pathPoint.position.y;
+            inputPoint.pose.position.z = pathPoint.position.z;
+            inputPoint.pose.orientation = getYawFromQuaternion(pathPoint.orientation);
+            outObj.predictedPath.pathPoints.push_back(inputPoint);
         }
     }
     // shape
