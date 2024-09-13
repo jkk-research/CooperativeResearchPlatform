@@ -373,6 +373,29 @@ This is a tier4 autoware message extension, with the following definition:
     geometry_msgs/Accel accel
 \end{lstlisting}
 
+\section{Using the Platform} \label{using_platform}
+\subsection{Installation (source)}
+Create workspace and clone the repository:
+\begin{lstlisting}
+    mkdir -p crp_ws/src
+    cd crp_ws/src
+    git clone https://github.com/jkk-research/CooperativeResearchPlatform.git --recurse-submodules
+\end{lstlisting}
+Install dependencies and build the workspace:
+\begin{lstlisting}
+    cd ..
+    rosdep install --from-paths src --ignore-src -y
+    colcon build --symlink-install
+\end{lstlisting}
+\subsection{Using it in a docker container}
+The platform can be used in a docker container. The docker container is built on top of the autoware docker (ghcr.io/autowarefoundation/autoware:latest-devel-cuda). The autoware docker can be built using the script inside the autoware repository. Autoware and CRP should be built for the same platform type (amd64/arm64).
+\newline
+The container can be build to ARM64 platform:
+\begin{lstlisting}
+    cd CooperativeResearchPlatform
+    ./docker/build_arm64.sh
+\end{lstlisting}
+
 \section{Coding rules} \label{sec:coding_rules}
 \subsection{Naming convention}
 \begin{itemize}
