@@ -387,8 +387,12 @@ Install dependencies and build the workspace:
     rosdep install --from-paths src --ignore-src -y
     colcon build --symlink-install
 \end{lstlisting}
+
 \subsection{Using it in a docker container}
-The platform can be used in a docker container. The docker container is built on top of the autoware docker (ghcr.io/autowarefoundation/autoware:latest-devel-cuda). The autoware docker can be built using the script inside the autoware repository. Autoware and CRP should be built for the same platform type (amd64/arm64).
+\subsubsection{Docker container}
+The platform can be used in a docker container. The docker is available here: https://hub.docker.com/repository/docker/anonymdavid/crp/general
+\subsubsection{Building the docker}
+Alternatively the autoware docker can be built using the script inside the autoware repository. The docker container is built on top of the autoware docker (ghcr.io/autowarefoundation/autoware:latest-devel-cuda). Autoware and CRP should be built for the same platform type (amd64/arm64).
 \newline
 The container can be build to ARM64 platform:
 \begin{lstlisting}
