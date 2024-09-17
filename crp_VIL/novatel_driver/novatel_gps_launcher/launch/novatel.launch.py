@@ -8,7 +8,7 @@ def generate_launch_description():
     # Arguments
     novatel_namespace_arg = DeclareLaunchArgument(
         'novatel_namespace',
-        default_value='',
+        default_value='gps/nova',
         description='Namespace for the Novatel GPS')
 
     novatel_ip_arg = DeclareLaunchArgument(
