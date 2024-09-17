@@ -14,7 +14,7 @@ def generate_launch_description():
     lanelet2_output_topic = DeclareLaunchArgument(
         'map_output_topic',
         default_value="/map/global_static_map_from_file/lanelet2_map",
-        description='Path to the lanelet2 map file'
+        description='Output topic for the lanelet2 map binary'
     )
 
     # NODES
