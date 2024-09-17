@@ -30,6 +30,13 @@ USER ros
 RUN mkdir -p /home/ros/ros2_ws/src
 COPY . /home/ros/ros2_ws/src/CooperativeResearchPlatform
 
+# tools
+RUN sudo apt-get update && \
+    sudo apt-get install -y iputils-ping && \
+    sudo apt-get install -y net-tools && \
+    sudo apt-get install -y ros-humble-rosbag2-storage-mcap && \
+    sudo rm -rf /var/lib/apt/lists/*
+
 # crp
 RUN . /opt/ros/humble/setup.bash && \
     . /autoware/install/setup.bash && \
@@ -41,5 +48,5 @@ RUN . /opt/ros/humble/setup.bash && \
     echo ". /home/ros/ros2_ws/install/setup.bash" >> /home/ros/.bashrc && \
     sudo rm -rf /var/lib/apt/lists/*
 
-WORKDIR /home/ros/ros2_ws/src/CooperativeResearchPlatform
+WORKDIR /home/ros/ros2_ws/
 ENTRYPOINT [ "/bin/bash" ]
