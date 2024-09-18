@@ -490,17 +490,21 @@ The package can be used by the provided launcher:
     ros2 launch lanelet_handler laneletFileLoader.launch.py
 \end{lstlisting}
 
+\subsubsection{Launch parameters}
+Launch parameters are given in Table \ref{tab:lanelet_handler}.
 \begin{table}[!h]
     \captionsetup{justification=centering}
     \normalsize
-        \caption{\label{tab:novatel_gps_launcher} Novatel gps launcher parameters.}
+        \caption{\label{tab:lanelet_handler} Lanelet handler parameters.}
         \begin{tabular}{| l | l | l |}
             \hline
             \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
             \hline
-            map\_file\_path    &                                               & Path to the lanelet2 map file \\
+            map\_file\_path    &                                                    & Path to the lanelet2 map file \\
             \hline
-            map\_output\_topic & /map/global_static_map_from_file/lanelet2_map & Output topic for the lanelet2 map binary \\
+            map\_output\_topic & /map/global\_static\_map\_from\_file/lanelet2\_map & Output topic for the map binary \\
+            \hline
+            map\_frame\_id     & map                                                & Frame id of the lanelet2 map \\
             \hline
         \end{tabular}
 \end{table}

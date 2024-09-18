@@ -34,6 +34,8 @@ private:
     void publishLaneletMap(const std::string& lanelet2FilePath);
 
     rclcpp::Publisher<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr m_pub_laneletMap_;
+
+    std::string m_mapFrameId;
 };
 
 } // namespace vil

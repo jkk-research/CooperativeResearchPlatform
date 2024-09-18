@@ -7,9 +7,11 @@ crp::vil::LaneletFileLoader::LaneletFileLoader() : Node("lanelet_file_loader")
     std::string mapOutputTopic;
     this->declare_parameter<std::string>("map_file_path",    "");
     this->declare_parameter<std::string>("map_output_topic", "");
+    this->declare_parameter<std::string>("map_frame_id",     "map");
 
     this->get_parameter<std::string>("map_file_path",    mapFilePath);
     this->get_parameter<std::string>("map_output_topic", mapOutputTopic);
+    this->get_parameter<std::string>("map_frame_id",     m_mapFrameId);
 
     if (mapFilePath.empty()) {
         RCLCPP_ERROR(this->get_logger(), "map_file_path is empty");
@@ -36,7 +38,7 @@ autoware_map_msgs::msg::LaneletMapBin crp::vil::LaneletFileLoader::createMapBinM
 
   autoware_map_msgs::msg::LaneletMapBin mapBinMsg;
   mapBinMsg.header.stamp = now;
-  mapBinMsg.header.frame_id = "map";
+  mapBinMsg.header.frame_id = m_mapFrameId;
   mapBinMsg.version_map_format = formatVersion;
   mapBinMsg.version_map = map_version;
   lanelet::utils::conversion::toBinMsg(map, &mapBinMsg);
