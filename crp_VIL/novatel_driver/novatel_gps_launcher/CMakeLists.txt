@@ -6,8 +6,21 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
-install(DIRECTORY launch 
+include_directories(include)
+
+add_executable(novatel_topic_converter src/novatelTopicConverter.cpp)
+ament_target_dependencies(novatel_topic_converter rclcpp geometry_msgs)
+
+install(TARGETS
+  novatel_topic_converter
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY
+  launch 
   DESTINATION share/${PROJECT_NAME}
 )
 

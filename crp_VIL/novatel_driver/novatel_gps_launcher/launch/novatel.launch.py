@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch_ros.actions import ComposableNodeContainer
+from launch_ros.actions import Node, ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
@@ -71,6 +71,14 @@ def generate_launch_description():
         output='screen'
     )
 
+    novatel_topic_converter = Node(
+        package='novatel_gps_launcher',
+        executable='novatel_topic_converter',
+        name='novatel_topic_converter',
+        namespace=LaunchConfiguration("novatel_namespace"),
+        output='screen'
+    )
+
     return LaunchDescription([
         novatel_namespace_arg,
         novatel_ip_arg,
@@ -78,5 +86,6 @@ def generate_launch_description():
         novatel_imu_frame_id_arg,
         novatel_frame_id_arg,
 
-        novatel_container
+        novatel_container,
+        novatel_topic_converter
     ])
