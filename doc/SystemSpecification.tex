@@ -373,6 +373,33 @@ This is a tier4 autoware message extension, with the following definition:
     geometry_msgs/Accel accel
 \end{lstlisting}
 
+\section{Using the Platform} \label{using_platform}
+\subsection{Installation (source)}
+Create workspace and clone the repository:
+\begin{lstlisting}
+    mkdir -p crp_ws/src
+    cd crp_ws/src
+    git clone https://github.com/jkk-research/CooperativeResearchPlatform.git --recurse-submodules
+\end{lstlisting}
+Install dependencies and build the workspace:
+\begin{lstlisting}
+    cd ..
+    rosdep install --from-paths src --ignore-src -y
+    colcon build --symlink-install
+\end{lstlisting}
+
+\subsection{Using it in a docker container}
+\subsubsection{Docker container}
+The platform can be used in a docker container. The docker is available here: https://hub.docker.com/repository/docker/anonymdavid/crp/general
+\subsubsection{Building the docker}
+Alternatively the autoware docker can be built using the script inside the autoware repository. The docker container is built on top of the autoware docker (ghcr.io/autowarefoundation/autoware:latest-devel-cuda). Autoware and CRP should be built for the same platform type (amd64/arm64).
+\newline
+The container can be build to ARM64 platform:
+\begin{lstlisting}
+    cd CooperativeResearchPlatform
+    ./docker/build_arm64.sh
+\end{lstlisting}
+
 \section{Coding rules} \label{sec:coding_rules}
 \subsection{Naming convention}
 \begin{itemize}
@@ -422,6 +449,15 @@ Non-driver package names should start with and abbreviation of the following cat
     \item ctrl (control)
 \end{itemize}
 All dependencies must be set in the package.xml and in the CMakeList.txt.
+
+\subsection{Python}
+\subsubsection{General}
+\begin{itemize}
+    \item Python files should have the '.py' extension.
+    \item In classes private variables should start with the '\_\_' prefix - example: \emph{\_\_m\_vxEgo}
+    \item In classes protected variables should start with the '\_' prefix - example: \emph{\_m\_vxEgo}
+    \item Methods and classes should have 2 empty lines after the definition
+\end{itemize}
 \newpage
 
 \section{Package documentations}
@@ -444,7 +480,7 @@ Input topics are given in Table \ref{tab:pacmod_input}, outputs are given in Tab
     \captionsetup{justification=centering}
     \normalsize
         \caption{\label{tab:pacmod_input} Pacmod extender inputs.}
-        \begin{tabular}{ | c || c | c |}
+        \begin{tabular}{ | c | c | c |}
             \hline
             \textbf{Data} & \textbf{Message name} & \textbf{Message Type} \\
             \hline
@@ -458,7 +494,7 @@ Input topics are given in Table \ref{tab:pacmod_input}, outputs are given in Tab
     \captionsetup{justification=centering}
     \normalsize
         \caption{\label{tab:pacmod_output} Pacmod extender output.}
-        \begin{tabular}{ | c || c | c |}
+        \begin{tabular}{ | c | c | c |}
             \hline
             \textbf{Data} & \textbf{Message name} & \textbf{Message Type} \\
             \hline

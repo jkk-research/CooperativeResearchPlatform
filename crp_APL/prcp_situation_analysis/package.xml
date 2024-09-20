@@ -1,18 +1,21 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>pacmod_extender</name>
+  <name>prcp_situation_analysis</name>
   <version>0.0.0</version>
-  <description>Extends the pacmod3 package with more CAN decodings for Lexus rx450h.</description>
+  <description>Compresses input into 3 messages for the planners.</description>
   <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
   <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>pacmod3_msgs</depend>
-  <depend>can_msgs</depend>
-  <depend>geometry_msgs</depend>
+  <depend>crp_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>autoware_map_msgs</depend>
+  <depend>autoware_perception_msgs</depend>
+  <depend>autoware_localization_msgs</depend>
+  <depend>tier4_planning_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
