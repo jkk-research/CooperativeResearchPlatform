@@ -517,6 +517,39 @@ Calculations:
 	\item Yaw rate $\psi= v_\xi  tan(\frac{\alpha_f}{L_w})$, where $\psi$ is the yaw rate, $\alpha_f$ is the front road-wheel angle and $L_w$ is the wheelbase.
 \end{itemize}
 
+\subsection{lanelet\_handler}
+\subsubsection{Purpose}
+The purpose of this package is to load and publish a lanelet2 map to a specified topic using the autoware lanelet2 library.
+\subsubsection{Usage}
+The package can be used by the provided launcher:
+\begin{lstlisting}
+    ros2 launch lanelet_handler laneletFileLoader.launch.py
+\end{lstlisting}
+
+\subsubsection{Launch parameters}
+Launch parameters are given in Table \ref{tab:lanelet_handler}.
+\begin{table}[!h]
+    \centering
+    \captionsetup{justification=centering}
+    \normalsize
+    \caption{\label{tab:lanelet_handler} Lanelet handler parameters.}
+    \begin{tabular}{| l | l | l |}
+        \hline
+        \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
+        \hline
+        map\_file\_path           &                                       & Path to the lanelet2 map file \\
+        \hline
+        map\_output\_topic        & /map/global\_static\_map\_from\_file/ & Output topic for the map binary \\
+                                  & lanelet2\_map                         &  \\
+        \hline
+        map\_frame\_id            & map                                   & Frame id of the lanelet2 map \\
+        \hline
+        map\_visualization\_topic & /map/global\_static\_map\_from\_file/ & Frame id of the lanelet2 map \\
+                                  & lanelet2\_map\_visualization          &  \\
+        \hline
+    \end{tabular}
+\end{table}
+
 \bibliography{refs}% common bib file
 %% if required, the content of .bbl file can be included here once bbl is generated
 %%\input sn-article.bbl
