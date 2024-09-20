@@ -530,22 +530,55 @@ The parameters of the launcher are given in Table \ref{tab:novatel_gps_launcher}
 \begin{table}[!h]
     \captionsetup{justification=centering}
     \normalsize
-        \caption{\label{tab:novatel_gps_launcher} Novatel gps launcher parameters.}
-        \begin{tabular}{| l | l | l |}
-            \hline
-            \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
-            \hline
-            novatel\_namespace  & gps/nova          & Namespace for the Novatel GPS \\
-            \hline
-            novatel\_ip         & 192.168.1.11      & IP address of the Novatel GPS \\
-            \hline
-            novatel\_port       & 3002              & Port of the Novatel GPS \\
-            \hline
-            novatel\_imu\_frame & /nissan9/nova/imu & IMU frame id of the Novatel GPS \\
-            \hline
-            novatel\_frame\_id  & /nissan9/nova/gps & Frame id of the Novatel GPS \\
-            \hline
-        \end{tabular}
+    \caption{\label{tab:novatel_gps_launcher} Novatel gps launcher parameters.}
+    \begin{tabular}{| l | l | l |}
+        \hline
+        \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
+        \hline
+        novatel\_namespace  & gps/nova          & Namespace for the Novatel GPS \\
+        \hline
+        novatel\_ip         & 192.168.1.11      & IP address of the Novatel GPS \\
+        \hline
+        novatel\_port       & 3002              & Port of the Novatel GPS \\
+        \hline
+        novatel\_imu\_frame & /nissan9/nova/imu & IMU frame id of the Novatel GPS \\
+        \hline
+        novatel\_frame\_id  & /nissan9/nova/gps & Frame id of the Novatel GPS \\
+        \hline
+    \end{tabular}
+\end{table}
+\subsection{lanelet\_handler}
+\subsubsection{Purpose}
+The purpose of this package is to load and publish a lanelet2 map to a specified topic using the autoware lanelet2 library.
+\subsubsection{Usage}
+The package can be used by the provided launcher:
+\begin{lstlisting}
+    ros2 launch lanelet_handler laneletFileLoader.launch.py
+\end{lstlisting}
+
+
+\subsubsection{Launch parameters}
+Launch parameters are given in Table \ref{tab:lanelet_handler}.
+\begin{table}[!h]
+    \centering
+    \captionsetup{justification=centering}
+    \normalsize
+    \caption{\label{tab:lanelet_handler} Lanelet handler parameters.}
+    \begin{tabular}{| l | l | l |}
+        \hline
+        \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
+        \hline
+        map\_file\_path           &                                       & Path to the lanelet2 map file \\
+        \hline
+        map\_output\_topic        & /map/global\_static\_map\_from\_file/ & Output topic for the map binary \\
+                                  & lanelet2\_map                         &  \\
+        \hline
+        map\_frame\_id            & map                                   & Frame id of the lanelet2 map \\
+        \hline
+        map\_visualization\_topic & /map/global\_static\_map\_from\_file/ & Frame id of the lanelet2 map \\
+                                  & lanelet2\_map\_visualization          &  \\
+        \hline
+    \end{tabular}
 \end{table}
 
 \bibliography{refs}% common bib file
