@@ -517,6 +517,36 @@ Calculations:
 	\item Yaw rate $\psi= v_\xi  tan(\frac{\alpha_f}{L_w})$, where $\psi$ is the yaw rate, $\alpha_f$ is the front road-wheel angle and $L_w$ is the wheelbase.
 \end{itemize}
 
+\subsection{novatel\_gps\_launcher}
+\subsubsection{Purpose}
+The purpose of this package is to launch the novatel GPS driver. The driver is in a separate repository included as a subrepository. It also contains a node (novatel\_topic\_converter) that converts the novatel GPS topics to the predefined CRP topics.
+\subsubsection{Usage}
+The package only contains the launcher for the driver. This can be started as follows:
+\begin{lstlisting}
+    ros2 launch novatel_gps_launcher novatel.launch.py
+\end{lstlisting}
+\subsubsection{Launch parameters}
+The parameters of the launcher are given in Table \ref{tab:novatel_gps_launcher}. The default values are set for the Nissan leaf vehicle.
+\begin{table}[!h]
+    \captionsetup{justification=centering}
+    \normalsize
+    \caption{\label{tab:novatel_gps_launcher} Novatel gps launcher parameters.}
+    \begin{tabular}{| l | l | l |}
+        \hline
+        \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
+        \hline
+        novatel\_namespace  & gps/nova          & Namespace for the Novatel GPS \\
+        \hline
+        novatel\_ip         & 192.168.1.11      & IP address of the Novatel GPS \\
+        \hline
+        novatel\_port       & 3002              & Port of the Novatel GPS \\
+        \hline
+        novatel\_imu\_frame & /nissan9/nova/imu & IMU frame id of the Novatel GPS \\
+        \hline
+        novatel\_frame\_id  & /nissan9/nova/gps & Frame id of the Novatel GPS \\
+        \hline
+    \end{tabular}
+\end{table}
 \subsection{lanelet\_handler}
 \subsubsection{Purpose}
 The purpose of this package is to load and publish a lanelet2 map to a specified topic using the autoware lanelet2 library.
@@ -525,6 +555,7 @@ The package can be used by the provided launcher:
 \begin{lstlisting}
     ros2 launch lanelet_handler laneletFileLoader.launch.py
 \end{lstlisting}
+
 
 \subsubsection{Launch parameters}
 Launch parameters are given in Table \ref{tab:lanelet_handler}.
