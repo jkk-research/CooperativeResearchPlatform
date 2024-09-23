@@ -1,4 +1,4 @@
-#include "../ctrl_vehicle_control/controller_inputs.hpp"
+#include "ctrl_vehicle_control/controller_inputs.hpp"
 #include <math.h>
 
 #ifndef POLYNOMIALCALCULATOR_HPP_

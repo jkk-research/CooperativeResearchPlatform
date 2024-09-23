@@ -34,9 +34,7 @@ public:
         cmd_pub = this->create_publisher<autoware_auto_control_msgs::msg::AckermannControlCommand>("/control/command/ctrl_cmd", 30);
         
         traj_sub = this->create_subscription<autoware_auto_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&ctrl_vehicle_control::traj_callback, this, std::placeholders::_1));
-        odom_sub = this->create_subscription<nav_msgs::msg::Odometry>("/localization/kinematic_state", 10, std::bind(&ctrl_vehicle_control::odom_callback, this, std::placeholders::_1));
         ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/cai/ego", 10, std::bind(&ctrl_vehicle_control::ego_vehicle_callback, this, std::placeholders::_1));
-        cmd_dummy_sub = this->create_subscription<autoware_auto_control_msgs::msg::AckermannControlCommand>("/control/command/control_cmd_dummy", 10, std::bind(&ctrl_vehicle_control::cmd_dummy_callback, this, std::placeholders::_1));
 
         this->declare_parameter("/ctrl/ffGainOffsetGround", 1.0f);
         this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
@@ -63,11 +61,6 @@ private:
     crp::apl::geometricOperators m_geometricOperator;
     crp::apl::compensatoryModel m_compensatoryModel;
 
-    void cmd_dummy_callback(const autoware_auto_control_msgs::msg::AckermannControlCommand msg_)
-    {
-        ctrl_cmd = msg_;
-    }
-
     void traj_callback(const autoware_auto_planning_msgs::msg::Trajectory input_msg)
     {
         input.path_x.clear();
@@ -92,9 +85,11 @@ private:
    
     }
 
-    void odom_callback(const nav_msgs::msg::Odometry input_msg)
+    void ego_vehicle_callback(const crp_msgs::msg::Ego input_msg)
     {
-        // this callback maps the vehicle localization to the internal interface
+        input.vxEgo = input_msg.twist.twist.linear.x;
+        input.egoSteeringAngle = input_msg.road_wheel_angle_front;
+
         input.egoPoseGlobal[0] = input_msg.pose.pose.position.x;
         input.egoPoseGlobal[1] = input_msg.pose.pose.position.y;
         double quaternion[4];
@@ -104,12 +99,6 @@ private:
         quaternion[3] = input_msg.pose.pose.orientation.w; 
         double theta = m_geometricOperator.transformQuatToEuler(quaternion);
         input.egoPoseGlobal[2] = theta;
-    }
-
-    void ego_vehicle_callback(const crp_msgs::msg::Ego input_msg)
-    {
-        input.vxEgo = input_msg.twist.twist.linear.x;
-        input.egoSteeringAngle = input_msg.road_wheel_angle_front;
     }
 
     void loop()
@@ -134,6 +123,7 @@ private:
         // steering angle and steering angle gradiant
         ctrl_cmd.lateral.steering_tire_angle = output.steeringAngleTarget;
         ctrl_cmd.lateral.steering_tire_rotation_rate = 0.0f;
+        ctrl_cmd.longitudinal.speed = 2.0;
 
         cmd_pub->publish(ctrl_cmd);
     }

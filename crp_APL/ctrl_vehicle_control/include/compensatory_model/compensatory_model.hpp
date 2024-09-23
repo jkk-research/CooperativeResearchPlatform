@@ -1,10 +1,10 @@
 #include <cmath>
 #include <stdio.h>
 
-#include "../ctrl_vehicle_control/controller_inputs.hpp"
-#include "../ctrl_vehicle_control/controller_outputs.hpp"
-#include "../lib/polynomialCalculator.hpp"
-#include "../lib/utils.hpp"
+#include "ctrl_vehicle_control/controller_inputs.hpp"
+#include "ctrl_vehicle_control/controller_outputs.hpp"
+#include "lib/polynomialCalculator.hpp"
+#include "lib/utils.hpp"
 
 #ifndef COMPENSATORY_MODEL_
 #define COMPENSATORY_MODEL_

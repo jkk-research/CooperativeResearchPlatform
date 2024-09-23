@@ -7,27 +7,6 @@ namespace crp
     
         void compensatoryModel::run (const controlInput& input, controlOutput& output, const controlParams& params){
                 // this method calculates the PID controller target steering angle
-                
-                double point[3];
-                m_localPath_x.clear(); m_localPath_y.clear();
-                for (unsigned long int i=0; i<input.path_x.size(); i++)
-                {
-                    point[0] = input.path_x.at(i);
-                    point[1] = input.path_y.at(i);
-                    point[2] = 0.0f;
-                    double* localPathPoint = m_transforms.global2Ego(point, input.egoPoseGlobal);
-                    if (i==0)
-                    {
-                        printf("conversion of first point [%f %f], \n with pose [%f %f %f]\n", point[0], point[1], input.egoPoseGlobal[0], input.egoPoseGlobal[1], input.egoPoseGlobal[2]);
-                        printf("output of conversion %f %f\n", localPathPoint[0], localPathPoint[1]);
-                    }
-                    
-                    m_localPath_x.push_back(localPathPoint[0]);
-                    m_localPath_y.push_back(localPathPoint[1]);
-                }
-
-                // cut snippet
-                cutRelevantLocalSnippet();
 
                 if (m_trajInvalid)
                 {
@@ -36,7 +15,7 @@ namespace crp
                     printf("\t c0 RMS = %f\n\tc0 mean = %f\n\t cycle numbers %l\n", m_KPI_c0RMS, m_KPI_c0Mean, N);
                 }
                 else{
-                    m_coefficients = m_polynomialCalculator.calculateThirdOrderPolynomial(m_localPathCut_x, m_localPathCut_y);
+                    m_coefficients = m_polynomialCalculator.calculateThirdOrderPolynomial(input.path_x, input.path_y);
                     printf("coefficients are %f %f %f %f\n", m_coefficients[0], m_coefficients[1], m_coefficients[2], m_coefficients[3]);
                     // feedforward control
                     calculateFeedforward(input, params);
@@ -82,6 +61,7 @@ namespace crp
             // gain. This gain is planned to be used to imitate slip compensation.
             // Third, the resulting feedforward steering angle is filtered using a simple low pass 
             // filter.
+            
             m_lookAheadDistance = std::max(params.ffMinLookAheadDistance, params.ffLookAheadTime*input.vxEgo);
             // second derivative of the 3rd order polynomial
             m_targetCurvature = 2.0f*m_coefficients[2]+6.0f*m_coefficients[3]*m_lookAheadDistance;
@@ -156,72 +136,13 @@ namespace crp
             if(params.debugKPIs){printf("steering target ff: %f, fb: %f\n", m_targetSteeringAngleFF, m_targetSteeringAngleFB);}
         }
 
-        void compensatoryModel::cutRelevantLocalSnippet()
+
+        double compensatoryModel::steeringInverseDynamics(const double& steeringAngle, const controlParams& params)
         {
-            // this method cuts a relevant length of the total trajectory, based on the complete 
-            // path transformed to the ego coordinate frame
-            // step 1: searching for nearest point in trajectory
-            unsigned long int startIdx = -1;
-            unsigned long int stopIdx = -1;
-            m_trajInvalid = false;
-            double maxDistance = 50; // meters
-            m_localPathCut_x.clear(); m_localPathCut_y.clear();
-
-            for (unsigned long int i=0; i<m_localPath_x.size(); i++)
-            {
-                if (m_localPath_x.at(i)>0)
-                {
-                    if (i==0){
-                        startIdx = i;
-                    }
-                    else{
-                        startIdx = i-1;
-                    }
-                    break;
-                }
-            }
-            if (startIdx == -1)
-            {
-                // no valid point was found
-                m_trajInvalid = true;
-            }
-            else
-            {
-                // find stop index
-                for (unsigned long int i=startIdx; i<m_localPath_x.size(); i++)
-                {
-                    double pointDistance = std::sqrt(std::pow(m_localPath_x.at(i),2)+std::pow(m_localPath_y.at(i),2));
-                    if (pointDistance>maxDistance)
-                    {
-                        stopIdx = i;
-                        break;
-                    }
-                }
-            }
-            if (stopIdx == -1)
-            {
-                m_trajInvalid = true;
-            }
-            else{
-                // valid snippet is found, calculate real path
-                for (unsigned long int i=startIdx; i<stopIdx; i++)
-                {
-                    m_localPathCut_x.push_back(m_localPath_x.at(i));
-                    m_localPathCut_y.push_back(m_localPath_y.at(i));
-                    if (i<startIdx+10)
-                    {
-                        printf("path after cut %f %f\n", m_localPath_x.at(i), m_localPath_y.at(i));
-                    }
-                }
-            }
+            // u[k] = y[k-2]*(T^2/dT^2) + y[k-1]*(-2*xi*T/dT - 2*T^2/dT^2) + y[k]*(T^2/dT^2 + 2*xi*T/dT + 1)
+            return m_actualSteeringAngleLog[1]*(pow(params.invSteerTimeConstant, 2)/(pow(params.dT, 2))) + 
+                m_actualSteeringAngleLog[0]*((-2 * params.invSteerDamping * params.invSteerTimeConstant / params.dT)-(2 * pow(params.invSteerTimeConstant, 2) / pow(params.dT, 2))) +
+                steeringAngle*(pow(params.invSteerTimeConstant, 2) / pow(params.dT, 2) + 2 * params.invSteerDamping * params.invSteerTimeConstant / params.dT + 1);
         }
-
-            double compensatoryModel::steeringInverseDynamics(const double& steeringAngle, const controlParams& params)
-            {
-                // u[k] = y[k-2]*(T^2/dT^2) + y[k-1]*(-2*xi*T/dT - 2*T^2/dT^2) + y[k]*(T^2/dT^2 + 2*xi*T/dT + 1)
-                return m_actualSteeringAngleLog[1]*(pow(params.invSteerTimeConstant, 2)/(pow(params.dT, 2))) + 
-                    m_actualSteeringAngleLog[0]*((-2 * params.invSteerDamping * params.invSteerTimeConstant / params.dT)-(2 * pow(params.invSteerTimeConstant, 2) / pow(params.dT, 2))) +
-                    steeringAngle*(pow(params.invSteerTimeConstant, 2) / pow(params.dT, 2) + 2 * params.invSteerDamping * params.invSteerTimeConstant / params.dT + 1);
-            }
     }
 }
