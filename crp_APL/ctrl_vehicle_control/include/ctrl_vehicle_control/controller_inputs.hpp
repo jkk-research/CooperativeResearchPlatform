@@ -23,7 +23,7 @@ namespace crp
             double ffGainSlope{0.1f};
             double ffLookAheadTime{1.5f};
             double ffMinLookAheadDistance{0.1f};
-            double vehAxleDistance{2.79f};
+            double vehAxleDistance{2.9f};
             double maxCurvature{0.1};
             double steeringAngleLPFilter{0.7f};
             double fbLookAheadTime{0.0f};

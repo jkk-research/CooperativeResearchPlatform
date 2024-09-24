@@ -27,7 +27,7 @@ from autoware_auto_control_msgs.msg import AckermannControlCommand
 # === Parameters =====
 
 dt = 0.1  # time tick[s]
-L = 0.5  # Wheel base of the vehicle [m]
+L = 2.9  # Wheel base of the vehicle [m]
 max_steer = np.deg2rad(45.0)  # maximum steering angle[rad]
 
 show_animation = True
@@ -81,6 +81,12 @@ def calc_nearest_index(state, cx, cy, cyaw):
 
     return ind, mind
 
+# function that convert euler angles to quaternions, using scipy Rotation
+def euler_to_quaternion(roll, pitch, yaw):
+    rot = Rotation.from_euler('xyz', [roll, pitch, yaw], degrees=False)
+    rot = rot.as_quat()
+    return rot
+
 
 class State:
 
@@ -108,14 +114,14 @@ def update(state, a, delta):
 
 # create and ROS2 class for the simulation what subscribes to the given control inputs and publishes the state of the vehicle and the desired trajectory
 class ROS_Control_Sim(Node):
-    def __init__(self):
+    def __init__(self,cx, cy, cyaw, sp):
         super().__init__('ROS_Mini_Control_Sim')
 
         self.control_subscriber = self.create_subscription(AckermannControlCommand, '/control/command/ctrl_cmd', self.control_input_callback, 10)
         self.traj_publisher = self.create_publisher(Trajectory, '/planning/scenario_planning/trajectory', 10)
         self.ego_publisher = self.create_publisher(Ego, '/cai/ego', 10)
 
-        self.state = State(x=-0.0, y=-0.0, yaw=0.0, v=0.0)
+        self.state = State(x=-0.0, y=-2.0, yaw=0.0, v=1.0)
 
         self.time = 0.0
         self.x = [self.state.x]
@@ -124,10 +130,10 @@ class ROS_Control_Sim(Node):
         self.v = [self.state.v]
         self.t = [0.0]
 
-        self.traj_x = []
-        self.traj_y = []
-        self.traj_yaw = []
-        self.speed_profile = []
+        self.traj_x = cx
+        self.traj_y = cy
+        self.traj_yaw = cyaw
+        self.speed_profile = sp
 
         self.ControlCmd = AckermannControlCommand()
 
@@ -142,46 +148,65 @@ class ROS_Control_Sim(Node):
         # This example rotates the point by 45 degrees around the z-axis
         theta = self.state.yaw
         rotation_matrix = np.array([
-            [np.cos(theta), -np.sin(theta), 0],
-            [np.sin(theta),  np.cos(theta), 0],
+            [np.cos(theta), np.sin(theta), 0],
+            [-np.sin(theta),  np.cos(theta), 0],
             [0,             0,             1]
         ])
 
         # Define a translation vector (3D)
         translation_vector = np.array([self.state.x, self.state.y, 0])
 
-        # Apply the transformation: rotate and then translate the point
-        # Transformed point = R * point_source + translation_vector
-        point_transformed = np.dot(rotation_matrix, point_source) + translation_vector
-
-
         # create a trajecotry msg transformed to the local coordinate system
         traj = Trajectory()
 
-        target_ind, _ = calc_nearest_index(self.state, cx, cy, cyaw)
+        target_ind, _ = calc_nearest_index(self.state, self.traj_x, self.traj_y, self.traj_yaw)
 
         traj.header.stamp = self.get_clock().now().to_msg()
         traj.header.frame_id = 'base_link'
 
-        for target_ind in range(len(x)):
+        local_x = []
+        local_y = []
+
+        for i in range(target_ind, len(x)-1):
 
             traj_point = TrajectoryPoint()
 
             point_source = np.array([x[i], y[i], 0])
-            point_transformed = np.dot(rotation_matrix, point_source) + translation_vector
+            point_source = point_source - translation_vector
+            point_transformed = np.dot(rotation_matrix, point_source)
 
-            traj_point.x = point_transformed[0]
-            traj_point.y = point_transformed[1]
+            traj_point.pose.position.x = point_transformed[0]
+            traj_point.pose.position.y = point_transformed[1]
             traj_point.longitudinal_velocity_mps = v[i]
+
+            local_x.append(point_transformed[0])
+            local_y.append(point_transformed[1])
+
+            dx = x[i+1] - x[i]
+            dy = y[i+1] - y[i]
+            heading = math.atan2(dy, dx)
+
+            quat = euler_to_quaternion(0, 0, heading)
+            traj_point.pose.orientation.x = quat[0]
+            traj_point.pose.orientation.y = quat[1]
+            traj_point.pose.orientation.z = quat[2]
+            traj_point.pose.orientation.w = quat[3]
 
             traj.points.append(traj_point)
 
-        # calculate the heading between the trajectory points
-        for i in range(len(x)-1):
-            dx = x[i+1] - x[i]
-            dy = y[i+1] - y[i]
-            traj_point = traj.points[i]
-            traj_point.heading = math.atan2(dy, dx)
+        # if target_ind % 1 == 0 and show_animation:
+        #     plt.cla()
+        #     # for stopping simulation with the esc key.
+        #     plt.gcf().canvas.mpl_connect(
+        #         'key_release_event',
+        #         lambda event: [exit(0) if event.key == 'escape' else None])
+        #     plt.plot(local_x,local_y, "-r", label="course")
+        #     plt.axis("equal")
+        #     plt.grid(True)
+        #     plt.title("speed[km/h]:" + str(round(self.state.v * 3.6, 2))
+        #             + ",target index:" + str(target_ind))
+        #     plt.pause(0.0001)
+
 
 
         self.traj_publisher.publish(traj)
@@ -234,9 +259,7 @@ class ROS_Control_Sim(Node):
 
 
         target_ind, _ = calc_nearest_index(self.state, cx, cy, cyaw)
-        self.state = update(self.state, 0.2, self.ControlCmd.lateral.steering_tire_angle)
-
-        print(self.state.x, self.state.y, self.state.yaw, self.state.v)
+        self.state = update(self.state, 0.0, self.ControlCmd.lateral.steering_tire_angle)
 
         if abs(self.state.v) <= stop_speed:
             target_ind += 1
@@ -245,6 +268,7 @@ class ROS_Control_Sim(Node):
         rot = rot.as_quat()
 
         self.create_ego_msg(self.state)
+        self.create_trajectory_msg(self.traj_x, self.traj_y, self.traj_yaw, self.speed_profile)
 
         # time = time + dt
         # check goal
@@ -311,11 +335,9 @@ def main():
 
     # start ROS2 node
     rclpy.init()
-    ros_control_sim = ROS_Control_Sim()
 
-
-    ax = [-5.0,0.0, 30.0, 60.0, 140.0, 160.0, 280.0]
-    ay = [-5.0,0.0, 0.0, 5.0, 8.0 , 20.0, 25.0]
+    ax = [-5.0,0.0, 30.0, 60.0,90.0, 120.0]
+    ay = [-0.0,0.0, 5.0, 15.0, 20.0, 25.0]
     goal = [ax[-1], ay[-1]]
 
     cx, cy, cyaw, ck, s = cubic_spline_planner.calc_spline_course(
@@ -324,7 +346,9 @@ def main():
 
     sp = calc_speed_profile(cyaw, target_speed)
 
-    ros_control_sim.create_trajectory_msg(cx, cy, cyaw, sp)
+    ros_control_sim = ROS_Control_Sim(cx, cy, cyaw, sp)
+
+
 
     rclpy.spin(ros_control_sim)
 

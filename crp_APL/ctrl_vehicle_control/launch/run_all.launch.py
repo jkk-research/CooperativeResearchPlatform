@@ -13,9 +13,9 @@ def generate_launch_description():
             {"/ctrl/ffLookAheadTime": 1.5},
             {"/ctrl/steeringAngleLPFilter": 0.7},
             {"/ctrl/fbLookAheadTime": 0.5},
-            {"/ctrl/fbPGain": 1.0},
-            {"/ctrl/fbDGain": 0.1},
-            {"/ctrl/fbIGain": 0.01},
+            {"/ctrl/fbPGain": 0.01},
+            {"/ctrl/fbDGain": 0.0},
+            {"/ctrl/fbIGain": 0.0},
             {"/ctrl/fbMinLookAheadDistance": 0.0},
             {"/ctrl/fbIntegralLimit": 3.0}
         ]

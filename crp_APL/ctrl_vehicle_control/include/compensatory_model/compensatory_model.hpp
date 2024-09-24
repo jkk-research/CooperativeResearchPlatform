@@ -5,6 +5,7 @@
 #include "ctrl_vehicle_control/controller_outputs.hpp"
 #include "lib/polynomialCalculator.hpp"
 #include "lib/utils.hpp"
+#include "lib/polyfitBoost.hpp"
 
 #ifndef COMPENSATORY_MODEL_
 #define COMPENSATORY_MODEL_
@@ -24,7 +25,7 @@ namespace crp
                 filters m_posDerivativeFilter;
 
 
-                double* m_coefficients;
+                std::vector<double> m_coefficients;
                 std::vector<double> m_localPath_x;
                 std::vector<double> m_localPath_y;
                 std::vector<double> m_localPathCut_x;

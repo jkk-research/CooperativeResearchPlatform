@@ -8,14 +8,16 @@ namespace crp
         void compensatoryModel::run (const controlInput& input, controlOutput& output, const controlParams& params){
                 // this method calculates the PID controller target steering angle
 
-                if (m_trajInvalid)
+                if (input.path_x.size() < 4)
                 {
+                
                     printf("Trajectory is invalid\n");
                     printf("The following KPIs have been calculated\n");
                     printf("\t c0 RMS = %f\n\tc0 mean = %f\n\t cycle numbers %l\n", m_KPI_c0RMS, m_KPI_c0Mean, N);
                 }
-                else{
-                    m_coefficients = m_polynomialCalculator.calculateThirdOrderPolynomial(input.path_x, input.path_y);
+                else
+                {
+                    m_coefficients = polyfit_boost(input.path_x, input.path_y,3);
                     printf("coefficients are %f %f %f %f\n", m_coefficients[0], m_coefficients[1], m_coefficients[2], m_coefficients[3]);
                     // feedforward control
                     calculateFeedforward(input, params);
@@ -31,7 +33,7 @@ namespace crp
                     output.steeringAngleTarget = m_targetSteeringAngleFF+m_targetSteeringAngleFB;
                     output.steeringAngleTarget = m_steeringAngleFilter.lowPassFilter(output.steeringAngleTarget, m_targetSteeringAngle_prev, params.steeringAngleLPFilter);
 
-                    output.steeringAngleTarget = steeringInverseDynamics(output.steeringAngleTarget, params);
+                    // output.steeringAngleTarget = steeringInverseDynamics(output.steeringAngleTarget, params);
 
                     // KPI calculation
                     if (N<=65535)
@@ -61,7 +63,7 @@ namespace crp
             // gain. This gain is planned to be used to imitate slip compensation.
             // Third, the resulting feedforward steering angle is filtered using a simple low pass 
             // filter.
-            
+
             m_lookAheadDistance = std::max(params.ffMinLookAheadDistance, params.ffLookAheadTime*input.vxEgo);
             // second derivative of the 3rd order polynomial
             m_targetCurvature = 2.0f*m_coefficients[2]+6.0f*m_coefficients[3]*m_lookAheadDistance;

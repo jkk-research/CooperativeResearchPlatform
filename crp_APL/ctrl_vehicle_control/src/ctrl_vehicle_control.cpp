@@ -42,8 +42,8 @@ public:
         this->declare_parameter("/ctrl/ffMinLookAheadDistance", 0.1f);
         this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.7f);
         this->declare_parameter("/ctrl/fbLookAheadTime", 0.0f);
-        this->declare_parameter("/ctrl/fbPGain", 1.0f);
-        this->declare_parameter("/ctrl/fbDGain", 0.1f);
+        this->declare_parameter("/ctrl/fbPGain", 0.6);
+        this->declare_parameter("/ctrl/fbDGain", 0.0f);
         this->declare_parameter("/ctrl/fbIGain", 0.0f);
         this->declare_parameter("/ctrl/fbThetaGain", 0.0f);
         this->declare_parameter("/ctrl/fbMinLookAheadDistance", 0.0f);
