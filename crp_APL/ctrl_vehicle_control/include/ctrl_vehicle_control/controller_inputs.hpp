@@ -1,15 +1,17 @@
+#ifndef CONTROLLER_INPUTS_HPP_
+#define CONTROLLER_INPUTS_HPP_
+
+
 #include <stdio.h>
 #include <string>
 #include <vector>
 
-#ifndef CONTROLLER_INPUTS_HPP_
-#define CONTROLLER_INPUTS_HPP_
 
 namespace crp
 {
     namespace apl
     {
-        struct controlInput{
+        struct ControlInput{
             std::vector<double> path_x;
             std::vector<double> path_y;
             std::vector<double> path_theta;
@@ -19,7 +21,7 @@ namespace crp
             double egoSteeringAngle{0.0f};
         };
 
-        struct controlParams{
+        struct ControlParams{
             double ffGainOffsetGround{1.0f};
             double ffGainSlope{0.1f};
             double ffLookAheadTime{1.5f};

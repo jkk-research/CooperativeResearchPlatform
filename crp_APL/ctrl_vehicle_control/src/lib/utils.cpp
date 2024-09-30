@@ -3,7 +3,7 @@
 namespace crp{
     namespace apl{
     
-    double geometricOperators::transformQuatToEuler (const double quaternion [4]){
+    double GeometricOperators::transformQuatToEuler (const double quaternion [4]){
 
             /*// roll (x-axis rotation)
             double sinr_cosp = 2 * (quaternion[3] * quaternion[0] + quaternion[1] * quaternion[2]);
@@ -23,7 +23,7 @@ namespace crp{
             return angle;
         }
 
-        double* geometricOperators::ToQuaternion(double roll, double pitch, double yaw) // roll (x), pitch (y), yaw (z), angles are in radians
+        double* GeometricOperators::ToQuaternion(double roll, double pitch, double yaw) // roll (x), pitch (y), yaw (z), angles are in radians
         {
             // Abbreviations for the various angular functions
 
@@ -42,7 +42,7 @@ namespace crp{
             return q;
         }
 
-        double* transforms::global2Ego (double point[3], const double egoPose[3]){
+        double* Transforms::global2Ego (double point[3], const double egoPose[3]){
             // global to ego frame
             // transform matrix: T = [cos(theta) sin(theta); -sin(theta) cos(theta)]
 
@@ -53,7 +53,7 @@ namespace crp{
             return pointEgo;
         }
 
-        double* transforms::ego2Global (double point[3], const double egoPose[3]){
+        double* Transforms::ego2Global (double point[3], const double egoPose[3]){
             // global to ego frame
             // transform matrix: T = [cos(theta) sin(theta); -sin(theta) cos(theta)]
 
@@ -64,7 +64,7 @@ namespace crp{
             return pointEgo;
         }
 
-        double filters::lowPassFilter(double unfiltered, double filtered_prev, double coefficient)
+        double Filters::lowPassFilter(double unfiltered, double filtered_prev, double coefficient)
         {
             return (coefficient*unfiltered+(1.0f-coefficient)*filtered_prev);
         }

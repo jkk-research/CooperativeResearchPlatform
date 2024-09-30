@@ -4,7 +4,7 @@ namespace crp
 {
     namespace apl
     {
-        void compensatoryModel::run (controlInput& input, controlOutput& output, const controlParams& params)
+        void CompensatoryModel::run (ControlInput& input, ControlOutput& output, const ControlParams& params)
         {
             // this method is the main method of the compensatory model. It calculates the feedforward and feedback
 
@@ -16,11 +16,6 @@ namespace crp
                 point[1] = input.path_y.at(i);
                 point[2] = 0.0f;
                 double* localPathPoint = point;
-                if (i==0)
-                {
-                    printf("conversion of first point [%f %f], \n with pose [%f %f %f]\n", point[0], point[1], input.egoPoseGlobal[0], input.egoPoseGlobal[1], input.egoPoseGlobal[2]);
-                    printf("output of conversion %f %f\n", localPathPoint[0], localPathPoint[1]);
-                }
                 
                 m_localPath_x.push_back(localPathPoint[0]);
                 m_localPath_y.push_back(localPathPoint[1]);
@@ -80,7 +75,7 @@ namespace crp
             }
         }
 
-        void compensatoryModel::calculateFeedforward(const controlInput& input, const controlParams& params)
+        void CompensatoryModel::calculateFeedforward(const ControlInput& input, const ControlParams& params)
         {
             // this method calculates the feedforward target steering angle.
             // First, the curvature is calculated in the preview distance.
@@ -103,11 +98,13 @@ namespace crp
             if(params.debugKPIs){printf("kappa after velocity compensation %f\n", m_targetCurvature);}
             // finally, lateral feedforward acceleration is calculated - this is done to be in harmony 
             // with the feedback path later (out of scope of this method)
-            m_targetAccelerationFF = m_targetCurvature*std::pow(input.vxEgo,2);
-            if(params.debugKPIs){printf("ayTarFF %f\n", m_targetAccelerationFF);}
+            m_targetAccelerationFF = m_targetCurvature * std::pow(input.vxEgo,2);
+
+            if(params.debugKPIs)
+                {printf("ayTarFF %f\n", m_targetAccelerationFF);}
         }
 
-        void compensatoryModel::calculateFeedback(const controlInput& input, const controlParams& params)
+        void CompensatoryModel::calculateFeedback(const ControlInput& input, const ControlParams& params)
         {
             // this method calculates the feedback target steering angle.
             // First, control error is defined. A separate FB look ahead distance is calculated for this.
@@ -151,7 +148,7 @@ namespace crp
             m_posErrPrev = m_posErr;
         }
 
-        void compensatoryModel::cutRelevantLocalSnippet()
+        void CompensatoryModel::cutRelevantLocalSnippet()
         {
             // this method cuts a relevant length of the total trajectory, based on the complete 
             // path transformed to the ego coordinate frame
@@ -211,7 +208,7 @@ namespace crp
             }
    }
 
-        void compensatoryModel::calculateSteeringAngle(const controlInput& input, const controlParams& params)
+        void CompensatoryModel::calculateSteeringAngle(const ControlInput& input, const ControlParams& params)
         {
             // calculate steering angle from the acceleration based on target curvature
             m_targetSteeringAngleFF = std::atan(m_targetCurvature*params.vehAxleDistance);
@@ -224,7 +221,7 @@ namespace crp
         }
 
 
-        double compensatoryModel::steeringInverseDynamics(const double& steeringAngle, const controlParams& params)
+        double CompensatoryModel::steeringInverseDynamics(const double& steeringAngle, const ControlParams& params)
         {
             // u[k] = y[k-2]*(T^2/dT^2) + y[k-1]*(-2*xi*T/dT - 2*T^2/dT^2) + y[k]*(T^2/dT^2 + 2*xi*T/dT + 1)
             return m_actualSteeringAngleLog[1]*(pow(params.invSteerTimeConstant, 2)/(pow(params.dT, 2))) + 

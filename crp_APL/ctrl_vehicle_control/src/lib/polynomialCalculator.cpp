@@ -2,7 +2,7 @@
 
 namespace crp{
     namespace apl{
-        double* polynomialCalculator::calculateThirdOrderPolynomial (
+        double* PolynomialCalculator::calculateThirdOrderPolynomial (
         std::vector<double> x, std::vector<double> y){
             calculateMmatrix(x);
             detM = calculateDeterminant(M);
@@ -16,7 +16,7 @@ namespace crp{
             return a;
         }
 
-        void polynomialCalculator::calculateBvector(
+        void PolynomialCalculator::calculateBvector(
         std::vector<double> x, std::vector<double> y){
             double sum = 0.0f;
             for (int i=0; i<4; i++){
@@ -30,7 +30,7 @@ namespace crp{
 
         }
 
-        void polynomialCalculator::calculateMmatrix(
+        void PolynomialCalculator::calculateMmatrix(
         std::vector<double> x){
             double sum = 0.0f;
             for(int i=0; i<9; i++){
@@ -47,7 +47,7 @@ namespace crp{
             }
         }
 
-        void polynomialCalculator::calculateModifiedMMatrix(int k){
+        void PolynomialCalculator::calculateModifiedMMatrix(int k){
             for (int i=0; i<4; i++){
                 for (int j=0; j<4; j++){
                     if (j==k){
@@ -60,7 +60,7 @@ namespace crp{
             }
         }
 
-        double polynomialCalculator::calculateDeterminant(double Mx[4][4]){
+        double PolynomialCalculator::calculateDeterminant(double Mx[4][4]){
             double D = 0;
             for (int i=0; i<4; i++){
                 double dM = calculateSubDeterminant(Mx, i);
@@ -74,7 +74,7 @@ namespace crp{
             return D;
 
         }
-        double polynomialCalculator::calculateSubDeterminant(double Mx[4][4], int i){
+        double PolynomialCalculator::calculateSubDeterminant(double Mx[4][4], int i){
             double m[3][3];
             int columns[3];
             switch (i){

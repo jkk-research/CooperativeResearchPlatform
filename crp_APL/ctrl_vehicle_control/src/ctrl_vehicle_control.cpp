@@ -21,16 +21,16 @@
 using namespace std::chrono_literals;
 using std::placeholders::_1;
 
-class ctrl_vehicle_control : public rclcpp::Node
+class CtrlVehicleControl : public rclcpp::Node
 {
 public:
-    ctrl_vehicle_control() : Node("ctrl_vehicle_control")
+    CtrlVehicleControl() : Node("CtrlVehicleControl")
     {
-        timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&ctrl_vehicle_control::loop, this));  
+        timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControl::loop, this));  
         cmd_pub = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/ctrl_cmd", 30);
         
-        traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&ctrl_vehicle_control::traj_callback, this, std::placeholders::_1));
-        ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/cai/ego", 10, std::bind(&ctrl_vehicle_control::ego_vehicle_callback, this, std::placeholders::_1));
+        traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
+        ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/cai/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
 
         this->declare_parameter("/ctrl/ffGainOffsetGround", 1.0f);
         this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
@@ -52,13 +52,13 @@ public:
 
 private:
     // VARIABLES
-    crp::apl::controlInput input;
-    crp::apl::controlOutput output;
-    crp::apl::controlParams params;
-    crp::apl::geometricOperators m_geometricOperator;
-    crp::apl::compensatoryModel m_compensatoryModel;
+    crp::apl::ControlInput input;
+    crp::apl::ControlOutput output;
+    crp::apl::ControlParams params;
+    crp::apl::GeometricOperators m_geometricOperator;
+    crp::apl::CompensatoryModel m_compensatoryModel;
 
-    void traj_callback(const autoware_planning_msgs::msg::Trajectory input_msg)
+    void trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
     {
         input.path_x.clear();
         input.path_y.clear();
@@ -75,16 +75,13 @@ private:
             quaternion[2] = input_msg.points.at(i).pose.orientation.z; 
             quaternion[3] = input_msg.points.at(i).pose.orientation.w; 
             input.path_theta.push_back(m_geometricOperator.transformQuatToEuler(quaternion));
-            if (i<10){
-                //printf("input trajectory %d: %f %f %f\n", i, input_msg.points.at(i).pose.position.x, input_msg.points.at(i).pose.position.y, m_geometricOperator.transformQuatToEuler(quaternion));
-            }
         }
 
         input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
    
     }
 
-    void ego_vehicle_callback(const crp_msgs::msg::Ego input_msg)
+    void egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
     {
         input.vxEgo = input_msg.twist.twist.linear.x;
         input.egoSteeringAngle = input_msg.road_wheel_angle_front;
@@ -129,17 +126,15 @@ private:
     }
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<autoware_control_msgs::msg::Control>::SharedPtr cmd_pub;
-    
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
-
     autoware_control_msgs::msg::Control ctrl_cmd;
 };
 
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<ctrl_vehicle_control>());
+    rclcpp::spin(std::make_shared<CtrlVehicleControl>());
     rclcpp::shutdown();
     return 0;
 }

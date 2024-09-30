@@ -1,3 +1,6 @@
+#ifndef CRP_APL_COMPENSATORY_MODEL_CTRLVEHICLECONTROL_HPP
+#define CRP_APL_COMPENSATORY_MODEL_CTRLVEHICLECONTROL_HPP
+
 #include <cmath>
 #include <stdio.h>
 
@@ -7,22 +10,20 @@
 #include "lib/utils.hpp"
 #include "lib/polyfitBoost.hpp"
 
-#ifndef COMPENSATORY_MODEL_
-#define COMPENSATORY_MODEL_
 
 namespace crp
 {
     namespace apl
     {
-        class compensatoryModel{
+        class CompensatoryModel{
             public:
-                void run (controlInput& input, controlOutput& output, const controlParams& params);
+                void run (ControlInput& input, ControlOutput& output, const ControlParams& params);
             
             private:
-                polynomialCalculator m_polynomialCalculator;
-                transforms m_transforms;
-                filters m_steeringAngleFilter;
-                filters m_posDerivativeFilter;
+                PolynomialCalculator m_polynomialCalculator;
+                Transforms m_transforms;
+                Filters m_steeringAngleFilter;
+                Filters m_posDerivativeFilter;
 
 
                 double* m_coefficients;
@@ -64,14 +65,14 @@ namespace crp
                 unsigned long int N{0};
 
                 // METHODS
-                void calculateFeedforward(const controlInput& input, const controlParams& params);
-                void calculateFeedback(const controlInput& input, const controlParams& params);
+                void calculateFeedforward(const ControlInput& input, const ControlParams& params);
+                void calculateFeedback(const ControlInput& input, const ControlParams& params);
 
-                void calculateSteeringAngle(const controlInput& input, const controlParams& params);
+                void calculateSteeringAngle(const ControlInput& input, const ControlParams& params);
 
                 void cutRelevantLocalSnippet();
 
-                double steeringInverseDynamics(const double& steeringAngle, const controlParams& params);
+                double steeringInverseDynamics(const double& steeringAngle, const ControlParams& params);
         };
     }
 }
