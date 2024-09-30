@@ -13,6 +13,7 @@ namespace crp
             std::vector<double> path_x;
             std::vector<double> path_y;
             std::vector<double> path_theta;
+            double target_speed{0.0f};
             double egoPoseGlobal [3]{0.0f};
             double vxEgo{0.0f};
             double egoSteeringAngle{0.0f};

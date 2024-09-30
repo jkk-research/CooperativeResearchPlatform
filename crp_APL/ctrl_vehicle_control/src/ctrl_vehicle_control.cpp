@@ -83,6 +83,8 @@ private:
                 //printf("input trajectory %d: %f %f %f\n", i, input_msg.points.at(i).pose.position.x, input_msg.points.at(i).pose.position.y, m_geometricOperator.transformQuatToEuler(quaternion));
             }
         }
+
+        input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
    
     }
 
@@ -125,7 +127,7 @@ private:
         // steering angle and steering angle gradiant
         ctrl_cmd.lateral.steering_tire_angle = output.steeringAngleTarget;
         ctrl_cmd.lateral.steering_tire_rotation_rate = 0.0f;
-        ctrl_cmd.longitudinal.speed = 2.0;
+        ctrl_cmd.longitudinal.speed = input.target_speed;
 
         cmd_pub->publish(ctrl_cmd);
     }
