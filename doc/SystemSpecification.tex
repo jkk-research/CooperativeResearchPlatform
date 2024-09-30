@@ -399,6 +399,12 @@ The container can be build to ARM64 platform:
     cd CooperativeResearchPlatform
     ./docker/build_arm64.sh
 \end{lstlisting}
+\subsubsection{Running the docker}
+The docker can be run with the following command:
+\begin{lstlisting}
+    docker run -it --rm --network host --ipc host --pid host --device /dev/leaf0 --device /dev/leaf1 crp_arm64:latest
+\end{lstlisting}
+This way the docker shares the network with the host and has access to the kvaser CAN device.
 
 \section{Coding rules} \label{sec:coding_rules}
 \subsection{Naming convention}
