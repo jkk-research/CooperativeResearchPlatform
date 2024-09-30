@@ -4,7 +4,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <crp_msgs/msg/target_space.hpp>
 #include <crp_msgs/msg/ego.hpp>
-#include <tier4_planning_msgs/msg/scenario.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 #include <autoware_planning_msgs/msg/trajectory_point.hpp>
 #include <tf2/LinearMath/Quaternion.h>
@@ -43,7 +42,6 @@ protected:
     virtual void plan(const PlannerInput & input, PlannerOutput & output) = 0;
 
 private:
-    void strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg);
     void targetSpaceCallback(const crp_msgs::msg::TargetSpace::SharedPtr msg);
     void egoCallback(const crp_msgs::msg::Ego::SharedPtr msg);
     
@@ -51,7 +49,6 @@ private:
     void publishTrajectory(const PlannerOutput & trajectory);
     void run();
 
-    rclcpp::Subscription<tier4_planning_msgs::msg::Scenario>::SharedPtr m_sub_strategy_;
     rclcpp::Subscription<crp_msgs::msg::TargetSpace>::SharedPtr         m_sub_target_space_;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                 m_sub_ego_;
 

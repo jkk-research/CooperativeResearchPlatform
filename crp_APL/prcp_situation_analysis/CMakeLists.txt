@@ -13,13 +13,12 @@ find_package(nav_msgs REQUIRED)
 find_package(autoware_map_msgs REQUIRED)
 find_package(autoware_perception_msgs REQUIRED)
 find_package(autoware_localization_msgs REQUIRED)
-find_package(tier4_planning_msgs REQUIRED)
 
 
 include_directories(include)
 
 add_executable(input_fusion src/inputFusion.cpp)
-ament_target_dependencies(input_fusion rclcpp crp_msgs nav_msgs autoware_map_msgs autoware_perception_msgs autoware_localization_msgs tier4_planning_msgs)
+ament_target_dependencies(input_fusion rclcpp crp_msgs nav_msgs autoware_map_msgs autoware_perception_msgs autoware_localization_msgs)
 
 install(TARGETS
   input_fusion

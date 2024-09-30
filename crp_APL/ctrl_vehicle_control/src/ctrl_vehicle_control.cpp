@@ -9,13 +9,9 @@
 #include "std_msgs/msg/float32.hpp"
 #include "crp_msgs/msg/ego.hpp"
 
-#include "autoware_auto_control_msgs/msg/ackermann_control_command.hpp"
-#include "autoware_auto_planning_msgs/msg/trajectory.hpp"
-#include "autoware_auto_vehicle_msgs/msg/steering_report.hpp"
-#include "autoware_auto_vehicle_msgs/msg/vehicle_odometry.hpp"
-#include "nav_msgs/msg/odometry.hpp"
-#include "pacmod3_msgs/msg/vehicle_speed_rpt.hpp"
-#include "pacmod3_msgs/msg/system_rpt_float.hpp"
+#include "autoware_control_msgs/msg/control.hpp"
+#include "autoware_planning_msgs/msg/trajectory.hpp"
+#include "autoware_vehicle_msgs/msg/steering_report.hpp"
 
 #include "ctrl_vehicle_control/controller_inputs.hpp"
 #include "ctrl_vehicle_control/controller_outputs.hpp"
@@ -31,9 +27,9 @@ public:
     ctrl_vehicle_control() : Node("ctrl_vehicle_control")
     {
         timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&ctrl_vehicle_control::loop, this));  
-        cmd_pub = this->create_publisher<autoware_auto_control_msgs::msg::AckermannControlCommand>("/control/command/ctrl_cmd", 30);
+        cmd_pub = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/ctrl_cmd", 30);
         
-        traj_sub = this->create_subscription<autoware_auto_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&ctrl_vehicle_control::traj_callback, this, std::placeholders::_1));
+        traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&ctrl_vehicle_control::traj_callback, this, std::placeholders::_1));
         ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/cai/ego", 10, std::bind(&ctrl_vehicle_control::ego_vehicle_callback, this, std::placeholders::_1));
 
         this->declare_parameter("/ctrl/ffGainOffsetGround", 1.0f);
@@ -62,7 +58,7 @@ private:
     crp::apl::geometricOperators m_geometricOperator;
     crp::apl::compensatoryModel m_compensatoryModel;
 
-    void traj_callback(const autoware_auto_planning_msgs::msg::Trajectory input_msg)
+    void traj_callback(const autoware_planning_msgs::msg::Trajectory input_msg)
     {
         input.path_x.clear();
         input.path_y.clear();
@@ -127,19 +123,17 @@ private:
         // steering angle and steering angle gradiant
         ctrl_cmd.lateral.steering_tire_angle = output.steeringAngleTarget;
         ctrl_cmd.lateral.steering_tire_rotation_rate = 0.0f;
-        ctrl_cmd.longitudinal.speed = input.target_speed;
+        ctrl_cmd.longitudinal.velocity = input.target_speed;
 
         cmd_pub->publish(ctrl_cmd);
     }
     rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Publisher<autoware_auto_control_msgs::msg::AckermannControlCommand>::SharedPtr cmd_pub;
+    rclcpp::Publisher<autoware_control_msgs::msg::Control>::SharedPtr cmd_pub;
     
-    rclcpp::Subscription<autoware_auto_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub;
+    rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
-    rclcpp::Subscription<autoware_auto_control_msgs::msg::AckermannControlCommand>::SharedPtr cmd_dummy_sub;
 
-    autoware_auto_control_msgs::msg::AckermannControlCommand ctrl_cmd;
+    autoware_control_msgs::msg::Control ctrl_cmd;
 };
 
 int main(int argc, char *argv[])

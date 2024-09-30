@@ -6,7 +6,6 @@
 #include <autoware_localization_msgs/msg/kinematic_state.hpp>
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
 #include <autoware_perception_msgs/msg/predicted_objects.hpp>
-#include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
 #include <crp_msgs/msg/world.hpp>
 #include <crp_msgs/msg/scenario.hpp>
 #include <crp_msgs/msg/ego.hpp>
@@ -26,7 +25,6 @@ private:
     void globalMovingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg);
     void localMovingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg);
     void localObstaclesCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg);
-    void localLanePathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg);
     void localDrivableSurfaceCallback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg);
     void egoKinematicStateCallback(const autoware_localization_msgs::msg::KinematicState::SharedPtr msg);
 
@@ -36,7 +34,6 @@ private:
     // scenario
     rclcpp::Subscription<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_sub_local_moving_objects_;
     rclcpp::Subscription<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_sub_local_obstacles_;
-    rclcpp::Subscription<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_sub_local_lane_path_;
     rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_sub_local_drivable_surface_;
     // ego
     rclcpp::Subscription<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_sub_ego_kinematic_state_;

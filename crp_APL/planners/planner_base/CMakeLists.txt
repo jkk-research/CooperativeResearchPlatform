@@ -9,7 +9,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(crp_msgs REQUIRED)
-find_package(tier4_planning_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
@@ -19,7 +18,7 @@ include_directories(include)
 add_library(wrapper_base SHARED
   src/wrapperBase.cpp
 )
-ament_target_dependencies(wrapper_base rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs tf2 tf2_geometry_msgs)
+ament_target_dependencies(wrapper_base rclcpp crp_msgs autoware_planning_msgs tf2 tf2_geometry_msgs)
 
 install(
   DIRECTORY include/
@@ -36,6 +35,6 @@ install(
 )
 
 ament_export_targets(wrapper_base HAS_LIBRARY_TARGET)
-ament_export_dependencies(rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs tf2 tf2_geometry_msgs)
+ament_export_dependencies(rclcpp crp_msgs autoware_planning_msgs tf2 tf2_geometry_msgs)
 
 ament_package()

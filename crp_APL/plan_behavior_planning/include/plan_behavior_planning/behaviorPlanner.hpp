@@ -6,7 +6,6 @@
 #include <crp_msgs/msg/ego.hpp>
 #include <crp_msgs/msg/target_space.hpp>
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
-#include <tier4_planning_msgs/msg/scenario.hpp>
 
 
 namespace crp
@@ -28,7 +27,6 @@ private:
     rclcpp::Subscription<crp_msgs::msg::Scenario>::SharedPtr                   m_sub_scenario;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                        m_sub_ego;
 
-    rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy;
     rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_target_space;
 };
 
