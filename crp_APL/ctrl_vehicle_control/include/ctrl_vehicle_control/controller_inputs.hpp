@@ -37,6 +37,7 @@ namespace crp
             double invSteerDamping{0.0f}; // todo
             double dT{0.0333f};
             double vxMin{3.0f};
+            double trajectory_distance{50.0f};
             bool debugKPIs{true};
         };
     }

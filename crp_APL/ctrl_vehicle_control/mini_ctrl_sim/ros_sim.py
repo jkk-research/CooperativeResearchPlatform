@@ -26,7 +26,7 @@ from autoware_auto_control_msgs.msg import AckermannControlCommand
 
 # === Parameters =====
 
-dt = 0.1  # time tick[s]
+dt = 0.033  # time tick[s]
 L = 2.9  # Wheel base of the vehicle [m]
 max_steer = np.deg2rad(45.0)  # maximum steering angle[rad]
 
@@ -99,11 +99,6 @@ class State:
 
 def update(state, a, delta):
 
-    if delta >= max_steer:
-        delta = max_steer
-    if delta <= - max_steer:
-        delta = - max_steer
-
     state.x = state.x + state.v * math.cos(state.yaw) * dt
     state.y = state.y + state.v * math.sin(state.yaw) * dt
     state.yaw = state.yaw + state.v / L * math.tan(delta) * dt
@@ -121,7 +116,7 @@ class ROS_Control_Sim(Node):
         self.traj_publisher = self.create_publisher(Trajectory, '/planning/scenario_planning/trajectory', 10)
         self.ego_publisher = self.create_publisher(Ego, '/cai/ego', 10)
 
-        self.state = State(x=-0.0, y=-2.0, yaw=0.0, v=1.0)
+        self.state = State(x=-0.0, y=-2.0, yaw=0.0, v=3.0)
 
         self.time = 0.0
         self.x = [self.state.x]
@@ -136,6 +131,7 @@ class ROS_Control_Sim(Node):
         self.speed_profile = sp
 
         self.ControlCmd = AckermannControlCommand()
+
 
     def control_input_callback(self, msg):
         self.ControlCmd = msg
@@ -167,7 +163,7 @@ class ROS_Control_Sim(Node):
         local_x = []
         local_y = []
 
-        for i in range(target_ind, len(x)-1):
+        for i in range(len(x)-1):
 
             traj_point = TrajectoryPoint()
 
@@ -179,34 +175,21 @@ class ROS_Control_Sim(Node):
             traj_point.pose.position.y = point_transformed[1]
             traj_point.longitudinal_velocity_mps = v[i]
 
+            yaw_angle = math.atan2(y[i+1] - y[i], x[i+1] - x[i])
+
+            rot = Rotation.from_euler('xyz', [0, 0, yaw_angle], degrees=False)
+
+            rot = rot.as_quat()
+
+            traj_point.pose.orientation.x = rot[0]
+            traj_point.pose.orientation.y = rot[1]
+            traj_point.pose.orientation.z = rot[2]
+            traj_point.pose.orientation.w = rot[3]
+
             local_x.append(point_transformed[0])
             local_y.append(point_transformed[1])
 
-            dx = x[i+1] - x[i]
-            dy = y[i+1] - y[i]
-            heading = math.atan2(dy, dx)
-
-            quat = euler_to_quaternion(0, 0, heading)
-            traj_point.pose.orientation.x = quat[0]
-            traj_point.pose.orientation.y = quat[1]
-            traj_point.pose.orientation.z = quat[2]
-            traj_point.pose.orientation.w = quat[3]
-
             traj.points.append(traj_point)
-
-        # if target_ind % 1 == 0 and show_animation:
-        #     plt.cla()
-        #     # for stopping simulation with the esc key.
-        #     plt.gcf().canvas.mpl_connect(
-        #         'key_release_event',
-        #         lambda event: [exit(0) if event.key == 'escape' else None])
-        #     plt.plot(local_x,local_y, "-r", label="course")
-        #     plt.axis("equal")
-        #     plt.grid(True)
-        #     plt.title("speed[km/h]:" + str(round(self.state.v * 3.6, 2))
-        #             + ",target index:" + str(target_ind))
-        #     plt.pause(0.0001)
-
 
 
         self.traj_publisher.publish(traj)
@@ -240,6 +223,9 @@ class ROS_Control_Sim(Node):
         ego.pose.pose.position.x = state.x
         ego.pose.pose.position.y = state.y
         ego.pose.pose.position.z = 0.0
+        ego.twist.twist.linear.x = state.v
+        
+        ego.road_wheel_angle_front = self.ControlCmd.lateral.steering_tire_angle
 
         rot = Rotation.from_euler('xyz', [0, 0, state.yaw], degrees=False)
         rot = rot.as_quat()
@@ -260,6 +246,7 @@ class ROS_Control_Sim(Node):
 
         target_ind, _ = calc_nearest_index(self.state, cx, cy, cyaw)
         self.state = update(self.state, 0.0, self.ControlCmd.lateral.steering_tire_angle)
+        self.create_trajectory_msg(self.traj_x, self.traj_y, self.traj_yaw, self.speed_profile)
 
         if abs(self.state.v) <= stop_speed:
             target_ind += 1
@@ -268,7 +255,6 @@ class ROS_Control_Sim(Node):
         rot = rot.as_quat()
 
         self.create_ego_msg(self.state)
-        self.create_trajectory_msg(self.traj_x, self.traj_y, self.traj_yaw, self.speed_profile)
 
         # time = time + dt
         # check goal
@@ -296,6 +282,11 @@ class ROS_Control_Sim(Node):
             plt.grid(True)
             plt.title("speed[km/h]:" + str(round(self.state.v * 3.6, 2))
                     + ",target index:" + str(target_ind))
+            # plot the vehicle's orientation as a narrown arrow
+            plt.arrow(self.state.x, self.state.y, 0.5 * math.cos(self.state.yaw), 0.5 * math.sin(self.state.yaw),
+                    head_length=0.2, head_width=0.1)
+            
+    
             plt.pause(0.0001)
 
         return self.t, self.x, self.y, self.yaw, self.v
@@ -337,7 +328,7 @@ def main():
     rclpy.init()
 
     ax = [-5.0,0.0, 30.0, 60.0,90.0, 120.0]
-    ay = [-0.0,0.0, 5.0, 15.0, 20.0, 25.0]
+    ay = [-0.0,0.0, 10.0, 15.0, 80.0, 90.0]
     goal = [ax[-1], ay[-1]]
 
     cx, cy, cyaw, ck, s = cubic_spline_planner.calc_spline_course(
@@ -348,44 +339,42 @@ def main():
 
     ros_control_sim = ROS_Control_Sim(cx, cy, cyaw, sp)
 
-
-
     rclpy.spin(ros_control_sim)
 
-    # if show_animation:  # pragma: no cover
-    #     plt.close()
-    #     plt.subplots(1)
-    #     plt.plot(ax, ay, "xb", label="waypoints")
-    #     plt.plot(cx, cy, "-r", label="target course")
-    #     plt.plot(x, y, "-g", label="tracking")
-    #     plt.grid(True)
-    #     plt.axis("equal")
-    #     plt.xlabel("x[m]")
-    #     plt.ylabel("y[m]")
-    #     plt.legend()
-    #     plt.subplots(1)
+    if show_animation:  # pragma: no cover
+        plt.close()
+        plt.subplots(1)
+        plt.plot(ax, ay, "xb", label="waypoints")
+        plt.plot(cx, cy, "-r", label="target course")
+        plt.plot(x, y, "-g", label="tracking")
+        plt.grid(True)
+        plt.axis("equal")
+        plt.xlabel("x[m]")
+        plt.ylabel("y[m]")
+        plt.legend()
+        plt.subplots(1)
 
-    #     plt.plot(t, np.array(v)*3.6, label="speed")
-    #     plt.grid(True)
-    #     plt.xlabel("Time [sec]")
-    #     plt.ylabel("Speed [m/s]")
-    #     plt.legend()
+        plt.plot(t, np.array(v)*3.6, label="speed")
+        plt.grid(True)
+        plt.xlabel("Time [sec]")
+        plt.ylabel("Speed [m/s]")
+        plt.legend()
 
-    #     plt.subplots(1)
-    #     plt.plot(s, [np.rad2deg(iyaw) for iyaw in cyaw], "-r", label="yaw")
-    #     plt.grid(True)
-    #     plt.legend()
-    #     plt.xlabel("line length[m]")
-    #     plt.ylabel("yaw angle[deg]")
+        plt.subplots(1)
+        plt.plot(s, [np.rad2deg(iyaw) for iyaw in cyaw], "-r", label="yaw")
+        plt.grid(True)
+        plt.legend()
+        plt.xlabel("line length[m]")
+        plt.ylabel("yaw angle[deg]")
 
-    #     plt.subplots(1)
-    #     plt.plot(s, ck, "-r", label="curvature")
-    #     plt.grid(True)
-    #     plt.legend()
-    #     plt.xlabel("line length[m]")
-    #     plt.ylabel("curvature [1/m]")
+        plt.subplots(1)
+        plt.plot(s, ck, "-r", label="curvature")
+        plt.grid(True)
+        plt.legend()
+        plt.xlabel("line length[m]")
+        plt.ylabel("curvature [1/m]")
 
-    #     plt.show()
+        plt.show()
 
 
 if __name__ == '__main__':

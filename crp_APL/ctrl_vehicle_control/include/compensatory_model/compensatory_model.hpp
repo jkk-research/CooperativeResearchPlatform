@@ -16,7 +16,7 @@ namespace crp
     {
         class compensatoryModel{
             public:
-                void run (const controlInput& input, controlOutput& output, const controlParams& params);
+                void run (controlInput& input, controlOutput& output, const controlParams& params);
             
             private:
                 polynomialCalculator m_polynomialCalculator;
@@ -25,7 +25,7 @@ namespace crp
                 filters m_posDerivativeFilter;
 
 
-                std::vector<double> m_coefficients;
+                double* m_coefficients;
                 std::vector<double> m_localPath_x;
                 std::vector<double> m_localPath_y;
                 std::vector<double> m_localPathCut_x;

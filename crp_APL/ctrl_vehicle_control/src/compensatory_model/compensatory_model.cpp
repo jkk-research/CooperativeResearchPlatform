@@ -4,55 +4,80 @@ namespace crp
 {
     namespace apl
     {
-    
-        void compensatoryModel::run (const controlInput& input, controlOutput& output, const controlParams& params){
-                // this method calculates the PID controller target steering angle
+        void compensatoryModel::run (controlInput& input, controlOutput& output, const controlParams& params)
+        {
+            // this method is the main method of the compensatory model. It calculates the feedforward and feedback
 
-                if (input.path_x.size() < 4)
+            double point[3];
+            m_localPath_x.clear(); m_localPath_y.clear();
+            for (unsigned long int i=0; i<input.path_x.size(); i++)
+            {
+                point[0] = input.path_x.at(i);
+                point[1] = input.path_y.at(i);
+                point[2] = 0.0f;
+                double* localPathPoint = point;
+                if (i==0)
                 {
+                    printf("conversion of first point [%f %f], \n with pose [%f %f %f]\n", point[0], point[1], input.egoPoseGlobal[0], input.egoPoseGlobal[1], input.egoPoseGlobal[2]);
+                    printf("output of conversion %f %f\n", localPathPoint[0], localPathPoint[1]);
+                }
                 
-                    printf("Trajectory is invalid\n");
-                    printf("The following KPIs have been calculated\n");
-                    printf("\t c0 RMS = %f\n\tc0 mean = %f\n\t cycle numbers %l\n", m_KPI_c0RMS, m_KPI_c0Mean, N);
-                }
-                else
+                m_localPath_x.push_back(localPathPoint[0]);
+                m_localPath_y.push_back(localPathPoint[1]);
+            }
+
+            // cut snippet
+            cutRelevantLocalSnippet();
+
+
+            if (input.path_x.size() < 4)
+            {
+            
+                printf("Trajectory is invalid\n");
+                printf("The following KPIs have been calculated\n");
+                printf("\t c0 RMS = %f\n\tc0 mean = %f\n\t cycle numbers %l\n", m_KPI_c0RMS, m_KPI_c0Mean, N);
+            }
+            else
+            {
+                
+                printf("Trajectory length is %d\n", input.path_x.size());
+                m_coefficients = m_polynomialCalculator.calculateThirdOrderPolynomial(m_localPathCut_x, m_localPathCut_y);
+                printf("coefficients are %f %f %f %f\n", m_coefficients[0], m_coefficients[1], m_coefficients[2], m_coefficients[3]);
+                // print the first 10 points of the trajectory
+                // feedforward control
+                calculateFeedforward(input, params);
+
+                // feedback control
+                calculateFeedback(input, params);
+
+                // output calculation
+                calculateSteeringAngle(input, params);
+
+                // summing the target values to produce the target
+                output.accelerationTarget = m_targetAccelerationFF + m_targetAccelerationFB;
+                output.steeringAngleTarget = m_targetSteeringAngleFF + m_targetSteeringAngleFB;
+                output.steeringAngleTarget = m_steeringAngleFilter.lowPassFilter(output.steeringAngleTarget, m_targetSteeringAngle_prev, params.steeringAngleLPFilter);
+
+                // output.steeringAngleTarget = steeringInverseDynamics(output.steeringAngleTarget, params);
+
+                // KPI calculation
+                if (N<=65535)
                 {
-                    m_coefficients = polyfit_boost(input.path_x, input.path_y,3);
-                    printf("coefficients are %f %f %f %f\n", m_coefficients[0], m_coefficients[1], m_coefficients[2], m_coefficients[3]);
-                    // feedforward control
-                    calculateFeedforward(input, params);
-
-                    // feedback control
-                    calculateFeedback(input, params);
-
-                    // output calculation
-                    calculateSteeringAngle(input, params);
-
-                    // summing the target values to produce the target
-                    output.accelerationTarget = m_targetAccelerationFF+m_targetAccelerationFB;
-                    output.steeringAngleTarget = m_targetSteeringAngleFF+m_targetSteeringAngleFB;
-                    output.steeringAngleTarget = m_steeringAngleFilter.lowPassFilter(output.steeringAngleTarget, m_targetSteeringAngle_prev, params.steeringAngleLPFilter);
-
-                    // output.steeringAngleTarget = steeringInverseDynamics(output.steeringAngleTarget, params);
-
-                    // KPI calculation
-                    if (N<=65535)
-                    {
-                        N++;
-                    }
-                    m_KPI_c0Mean = ((N-1)*m_KPI_c0Mean+m_coefficients[0])/N;
-                    m_KPI_c0MS = ((N-1)*m_KPI_c0MS+std::pow(m_coefficients[0],2))/N;
-                    m_KPI_c0RMS = std::sqrt(m_KPI_c0MS);
-                    m_KPI_c0Max = std::min(m_KPI_c0Max, m_coefficients[0]);
-                    
-                    m_targetSteeringAngle_prev = output.steeringAngleTarget;
-
-                    m_actualSteeringAngleLog[1] = m_actualSteeringAngleLog[0];
-                    m_actualSteeringAngleLog[0] = input.egoSteeringAngle;
-
-                    printf("The following KPIs have been calculated\n");
-                    printf("\t c0 RMS = %f\n\tc0 mean = %f\n\t c0 max = %f\n\t cycle numbers %d\n", m_KPI_c0RMS, m_KPI_c0Mean, m_KPI_c0Max, N);
+                    N++;
                 }
+                m_KPI_c0Mean = ((N-1)*m_KPI_c0Mean+m_coefficients[0])/N;
+                m_KPI_c0MS = ((N-1)*m_KPI_c0MS+std::pow(m_coefficients[0],2))/N;
+                m_KPI_c0RMS = std::sqrt(m_KPI_c0MS);
+                m_KPI_c0Max = std::min(m_KPI_c0Max, m_coefficients[0]);
+                
+                m_targetSteeringAngle_prev = output.steeringAngleTarget;
+
+                m_actualSteeringAngleLog[1] = m_actualSteeringAngleLog[0];
+                m_actualSteeringAngleLog[0] = input.egoSteeringAngle;
+
+                printf("The following KPIs have been calculated\n");
+                printf("\t c0 RMS = %f\n\tc0 mean = %f\n\t c0 max = %f\n\t cycle numbers %d\n", m_KPI_c0RMS, m_KPI_c0Mean, m_KPI_c0Max, N);
+            }
         }
 
         void compensatoryModel::calculateFeedforward(const controlInput& input, const controlParams& params)
@@ -119,12 +144,72 @@ namespace crp
                 params.fbIGain*m_posIntegralError;
             }
             
-            m_targetAccelerationFB = m_targetAccelerationFB + params.fbThetaGain*m_orientationErr;
+            m_targetAccelerationFB = m_targetAccelerationFB + params.fbThetaGain * m_orientationErr;
             
             if(params.debugKPIs){printf("errors %f, %f, %f\n", m_posErr, m_posIntegralError, m_posDerivativeError); printf("ayTarFB %f\n", m_targetAccelerationFB);}
 
             m_posErrPrev = m_posErr;
         }
+
+        void compensatoryModel::cutRelevantLocalSnippet()
+        {
+            // this method cuts a relevant length of the total trajectory, based on the complete 
+            // path transformed to the ego coordinate frame
+            // step 1: searching for nearest point in trajectory
+            unsigned long int startIdx = -1;
+            unsigned long int stopIdx = -1;
+            m_trajInvalid = false;
+            double maxDistance = 50; // meters
+            m_localPathCut_x.clear(); m_localPathCut_y.clear();
+
+            for (unsigned long int i=0; i<m_localPath_x.size(); i++)
+            {
+                if (m_localPath_x.at(i)>0)
+                {
+                    if (i==0){
+                        startIdx = i;
+                    }
+                    else{
+                        startIdx = i-1;
+                    }
+                    break;
+                }
+            }
+            if (startIdx == -1)
+            {
+                // no valid point was found
+                m_trajInvalid = true;
+            }
+            else
+            {
+                // find stop index
+                for (unsigned long int i=startIdx; i<m_localPath_x.size(); i++)
+                {
+                    double pointDistance = std::sqrt(std::pow(m_localPath_x.at(i),2)+std::pow(m_localPath_y.at(i),2));
+                    if (pointDistance>maxDistance)
+                    {
+                        stopIdx = i;
+                        break;
+                    }
+                }
+            }
+            if (stopIdx == -1)
+            {
+                m_trajInvalid = true;
+            }
+            else{
+                // valid snippet is found, calculate real path
+                for (unsigned long int i=startIdx; i<stopIdx; i++)
+                {
+                    m_localPathCut_x.push_back(m_localPath_x.at(i));
+                    m_localPathCut_y.push_back(m_localPath_y.at(i));
+                    if (i<startIdx+10)
+                    {
+                        printf("path after cut %f %f\n", m_localPath_x.at(i), m_localPath_y.at(i));
+                    }
+                }
+            }
+   }
 
         void compensatoryModel::calculateSteeringAngle(const controlInput& input, const controlParams& params)
         {

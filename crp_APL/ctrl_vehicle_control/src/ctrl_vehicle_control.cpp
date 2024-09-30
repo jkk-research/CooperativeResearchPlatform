@@ -42,12 +42,13 @@ public:
         this->declare_parameter("/ctrl/ffMinLookAheadDistance", 0.1f);
         this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.7f);
         this->declare_parameter("/ctrl/fbLookAheadTime", 0.0f);
-        this->declare_parameter("/ctrl/fbPGain", 0.6);
-        this->declare_parameter("/ctrl/fbDGain", 0.0f);
+        this->declare_parameter("/ctrl/fbPGain", 1.0);
+        this->declare_parameter("/ctrl/fbDGain", 0.1f);
         this->declare_parameter("/ctrl/fbIGain", 0.0f);
         this->declare_parameter("/ctrl/fbThetaGain", 0.0f);
         this->declare_parameter("/ctrl/fbMinLookAheadDistance", 0.0f);
         this->declare_parameter("/ctrl/fbIntegralLimit", 3.0f);
+        this->declare_parameter("/ctrl/trajectory_distance", 50.0f);
         this->declare_parameter("/ctrl/debugKPIs", true);
 
         RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
@@ -116,6 +117,7 @@ private:
         params.fbThetaGain = this->get_parameter("/ctrl/fbThetaGain").as_double();
         params.fbMinLookAheadDistance = this->get_parameter("/ctrl/fbMinLookAheadDistance").as_double();
         params.fbIntegralLimit = this->get_parameter("/ctrl/fbIntegralLimit").as_double();
+        params.trajectory_distance = this->get_parameter("/ctrl/trajectory_distance").as_double();
         params.debugKPIs = this->get_parameter("/ctrl/debugKPIs").as_bool();
 
         m_compensatoryModel.run(input, output, params);

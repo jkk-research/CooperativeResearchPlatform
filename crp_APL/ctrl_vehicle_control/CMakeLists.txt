@@ -27,19 +27,11 @@ add_executable(ctrl_vehicle_control src/ctrl_vehicle_control.cpp src/lib/utils.c
 
 ament_target_dependencies(ctrl_vehicle_control  rclcpp geometry_msgs std_msgs autoware_auto_control_msgs autoware_auto_planning_msgs autoware_auto_vehicle_msgs nav_msgs pacmod3_msgs crp_msgs)
 
-
-add_executable(model_vehicle_model src/helper_nodes/vehicle_model.cpp
-    src/lib/utils.cpp)
-
-ament_target_dependencies(model_vehicle_model  rclcpp geometry_msgs std_msgs autoware_auto_control_msgs autoware_auto_planning_msgs autoware_auto_vehicle_msgs nav_msgs pacmod3_msgs crp_msgs)
-
-
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
   ctrl_vehicle_control
-  model_vehicle_model
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
