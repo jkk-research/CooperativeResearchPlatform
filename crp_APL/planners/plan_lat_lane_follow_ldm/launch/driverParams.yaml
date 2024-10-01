@@ -1,3 +1,0 @@
-/**:
-  ros__parameters:
-    /plan_lat_lane_follow_ldm/nodePointDistances: [25.0, 50.0, 75.0]

@@ -1,8 +1,0 @@
-source;share/plan_lat_lane_follow_ldm/hook/cmake_prefix_path.ps1
-source;share/plan_lat_lane_follow_ldm/hook/cmake_prefix_path.dsv
-source;share/plan_lat_lane_follow_ldm/hook/cmake_prefix_path.sh
-source;share/plan_lat_lane_follow_ldm/local_setup.bash
-source;share/plan_lat_lane_follow_ldm/local_setup.dsv
-source;share/plan_lat_lane_follow_ldm/local_setup.ps1
-source;share/plan_lat_lane_follow_ldm/local_setup.sh
-source;share/plan_lat_lane_follow_ldm/local_setup.zsh

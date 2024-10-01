@@ -1,7 +1,0 @@
-[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow/src/wrapper.cpp:[m[K In member function ‘[01m[Kvirtual void crp::apl::PlanLatLaneFollowHandler::plan(const crp::apl::WrapperBase::PlannerInput&, crp::apl::WrapperBase::PlannerOutput&)[m[K’:
-[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow/src/wrapper.cpp:9:68:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Kinput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
-    9 | void crp::apl::PlanLatLaneFollowHandler::plan([01;35m[Kconst PlannerInput & input[m[K, PlannerOutput & output)
-      |                                               [01;35m[K~~~~~~~~~~~~~~~~~~~~~^~~~~[m[K
-[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow/src/wrapper.cpp:9:91:[m[K [01;35m[Kwarning: [m[Kunused parameter ‘[01m[Koutput[m[K’ [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-parameter-Wunused-parameter]8;;[m[K]
-    9 | void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, [01;35m[KPlannerOutput & output[m[K)
-      |                                                                           [01;35m[K~~~~~~~~~~~~~~~~^~~~~~[m[K
