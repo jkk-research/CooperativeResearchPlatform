@@ -24,7 +24,7 @@ private:
    uint8_t forwardElimination(float (&gaussMatrix)[4][5]);
    void backSubstitute(float (&gaussMatrix)[4][5]);
    // helper variable for gauss elimination
-   float gaussResult[4]{0.0f};
+   float m_gaussResult[4]{0.0f};
    // helper methods for polynomial fitting
    void calculateBvector(const std::vector<float> x,
         const std::vector<float> y);
@@ -34,12 +34,12 @@ private:
    double calculateSubDeterminant(double Mx[4][4], uint8_t);
    void calculateModifiedMMatrix(uint8_t);
 
-   float  a[4];
-   double v[9];
-   double M_[4][4]{{0.0f}};
-   double M[4][4]{{0.0f}};
-   double detM;
-   double b[4]{0.0f};
+   float  m_a[4];
+   double m_v[9];
+   double m_M_[4][4]{{0.0f}};
+   double m_M[4][4]{{0.0f}};
+   double m_detM;
+   double m_b[4]{0.0f};
 };
 } // namespace apl
 } // namespace crp

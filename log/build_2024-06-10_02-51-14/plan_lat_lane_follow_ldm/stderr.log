@@ -1,7 +1,0 @@
-[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapper.cpp:1:10:[m[K [01;31m[Kfatal error: [m[Kplan_lat_lane_follow/wrapper.hpp: No such file or directory
-    1 | #include [01;31m[K"plan_lat_lane_follow/wrapper.hpp"[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:76: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapper.cpp.o] Error 1
-gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/plan_lat_lane_follow_ldm.dir/all] Error 2
-gmake: *** [Makefile:146: all] Error 2

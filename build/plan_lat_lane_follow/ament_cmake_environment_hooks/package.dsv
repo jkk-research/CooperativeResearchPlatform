@@ -1,4 +1,0 @@
-source;share/plan_lat_lane_follow/local_setup.bash
-source;share/plan_lat_lane_follow/local_setup.dsv
-source;share/plan_lat_lane_follow/local_setup.sh
-source;share/plan_lat_lane_follow/local_setup.zsh

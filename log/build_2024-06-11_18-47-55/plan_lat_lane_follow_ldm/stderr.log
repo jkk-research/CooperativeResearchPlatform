@@ -1,6 +1,0 @@
-[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/linearDriverModel_driverModel.cpp:[m[K In member function ‘[01m[Kvoid DriverModel::driverModelPlannerLite(const ScenarioPolynomials&, const PolynomialCoeffsThreeSegments&, const LDMParamIn&, NodePoints&)[m[K’:
-[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/src/linearDriverModelDriverModel/linearDriverModel_driverModel.cpp:25:44:[m[K [01;35m[Kwarning: [m[Kformat ‘[01m[K%f[m[K’ expects argument of type ‘[01m[Kdouble[m[K’, but argument 2 has type ‘[01m[Kconst value_type[m[K’ {aka ‘[01m[Kconst PolynomialCoeffs[m[K’} [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wformat=-Wformat=]8;;[m[K]
-   25 |       printf("corridorPolynomials.coeffs: [01;35m[K%f[m[K\n", corridorPolynomials.coeffs[i]);
-      |                                           [01;35m[K~^[m[K
-      |                                            [01;35m[K|[m[K
-      |                                            [01;35m[Kdouble[m[K

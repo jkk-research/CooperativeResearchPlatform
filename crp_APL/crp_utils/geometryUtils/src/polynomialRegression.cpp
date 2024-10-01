@@ -16,10 +16,10 @@ void crp::apl::PolynomialSubfunctions::gaussElimination(
 
    backSubstitute(gaussMatrix);
 
-   coefficients[0] = gaussResult[0];
-   coefficients[1] = gaussResult[1];
-   coefficients[2] = gaussResult[2];
-   coefficients[3] = gaussResult[3];
+   coefficients[0] = m_gaussResult[0];
+   coefficients[1] = m_gaussResult[1];
+   coefficients[2] = m_gaussResult[2];
+   coefficients[3] = m_gaussResult[3];
 }
 
 std::vector<float> crp::apl::PolynomialSubfunctions::fitThirdOrderPolynomial(
@@ -27,19 +27,19 @@ std::vector<float> crp::apl::PolynomialSubfunctions::fitThirdOrderPolynomial(
         const std::vector<float> y)
 {
    calculateMmatrix(x,y);
-   detM = calculateDeterminant(M);
+   m_detM = calculateDeterminant(m_M);
    calculateBvector(x,y);
 
    for (uint8_t i = 0; i < 4; i++)
    {
       calculateModifiedMMatrix(i);
-      a[i] = calculateDeterminant(M_) / detM;
+      m_a[i] = calculateDeterminant(m_M_) / m_detM;
    }
 
    std::vector<float> coefficients;
    for (int i=0; i<4; i++)
    {
-        coefficients.push_back(a[i]);
+        coefficients.push_back(m_a[i]);
    }
 
    return coefficients;
@@ -93,12 +93,12 @@ void crp::apl::PolynomialSubfunctions::backSubstitute(float (&gaussMatrix)[4][5]
 {
    for (int8_t i{3}; i >= 0; i--)
    {
-      gaussResult[i] = gaussMatrix[i][4U];
+      m_gaussResult[i] = gaussMatrix[i][4U];
       for (uint8_t j{i + 1U}; j < 4U; j++)
       {
-         gaussResult[i] -= gaussMatrix[i][j] * gaussResult[j];
+         m_gaussResult[i] -= gaussMatrix[i][j] * m_gaussResult[j];
       }
-      gaussResult[i] = gaussResult[i] / gaussMatrix[i][i];
+      m_gaussResult[i] = m_gaussResult[i] / gaussMatrix[i][i];
    }
 }
 
@@ -114,7 +114,7 @@ void crp::apl::PolynomialSubfunctions::calculateBvector(
       {
          sum = sum + pow(x.at(j), i) * y.at(j);
       }
-      b[i] = sum;
+      m_b[i] = sum;
    }
 }
 
@@ -130,13 +130,13 @@ void crp::apl::PolynomialSubfunctions::calculateMmatrix(
       {
          sum = sum + pow(x.at(j), i);
       }
-      v[i] = sum;
+      m_v[i] = sum;
    }
    for (uint8_t i = 0; i < 4; i++)
    {
       for (uint8_t j = 0; j < 4; j++)
       {
-         M[i][j] = v[i + j];
+         m_M[i][j] = m_v[i + j];
       }
    }
 }
@@ -209,11 +209,11 @@ void crp::apl::PolynomialSubfunctions::calculateModifiedMMatrix(uint8_t k)
       {
          if (j == k)
          {
-            M_[i][j] = b[i];
+            m_M_[i][j] = m_b[i];
          }
          else
          {
-            M_[i][j] = M[i][j];
+            m_M_[i][j] = m_M[i][j];
          }
       }
    }
