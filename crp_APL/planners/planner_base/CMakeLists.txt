@@ -16,14 +16,8 @@ find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 
-set (
-  INTERFACES_DIR
-  ${CMAKE_SOURCE_DIR}/../../interfaces
-)
-
 include_directories(
   include
-  ${INTERFACES_DIR}
 )
 
 add_library(wrapper_base SHARED

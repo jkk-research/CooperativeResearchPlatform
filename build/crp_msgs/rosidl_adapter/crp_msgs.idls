@@ -1,7 +1,0 @@
-/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_adapter/crp_msgs:msg/TrafficRule.idl
-/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_adapter/crp_msgs:msg/PathWithTrafficRules.idl
-/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_adapter/crp_msgs:msg/World.idl
-/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_adapter/crp_msgs:msg/TargetSpace.idl
-/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_adapter/crp_msgs:msg/Scenario.idl
-/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_adapter/crp_msgs:msg/Ego.idl
-/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/build/crp_msgs/rosidl_adapter/crp_msgs:msg/EgoStatus.idl

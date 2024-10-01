@@ -1,22 +1,8 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch_ros.actions import PushRosNamespace
-from launch_ros.substitutions import FindPackageShare
 from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
-from launch.launch_description_sources import AnyLaunchDescriptionSource
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch.conditions import IfCondition
-from ament_index_python.packages import get_package_share_directory
-import os
-
 
 def generate_launch_description():
-    # ARGS
-
-    driverModel_params = os.path.join(
-        'driverParams.yaml'
-    )
-
     # NODES
     plan_lat_lane_follow_ldm = Node(
         package='plan_lat_lane_follow_ldm',
@@ -24,8 +10,17 @@ def generate_launch_description():
         name='plan_lat_lane_follow_ldm',
         output='screen',
         parameters=[
-            # driverParams
-            driverModel_params
+            {"/plan_lat_lane_follow_ldm/nodePointDistances": [25.0, 50.0, 75.0]},
+            {"/plan_lat_lane_follow_ldm/trajectoryResolution": 1.0},
+            {"/plan_lat_lane_follow_ldm/pLeft": [
+                0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0]},
+            {"/plan_lat_lane_follow_ldm/pRight": [
+                0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0]},
+            {"/plan_lat_lane_follow_ldm/pStraight": 0.0}
         ]
     )
 

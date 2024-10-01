@@ -9,7 +9,7 @@
 #include "../src/functionCode/inc/linearDriverModelUtilities/linearDriverModel_coordinateTransforms.hpp"
 
 // utils
-#include "../../../crp_utils/geometryUtils/inc/polynomialRegression.hpp"
+#include "geometryUtils/inc/polynomialRegression.hpp"
 
 namespace crp
 {
