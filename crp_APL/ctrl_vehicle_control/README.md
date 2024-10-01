@@ -24,4 +24,4 @@ ros2 launch ctrl_vehicle_control run_all.launch.py
 | /ctrl/fbDGain | double | 0.0
 | /ctrl/fbIGain | double | 0.0
 | /ctrl/fbMinLookAheadDistance | double | 0.0
-| /ctrl/fbIntegralLimit | 3.0
+| /ctrl/fbIntegralLimit | double | 3.0  
