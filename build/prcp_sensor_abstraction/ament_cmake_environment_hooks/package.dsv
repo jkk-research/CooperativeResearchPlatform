@@ -1,4 +1,0 @@
-source;share/prcp_sensor_abstraction/local_setup.bash
-source;share/prcp_sensor_abstraction/local_setup.dsv
-source;share/prcp_sensor_abstraction/local_setup.sh
-source;share/prcp_sensor_abstraction/local_setup.zsh

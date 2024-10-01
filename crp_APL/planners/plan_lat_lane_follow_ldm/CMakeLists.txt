@@ -11,6 +11,7 @@ find_package(rclcpp REQUIRED)
 find_package(planner_base REQUIRED)
 
 include_directories(include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../crp_utils)
 
 set(functional_source
    ${CMAKE_CURRENT_SOURCE_DIR}/src/functionCode/src/linearDriverModel_controlLogic.cpp

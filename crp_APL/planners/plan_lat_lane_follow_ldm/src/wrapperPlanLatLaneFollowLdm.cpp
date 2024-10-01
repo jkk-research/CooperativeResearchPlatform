@@ -1,11 +1,24 @@
-#include "../include/wrapperPlanLatLaneFollowLdm.hpp"
+#include "wrapperPlanLatLaneFollowLdm.hpp"
 
 
 crp::apl::PlanLatLaneFollowHandler::PlanLatLaneFollowHandler() : WrapperBase("plan_lat_lane_follow")
 {
     this->declare_parameter<std::vector<double>>(
-        "/plan_lat_lane_follow_ldm/nodePointDistances", std::vector<double>{});
-    this->declare_parameter("/plan_lat_lane_follow_ldm/trajectoryResolution", 1.0f);
+        "/plan_lat_lane_follow_ldm/nodePointDistances", std::vector<double>{25.0f, 50.0f, 75.0f});
+    this->declare_parameter(
+        "/plan_lat_lane_follow_ldm/trajectoryResolution", 1.0f);
+    this->declare_parameter<std::vector<double>>(
+        "/plan_lat_lane_follow_ldm/pLeft", std::vector<double>{
+            0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f});
+    this->declare_parameter<std::vector<double>>(
+        "/plan_lat_lane_follow_ldm/pRight", std::vector<double>{
+            0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 0.0f});
+    this->declare_parameter(
+        "/plan_lat_lane_follow_ldm/pStraight", 0.0f);     
 }
 
 
@@ -42,7 +55,7 @@ void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, Planne
             // finding the right segment first
             for (uint8_t np=0; np<3;np++)
             {
-                if (x>=trajectoryOutput.nodePts.nodePointsCoordinates->x)
+                if (x>=trajectoryOutput.nodePts.nodePointsCoordinates[np].x)
                 {
                     relevantSegment++;
                     break;

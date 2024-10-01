@@ -1,9 +1,0 @@
-In file included from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/../include/wrapper.hpp:4[m[K,
-                 from [01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/crp_APL/planners/plan_lat_lane_follow_ldm/src/wrapper.cpp:1[m[K:
-[01m[K/home/gfigneczi1/ros2_ws/src/CooperativeResearchPlatform/install/planner_base/include/planner_base/wrapperBase.hpp:16:10:[m[K [01;31m[Kfatal error: [m[KplannerInterfaces/plannerInterfaces.hpp: No such file or directory
-   16 | #include [01;31m[K"plannerInterfaces/plannerInterfaces.hpp"[m[K
-      |          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-gmake[2]: *** [CMakeFiles/plan_lat_lane_follow_ldm.dir/build.make:76: CMakeFiles/plan_lat_lane_follow_ldm.dir/src/wrapper.cpp.o] Error 1
-gmake[1]: *** [CMakeFiles/Makefile2:137: CMakeFiles/plan_lat_lane_follow_ldm.dir/all] Error 2
-gmake: *** [Makefile:146: all] Error 2
