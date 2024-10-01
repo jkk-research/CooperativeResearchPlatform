@@ -117,6 +117,18 @@ private:
 
         m_compensatoryModel.run(input, output, params);
 
+        // print all the parameters
+        RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", params.ffGainOffsetGround);
+        RCLCPP_INFO(this->get_logger(), "ffGainSlope: %f", params.ffGainSlope);
+        RCLCPP_INFO(this->get_logger(), "ffLookAheadTime: %f", params.ffLookAheadTime);
+        RCLCPP_INFO(this->get_logger(), "ffMinLookAheadDistance: %f", params.ffMinLookAheadDistance);
+        RCLCPP_INFO(this->get_logger(), "steeringAngleLPFilter: %f", params.steeringAngleLPFilter);
+        RCLCPP_INFO(this->get_logger(), "fbLookAheadTime: %f", params.fbLookAheadTime);
+        RCLCPP_INFO(this->get_logger(), "fbPGain: %f", params.fbPGain);
+        RCLCPP_INFO(this->get_logger(), "fbDGain: %f", params.fbDGain);
+        RCLCPP_INFO(this->get_logger(), "fbIGain: %f", params.fbIGain);
+        RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", params.fbThetaGain);
+
         // steering angle and steering angle gradiant
         ctrl_cmd.lateral.steering_tire_angle = output.steeringAngleTarget;
         ctrl_cmd.lateral.steering_tire_rotation_rate = 0.0f;

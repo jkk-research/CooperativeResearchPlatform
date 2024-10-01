@@ -159,16 +159,15 @@ namespace crp
             double maxDistance = 50; // meters
             m_localPathCut_x.clear(); m_localPathCut_y.clear();
 
-            for (unsigned long int i=0; i<m_localPath_x.size(); i++)
+            for (unsigned long int i = 0; i<m_localPath_x.size(); i++)
             {
-                if (m_localPath_x.at(i)>0)
+                if (m_localPath_x.at(i) > 0)
                 {
-                    if (i==0){
+                    if (i==0)
                         startIdx = i;
-                    }
-                    else{
-                        startIdx = i-1;
-                    }
+                    else
+                        startIdx = i - 1;
+                    
                     break;
                 }
             }
