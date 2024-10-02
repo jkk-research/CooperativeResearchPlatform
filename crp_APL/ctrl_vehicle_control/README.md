@@ -9,7 +9,7 @@ The Controller uses a PID controller, with a Feedback and FeedForward layer, the
 ### Usage:
 
 ```
-ros2 launch ctrl_vehicle_control run_all.launch.py
+ ros2 launch ctrl_vehicle_control ctrl_vehicle_control.launch.py
 ```
 
 ### Parameters

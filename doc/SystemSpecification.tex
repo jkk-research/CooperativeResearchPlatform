@@ -481,6 +481,48 @@ Calculations:
 	\item Yaw rate $\psi= v_\xi  tan(\frac{\alpha_f}{L_w})$, where $\psi$ is the yaw rate, $\alpha_f$ is the front road-wheel angle and $L_w$ is the wheelbase.
 \end{itemize}
 
+\subsection{Ctrl Vehicle Control}
+\subsubsection{Purpose}
+The aim of this package is to keep the vehicle on the desired trajectory and give lateral (steering tire angle) ang longitudinal (desired speed)
+ control commands towards the CIL (Control integration layer)
+\subsubsection{Inner workings}
+The controllers lateral part is based on a PID controller with a feed-back and feed-forward loop. The feed-forward loop is based on fitting a 3rd order polyinomial
+to the desired trajectory and calculating a tire angle from the polyinomial's curvature. The feed-back loop's error add's up from the lateral cross-track error and orientation error. 
+
+\subsubsection{Usage}
+The package utilizes the ROS2 launch system. And the node can be started by the following command:
+\begin{lstlisting}
+    ros2 launch ctrl_vehicle_control ctrl_vehicle_control.launch.py
+\end{lstlisting}
+
+\subsection{Subscribed Topics}
+The following topics are subscribed by the package:
+The following two table describes the subscribed topics:
+\begin{table}[!h]
+    \captionsetup{justification=centering}
+    \normalsize
+        \caption{\label{tab:ctrl_input} Ctrl Vehicle Control subscribed Topics.}
+        \begin{tabular}{ | c | c |}
+            \hline
+            \textbf{Topic Name} & \textbf{topic type} \\
+            \hline
+            \/cai/ego & crp\_msgs\::msg\::ego \\
+            \hline
+            \//planning/scenario\_planning/trajectory & autoware\_planning\_msgs::msg::Trajectory \\
+            \hline
+        \end{tabular}
+        \caption{\label{tab:ctrl_output} Ctrl Vehicle Control published Topics.}
+        \begin{tabular}{| c | c |}
+            \hline
+            \textbf{Topic Name} & \textbf{topic type} \\
+            \hline
+            \/control/command/ctrl\_cmd & autoware\_control\_msgs::msg::Control \\
+            \hline
+            
+        \end{tabular}
+\end{table}
+
+
 \bibliography{refs}% common bib file
 %% if required, the content of .bbl file can be included here once bbl is generated
 %%\input sn-article.bbl
