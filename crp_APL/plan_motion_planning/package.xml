@@ -3,9 +3,9 @@
 <package format="3">
   <name>plan_motion_planning</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="jodavid512@gmail.com">david</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Create the final planned trajectory based on the planners and the strategy.</description>
+  <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
+  <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

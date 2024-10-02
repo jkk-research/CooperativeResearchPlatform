@@ -7,3 +7,6 @@
 [submodule "external/autoware_msgs"]
 	path = external/autoware_msgs
 	url = https://github.com/autowarefoundation/autoware_msgs.git
+[submodule "crp_VIL/novatel_gps_driver"]
+	path = crp_VIL/novatel_driver/novatel_gps_driver
+	url = https://github.com/jkk-research/novatel_gps_driver.git
