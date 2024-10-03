@@ -4,7 +4,7 @@
 crp::apl::WrapperBase::WrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options)
     : rclcpp::Node(node_name, options)
 {
-    m_sub_strategy_ = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
+     m_sub_strategy_ = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
         "plan/strategy", 10, std::bind(&WrapperBase::strategyCallback, this, std::placeholders::_1));
     m_sub_target_space_ = this->create_subscription<crp_msgs::msg::TargetSpace>(
         "plan/target_space", 10, std::bind(&WrapperBase::targetSpaceCallback, this, std::placeholders::_1));
@@ -16,7 +16,6 @@ crp::apl::WrapperBase::WrapperBase(const std::string & node_name, const rclcpp::
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&WrapperBase::run, this));
 }
-
 
 void crp::apl::WrapperBase::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
 {

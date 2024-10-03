@@ -2,8 +2,8 @@
 #define CRP_APL_MOTION_HANDLER_PLANMOTIONPLANNING_HPP
 
 #include <rclcpp/rclcpp.hpp>
-#include <tier4_planning_msgs/msg/scenario.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
+#include <tier4_planning_msgs/msg/scenario.hpp>
 
 
 namespace crp
