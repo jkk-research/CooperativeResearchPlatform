@@ -3,9 +3,18 @@
 
 crp::apl::ScenarioFusion::ScenarioFusion() : Node("scenario_fusion")
 {
+    m_sub_localMovingObjects_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
+        "/cai/local_moving_objects", 10,
+        std::bind(&ScenarioFusion::localMovingObjectsCallback, this, std::placeholders::_1));
+    m_sub_localObstacles_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
+        "/cai/local_obstacles", 10,
+        std::bind(&ScenarioFusion::localObstaclesCallback, this, std::placeholders::_1));
     m_sub_localPath_ = this->create_subscription<tier4_planning_msgs::msg::PathWithLaneId>(
         "/cai/local_lane/path", 10,
         std::bind(&ScenarioFusion::localPathCallback, this, std::placeholders::_1));
+    m_sub_localDrivableSurface_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>(
+        "/cai/local_drivable_surface", 10,
+        std::bind(&ScenarioFusion::localDrivableSurfaceCallback, this, std::placeholders::_1));
 
     m_pub_scenario_ = this->create_publisher<crp_msgs::msg::Scenario>("/scenario", 10);
 
