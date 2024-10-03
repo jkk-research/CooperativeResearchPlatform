@@ -15,6 +15,8 @@ find_package(tier4_planning_msgs REQUIRED)
 
 include_directories(include)
 
+include_directories(../interfaces)
+
 add_executable(motion_handler src/motionHandler.cpp)
 ament_target_dependencies(motion_handler rclcpp crp_msgs autoware_planning_msgs tier4_planning_msgs)
 

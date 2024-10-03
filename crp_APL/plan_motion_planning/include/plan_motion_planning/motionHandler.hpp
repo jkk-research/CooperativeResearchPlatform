@@ -4,7 +4,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
-
+#include <string>
 
 namespace crp
 {
@@ -21,6 +21,8 @@ private:
     void planLatLaneFollowCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
     void planLonEmergencyCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
     void planLonIntelligentSpeedAdjustCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
+    
+    void run();
 
     rclcpp::Subscription<tier4_planning_msgs::msg::Scenario>::SharedPtr m_sub_strategy_;
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_plan_latLaneFollow_;
@@ -29,7 +31,11 @@ private:
     
     rclcpp::Publisher<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_pub_trajectory_;
 
-    std::vector<std::string> m_planners;
+    rclcpp::TimerBase::SharedPtr m_timer_;
+
+    autoware_planning_msgs::msg::Trajectory m_outputTrajectory;
+
+    std::string m_currentStrategy{"off"};
 };
 
 } // namespace apl
