@@ -32,9 +32,18 @@ void crp::apl::MotionHandler::scenarioCallback(const tier4_planning_msgs::msg::S
 void crp::apl::MotionHandler::planLatLaneFollowCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg)
 {
     // waypoints are coming from the lane follow node - in case of strategy incl. lane follow lateral information should be handed over
-    // TODO: if the velocity would come from the longitudinal planner, first an interpolation of the values should happen - it means, that each waypoint should contain both the lateral and the longitudinal targets at the same time
-    if (m_currentStrategy == "laneFollowWithSpeedAdjust"){
-        m_outputTrajectory = msg;
+    m_lateralTrajectory.trajectory.clear();
+    if (m_currentStrategy == "laneFollowWithSpeedAdjust" ||
+            m_currentStrategy == "laneFollow"
+        ){
+        for (const auto & outputPoint : msg->points)
+        {
+            TrajectoryPoint point;
+            point.pose.position.x = outputPoint.pose.position.x;
+            point.pose.position.x = outputPoint.pose.position.y;
+            point.pose.orientation = getYawFromQuaternion(outputPoint.pose.orientation);
+            m_lateralTrajectory.trajectory.push_back(point);
+        }
     }
     // else do nothing
     return;
@@ -50,12 +59,68 @@ void crp::apl::MotionHandler::planLonEmergencyCallback(const autoware_planning_m
 
 void crp::apl::MotionHandler::planLonIntelligentSpeedAdjustCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg)
 {
-    // TODO
+    m_longitudinalTrajectory.trajectory.clear();
+    if (m_currentStrategy == "laneFollowWithSpeedAdjust" ||
+            m_currentStrategy == "speedAdjust"
+        ){
+        for (const auto & outputPoint : msg->points)
+        {
+            TrajectoryPoint point;
+            point.pose.position.x = outputPoint.pose.position.x;
+            point.pose.position.x = outputPoint.pose.position.y;
+            point.pose.orientation = getYawFromQuaternion(outputPoint.pose.orientation);
+            point.velocity = outputPoint.longitudinal_velocity_mps;
+            m_longitudinalTrajectory.trajectory.push_back(point);
+        }
+    }
     return;
+}
+
+float crp::apl::MotionHandler::getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion)
+{
+    tf2::Quaternion q(
+        quaternion.x,
+        quaternion.y,
+        quaternion.z,
+        quaternion.w);
+    tf2::Matrix3x3 m(q);
+    double roll, pitch, yaw;
+    m.getRPY(roll, pitch, yaw);
+
+    return yaw;
+}
+
+void crp::apl::MotionHandler::mapIncomingInputs()
+{
+    m_outputTrajectory.points.clear();
+    // This method maps the m_lateralTrajectory and m_longitudinalTrajectory members to the output
+    if (m_currentStrategy == "laneFollowWithSpeedAdjust")
+    {
+        // requirement: both longitudinal and lateral trajectory available and of same size
+        if (m_lateralTrajectory.trajectory.size() > 0 && 
+                m_longitudinalTrajectory.trajectory.size() > 0 && 
+                m_lateralTrajectory.trajectory.size() == m_longitudinalTrajectory.trajectory.size())
+        {
+            unsigned long int N = m_lateralTrajectory.trajectory.size();
+            // map lateral and longitudinal together
+            autoware_planning_msgs::msg::TrajectoryPoint point;
+            for (unsigned long int n=0; n<N; n++)
+            {
+                point.pose.position.x = m_lateralTrajectory.trajectory.at(n).pose.position.x;
+                point.pose.position.y = m_lateralTrajectory.trajectory.at(n).pose.position.y;
+                tf2::Quaternion(tf2::Vector3(0, 0, 1), m_lateralTrajectory.trajectory.at(n).pose.orientation);
+                point.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), m_lateralTrajectory.trajectory.at(n).pose.orientation));
+                point.longitudinal_velocity_mps = m_longitudinalTrajectory.trajectory.at(n).velocity;
+                m_outputTrajectory.points.push_back(point);
+            }
+        }
+    }
+    // else: do nothing
 }
 
 void crp::apl::MotionHandler::run()
 {
+    mapIncomingInputs();
     m_pub_trajectory_->publish(m_outputTrajectory);
 }
 
