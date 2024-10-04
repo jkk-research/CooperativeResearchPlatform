@@ -13,6 +13,7 @@
 #include <lanelet2_routing/RoutingGraph.h>
 #include <lanelet2_traffic_rules/TrafficRulesFactory.h>
 #include <lanelet2_core/geometry/Lanelet.h>
+#include <autoware_planning_msgs/msg/path_point.hpp>
 
 
 namespace crp
@@ -30,6 +31,11 @@ private:
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     void publishCallback();
 
+    float    distanceBetweenPoints(const lanelet::BasicPoint2d a, const lanelet::ConstPoint2d b);
+    float    distanceBetweenPoints(const lanelet::ConstPoint2d a, const lanelet::ConstPoint2d b);
+    uint16_t getGPSNNPointIdx(const lanelet::BasicPoint2d & currentPos, const lanelet::ConstLanelet & lane);
+    autoware_planning_msgs::msg::PathPoint laneletPtToPathPoint(const lanelet::ConstPoint2d & pt);
+
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr         m_sub_staticMapFromFile_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr m_sub_pose_;
 
@@ -39,6 +45,8 @@ private:
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivableSurface_;
 
     lanelet::LaneletMapPtr m_laneletMap;
+    lanelet::traffic_rules::TrafficRulesPtr m_trafficRules;
+    lanelet::routing::RoutingGraphUPtr m_routingGraph;
     geometry_msgs::msg::PoseWithCovarianceStamped m_pose;
     bool m_isMapLoaded = false;
 

@@ -23,6 +23,38 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
 }
 
 
+float crp::cil::ScenarioAbstraction::distanceBetweenPoints(const lanelet::BasicPoint2d a, const lanelet::ConstPoint2d b)
+{
+    return sqrt(pow(b.x()-a.x(), 2)+pow(b.y()-a.y(), 2));
+}
+
+
+uint16_t crp::cil::ScenarioAbstraction::getGPSNNPointIdx(const lanelet::BasicPoint2d & currentPos, const lanelet::ConstLanelet & lane)
+{
+    lanelet::ConstLineString2d centerline = lane.centerline2d();
+    double minDist = distanceBetweenPoints(currentPos, centerline.front());
+    uint16_t minDistIdx = 0;
+    for (uint16_t i = 1; i < centerline.size(); i++)
+    {
+        double currentDist = distanceBetweenPoints(currentPos, centerline[i]);
+        if (currentDist < minDist)
+        {
+            minDist = currentDist;
+            minDistIdx = i;
+        }
+    }
+    return minDistIdx;
+}
+
+autoware_planning_msgs::msg::PathPoint crp::cil::ScenarioAbstraction::laneletPtToPathPoint(const lanelet::ConstPoint2d & pt)
+{
+    autoware_planning_msgs::msg::PathPoint pathPoint;
+    pathPoint.pose.position.x = pt.x();
+    pathPoint.pose.position.y = pt.y();
+    return pathPoint;
+}
+
+
 void crp::cil::ScenarioAbstraction::publishCallback()
 {
     if (!m_isMapLoaded)
@@ -30,45 +62,67 @@ void crp::cil::ScenarioAbstraction::publishCallback()
 
     float localPathLength;
     this->get_parameter("local_path_length", localPathLength);
-    RCLCPP_INFO(this->get_logger(), "Local path length: %f", localPathLength);
 
-    lanelet::traffic_rules::TrafficRulesPtr trafficRules = 
-        lanelet::traffic_rules::TrafficRulesFactory::create(lanelet::Locations::Germany, lanelet::Participants::Vehicle);
-    lanelet::routing::RoutingGraphUPtr routingGraph = lanelet::routing::RoutingGraph::build(*m_laneletMap, *trafficRules);
+    lanelet::BasicPoint2d currentPoint(m_pose.pose.pose.position.x, m_pose.pose.pose.position.y);
 
-    lanelet::BasicPoint2d currentPoint(435.02, -1475.87); //! TEMP
-
+    // get nearest lanelet to ego
     std::vector<std::pair<double, lanelet::Lanelet>> actuallyNearestLanelets = 
         lanelet::geometry::findNearest(m_laneletMap->laneletLayer, currentPoint, 1);
-    lanelet::Lanelet currentLanelet = actuallyNearestLanelets.front().second;
+    lanelet::Lanelet egoLanelet = actuallyNearestLanelets.front().second;
 
-    lanelet::routing::LaneletPaths paths = routingGraph->possiblePaths(currentLanelet, localPathLength, 0, false);
+    uint16_t nearestPointIdx = getGPSNNPointIdx(currentPoint, egoLanelet); // nearest point to ego on lane
 
-    // !!!!!!!!!!
-    // !! TEMP !!
-    // !!!!!!!!!!
-    RCLCPP_INFO(this->get_logger(), "Number of paths: %d", paths.size());
-    double longestPathLength = 0;
-    uint32_t longestPathId = 0;
-    for (lanelet::routing::LaneletPath path : paths)
-    { 
-        double distance = 0;
-        for (lanelet::Id laneletId : path.getRemainingLane(currentLanelet).ids())
+    tier4_planning_msgs::msg::PathWithLaneId outPath;
+    outPath.header.stamp = this->now();
+    outPath.header.frame_id = "map";
+
+    float currentPathLength = 0;
+    lanelet::ConstPoint2d prevPoint = currentCenterline[nearestPointIdx];
+    lanelet::ConstLineString2d currentCenterline = egoLanelet.centerline2d();
+    outPath.points.push_back(laneletPtToPathPoint(egoLanelet.centerline2d()[nearestPointIdx])); // add ego point
+    uint16_t currentPointIdx = nearestPointIdx + 1;
+    while (currentPathLength < localPathLength && currentPointIdx < currentCenterline.size())
+    {
+        // add points to path from ego lanelet
+        lanelet::ConstPoint2d currentPoint = currentCenterline[currentPointIdx];
+        currentPathLength += distanceBetweenPoints(prevPoint, currentPoint);
+        outPath.points.push_back(laneletPtToPathPoint(currentPoint));
+        prevPoint = currentPoint;
+        currentPointIdx++;
+    }
+
+    if (currentPathLength < localPathLength)
+    {
+        // add points to path from consecutive lanelets
+        lanelet::Lanelet currentLanelet = egoLanelet;
+        while (currentPathLength < localPathLength)
         {
-            lanelet::Lanelet lanelet = m_laneletMap->laneletLayer.get(laneletId);
-            lanelet::ConstPoint2d point = lanelet.centerline().back();
-            distance += std::sqrt(std::pow(point.x() - currentPoint.x(), 2) + std::pow(point.y() - currentPoint.y(), 2));
-            RCLCPP_INFO(this->get_logger(), "Lanelet id: %d, distance: %f", laneletId, distance);
+            // get next lanelet (first from possible paths)
+            lanelet::routing::LaneletPaths paths = m_routingGraph->possiblePaths(currentLanelet, 1, 0, false);
+            lanelet::routing::LaneletPath selectedPath = paths.front();
+            if (selectedPath.size() < 2)
+                break;
+            lanelet::ConstLanelet currentLane = selectedPath.at(1); // next lanelet
+            
+
+            // TODO:
+            // get centerline
+            // add points to path
+            //      add pts
+            //      update currentPathLength
+            //      update prevPoint
+            // update currentLanelet
             
         }
-        RCLCPP_INFO(this->get_logger(), "Path distance: %f", distance);
-        if (distance > longestPathLength)
-        {
-            longestPathLength = distance;
-            longestPathId = path.getRemainingLane(currentLanelet).ids().back();
-        }
+
+        // TODO: 
+        // transform points to local frame !
+        // if length: nice, publish
+        /// else: publish but warning
     }
-    RCLCPP_INFO(this->get_logger(), "Distance: %f (id: %d)", longestPathLength, longestPathId);
+
+    
+
 }
 
 
@@ -76,6 +130,8 @@ void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map
 {
     RCLCPP_INFO(this->get_logger(), "Loading map from file");
     lanelet::utils::conversion::fromBinMsg(*msg, m_laneletMap);
+    m_trafficRules = lanelet::traffic_rules::TrafficRulesFactory::create(lanelet::Locations::Germany, lanelet::Participants::Vehicle);
+    m_routingGraph = lanelet::routing::RoutingGraph::build(*m_laneletMap, *m_trafficRules);
     m_isMapLoaded = true;
     RCLCPP_INFO(this->get_logger(), "Map loaded");
 }
