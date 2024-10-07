@@ -118,9 +118,38 @@ void crp::apl::MotionHandler::mapIncomingInputs()
     // else: do nothing
 }
 
+void crp::apl::MotionHandler::visualizeTrajectory()
+{
+    visualization_msgs::msg::Marker marker;
+    marker.header.frame_id = "base_link";
+    marker.header.stamp = this->now();
+    marker.ns = "trajectory";
+    marker.id = 0;
+    marker.type = visualization_msgs::msg::Marker::LINE_STRIP;
+    marker.action = visualization_msgs::msg::Marker::ADD;
+    marker.pose.orientation.w = 1.0;
+    marker.scale.x = 0.1;
+    marker.color.r = 1.0;
+    marker.color.a = 1.0;
+    for (const auto & point : m_outputTrajectory.points)
+    {
+        geometry_msgs::msg::Point p;
+        p.x = point.pose.position.x;
+        p.y = point.pose.position.y;
+        p.z = 0;
+        marker.points.push_back(p);
+    }
+
+    m_pub_trajectory_viz_->publish(marker);
+
+
+    return;
+}
+
 void crp::apl::MotionHandler::run()
 {
     mapIncomingInputs();
+    visualizeTrajectory();
     m_pub_trajectory_->publish(m_outputTrajectory);
 }
 
