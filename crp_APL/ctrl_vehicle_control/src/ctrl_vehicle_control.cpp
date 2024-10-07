@@ -84,7 +84,7 @@ private:
     void egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
     {
         input.vxEgo = input_msg.twist.twist.linear.x;
-        input.egoSteeringAngle = input_msg.road_wheel_angle_front;
+        input.egoSteeringAngle = input_msg.tire_angle_front;
 
         input.egoPoseGlobal[0] = input_msg.pose.pose.position.x;
         input.egoPoseGlobal[1] = input_msg.pose.pose.position.y;

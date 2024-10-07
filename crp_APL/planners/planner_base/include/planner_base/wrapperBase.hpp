@@ -13,6 +13,8 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 
+#include "../../../interfaces/plannerInterfaces/plannerInterfaces.hpp"
+
 namespace crp
 {
 namespace apl
@@ -25,6 +27,7 @@ public:
 
 protected:
     virtual void plan(const PlannerInput & input, PlannerOutput & output) = 0;
+    bool inputPlausibilityCheck(const PlannerInput & input);
 
 private:
     void strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg);
