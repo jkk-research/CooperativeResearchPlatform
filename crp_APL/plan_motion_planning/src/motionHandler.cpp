@@ -20,13 +20,11 @@ crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
 
 }
 
-
 void crp::apl::MotionHandler::scenarioCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
 {
     // TODO
     return;
 }
-
 
 void crp::apl::MotionHandler::planLatLaneFollowCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg)
 {

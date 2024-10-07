@@ -8,8 +8,8 @@
 #include <lanelet2_core/LaneletMap.h>
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
 #include <lanelet2_io/Io.h>
-#include <lanelet2_extension/projection/mgrs_projector.hpp>
-#include <lanelet2_extension/utility/utilities.hpp>
+#include <autoware_lanelet2_extension/projection/mgrs_projector.hpp>
+#include <autoware_lanelet2_extension/utility/utilities.hpp>
 #include <autoware_lanelet2_extension/io/autoware_osm_parser.hpp>
 #include <autoware_lanelet2_extension/utility/message_conversion.hpp>
 #include <lanelet2_core/geometry/LineString.h>

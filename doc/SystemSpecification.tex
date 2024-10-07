@@ -455,15 +455,6 @@ Non-driver package names should start with and abbreviation of the following cat
     \item ctrl (control)
 \end{itemize}
 All dependencies must be set in the package.xml and in the CMakeList.txt.
-
-\subsection{Python}
-\subsubsection{General}
-\begin{itemize}
-    \item Python files should have the '.py' extension.
-    \item In classes private variables should start with the '\_\_' prefix - example: \emph{\_\_m\_vxEgo}
-    \item In classes protected variables should start with the '\_' prefix - example: \emph{\_m\_vxEgo}
-    \item Methods and classes should have 2 empty lines after the definition
-\end{itemize}
 \newpage
 
 \section{Package documentations}
@@ -500,7 +491,7 @@ Input topics are given in Table \ref{tab:pacmod_input}, outputs are given in Tab
     \captionsetup{justification=centering}
     \normalsize
         \caption{\label{tab:pacmod_output} Pacmod extender output.}
-        \begin{tabular}{ | c | c | c |}
+        \begin{tabular}{ | c || c | c |}
             \hline
             \textbf{Data} & \textbf{Message name} & \textbf{Message Type} \\
             \hline

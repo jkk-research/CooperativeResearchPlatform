@@ -15,7 +15,6 @@
   <depend>lanelet2_core</depend>
   <depend>lanelet2_projection</depend>
   <depend>lanelet2_io</depend>
-  <depend>lanelet2_extension</depend>
   <depend>autoware_lanelet2_extension</depend>
 
 

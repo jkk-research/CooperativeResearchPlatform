@@ -13,7 +13,6 @@ find_package(map_loader REQUIRED)
 find_package(lanelet2_core REQUIRED)
 find_package(lanelet2_projection REQUIRED)
 find_package(lanelet2_io REQUIRED)
-find_package(lanelet2_extension REQUIRED)
 find_package(autoware_lanelet2_extension REQUIRED)
 
 include_directories(
@@ -21,7 +20,7 @@ include_directories(
 )
 
 add_executable(lanelet_file_loader src/laneletFileLoader.cpp)
-ament_target_dependencies(lanelet_file_loader rclcpp autoware_map_msgs lanelet2_core lanelet2_projection lanelet2_io lanelet2_extension autoware_lanelet2_extension)
+ament_target_dependencies(lanelet_file_loader rclcpp autoware_map_msgs lanelet2_core lanelet2_projection lanelet2_io autoware_lanelet2_extension)
 
 install(TARGETS
   lanelet_file_loader
