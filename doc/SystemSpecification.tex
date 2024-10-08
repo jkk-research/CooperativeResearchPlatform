@@ -373,6 +373,39 @@ This is a tier4 autoware message extension, with the following definition:
     geometry_msgs/Accel accel
 \end{lstlisting}
 
+\section{Using the Platform} \label{using_platform}
+\subsection{Installation (source)}
+Create workspace and clone the repository:
+\begin{lstlisting}
+    mkdir -p crp_ws/src
+    cd crp_ws/src
+    git clone https://github.com/jkk-research/CooperativeResearchPlatform.git --recurse-submodules
+\end{lstlisting}
+Install dependencies and build the workspace:
+\begin{lstlisting}
+    cd ..
+    rosdep install --from-paths src --ignore-src -y
+    colcon build --symlink-install
+\end{lstlisting}
+
+\subsection{Using it in a docker container}
+\subsubsection{Docker container}
+The platform can be used in a docker container. The docker is available here: https://hub.docker.com/repository/docker/anonymdavid/crp/general
+\subsubsection{Building the docker}
+Alternatively the autoware docker can be built using the script inside the autoware repository. The docker container is built on top of the autoware docker (ghcr.io/autowarefoundation/autoware:latest-devel-cuda). Autoware and CRP should be built for the same platform type (amd64/arm64).
+\newline
+The container can be build to ARM64 platform:
+\begin{lstlisting}
+    cd CooperativeResearchPlatform
+    ./docker/build_arm64.sh
+\end{lstlisting}
+\subsubsection{Running the docker}
+The docker can be run with the following command:
+\begin{lstlisting}
+    docker run -it --rm --network host --ipc host --pid host --device /dev/leaf0 --device /dev/leaf1 crp_arm64:latest
+\end{lstlisting}
+This way the docker shares the network with the host and has access to the kvaser CAN device.
+
 \section{Coding rules} \label{sec:coding_rules}
 \subsection{Naming convention}
 \begin{itemize}
@@ -511,6 +544,8 @@ The parameters of the launcher are given in Table \ref{tab:novatel_gps_launcher}
         \hline
     \end{tabular}
 \end{table}
+
+
 \subsection{lanelet\_handler}
 \subsubsection{Purpose}
 The purpose of this package is to load and publish a lanelet2 map to a specified topic using the autoware lanelet2 library.
@@ -519,15 +554,13 @@ The package can be used by the provided launcher:
 \begin{lstlisting}
     ros2 launch lanelet_handler laneletFileLoader.launch.py
 \end{lstlisting}
-
-
 \subsubsection{Launch parameters}
 Launch parameters are given in Table \ref{tab:lanelet_handler}.
 \begin{table}[!h]
     \centering
     \captionsetup{justification=centering}
     \normalsize
-    \caption{\label{tab:lanelet_handler} Lanelet handler parameters.}
+    \caption{\label{tab:lanelet_handler} Launch parameters.}
     \begin{tabular}{| l | l | l |}
         \hline
         \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
@@ -541,6 +574,58 @@ Launch parameters are given in Table \ref{tab:lanelet_handler}.
         \hline
         map\_visualization\_topic & /map/global\_static\_map\_from\_file/ & Frame id of the lanelet2 map \\
                                   & lanelet2\_map\_visualization          &  \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection{nissan\_can\_driver}
+\subsubsection{Purpose}
+The purpose of this package is to publish the vehicle status (speed, steering) to topics and receive control commands from topics to control the vehicle.
+\subsubsection{Usage}
+The package can be used by the provided launcher:
+\begin{lstlisting}
+    ros2 launch nissan_can_driver can_driver_kvaser.launch.py
+\end{lstlisting}
+In the current implementation a kvaser device with 2 channels is used for the communication. On the first channel the CAN data is received from the vehicle and on the second channel the control commands are sent to the controllers.
+\subsubsection{Launch parameters}
+Launch parameters are given in Table \ref{tab:nissan_can_driver_params}.
+\begin{table}[!h]
+    \centering
+    \captionsetup{justification=centering}
+    \normalsize
+    \caption{\label{tab:nissan_can_driver_params} Launch parameters.}
+    \begin{tabular}{| l | l | l |}
+        \hline
+        \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
+        \hline
+        autoware\_control\_input & True  & Whether to use autoware or standard type input message for control  \\
+        \hline
+        kvaser\_hardware\_id     & 11162 & HW ID of the kvaser device used for CAN communication \\
+        \hline
+    \end{tabular}
+\end{table}
+\subsubsection{IO}
+Input topics are given in Table \ref{tab:nissan_can_driver_inputs}.
+\begin{table}[!h]
+    \centering
+    \captionsetup{justification=centering}
+    \normalsize
+    \caption{\label{tab:nissan_can_driver_inputs} Launch parameters.}
+    \begin{tabular}{| l | l | l |}
+        \hline
+        \textbf{Name} & \textbf{Message type} & \textbf{Description} \\
+        \hline
+        /ctrl/control\_cmd  & autoware\_control\_msgs/msg/Control & Control input topic if \textit{autoware\_control\_input}  \\
+                            &                                     & is set to true                                            \\
+                            &                                     & Contains speed and steering commands                      \\
+        \hline
+        /ctrl/speed\_cmd    & std\_msgs/msg/Float32                & Control input topic if \textit{autoware\_control\_input} \\
+                            &                                     & is set to true                                            \\
+                            &                                     & Contains speed command (m/s)                              \\
+        \hline
+        /ctrl/steering\_cmd & std\_msgs/msg/Float32                & Control input topic if \textit{autoware\_control\_input} \\
+                            &                                     & is set to true                                            \\
+                            &                                     & Contains steering command (tire angle, rad)               \\
         \hline
     \end{tabular}
 \end{table}
