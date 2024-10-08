@@ -17,6 +17,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(lanelet2_core REQUIRED)
 find_package(autoware_lanelet2_extension REQUIRED)
 find_package(crp_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
@@ -30,7 +31,7 @@ add_executable(scenario_abstraction src/scenarioAbstraction.cpp)
 ament_target_dependencies(scenario_abstraction rclcpp nav_msgs autoware_map_msgs autoware_perception_msgs tier4_planning_msgs geometry_msgs lanelet2_core autoware_lanelet2_extension tf2 tf2_ros tf2_geometry_msgs)
 
 add_executable(ego_abstraction src/egoAbstraction.cpp)
-ament_target_dependencies(ego_abstraction rclcpp crp_msgs geometry_msgs nav_msgs autoware_localization_msgs)
+ament_target_dependencies(ego_abstraction rclcpp crp_msgs geometry_msgs nav_msgs autoware_localization_msgs std_msgs)
 
 install(TARGETS
   world_abstraction
