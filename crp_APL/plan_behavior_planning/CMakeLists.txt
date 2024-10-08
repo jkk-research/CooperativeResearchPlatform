@@ -21,6 +21,9 @@ ament_target_dependencies(mission_planner rclcpp crp_msgs autoware_planning_msgs
 add_executable(behavior_planner src/behaviorPlanner.cpp)
 ament_target_dependencies(behavior_planner rclcpp crp_msgs autoware_planning_msgs tier4_planning_msgs)
 
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME})
+
 install(TARGETS
   mission_planner
   behavior_planner
