@@ -44,6 +44,8 @@ void crp::apl::ScenarioFusion::localObstaclesCallback(const autoware_perception_
 
 void crp::apl::ScenarioFusion::localPathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg)
 {
+    m_scenario.paths.clear();
+
     m_scenario.header = msg->header;
 
     crp_msgs::msg::PathWithTrafficRules pathWithTrafficRules;
