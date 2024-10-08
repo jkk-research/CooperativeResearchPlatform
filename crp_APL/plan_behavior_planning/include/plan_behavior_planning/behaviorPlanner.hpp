@@ -23,6 +23,7 @@ private:
     void routeCallback(const autoware_planning_msgs::msg::LaneletRoute::SharedPtr msg);
     void scenarioCallback(const crp_msgs::msg::Scenario::SharedPtr msg);
     void egoCallback(const crp_msgs::msg::Ego::SharedPtr msg);
+    void loop();
 
     rclcpp::Subscription<autoware_planning_msgs::msg::LaneletRoute>::SharedPtr m_sub_route;
     rclcpp::Subscription<crp_msgs::msg::Scenario>::SharedPtr                   m_sub_scenario;
@@ -30,6 +31,9 @@ private:
 
     rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy;
     rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_target_space;
+
+    rclcpp::TimerBase::SharedPtr timer_;
+    
 };
 
 } // namespace apl
