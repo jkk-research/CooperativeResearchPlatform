@@ -170,11 +170,12 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     {
         // add points to path from consecutive lanelets
 
-        // get first lanelet (ego)
+        // get first lanelet after ego
         lanelet::routing::LaneletPaths paths = m_routingGraph->possiblePaths(egoLanelet, 1, 0, false);
         lanelet::routing::LaneletPath selectedPath = paths.front();
-        lanelet::ConstLanelet currentLanelet = selectedPath[0];
+        lanelet::ConstLanelet currentLanelet = selectedPath[1];
 
+        currentPointIdx = 0;
         while (currentPathLength < localPathLength)
         {
             lanelet::ConstLineString2d currentCenterline = currentLanelet.centerline2d();
@@ -199,7 +200,6 @@ void crp::cil::ScenarioAbstraction::publishCallback()
             lanelet::routing::LaneletPath selectedPath = paths.front();
             if (selectedPath.size() < 2)
                 break;
-            // get next lanelet
             currentLanelet = selectedPath[1];
         }
     }
