@@ -23,103 +23,6 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
 }
 
 
-float crp::cil::ScenarioAbstraction::distanceBetweenPoints(const lanelet::BasicPoint2d a, const lanelet::ConstPoint2d b)
-{
-    return sqrt(pow(b.x()-a.x(), 2)+pow(b.y()-a.y(), 2));
-}
-
-
-float crp::cil::ScenarioAbstraction::distanceBetweenPoints(const tier4_planning_msgs::msg::PathPointWithLaneId a, const tier4_planning_msgs::msg::PathPointWithLaneId b)
-{
-    return sqrt(pow(b.point.pose.position.x-a.point.pose.position.x, 2)+pow(b.point.pose.position.y-a.point.pose.position.y, 2));
-}
-
-
-uint16_t crp::cil::ScenarioAbstraction::getGPSNNPointIdx(const lanelet::BasicPoint2d & currentPos, const lanelet::ConstLanelet & lane)
-{
-    lanelet::ConstLineString2d centerline = lane.centerline2d();
-    double minDist = distanceBetweenPoints(currentPos, centerline.front());
-    uint16_t minDistIdx = 0;
-    for (uint16_t i = 1; i < centerline.size(); i++)
-    {
-        double currentDist = distanceBetweenPoints(currentPos, centerline[i]);
-        if (currentDist < minDist)
-        {
-            minDist = currentDist;
-            minDistIdx = i;
-        }
-    }
-    return minDistIdx;
-}
-
-
-tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::ScenarioAbstraction::laneletPtToPathPoint(const lanelet::ConstPoint2d & pt)
-{
-    tier4_planning_msgs::msg::PathPointWithLaneId pathPoint;
-    pathPoint.point.pose.position.x = pt.x();
-    pathPoint.point.pose.position.y = pt.y();
-    return pathPoint;
-}
-
-
-float crp::cil::ScenarioAbstraction::getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion)
-{
-    tf2::Quaternion q(
-        quaternion.x,
-        quaternion.y,
-        quaternion.z,
-        quaternion.w);
-    tf2::Matrix3x3 m(q);
-    double roll, pitch, yaw;
-    m.getRPY(roll, pitch, yaw);
-
-    return yaw;
-}
-
-
-tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::ScenarioAbstraction::transformToLocal(
-    const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint)
-{
-    float egoYaw = getYawFromQuaternion(m_egoPoseMapFrame.pose.pose.orientation);
-    float R[2]{
-        cos(egoYaw),
-        sin(egoYaw)};
-    float translatedX{0.0};
-    float translatedY{0.0};
-
-    translatedX = pathPoint.point.pose.position.x - m_egoPoseMapFrame.pose.pose.position.x;
-    translatedY = pathPoint.point.pose.position.y - m_egoPoseMapFrame.pose.pose.position.y;
-
-    tier4_planning_msgs::msg::PathPointWithLaneId outPoint;
-    outPoint.point.pose.position.x = R[0] * translatedX + R[1] * translatedY;
-    outPoint.point.pose.position.y = -R[1] * translatedX + R[0] * translatedY;
-
-    return outPoint;
-}
-
-
-tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::ScenarioAbstraction::addYawAngle(
-    const tier4_planning_msgs::msg::PathPointWithLaneId & prevPoint,
-    const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint)
-{
-    tier4_planning_msgs::msg::PathPointWithLaneId outPoint;
-    outPoint.point.pose.position.x = pathPoint.point.pose.position.x;
-    outPoint.point.pose.position.y = pathPoint.point.pose.position.y;
-    
-    // calculate yaw angle with derivative
-    float yaw = atan2(
-        pathPoint.point.pose.position.y - prevPoint.point.pose.position.y,
-        pathPoint.point.pose.position.x - prevPoint.point.pose.position.x
-    );
-
-    tf2::Quaternion quat;
-    quat.setRPY(0.0f, 0.0f, yaw);
-    outPoint.point.pose.orientation = tf2::toMsg(quat);
-
-    return outPoint;
-}
-
-
 void crp::cil::ScenarioAbstraction::publishCallback()
 {
     if (!m_isMapLoaded)
@@ -135,32 +38,30 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         lanelet::geometry::findNearest(m_laneletMap->laneletLayer, currentPoint, 1);
     lanelet::Lanelet egoLanelet = actuallyNearestLanelets.front().second;
 
-    uint16_t nearestPointIdx = getGPSNNPointIdx(currentPoint, egoLanelet); // nearest point to ego on lane
+    uint16_t nearestPointIdx = m_abstractionUtils.getGPSNNPointIdx(currentPoint, egoLanelet); // nearest point to ego on lane
 
     tier4_planning_msgs::msg::PathWithLaneId outPath;
     outPath.header.stamp = this->now();
 
     float currentPathLength = 0;
     lanelet::ConstLineString2d egoCenterline = egoLanelet.centerline2d();
-    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = laneletPtToPathPoint(egoCenterline[nearestPointIdx]);
+    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx]);
     outPath.points.push_back(
-        transformToLocal(
-            laneletPtToPathPoint(
+        m_abstractionUtils.transformToLocal(
+            m_abstractionUtils.laneletPtToPathPoint(
                 egoCenterline[nearestPointIdx]
-            )
+            ),
+            m_egoPoseMapFrame
         )
     ); // add ego point
     uint16_t currentPointIdx = nearestPointIdx + 1;
     while (currentPathLength < localPathLength && currentPointIdx < egoCenterline.size())
     {
         // add points to path from ego lanelet
-        tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = laneletPtToPathPoint(egoCenterline[currentPointIdx]);
-        currentPathLength += distanceBetweenPoints(prevPoint, currentPoint);
+        tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[currentPointIdx]);
+        currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
         outPath.points.push_back(
-            addYawAngle(
-                prevPoint,
-                transformToLocal(currentPoint)
-            )
+            m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)
         );
         prevPoint = currentPoint;
         currentPointIdx++;
@@ -183,13 +84,10 @@ void crp::cil::ScenarioAbstraction::publishCallback()
             while (currentPathLength < localPathLength && currentPointIdx < currentCenterline.size())
             {
                 // add points to path from current lanelet
-                tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = laneletPtToPathPoint(currentCenterline[currentPointIdx]);
-                currentPathLength += distanceBetweenPoints(prevPoint, currentPoint);
+                tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx]);
+                currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
                 outPath.points.push_back(
-                    addYawAngle(
-                        prevPoint,
-                        transformToLocal(currentPoint)
-                    )
+                    m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)
                 );
                 prevPoint = currentPoint;
                 currentPointIdx++;
@@ -204,7 +102,8 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         }
     }
 
-    // TODO: FILTER TO DERIVATIVES
+    // calculate path orientations
+    m_abstractionUtils.calcPathOrientation(outPath);
 
     m_pub_lanePath_->publish(outPath);
 }
