@@ -3,9 +3,12 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <geometry_msgs/msg/twist_with_covariance_stamped.hpp>
+#include <geometry_msgs/msg/accel_with_covariance_stamped.hpp>
 #include <autoware_localization_msgs/msg/kinematic_state.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <crp_msgs/msg/ego_status.hpp>
+#include <std_msgs/msg/float32.hpp>
 
 
 namespace crp
@@ -19,16 +22,24 @@ public:
     EgoAbstraction();
 
 private:
-    void currentPoseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
-    void kinematicStateCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
+    void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
+    void twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg);
+    void accelCallback(const geometry_msgs::msg::AccelWithCovarianceStamped::SharedPtr msg);
+    void tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg);
+    void publishCallback();
 
-    rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr m_sub_currentPose_;
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr                       m_sub_kinematicState_;
+    rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr  m_sub_pose_;
+    rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr m_sub_twist_;
+    rclcpp::Subscription<geometry_msgs::msg::AccelWithCovarianceStamped>::SharedPtr m_sub_accel_;
+    rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_tireAngle_;
 
     rclcpp::Publisher<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_pub_kinematicState_;
     rclcpp::Publisher<crp_msgs::msg::EgoStatus>::SharedPtr m_pub_egoStatus_;
 
-    nav_msgs::msg::Odometry m_odometry;
+    autoware_localization_msgs::msg::KinematicState m_kinematicState;
+    crp_msgs::msg::EgoStatus m_egoStatus;
+
+    rclcpp::TimerBase::SharedPtr m_publishTimer_;
 };
 
 } // namespace cil
