@@ -11,44 +11,59 @@ def generate_launch_description():
     
     # ARGS
 
+    # novatel gps
+    novatel_namespace_arg = DeclareLaunchArgument(
+        'novatel_namespace',
+        default_value='gps/nova',
+        description='Namespace for the Novatel GPS')
+    novatel_ip_arg = DeclareLaunchArgument(
+        'novatel_ip',
+        default_value='192.168.10.12',
+        description='IP address of the Novatel GPS')
+    novatel_port_arg = DeclareLaunchArgument(
+        'novatel_port',
+        default_value='3001',
+        description='Port of the Novatel GPS')
+    novatel_imu_frame_id_arg = DeclareLaunchArgument(
+        'novatel_imu_frame_id',
+        default_value='/lexus3/nova/imu',
+        description='IMU frame id of the Novatel GPS')
+    novatel_frame_id_arg = DeclareLaunchArgument(
+        'novatel_frame_id',
+        default_value='/lexus3/gps/nova',
+        description='Frame id of the Novatel GPS')
+
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
         'map_file_path',
-        default_value='/home/david/test/test.osm',
-        description='Length of the scenario in meters'
-    )
+        default_value='',
+        description='Length of the scenario in meters')
     lanelet_map_frame_id_arg = DeclareLaunchArgument(
         'map_frame_id',
         default_value="map_zala_0",
-        description='Frame id of the lanelet2 map'
-    )
+        description='Frame id of the lanelet2 map')
     lanelet_output_topic_arg = DeclareLaunchArgument(
         'map_output_topic',
         default_value='/home/david/test/test.osm',
-        description='Length of the scenario in meters'
-    )
+        description='Length of the scenario in meters')
     vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
         'vehicle_tire_angle_topic',
         default_value='/map/global_static_map_from_file/lanelet2_map',
-        description='Length of the scenario in meters'
-    )
+        description='Length of the scenario in meters')
     lanelet_visualization_topic_arg = DeclareLaunchArgument(
         'map_visualization_topic',
         default_value="/map/global_static_map_from_file/lanelet2_map_visualization",
-        description='Output topic for the lanelet2 map binary'
-    )
+        description='Output topic for the lanelet2 map binary')
 
     # sensor abstraction
     vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
         'vehicle_tire_angle_topic',
         default_value='/sensing/vehicle/tire_angle',
-        description='Length of the scenario in meters'
-    )
+        description='Length of the scenario in meters')
     local_path_length_arg = DeclareLaunchArgument(
         'local_path_length',
         default_value='70.0',
-        description='Length of the scenario in meters'
-    )
+        description='Length of the scenario in meters')
     
     # NODES
 
@@ -58,14 +73,7 @@ def generate_launch_description():
                 get_package_share_directory('novatel_gps_launcher'),
                 'launch',
                 'novatel.launch.py')
-        ),
-        launch_arguments={
-            'novatel_namespace': 'gps/nova',
-            'novatel_ip': '192.168.10.12',
-            'novatel_port': '3001',
-            'novatel_imu_frame_id': '/lexus3/nova/imu',
-            'novatel_frame_id': '/lexus3/gps/nova'
-        }.items()
+        )
     )
 
     static_tf = IncludeLaunchDescription(
@@ -155,6 +163,11 @@ def generate_launch_description():
 
     return LaunchDescription([
         # args
+        novatel_namespace_arg,
+        novatel_ip_arg,
+        novatel_port_arg,
+        novatel_imu_frame_id_arg,
+        novatel_frame_id_arg,
         lanelet_file_path_arg,
         lanelet_map_frame_id_arg,
         lanelet_output_topic_arg,
