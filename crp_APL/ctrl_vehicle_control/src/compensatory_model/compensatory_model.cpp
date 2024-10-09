@@ -19,6 +19,7 @@ namespace crp
                 
                 m_localPath_x.push_back(localPathPoint[0]);
                 m_localPath_y.push_back(localPathPoint[1]);
+                printf("local points x=%f y=%f\n", point[0], point[1]);
             }
 
             // cut snippet

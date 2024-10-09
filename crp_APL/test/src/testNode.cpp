@@ -29,6 +29,7 @@ void crp::apl::TestNode::vehicleModel()
     float dy = m_vehicleSpeedTarget*std::sin(x[2])*dT;
     x[0] = x[0] + dx*dT;
     x[1] = x[1] + dy*dT;
+    printf("x-y is %f-%f\n", x[0], x[1]);
     return;
 }
 
@@ -63,7 +64,7 @@ void crp::apl::TestNode::calculateRoute()
     }
     // TODO: put global path to world message 
 
-    // no turning it to local coordinates
+    // now turning it to local coordinates
     for (int i=0; i<1001; i++)
     {
         float globalPoint[3];
@@ -100,14 +101,17 @@ void crp::apl::TestNode::mapScenario()
     tier4_planning_msgs::msg::PathPointWithLaneId pathPoint;
     for (int i=0; i<1001; i++)
     {
-        pathPoint.point.pose.position.x = m_localPath[i][0];
-        pathPoint.point.pose.position.y = m_localPath[i][1];
-        tf2::Quaternion(tf2::Vector3(0, 0, 1), m_localPath[i][2]);
-        pathPoint.point.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), m_localPath[i][2]));
+        if (m_localPath[i][0]>=0.0 && m_localPath[i][0]<=100.0)
+        {
+            pathPoint.point.pose.position.x = m_localPath[i][0];
+            pathPoint.point.pose.position.y = m_localPath[i][1];
+            tf2::Quaternion(tf2::Vector3(0, 0, 1), m_localPath[i][2]);
+            pathPoint.point.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), m_localPath[i][2]));
 
-        pathPoint.point.longitudinal_velocity_mps = 20.0;
+            pathPoint.point.longitudinal_velocity_mps = 20.0;
 
-        path.path.points.push_back(pathPoint);
+            path.path.points.push_back(pathPoint);
+        }
     }
     path.traffic_rules.maximum_speed = 20.0;
     // only one lane at the moment
