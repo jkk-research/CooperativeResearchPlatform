@@ -1,11 +1,57 @@
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
 
 
 def generate_launch_description():
+    
+    # ARGS
+
+    # lanelet handler
+    lanelet_file_path_arg = DeclareLaunchArgument(
+        'map_file_path',
+        default_value='/home/david/test/test.osm',
+        description='Length of the scenario in meters'
+    )
+    lanelet_map_frame_id_arg = DeclareLaunchArgument(
+        'map_frame_id',
+        default_value="map_zala_0",
+        description='Frame id of the lanelet2 map'
+    )
+    lanelet_output_topic_arg = DeclareLaunchArgument(
+        'map_output_topic',
+        default_value='/home/david/test/test.osm',
+        description='Length of the scenario in meters'
+    )
+    vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
+        'vehicle_tire_angle_topic',
+        default_value='/map/global_static_map_from_file/lanelet2_map',
+        description='Length of the scenario in meters'
+    )
+    lanelet_visualization_topic_arg = DeclareLaunchArgument(
+        'map_visualization_topic',
+        default_value="/map/global_static_map_from_file/lanelet2_map_visualization",
+        description='Output topic for the lanelet2 map binary'
+    )
+
+    # sensor abstraction
+    vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
+        'vehicle_tire_angle_topic',
+        default_value='/sensing/vehicle/tire_angle',
+        description='Length of the scenario in meters'
+    )
+    local_path_length_arg = DeclareLaunchArgument(
+        'local_path_length',
+        default_value='70.0',
+        description='Length of the scenario in meters'
+    )
+    
+    # NODES
+
     novatel_gps = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
@@ -38,6 +84,15 @@ def generate_launch_description():
                 'launch',
                 'drivers',
                 'can_pacmod3.launch.xml')
+        )
+    )
+
+    lanelet_file_loader = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lanelet_handler'),
+                'launch',
+                'laneletFileLoader.launch.py')
         )
     )
 
@@ -99,10 +154,22 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        # args
+        lanelet_file_path_arg,
+        lanelet_map_frame_id_arg,
+        lanelet_output_topic_arg,
+        vehicle_tire_angle_topic_arg,
+        lanelet_visualization_topic_arg,
+        vehicle_tire_angle_topic_arg,
+        local_path_length_arg,
+
+        # vehicle nodes
         novatel_gps,
         static_tf,
         vehicle_can,
 
+        # nodes
+        lanelet_file_loader,
         sensor_abstraction,
         environmental_fusion,
         behavior_planning,

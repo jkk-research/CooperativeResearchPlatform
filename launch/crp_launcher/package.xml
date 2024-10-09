@@ -13,6 +13,13 @@
   <depend>novatel_gps_launcher</depend>
   <depend>tf2_ros</depend>
   <depend>kvaser_interface</depend>
+  <depend>lanelet_handler</depend>
+  <depend>prcp_sensor_abstraction</depend>
+  <depend>prcp_situation_analysis</depend>
+  <depend>plan_behavior_planning</depend>
+  <depend>plan_motion_planning</depend>
+  <depend>plan_lat_lane_follow_ldm</depend>
+  <depend>ctrl_vehicle_control</depend>
   <!-- nissan -->
   <depend>nissan_bringup</depend>
   <!-- lexus -->
