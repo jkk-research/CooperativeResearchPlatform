@@ -92,6 +92,18 @@ def generate_launch_description():
                 'launch',
                 'drivers',
                 'can_pacmod3.launch.xml')
+        ),
+        launch_arguments={
+            'namespace': 'pacmod'
+        }.items()
+    )
+
+    pacmod_interface = IncludeLaunchDescription(
+        AnyLaunchDescriptionSource(
+            join(
+                get_package_share_directory('pacmod_interface'),
+                'launch',
+                'pacmod_interface.launch.xml')
         )
     )
 
@@ -162,32 +174,33 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        # args
-        novatel_namespace_arg,
-        novatel_ip_arg,
-        novatel_port_arg,
-        novatel_imu_frame_id_arg,
-        novatel_frame_id_arg,
-        lanelet_file_path_arg,
-        lanelet_map_frame_id_arg,
-        lanelet_output_topic_arg,
-        vehicle_tire_angle_topic_arg,
-        lanelet_visualization_topic_arg,
-        vehicle_tire_angle_topic_arg,
-        local_path_length_arg,
+        # # args
+        # novatel_namespace_arg,
+        # novatel_ip_arg,
+        # novatel_port_arg,
+        # novatel_imu_frame_id_arg,
+        # novatel_frame_id_arg,
+        # lanelet_file_path_arg,
+        # lanelet_map_frame_id_arg,
+        # lanelet_output_topic_arg,
+        # vehicle_tire_angle_topic_arg,
+        # lanelet_visualization_topic_arg,
+        # vehicle_tire_angle_topic_arg,
+        # local_path_length_arg,
 
-        # vehicle nodes
-        novatel_gps,
-        static_tf,
+        # # vehicle nodes
+        # novatel_gps,
+        # static_tf,
         vehicle_can,
+        pacmod_interface,
 
-        # nodes
-        lanelet_file_loader,
-        sensor_abstraction,
-        environmental_fusion,
-        behavior_planning,
-        motion_planning,
-        vehicle_control,
+        # # nodes
+        # lanelet_file_loader,
+        # sensor_abstraction,
+        # environmental_fusion,
+        # behavior_planning,
+        # motion_planning,
+        # vehicle_control,
 
-        planner_lat_lane_follow_ldm
+        # planner_lat_lane_follow_ldm
     ])

@@ -27,7 +27,7 @@ public:
     CtrlVehicleControl() : Node("CtrlVehicleControl")
     {
         timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControl::loop, this));  
-        cmd_pub = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/ctrl_cmd", 30);
+        cmd_pub = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 30);
         
         traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
         ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/cai/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
