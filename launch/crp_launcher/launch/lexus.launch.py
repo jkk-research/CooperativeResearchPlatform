@@ -85,6 +85,55 @@ def generate_launch_description():
         )
     )
 
+    lidar_left = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'drivers',
+                'os_32_left_b.launch.py')
+        )
+    )
+
+    lidar_center = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'drivers',
+                'os_64_center_b.launch.py')
+        )
+    )
+
+    lidar_right = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'drivers',
+                'os_32_right_b.launch.py')
+        )
+    )
+
+    camera_zed = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'drivers',
+                'zed_default_a.launch.py')
+        )
+    )
+
+    camera_mpc = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('mpc_camera_driver'),
+                'launch',
+                'mpc_driver.launch.py')
+        )
+    )
+
     vehicle_can = IncludeLaunchDescription(
         AnyLaunchDescriptionSource(
             join(
@@ -193,6 +242,11 @@ def generate_launch_description():
         static_tf,
         vehicle_can,
         pacmod_interface,
+        lidar_left,
+        lidar_center,
+        lidar_right,
+        camera_zed,
+        camera_mpc,
 
         # nodes
         lanelet_file_loader,
