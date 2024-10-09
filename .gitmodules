@@ -9,7 +9,7 @@
 	url = https://github.com/autowarefoundation/autoware_msgs.git
 [submodule "crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode"]
 	path = crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode
-	url = git@github.com:jkk-research/plan_lateral_planner_ldm.git
+	url = https://github.com/jkk-research/plan_lateral_planner_ldm.git
 [submodule "crp_VIL/novatel_gps_driver"]
 	path = crp_VIL/novatel_driver/novatel_gps_driver
 	url = https://github.com/jkk-research/novatel_gps_driver.git
