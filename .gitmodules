@@ -1,6 +1,27 @@
 [submodule "crp_VIL/mpc_cam_driver"]
 	path = crp_VIL/mpc_camera_driver
 	url = https://github.com/jkk-research/mpc_cam_driver
+[submodule "external/tier4_autoware_msgs"]
+	path = external/tier4_autoware_msgs
+	url = https://github.com/tier4/tier4_autoware_msgs.git
+[submodule "external/autoware_msgs"]
+	path = external/autoware_msgs
+	url = https://github.com/autowarefoundation/autoware_msgs.git
+[submodule "crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode"]
+	path = crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode
+	url = git@github.com:jkk-research/plan_lateral_planner_ldm.git
 [submodule "crp_VIL/novatel_gps_driver"]
 	path = crp_VIL/novatel_driver/novatel_gps_driver
 	url = https://github.com/jkk-research/novatel_gps_driver.git
+[submodule "crp_VIL/nissan_can_driver"]
+	path = crp_VIL/nissan_can_driver
+	url = https://github.com/jkk-research/nissan_can_driver.git
+[submodule "crp_VIL/lexus_bringup"]
+	path = crp_VIL/lexus_bringup
+	url = https://github.com/jkk-research/lexus_bringup
+[submodule "crp_VIL/nissan_bringup"]
+	path = crp_VIL/nissan_bringup
+	url = https://github.com/szenergy/nissan_bringup
+[submodule "crp_VIL/pacmod_interface"]
+	path = crp_VIL/pacmod_interface
+	url = https://github.com/tier4/pacmod_interface

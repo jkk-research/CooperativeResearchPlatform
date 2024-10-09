@@ -17,7 +17,6 @@ crp::apl::WrapperBase::WrapperBase(const std::string & node_name, const rclcpp::
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&WrapperBase::run, this));
 }
 
-
 void crp::apl::WrapperBase::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
 {
     m_input.currentScenario = msg->current_scenario;
@@ -216,6 +215,17 @@ void crp::apl::WrapperBase::convertOutputToMsg(const PlannerOutput & output, aut
         msgPoint.longitudinal_velocity_mps = outputPoint.velocity;
         msg.points.push_back(msgPoint);
     }
+}
+
+bool crp::apl::WrapperBase::inputPlausibilityCheck(const PlannerInput & input)
+{
+    bool m_inputPlausible = false;
+    if (input.path.pathPoints.size()>1)
+    {
+        m_inputPlausible = true;
+    }
+
+    return m_inputPlausible;
 }
 
 

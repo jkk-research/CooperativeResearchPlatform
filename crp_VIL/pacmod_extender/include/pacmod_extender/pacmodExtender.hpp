@@ -4,8 +4,8 @@
 #include <rclcpp/rclcpp.hpp>
 #include <can_msgs/msg/frame.hpp>
 #include <geometry_msgs/msg/twist_stamped.hpp>
-#include <pacmod3_msgs/msg/linear_accel_rpt.hpp>
-#include <pacmod3_msgs/msg/yaw_rate_rpt.hpp>
+#include <geometry_msgs/msg/twist_with_covariance_stamped.hpp>
+#include <geometry_msgs/msg/accel_with_covariance_stamped.hpp>
 
 #include "pacmod_extender/pacmodDefinitions.hpp"
 
@@ -16,20 +16,21 @@ public:
     PacmodExtender();
 
 private:
-    void publishMessages();
     void canCallback(const can_msgs::msg::Frame::SharedPtr msg);
     void twistCallback(const geometry_msgs::msg::TwistStamped::SharedPtr msg);
+    void publishMessages();
 
-    rclcpp::Subscription<can_msgs::msg::Frame>::SharedPtr sub_can_;
-    rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr sub_twist_;
+    rclcpp::Subscription<can_msgs::msg::Frame>::SharedPtr m_sub_can_;
+    rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr m_sub_twist_;
 
-    rclcpp::Publisher<pacmod3_msgs::msg::LinearAccelRpt>::SharedPtr pub_linAccel_;
-    rclcpp::Publisher<pacmod3_msgs::msg::YawRateRpt>::SharedPtr pub_yawRate_;
+    rclcpp::Publisher<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr m_pub_vehicleTwist_;
+    rclcpp::Publisher<geometry_msgs::msg::AccelWithCovarianceStamped>::SharedPtr m_pub_vehicleAccel_;
 
     PacmodDefinitions pacmodDefinitions;
-
-    pacmod3_msgs::msg::LinearAccelRpt linAccel;
-    float yawRate{0};
+    
+    rclcpp::TimerBase::SharedPtr m_timer_;
+    geometry_msgs::msg::TwistWithCovarianceStamped m_twistWithCovariance;
+    pacmod3_msgs::msg::LinearAccelRpt m_linAccel;
 
     const float WHEELBASE = 2.79;
 };

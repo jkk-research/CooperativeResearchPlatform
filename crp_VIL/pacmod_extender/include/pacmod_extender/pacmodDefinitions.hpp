@@ -14,7 +14,7 @@ class PacmodDefinitions
 public:
     pacmod3_msgs::msg::LinearAccelRpt decodeLinAccel(const can_msgs::msg::Frame::SharedPtr msg);
 
-    const uint16_t LIN_ACCEL_ID = 1049;
+    const uint16_t M_LIN_ACCEL_ID = 1049;
 };
 
 #endif // VEHICLE_INFO_HPP

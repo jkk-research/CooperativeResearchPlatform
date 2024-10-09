@@ -1,0 +1,475 @@
+{
+  "configById": {
+    "Gauge!co4231": {
+      "path": "/control/command/control_cmd.longitudinal.speed",
+      "minValue": 0,
+      "maxValue": 100,
+      "colorMap": "red-yellow-green",
+      "colorMode": "gradient",
+      "gradient": [
+        "#eaff0038",
+        "#fffd00ff"
+      ],
+      "reverse": false,
+      "foxglovePanelTitle": "Velocity"
+    },
+    "Indicator!3mq5l52": {
+      "path": "/pacmod/enabled",
+      "style": "background",
+      "fallbackColor": "#6f6f6f",
+      "fallbackLabel": "AUC Disabled",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "true",
+          "color": "#68e24a",
+          "label": "AUC Enabled"
+        }
+      ]
+    },
+    "Indicator!l7ou4n": {
+      "path": "/lexus3/gps/duro/status_flag.data",
+      "style": "background",
+      "fallbackColor": "#ff0000",
+      "fallbackLabel": "Degraded GPS",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "4",
+          "color": "#0c3b00",
+          "label": "Fixed RTK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "3",
+          "color": "#f9e804",
+          "label": "Float RTK"
+        }
+      ]
+    },
+    "Indicator!20oh1z5": {
+      "path": "/control/command/control_cmd.lateral.stamp.sec",
+      "style": "background",
+      "fallbackColor": "#ff0000",
+      "fallbackLabel": "Lost CTRL",
+      "rules": [
+        {
+          "operator": ">",
+          "rawValue": "4",
+          "color": "#0c3b00",
+          "label": "CTRL Ready"
+        }
+      ]
+    },
+    "helloworld.example-panel!1w7l0qs": {},
+    "RawMessages!43jwqwj": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/control/command/control_cmd.longitudinal.speed",
+      "fontSize": 60
+    },
+    "GlobalVariableSliderPanel!10y07g8": {
+      "sliderProps": {
+        "min": 0,
+        "max": 150,
+        "step": 1
+      },
+      "globalVariableName": "/cai/velocity_limit[km/h]",
+      "foxglovePanelTitle": "Velocity Limit [km/h]"
+    },
+    "Gauge!1dii1on": {
+      "path": "/vehicle/status/velocity_status.longitudinal_velocity",
+      "minValue": 0,
+      "maxValue": 100,
+      "colorMap": "red-yellow-green",
+      "colorMode": "gradient",
+      "gradient": [
+        "#00ff372b",
+        "#00ff2eff"
+      ],
+      "reverse": false
+    },
+    "RawMessages!34r8k84": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/vehicle/status/velocity_status.longitudinal_velocity",
+      "fontSize": 60
+    },
+    "3D!1utppn4": {
+      "cameraState": {
+        "perspective": true,
+        "distance": 30.146795390551258,
+        "phi": 61.04743884446108,
+        "thetaOffset": 88.20448879985264,
+        "targetOffset": [
+          8.761385507725926,
+          1.1223712071591974,
+          2.8538235658825887e-15
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 43.9,
+        "near": 0.232,
+        "far": 5013.213,
+        "logDepth": false
+      },
+      "followMode": "follow-pose",
+      "followTf": "map_zala_0",
+      "scene": {
+        "meshUpAxis": "z_up",
+        "ignoreColladaUpAxis": false,
+        "enableStats": false,
+        "labelScaleFactor": 1,
+        "backgroundColor": "#000000",
+        "syncCamera": true
+      },
+      "transforms": {
+        "frame:map_zala_0": {
+          "visible": false
+        },
+        "frame:lexus3/gps": {
+          "visible": false
+        },
+        "frame:base_link": {
+          "visible": false
+        },
+        "frame:lexus3/duro_gps": {
+          "visible": false
+        },
+        "frame:lexus3/duro_gps_imu": {
+          "visible": false
+        },
+        "frame:map": {
+          "visible": false
+        },
+        "frame:lexus3/os_right_a": {
+          "visible": false
+        },
+        "frame:lexus3/os_center_a": {
+          "visible": false
+        },
+        "frame:lexus3/_left_camera_frame": {
+          "visible": false
+        },
+        "frame:lexus3/ground_link": {
+          "visible": false
+        },
+        "frame:map_gyor_0": {
+          "visible": false
+        },
+        "frame:lexus3/os_left_a": {
+          "visible": false
+        },
+        "frame:map_utm_zone0": {
+          "visible": false
+        }
+      },
+      "topics": {
+        "/ldm/lanelet_lanes": {
+          "visible": true
+        },
+        "/ldm/ldm_path": {
+          "visible": true
+        },
+        "/lexus3/gps/duro/current_pose": {
+          "visible": true
+        },
+        "/lexus3/gps/duro/current_pose_fake_orientation": {
+          "visible": true
+        },
+        "/lexus3/gps/duro/current_pose_with_cov": {
+          "visible": true
+        },
+        "/ldm/trajectory_follower/controller_node_exe/output/debug_marker": {
+          "visible": true
+        },
+        "/ldm/paths": {
+          "visible": true
+        },
+        "/lexus_marker": {
+          "visible": true,
+          "showOutlines": true
+        },
+        "/move_base_simple/goal": {
+          "axisScale": 1.594
+        }
+      },
+      "layers": {
+        "grid": {
+          "visible": false,
+          "frameLocked": true,
+          "label": "Grid",
+          "instanceId": "a713a9f4-89f3-4596-a19a-4d2954b8ac33",
+          "layerId": "foxglove.Grid",
+          "size": 10,
+          "divisions": 10,
+          "lineWidth": 1,
+          "color": "#248eff",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ]
+        },
+        "4ca842d7-ccc7-4273-8435-b56c66eeab56": {
+          "visible": true,
+          "frameLocked": true,
+          "label": "URDF",
+          "instanceId": "4ca842d7-ccc7-4273-8435-b56c66eeab56",
+          "layerId": "foxglove.Urdf",
+          "sourceType": "url",
+          "url": "",
+          "filePath": "",
+          "parameter": "",
+          "topic": "",
+          "framePrefix": "",
+          "displayMode": "auto",
+          "fallbackColor": "#ffffff",
+          "order": 1
+        }
+      },
+      "publish": {
+        "type": "point",
+        "poseTopic": "/move_base_simple/goal",
+        "pointTopic": "/clicked_point",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      },
+      "imageMode": {}
+    },
+    "Gauge!21u3cgj": {
+      "path": "/control/command/control_cmd.lateral.steering_tire_angle",
+      "minValue": -1,
+      "maxValue": 1,
+      "colorMap": "red-yellow-green",
+      "colorMode": "gradient",
+      "gradient": [
+        "#eaff0038",
+        "#fffd00ff"
+      ],
+      "reverse": false,
+      "foxglovePanelTitle": "Control CMD"
+    },
+    "RawMessages!smie4e": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/control/command/control_cmd.lateral.steering_tire_angle",
+      "fontSize": 60
+    },
+    "Gauge!1jpfec2": {
+      "path": "/vehicle/status/steering_status.steering_tire_angle",
+      "minValue": -1,
+      "maxValue": 1,
+      "colorMap": "red-yellow-green",
+      "colorMode": "gradient",
+      "gradient": [
+        "#00ff372b",
+        "#00ff37ff"
+      ],
+      "reverse": false
+    },
+    "RawMessages!3a2o9hq": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/vehicle/status/steering_status.steering_tire_angle",
+      "fontSize": 60
+    },
+    "Parameters!34pe3hv": {
+      "title": "Parameters"
+    },
+    "Plot!2n7m0l": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/control/command/control_cmd.lateral.steering_tire_angle",
+          "enabled": true,
+          "color": "fffd00ff",
+          "lineSize": 1.4
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/vehicle/status/steering_status.steering_tire_angle",
+          "enabled": true,
+          "color": "#00ff37"
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": true,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240,
+      "foxglovePanelTitle": "Steering Tire Angle"
+    },
+    "StateTransitions!2y7o87": {
+      "paths": [
+        {
+          "value": "/pacmod/enabled.data",
+          "timestampMethod": "receiveTime"
+        }
+      ],
+      "isSynced": true,
+      "foxglovePanelTitle": "Autonomous State",
+      "xAxisMinValue": 0,
+      "xAxisMaxValue": 10,
+      "showPoints": false
+    },
+    "Plot!27vr8ep": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/control/command/control_cmd.longitudinal.speed",
+          "enabled": true,
+          "color": "#fffd00"
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/vehicle/status/velocity_status.longitudinal_velocity",
+          "enabled": true,
+          "color": "#00ff37"
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": true,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240
+    },
+    "Tab!tg162x": {
+      "activeTabIdx": 0,
+      "tabs": [
+        {
+          "title": "  Vehicle Status",
+          "layout": {
+            "first": {
+              "first": {
+                "first": {
+                  "first": "Gauge!co4231",
+                  "second": {
+                    "first": "Indicator!3mq5l52",
+                    "second": {
+                      "first": {
+                        "first": "Indicator!l7ou4n",
+                        "second": "Indicator!20oh1z5",
+                        "direction": "row"
+                      },
+                      "second": "helloworld.example-panel!1w7l0qs",
+                      "direction": "column",
+                      "splitPercentage": 41.107054183236
+                    },
+                    "direction": "column",
+                    "splitPercentage": 29.91706828092182
+                  },
+                  "direction": "row",
+                  "splitPercentage": 28.995057660626024
+                },
+                "second": {
+                  "first": "RawMessages!43jwqwj",
+                  "second": "GlobalVariableSliderPanel!10y07g8",
+                  "direction": "row",
+                  "splitPercentage": 29.005751848808547
+                },
+                "direction": "column",
+                "splitPercentage": 70.16706443914082
+              },
+              "second": {
+                "first": {
+                  "first": "Gauge!1dii1on",
+                  "second": "RawMessages!34r8k84",
+                  "direction": "column",
+                  "splitPercentage": 68.67749419953596
+                },
+                "second": "3D!1utppn4",
+                "direction": "row",
+                "splitPercentage": 28.92358258011503
+              },
+              "direction": "column",
+              "splitPercentage": 51.02040816326531
+            },
+            "second": {
+              "first": {
+                "first": "Gauge!21u3cgj",
+                "second": "RawMessages!smie4e",
+                "direction": "column",
+                "splitPercentage": 69.79853591639483
+              },
+              "second": {
+                "first": "Gauge!1jpfec2",
+                "second": "RawMessages!3a2o9hq",
+                "direction": "column",
+                "splitPercentage": 69.12011856363605
+              },
+              "direction": "column",
+              "splitPercentage": 51.167671707418826
+            },
+            "direction": "row",
+            "splitPercentage": 79.23177083333334
+          }
+        },
+        {
+          "title": "PID Tune",
+          "layout": {
+            "first": "Parameters!34pe3hv",
+            "second": {
+              "first": {
+                "first": "Plot!2n7m0l",
+                "second": "StateTransitions!2y7o87",
+                "direction": "column",
+                "splitPercentage": 74.98241643740378
+              },
+              "second": "Plot!27vr8ep",
+              "direction": "column",
+              "splitPercentage": 60.48281194133354
+            },
+            "direction": "row",
+            "splitPercentage": 41.66666666666667
+          }
+        }
+      ]
+    }
+  },
+  "globalVariables": {
+    "/cai/velocity_limit[km/h]": 90,
+    "/ctrl/ffGainOffsetGround": 1.2,
+    "globalVariable": 5,
+    "/ctrl/fbPGain": 0.68,
+    "/ctrl/fbIGain": 0.05,
+    "/ctrl/fbDGain": 0.02,
+    "/ctrl/ffLookAheadTime": 1,
+    "/ctrl/ffGainSlope": 0.11
+  },
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": "Tab!tg162x"
+}
