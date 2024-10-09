@@ -10,8 +10,12 @@ crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
     m_sub_ego      = this->create_subscription<crp_msgs::msg::Ego>(
         "ego", 10, std::bind(&BehaviorPlanner::egoCallback, this, std::placeholders::_1));
 
-    m_pub_strategy     = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
+    m_pub_strategy = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
     m_pub_target_space = this->create_publisher<crp_msgs::msg::TargetSpace>("plan/target_space", 10);
+
+    this->declare_parameter("/behavior_planner/current_scenario", "laneFollowWithSpeedAdjust");
+
+    timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&BehaviorPlanner::loop, this));  
 }
 
 
@@ -24,14 +28,35 @@ void crp::apl::BehaviorPlanner::routeCallback(const autoware_planning_msgs::msg:
 
 void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::SharedPtr msg)
 {
-    // TODO
-    return;
+    crp_msgs::msg::TargetSpace target_space_msg;
+
+    if (msg->paths.size() > 0)
+        target_space_msg.path = msg->paths[0];
+
+    target_space_msg.free_space = msg->free_space;
+    
+    m_pub_target_space->publish(target_space_msg);
+
 }
 
 
 void crp::apl::BehaviorPlanner::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 {
     // TODO
+    return;
+}
+
+void crp::apl::BehaviorPlanner::loop()
+{
+    // possible Scenrios: "off", "laneFollowWithSpeedAdjust", "laneFollow", "speedAdjust"
+
+    std::string current_scenario_msg = this->get_parameter("/behavior_planner/current_scenario").as_string();
+
+    tier4_planning_msgs::msg::Scenario scenario_msg;
+    scenario_msg.current_scenario = current_scenario_msg;
+
+    m_pub_strategy->publish(scenario_msg);
+    
     return;
 }
 

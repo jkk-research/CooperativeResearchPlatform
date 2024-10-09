@@ -5,6 +5,7 @@
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <autoware_perception_msgs/msg/predicted_objects.hpp>
+#include <nav_msgs/msg/occupancy_grid.hpp>
 #include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
 #include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
@@ -42,6 +43,8 @@ private:
 
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_movingObjects_;
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_obstacles_;
+    rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr m_pub_lane_path_;
+    rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr m_pub_drivable_surface_;
     rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lanePath_;
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivableSurface_;
 

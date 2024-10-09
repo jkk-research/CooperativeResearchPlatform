@@ -25,7 +25,7 @@ find_package(tf2_geometry_msgs REQUIRED)
 include_directories(include)
 
 add_executable(world_abstraction src/worldAbstraction.cpp)
-ament_target_dependencies(world_abstraction rclcpp nav_msgs autoware_perception_msgs autoware_map_msgs tier4_planning_msgs)
+ament_target_dependencies(world_abstraction rclcpp nav_msgs autoware_perception_msgs autoware_map_msgs tier4_planning_msgs) 
 
 add_executable(scenario_abstraction src/scenarioAbstraction.cpp src/abstractionUtils.cpp)
 ament_target_dependencies(scenario_abstraction rclcpp nav_msgs autoware_map_msgs autoware_perception_msgs tier4_planning_msgs geometry_msgs lanelet2_core autoware_lanelet2_extension tf2 tf2_ros tf2_geometry_msgs)
