@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(pacmod3_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(can_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
@@ -17,7 +18,7 @@ include_directories(
 )
 
 add_executable(pacmod_extender_node src/pacmodExtender.cpp src/pacmodDefinitions.cpp)
-ament_target_dependencies(pacmod_extender_node rclcpp pacmod3_msgs can_msgs geometry_msgs)
+ament_target_dependencies(pacmod_extender_node rclcpp pacmod3_msgs can_msgs geometry_msgs std_msgs)
 
 install(TARGETS
   pacmod_extender_node

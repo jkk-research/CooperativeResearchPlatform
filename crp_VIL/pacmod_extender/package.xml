@@ -12,6 +12,7 @@
   <depend>rclcpp</depend>
   <depend>pacmod3_msgs</depend>
   <depend>can_msgs</depend>
+  <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
 
   <export>
