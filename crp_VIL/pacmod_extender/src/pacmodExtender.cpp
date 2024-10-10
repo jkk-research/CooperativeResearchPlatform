@@ -6,8 +6,9 @@ PacmodExtender::PacmodExtender() : Node("pacmod_extender_node")
     m_sub_can_   = this->create_subscription<can_msgs::msg::Frame>("pacmod/can_tx", 10, std::bind(&PacmodExtender::canCallback, this, std::placeholders::_1));
     m_sub_twist_ = this->create_subscription<geometry_msgs::msg::TwistStamped>("vehicle_status", 10, std::bind(&PacmodExtender::twistCallback, this, std::placeholders::_1));
 
-    m_pub_vehicleTwist_ = this->create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>("/sensing/vehicle/twist", 10);
-    m_pub_vehicleAccel_ = this->create_publisher<geometry_msgs::msg::AccelWithCovarianceStamped>("/sensing/vehicle/accel", 10);
+    m_pub_vehicleTwist_     = this->create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>("/sensing/vehicle/twist", 10);
+    m_pub_vehicleAccel_     = this->create_publisher<geometry_msgs::msg::AccelWithCovarianceStamped>("/sensing/vehicle/accel", 10);
+    m_pub_vehicleTireAngle_ = this->create_publisher<std_msgs::msg::Float32>("/sensing/vehicle/tire_angle", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&PacmodExtender::publishMessages, this));
 }
@@ -15,6 +16,9 @@ PacmodExtender::PacmodExtender() : Node("pacmod_extender_node")
 
 void PacmodExtender::publishMessages()
 {
+    // twist callback has tire angle in angular.z, the published message should have yaw rate
+    m_twistWithCovariance.twist.twist.angular.z = m_twistWithCovariance.twist.twist.linear.x * tan(m_tireAngle.data) / M_WHEELBASE;
+
     geometry_msgs::msg::AccelWithCovarianceStamped accelWithCovariance;
     accelWithCovariance.header = m_linAccel.header;
     accelWithCovariance.accel.accel.linear.x = m_linAccel.longitudinal_accel;
@@ -23,6 +27,7 @@ void PacmodExtender::publishMessages()
 
     m_pub_vehicleTwist_->publish(m_twistWithCovariance);
     m_pub_vehicleAccel_->publish(accelWithCovariance);
+    m_pub_vehicleTireAngle_->publish(m_tireAngle);
 }
 
 
@@ -39,8 +44,7 @@ void PacmodExtender::twistCallback(const geometry_msgs::msg::TwistStamped::Share
 {
     m_twistWithCovariance.header = msg->header;
     m_twistWithCovariance.twist.twist = msg->twist;
-    // twist callback has tire angle in angular.z, the published message should have yaw rate
-    m_twistWithCovariance.twist.twist.angular.z = msg->twist.linear.x * tan(msg->twist.angular.z) / WHEELBASE;
+    m_tireAngle.data = msg->twist.angular.z;
 }
 
 

@@ -4,6 +4,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
 
 namespace crp
@@ -18,6 +19,7 @@ public:
 
 private:
     void currentPoseCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg);
+    float getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion);
 
     rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr m_sub_currentPose_;
 
