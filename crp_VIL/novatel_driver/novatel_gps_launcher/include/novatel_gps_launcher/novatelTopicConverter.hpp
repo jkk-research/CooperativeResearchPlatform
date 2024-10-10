@@ -19,6 +19,7 @@ public:
 
 private:
     void currentPoseCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg);
+    float getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion);
 
     rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr m_sub_currentPose_;
 
