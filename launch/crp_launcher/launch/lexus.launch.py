@@ -142,17 +142,18 @@ def generate_launch_description():
                 'drivers',
                 'can_pacmod3.launch.xml')
         ),
-        launch_arguments={
-            'namespace': 'pacmod'
-        }.items()
+        # launch_arguments={
+        #     'namespace': 'pacmod'
+        # }.items()
     )
 
-    pacmod_interface = IncludeLaunchDescription(
+    vehicle_speed_control = IncludeLaunchDescription(
         AnyLaunchDescriptionSource(
             join(
-                get_package_share_directory('pacmod_interface'),
+                get_package_share_directory('lexus_bringup'),
                 'launch',
-                'pacmod_interface.launch.xml')
+                'drivers',
+                'speed_control.launch.py')
         )
     )
 
@@ -241,7 +242,7 @@ def generate_launch_description():
         novatel_gps,
         static_tf,
         vehicle_can,
-        pacmod_interface,
+        vehicle_speed_control,
         lidar_left,
         lidar_center,
         lidar_right,
