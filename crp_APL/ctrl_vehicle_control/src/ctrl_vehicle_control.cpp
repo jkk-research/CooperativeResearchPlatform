@@ -5,6 +5,7 @@
 #include <math.h>
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/pose.hpp"
+#include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "crp_msgs/msg/ego.hpp"
@@ -28,7 +29,8 @@ public:
     {
         timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControl::loop, this));  
         cmd_pub = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 30);
-        
+        twist_pub = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 30);
+
         traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
         ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/cai/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
 
@@ -134,13 +136,20 @@ private:
         ctrl_cmd.lateral.steering_tire_rotation_rate = 0.0f;
         ctrl_cmd.longitudinal.velocity = input.target_speed;
 
+        twist_msg.linear.x = input.target_speed;
+        twist_msg.angular.z = output.steeringAngleTarget;
+
+        twist_pub->publish(twist_msg);
         cmd_pub->publish(ctrl_cmd);
     }
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<autoware_control_msgs::msg::Control>::SharedPtr cmd_pub;
+    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_pub;
+
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
     autoware_control_msgs::msg::Control ctrl_cmd;
+    geometry_msgs::msg::Twist twist_msg;
 };
 
 int main(int argc, char *argv[])
