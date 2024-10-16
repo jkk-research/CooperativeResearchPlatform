@@ -31,7 +31,7 @@ void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, Planne
             trajectoryPoint.pose.position.x = input.path.pathPoints.at(n).pose.position.x;
             trajectoryPoint.pose.position.y = input.path.pathPoints.at(n).pose.position.y;
             trajectoryPoint.pose.orientation = 0.0;
-            trajectoryPoint.velocity = input.maximumSpeed;
+            trajectoryPoint.velocity = 10.0;
             output.trajectory.push_back(trajectoryPoint);
         }
 

@@ -128,7 +128,7 @@ void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseW
     {
         tf2_ros::Buffer tfBuffer(this->get_clock());
         tf2_ros::TransformListener tfListener(tfBuffer);
-        m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(3, 0));
+        m_gps2mapTransform = tfBuffer.lookupTransform("map_zala_0", "map", rclcpp::Time(0), rclcpp::Duration(3, 0));
         m_isGpsTransformSet = true;
     }
     // transform ego pose to map frame

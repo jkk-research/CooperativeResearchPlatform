@@ -22,7 +22,7 @@ def generate_launch_description():
         description='IP address of the Novatel GPS')
     novatel_port_arg = DeclareLaunchArgument(
         'novatel_port',
-        default_value='3001',
+        default_value='3002',
         description='Port of the Novatel GPS')
     novatel_imu_frame_id_arg = DeclareLaunchArgument(
         'novatel_imu_frame_id',
@@ -36,7 +36,7 @@ def generate_launch_description():
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
         'map_file_path',
-        default_value='',
+        default_value='/home/dev/maps/mw.osm',
         description='Length of the scenario in meters')
     lanelet_map_frame_id_arg = DeclareLaunchArgument(
         'map_frame_id',
@@ -44,11 +44,7 @@ def generate_launch_description():
         description='Frame id of the lanelet2 map')
     lanelet_output_topic_arg = DeclareLaunchArgument(
         'map_output_topic',
-        default_value='/home/david/test/test.osm',
-        description='Length of the scenario in meters')
-    vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
-        'vehicle_tire_angle_topic',
-        default_value='/map/global_static_map_from_file/lanelet2_map',
+        default_value='map/global_static_map_from_file/lanelet2_map',
         description='Length of the scenario in meters')
     lanelet_visualization_topic_arg = DeclareLaunchArgument(
         'map_visualization_topic',
@@ -84,6 +80,16 @@ def generate_launch_description():
                 'tf_static.launch.py')
         )
     )
+
+    pacmod_extender = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('pacmod_extender'),
+                'launch',
+                'pacmod_extender.launch.py')
+        )
+    )
+    
 
     lidar_left = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -135,12 +141,12 @@ def generate_launch_description():
     )
 
     vehicle_can = IncludeLaunchDescription(
-        AnyLaunchDescriptionSource(
+        PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('lexus_bringup'),
                 'launch',
                 'drivers',
-                'can_pacmod3.launch.xml')
+                'can_and_status.launch.py')
         ),
         # launch_arguments={
         #     'namespace': 'pacmod'
@@ -152,7 +158,6 @@ def generate_launch_description():
             join(
                 get_package_share_directory('lexus_bringup'),
                 'launch',
-                'drivers',
                 'speed_control.launch.py')
         )
     )
@@ -243,11 +248,9 @@ def generate_launch_description():
         static_tf,
         vehicle_can,
         vehicle_speed_control,
-        lidar_left,
-        lidar_center,
-        lidar_right,
-        camera_zed,
+        #camera_zed,
         camera_mpc,
+        pacmod_extender,
 
         # nodes
         lanelet_file_loader,
