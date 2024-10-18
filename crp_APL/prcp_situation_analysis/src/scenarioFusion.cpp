@@ -33,7 +33,7 @@ void crp::apl::ScenarioFusion::publishCallback()
 
 void crp::apl::ScenarioFusion::behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg)
 {
-    m_scenario.maximum_speed = msg->target_speed;
+    m_scenario.maximum_speed = msg->target_speed.data;
 }
 
 void crp::apl::ScenarioFusion::localMovingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)

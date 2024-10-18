@@ -28,14 +28,19 @@ void crp::apl::BehaviorPlanner::routeCallback(const autoware_planning_msgs::msg:
 
 void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::SharedPtr msg)
 {
-    crp_msgs::msg::TargetSpace target_space_msg;
+    crp_msgs::msg::TargetSpace targetSpaceMsg;
 
     if (msg->paths.size() > 0)
-        target_space_msg.path = msg->paths[0];
+        targetSpaceMsg.path = msg->paths[0];
+        for (tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint : targetSpaceMsg.path.path.points)
+        {
+            // pathPoint.point.longitudinal_velocity_mps = std::min(msg->maximum_speed, pathPoint.point.longitudinal_velocity_mps);
+            pathPoint.point.longitudinal_velocity_mps = msg->maximum_speed; // TEMPORARY until point speeds are filled from map
+        }
 
-    target_space_msg.free_space = msg->free_space;
+    targetSpaceMsg.free_space = msg->free_space;
     
-    m_pub_target_space->publish(target_space_msg);
+    m_pub_target_space->publish(targetSpaceMsg);
 
 }
 
