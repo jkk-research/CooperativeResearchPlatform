@@ -3,6 +3,9 @@
 
 crp::apl::ScenarioFusion::ScenarioFusion() : Node("scenario_fusion")
 {
+    m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
+        "/cai/behavior", 10,
+        std::bind(&ScenarioFusion::behaviorCallback, this, std::placeholders::_1));
     m_sub_localMovingObjects_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
         "/cai/local_moving_objects", 10,
         std::bind(&ScenarioFusion::localMovingObjectsCallback, this, std::placeholders::_1));
@@ -27,6 +30,11 @@ void crp::apl::ScenarioFusion::publishCallback()
     m_pub_scenario_->publish(m_scenario);
 }
 
+
+void crp::apl::ScenarioFusion::behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg)
+{
+    m_scenario.maximum_speed = msg->target_speed.data;
+}
 
 void crp::apl::ScenarioFusion::localMovingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)
 {

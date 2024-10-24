@@ -14,6 +14,8 @@ crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
 
     m_pub_trajectory_ = this->create_publisher<autoware_planning_msgs::msg::Trajectory>("plan/trajectory", 10);
 
+    m_pub_trajectory_viz_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/trajectoryVisualization", 10);
+
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&MotionHandler::run, this));
 }
 
@@ -40,8 +42,9 @@ void crp::apl::MotionHandler::planLatLaneFollowCallback(const autoware_planning_
         {
             TrajectoryPoint point;
             point.pose.position.x = outputPoint.pose.position.x;
-            point.pose.position.x = outputPoint.pose.position.y;
+            point.pose.position.y = outputPoint.pose.position.y;
             point.pose.orientation = getYawFromQuaternion(outputPoint.pose.orientation);
+            point.velocity = outputPoint.longitudinal_velocity_mps;
             m_lateralTrajectory.trajectory.push_back(point);
         }
     }
@@ -97,9 +100,7 @@ void crp::apl::MotionHandler::mapIncomingInputs()
     if (m_currentStrategy == "laneFollowWithSpeedAdjust")
     {
         // requirement: both longitudinal and lateral trajectory available and of same size
-        if (m_lateralTrajectory.trajectory.size() > 0 && 
-                m_longitudinalTrajectory.trajectory.size() > 0 && 
-                m_lateralTrajectory.trajectory.size() == m_longitudinalTrajectory.trajectory.size())
+        if (m_lateralTrajectory.trajectory.size() > 0)
         {
             unsigned long int N = m_lateralTrajectory.trajectory.size();
             // map lateral and longitudinal together
@@ -110,7 +111,7 @@ void crp::apl::MotionHandler::mapIncomingInputs()
                 point.pose.position.y = m_lateralTrajectory.trajectory.at(n).pose.position.y;
                 tf2::Quaternion(tf2::Vector3(0, 0, 1), m_lateralTrajectory.trajectory.at(n).pose.orientation);
                 point.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), m_lateralTrajectory.trajectory.at(n).pose.orientation));
-                point.longitudinal_velocity_mps = m_longitudinalTrajectory.trajectory.at(n).velocity;
+                point.longitudinal_velocity_mps = m_lateralTrajectory.trajectory.at(n).velocity;
                 m_outputTrajectory.points.push_back(point);
             }
         }

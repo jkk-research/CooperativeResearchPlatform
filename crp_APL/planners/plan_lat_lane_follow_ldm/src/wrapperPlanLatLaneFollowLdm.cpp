@@ -25,8 +25,17 @@ crp::apl::PlanLatLaneFollowHandler::PlanLatLaneFollowHandler() : WrapperBase("pl
 void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, PlannerOutput & output)
 {
     output.trajectory.clear(); // initialize the output at empty vector in the beginning of each cycle
+    TrajectoryPoint trajectoryPoint;
+    for (int n=0; n<input.path.pathPoints.size(); n++)
+        {
+            trajectoryPoint.pose.position.x = input.path.pathPoints.at(n).pose.position.x;
+            trajectoryPoint.pose.position.y = input.path.pathPoints.at(n).pose.position.y;
+            trajectoryPoint.pose.orientation = 0.0;
+            trajectoryPoint.velocity = input.path.targetSpeed.at(n);
+            output.trajectory.push_back(trajectoryPoint);
+        }
 
-    if (inputPlausibilityCheck(input))
+    /*if (inputPlausibilityCheck(input))
     {
         // fit polynomial
         calculateNodePoints(input);
@@ -47,17 +56,16 @@ void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, Planne
         float theta = 0.0f;
         uint8_t relevantSegment = 0U;
         TrajectoryPoint trajectoryPoint;
-        
 
-        while(x<input.path.pathPoints.at(input.path.pathPoints.size()-1).pose.position.x)
+        /*while(x<input.path.pathPoints.at(input.path.pathPoints.size()-1).pose.position.x)
         {
             // loop through all points
             // finding the right segment first
-            for (uint8_t np=0; np<3;np++)
+            for (uint8_t np=0; np<4;np++)
             {
-                if (x>=trajectoryOutput.nodePts.nodePointsCoordinates[np].x)
+                if (x<trajectoryOutput.nodePts.nodePointsCoordinates[np].x)
                 {
-                    relevantSegment++;
+                    relevantSegment = np-1U;
                     break;
                 }
             }
@@ -72,14 +80,14 @@ void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, Planne
             trajectoryPoint.pose.position.x = x;
             trajectoryPoint.pose.position.y = y;
             trajectoryPoint.pose.orientation = theta;
+            trajectoryPoint.velocity = input.maximumSpeed;
 
             output.trajectory.push_back(trajectoryPoint);
 
             x = x + static_cast<float>(
                 this->get_parameter("/plan_lat_lane_follow_ldm/trajectoryResolution").as_double());
         }
-    }
-
+    }*/
 }
 
 // method calculates the subsegments of the incoming trajectory based on a LDMParamIn type parameters struct

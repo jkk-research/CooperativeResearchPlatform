@@ -22,7 +22,7 @@ void crp::vil::NovatelTopicConverter::currentPoseCallback(const geometry_msgs::m
     double roll, pitch, yaw;
     m.getRPY(roll, pitch, yaw);
 
-    yaw -= M_PI / 2.0;
+    yaw += M_PI / 2.0;
 
     tf2::Quaternion q_rotated;
     q_rotated.setRPY(roll, pitch, yaw);

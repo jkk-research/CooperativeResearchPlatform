@@ -29,10 +29,10 @@ public:
     {
         timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControl::loop, this));  
         cmd_pub = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 30);
-        twist_pub = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 30);
+        twist_pub = this->create_publisher<geometry_msgs::msg::Twist>("lexus3/cmd_vel", 30);
 
-        traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/planning/scenario_planning/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
-        ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/cai/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
+        traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
+        ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
 
         this->declare_parameter("/ctrl/ffGainOffsetGround", 1.0f);
         this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
@@ -79,7 +79,10 @@ private:
             input.path_theta.push_back(m_geometricOperator.transformQuatToEuler(quaternion));
         }
 
-        input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
+        if (input_msg.points.size() > 0)
+            input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
+        else
+            input.target_speed = 0.0f;
    
     }
 
@@ -135,6 +138,7 @@ private:
         ctrl_cmd.lateral.steering_tire_angle = output.steeringAngleTarget;
         ctrl_cmd.lateral.steering_tire_rotation_rate = 0.0f;
         ctrl_cmd.longitudinal.velocity = input.target_speed;
+        printf("target speed is %f\n", ctrl_cmd.longitudinal.velocity);
 
         twist_msg.linear.x = input.target_speed;
         twist_msg.angular.z = output.steeringAngleTarget;
