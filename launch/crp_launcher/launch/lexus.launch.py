@@ -228,6 +228,24 @@ def generate_launch_description():
         )
     )
 
+    vehicle_control_lat = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('ctrl_vehicle_control_lat_compensatory'),
+                'launch',
+                'ctrl_vehicle_control_lat_compensatory.launch.py')
+        )
+    )
+
+    vehicle_control_long = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('ctrl_vehicle_control_long'),
+                'launch',
+                'ctrl_vehicle_control_long.launch.py')
+        )
+    )
+
     return LaunchDescription([
         # args
         novatel_namespace_arg,
@@ -259,6 +277,8 @@ def generate_launch_description():
         behavior_planning,
         motion_planning,
         vehicle_control,
+        vehicle_control_lat,
+        vehicle_control_long,
 
         planner_lat_lane_follow_ldm
     ])
