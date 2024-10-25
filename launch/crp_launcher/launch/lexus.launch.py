@@ -228,6 +228,15 @@ def generate_launch_description():
         )
     )
 
+    lexus_speed_control = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'speed_control.launch.py')
+        )
+    )
+
     return LaunchDescription([
         # args
         novatel_namespace_arg,
@@ -248,9 +257,10 @@ def generate_launch_description():
         static_tf,
         vehicle_can,
         vehicle_speed_control,
-        #camera_zed,
+        camera_zed,
         camera_mpc,
         pacmod_extender,
+        lexus_speed_control,
 
         # nodes
         lanelet_file_loader,
