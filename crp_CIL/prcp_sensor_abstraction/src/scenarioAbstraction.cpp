@@ -131,11 +131,13 @@ void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map
 
 void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
 {
+    if (!m_isMapLoaded)
+        return;
     if (!m_isGpsTransformSet)
     {
         tf2_ros::Buffer tfBuffer(this->get_clock());
         tf2_ros::TransformListener tfListener(tfBuffer);
-        m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(10, 0));
+        m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(5, 0));
         m_isGpsTransformSet = true;
     }
     // transform ego pose to map frame
