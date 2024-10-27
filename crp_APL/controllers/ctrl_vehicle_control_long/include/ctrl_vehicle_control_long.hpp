@@ -48,6 +48,8 @@ private:
     double p_jxMin{0.0f};
     double p_speedControlLookAheadTime{0.0f};
 
+    double dT = 0.033; // in seconds
+
     // member variables
     double m_egoSpeed{0.0f}; // in m/s
 };
