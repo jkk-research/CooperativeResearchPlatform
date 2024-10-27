@@ -38,6 +38,8 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         lanelet::geometry::findNearest(m_laneletMap->laneletLayer, currentPoint, 1);
     lanelet::Lanelet egoLanelet = actuallyNearestLanelets.front().second;
 
+    lanelet::traffic_rules::SpeedLimitInformation limit = trafficRules->speedLimit(egoLanelet);
+
     uint16_t nearestPointIdx = m_abstractionUtils.getGPSNNPointIdx(currentPoint, egoLanelet); // nearest point to ego on lane
 
     tier4_planning_msgs::msg::PathWithLaneId outPath;
@@ -45,12 +47,10 @@ void crp::cil::ScenarioAbstraction::publishCallback()
 
     float currentPathLength = 0;
     lanelet::ConstLineString2d egoCenterline = egoLanelet.centerline2d();
-    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx]);
+    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],static_cast<float>(limit.speedLimit.value())); 
     outPath.points.push_back(
         m_abstractionUtils.transformToLocal(
-            m_abstractionUtils.laneletPtToPathPoint(
-                egoCenterline[nearestPointIdx]
-            ),
+            m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],static_cast<float>(limit.speedLimit.value())),
             m_egoPoseMapFrame
         )
     ); // add ego point
@@ -58,7 +58,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     while (currentPathLength < localPathLength && currentPointIdx < egoCenterline.size())
     {
         // add points to path from ego lanelet
-        tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[currentPointIdx]);
+        tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[currentPointIdx],static_cast<float>(limit.speedLimit.value()));
         currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
         outPath.points.push_back(
             m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)
@@ -84,7 +84,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
             while (currentPathLength < localPathLength && currentPointIdx < currentCenterline.size())
             {
                 // add points to path from current lanelet
-                tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx]);
+                tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx],static_cast<float>(limit.speedLimit.value()));
                 currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
                 outPath.points.push_back(
                     m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)

@@ -1,7 +1,7 @@
 {
   "configById": {
     "Gauge!co4231": {
-      "path": "/control/command/control_cmd.longitudinal.speed",
+      "path": "/control/command/control_cmd.longitudinal.velocity",
       "minValue": 0,
       "maxValue": 100,
       "colorMap": "red-yellow-green",
@@ -27,23 +27,49 @@
         }
       ]
     },
+    "Indicator!39bd6tf": {
+      "path": "/lexus3/gps/nova/fix.status.status",
+      "style": "background",
+      "fallbackColor": "#ff0000",
+      "fallbackLabel": "Novatel Degraded GPS",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "0",
+          "color": "#0c3b00",
+          "label": "Novatel Fixed RTK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "1",
+          "color": "#f9e804",
+          "label": "Novatel Float RTK"
+        }
+      ]
+    },
     "Indicator!l7ou4n": {
       "path": "/lexus3/gps/duro/status_flag.data",
       "style": "background",
       "fallbackColor": "#ff0000",
-      "fallbackLabel": "Degraded GPS",
+      "fallbackLabel": "Duro Degraded GPS",
       "rules": [
         {
           "operator": "=",
           "rawValue": "4",
           "color": "#0c3b00",
-          "label": "Fixed RTK"
+          "label": "Duro Fixed RTK"
+        },
+        {
+          "operator": "=",
+          "rawValue": "6",
+          "color": "#c65200",
+          "label": "Duro SBAS Position"
         },
         {
           "operator": "=",
           "rawValue": "3",
           "color": "#f9e804",
-          "label": "Float RTK"
+          "label": "Duro Float RTK"
         }
       ]
     },
@@ -61,26 +87,24 @@
         }
       ]
     },
-    "helloworld.example-panel!1w7l0qs": {},
-    "RawMessages!43jwqwj": {
+    "RawMessages!2larpau": {
       "diffEnabled": false,
       "diffMethod": "custom",
       "diffTopicPath": "",
       "showFullMessageForDiff": false,
-      "topicPath": "/control/command/control_cmd.longitudinal.speed",
-      "fontSize": 60
+      "topicPath": "/control/command/control_cmd.longitudinal.velocity",
+      "fontSize": 72
     },
-    "GlobalVariableSliderPanel!10y07g8": {
-      "sliderProps": {
-        "min": 0,
-        "max": 150,
-        "step": 1
-      },
-      "globalVariableName": "/cai/velocity_limit[km/h]",
-      "foxglovePanelTitle": "Velocity Limit [km/h]"
+    "Publish!3eqe9hn": {
+      "buttonText": "Publish",
+      "buttonTooltip": "",
+      "advancedView": true,
+      "value": "{\n  \"data\": true\n}",
+      "topicName": "/lexus3/control_reinit",
+      "datatype": "std_msgs/msg/Bool"
     },
     "Gauge!1dii1on": {
-      "path": "/vehicle/status/velocity_status.longitudinal_velocity",
+      "path": "/ego.twist.twist.linear.x",
       "minValue": 0,
       "maxValue": 100,
       "colorMap": "red-yellow-green",
@@ -96,19 +120,19 @@
       "diffMethod": "custom",
       "diffTopicPath": "",
       "showFullMessageForDiff": false,
-      "topicPath": "/vehicle/status/velocity_status.longitudinal_velocity",
+      "topicPath": "/ego.twist.twist.linear.x",
       "fontSize": 60
     },
     "3D!1utppn4": {
       "cameraState": {
         "perspective": true,
-        "distance": 30.146795390551258,
-        "phi": 61.04743884446108,
-        "thetaOffset": 88.20448879985264,
+        "distance": 18.049999999958402,
+        "phi": 68.14437135980202,
+        "thetaOffset": 106.23981178153804,
         "targetOffset": [
-          8.761385507725926,
-          1.1223712071591974,
-          2.8538235658825887e-15
+          3.537538524983315,
+          -2.0285209395129544,
+          2.357724060784424e-15
         ],
         "target": [
           0,
@@ -121,13 +145,13 @@
           0,
           1
         ],
-        "fovy": 43.9,
-        "near": 0.232,
-        "far": 5013.213,
+        "fovy": 44.9,
+        "near": 1.732,
+        "far": 5016.213,
         "logDepth": false
       },
-      "followMode": "follow-pose",
-      "followTf": "map_zala_0",
+      "followMode": "follow-position",
+      "followTf": "base_link",
       "scene": {
         "meshUpAxis": "z_up",
         "ignoreColladaUpAxis": false,
@@ -138,13 +162,13 @@
       },
       "transforms": {
         "frame:map_zala_0": {
-          "visible": false
+          "visible": true
         },
         "frame:lexus3/gps": {
           "visible": false
         },
         "frame:base_link": {
-          "visible": false
+          "visible": true
         },
         "frame:lexus3/duro_gps": {
           "visible": false
@@ -168,12 +192,15 @@
           "visible": false
         },
         "frame:map_gyor_0": {
-          "visible": false
+          "visible": true
         },
         "frame:lexus3/os_left_a": {
           "visible": false
         },
         "frame:map_utm_zone0": {
+          "visible": false
+        },
+        "frame:lexus3/base_link": {
           "visible": false
         }
       },
@@ -201,10 +228,36 @@
         },
         "/lexus_marker": {
           "visible": true,
-          "showOutlines": true
+          "showOutlines": true,
+          "color": "#6e6e6e45"
         },
         "/move_base_simple/goal": {
-          "axisScale": 1.594
+          "axisScale": 1.594,
+          "visible": false
+        },
+        "/initialpose": {
+          "visible": false
+        },
+        "/lexus3/zed2i/zed_node/confidence/confidence_map": {
+          "visible": false
+        },
+        "/gps/nova/current_pose": {
+          "visible": true
+        },
+        "/cai/local_drivable_surface": {
+          "visible": true
+        },
+        "/plan/trajectoryVisualization": {
+          "visible": true
+        },
+        "/sensing/gnss/pose_with_covariance": {
+          "visible": true
+        },
+        "/map/global_static_map_from_file/lanelet2_map_visualization": {
+          "visible": true
+        },
+        "/lexus3/zed2i/zed_node/stereo_raw/image_raw_color/compressedDepth": {
+          "visible": false
         }
       },
       "layers": {
@@ -279,7 +332,7 @@
       "fontSize": 60
     },
     "Gauge!1jpfec2": {
-      "path": "/vehicle/status/steering_status.steering_tire_angle",
+      "path": "/ego.tire_angle_front",
       "minValue": -1,
       "maxValue": 1,
       "colorMap": "red-yellow-green",
@@ -295,7 +348,7 @@
       "diffMethod": "custom",
       "diffTopicPath": "",
       "showFullMessageForDiff": false,
-      "topicPath": "/vehicle/status/steering_status.steering_tire_angle",
+      "topicPath": "/ego.twist.twist.angular.z",
       "fontSize": 60
     },
     "Parameters!34pe3hv": {
@@ -364,6 +417,13 @@
       "xAxisVal": "timestamp",
       "sidebarDimension": 240
     },
+    "RawMessages!ne1r1k": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/lexus3/gps/nova/fix.status.status"
+    },
     "Tab!tg162x": {
       "activeTabIdx": 0,
       "tabs": [
@@ -378,28 +438,27 @@
                     "first": "Indicator!3mq5l52",
                     "second": {
                       "first": {
-                        "first": "Indicator!l7ou4n",
-                        "second": "Indicator!20oh1z5",
-                        "direction": "row"
+                        "first": "Indicator!39bd6tf",
+                        "second": "Indicator!l7ou4n",
+                        "direction": "column"
                       },
-                      "second": "helloworld.example-panel!1w7l0qs",
-                      "direction": "column",
-                      "splitPercentage": 41.107054183236
+                      "second": "Indicator!20oh1z5",
+                      "direction": "row"
                     },
                     "direction": "column",
-                    "splitPercentage": 29.91706828092182
+                    "splitPercentage": 37.755102040816325
                   },
                   "direction": "row",
-                  "splitPercentage": 28.995057660626024
+                  "splitPercentage": 28.793063106978916
                 },
                 "second": {
-                  "first": "RawMessages!43jwqwj",
-                  "second": "GlobalVariableSliderPanel!10y07g8",
+                  "first": "RawMessages!2larpau",
+                  "second": "Publish!3eqe9hn",
                   "direction": "row",
-                  "splitPercentage": 29.005751848808547
+                  "splitPercentage": 28.950826562211713
                 },
                 "direction": "column",
-                "splitPercentage": 70.16706443914082
+                "splitPercentage": 70.06507592190889
               },
               "second": {
                 "first": {
@@ -413,7 +472,7 @@
                 "splitPercentage": 28.92358258011503
               },
               "direction": "column",
-              "splitPercentage": 51.02040816326531
+              "splitPercentage": 51.162790697674424
             },
             "second": {
               "first": {
@@ -453,6 +512,10 @@
             "direction": "row",
             "splitPercentage": 41.66666666666667
           }
+        },
+        {
+          "title": "",
+          "layout": "RawMessages!ne1r1k"
         }
       ]
     }

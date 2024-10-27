@@ -33,7 +33,7 @@ public:
         const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint,
         const geometry_msgs::msg::PoseWithCovarianceStamped & ego);
     tier4_planning_msgs::msg::PathPointWithLaneId laneletPtToPathPoint(
-        const lanelet::ConstPoint2d & pt);
+        const lanelet::ConstPoint2d & pt,float speedLimit);
 };
 
 } // namespace cil

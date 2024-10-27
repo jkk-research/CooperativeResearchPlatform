@@ -121,10 +121,11 @@ tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::AbstractionUtils::transf
 
 
 tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::AbstractionUtils::laneletPtToPathPoint(
-    const lanelet::ConstPoint2d & pt)
+    const lanelet::ConstPoint2d & pt, float speedLimit)
 {
     tier4_planning_msgs::msg::PathPointWithLaneId pathPoint;
     pathPoint.point.pose.position.x = pt.x();
     pathPoint.point.pose.position.y = pt.y();
+    pathPoint.point.twist.linear.x = speedLimit;
     return pathPoint;
 }
