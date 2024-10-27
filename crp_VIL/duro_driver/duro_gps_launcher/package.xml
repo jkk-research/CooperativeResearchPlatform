@@ -1,24 +1,19 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>ctrl_vehicle_control</name>
+  <name>duro_gps_launcher</name>
   <version>0.0.0</version>
-  <description>Vehicle Control Package</description>
-  <maintainer email="gfigneczi1@todo.todo">gfigneczi1</maintainer>
+  <description>Launcher for duro gps</description>
+  <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
   <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <exec_depend>ros2launch</exec_depend>
-
-  <test_depend>ament_lint_auto</test_depend>
-  <test_depend>ament_lint_common</test_depend>
   <depend>rclcpp</depend>
-  <depend>std_msgs</depend>
+  <depend>duro_gps_driver</depend>
   <depend>geometry_msgs</depend>
-  <depend>autoware_control_msgs</depend>
-  <depend>pacmod3_msgs</depend>
-  
+  <depend>tf2_geometry_msgs</depend>
+
   <export>
     <build_type>ament_cmake</build_type>
   </export>
