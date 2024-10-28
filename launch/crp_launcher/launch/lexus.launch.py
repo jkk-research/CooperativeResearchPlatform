@@ -42,7 +42,7 @@ def generate_launch_description():
     # duro gps
     duro_ip_arg = DeclareLaunchArgument(
         'duro_ip',
-        default_value='192.168.10.10',
+        default_value='192.168.10.11',
         description='IP address of the duro GPS')
     duro_port_arg = DeclareLaunchArgument(
         'duro_port',
@@ -306,10 +306,10 @@ def generate_launch_description():
         static_tf,
         vehicle_can,
         vehicle_speed_control,
-        lidar_left,
-        lidar_center,
-        lidar_right,
-        camera_zed,
+        # lidar_left,
+        # lidar_center,
+        # lidar_right,
+        # camera_zed,
         camera_mpc,
         pacmod_extender,
         lexus_speed_control,

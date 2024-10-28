@@ -25,13 +25,15 @@ void crp::apl::CtrlVehicleControlLong::trajectoryCallback(const autoware_plannin
 {
     // get the point which is in the look ahead distance
     double lookAheadDistance = m_egoSpeed*p_speedControlLookAheadTime; // in meters
-    if (msg->points.size() > 0U)
+    
+    if (msg->points.size() == 0U)
     {
         m_ctrl_msg.longitudinal.velocity = 0.0f;
     }
     else{
         m_ctrl_msg.longitudinal.velocity = 
                     msg->points.at(msg->points.size()-1U).longitudinal_velocity_mps;
+        //m_ctrl_msg.longitudinal.velocity = msg->points.at(0U).longitudinal_velocity_mps;
     }
     
     for (long unsigned int wp=0U; wp<msg->points.size(); wp++)
@@ -48,7 +50,14 @@ void crp::apl::CtrlVehicleControlLong::trajectoryCallback(const autoware_plannin
             }
             else if(msg->points.at(wp).longitudinal_velocity_mps <= (m_egoSpeed+p_axMin*dT))
             {
-                m_ctrl_msg.longitudinal.velocity = m_egoSpeed+p_axMin*dT;
+                if (m_egoSpeed+p_axMin*dT < 2.0)
+                {
+                    m_ctrl_msg.longitudinal.velocity = 0.0;
+                }
+                else
+                {
+                    m_ctrl_msg.longitudinal.velocity = m_egoSpeed+p_axMin*dT;
+                }
             }
             else
             {
