@@ -14,6 +14,11 @@ def generate_launch_description():
         default_value='55555',
         description='Port of the duro GPS')
     
+    duro_namespace_arg = DeclareLaunchArgument(
+        'duro_namespace',
+        default_value='gps/duro',
+        description='Namespace for the Duro GPS')
+    
     duro_node = Node(
         package="duro_gps_driver",
         executable="duro_node",
@@ -37,11 +42,21 @@ def generate_launch_description():
             {"tf_child_frame_id": "lexus3/duro/heading"},
             {"euler_based_orientation": True}           
         ],
-        namespace = "gps/duro",
+        namespace = LaunchConfiguration("duro_namespace"),
+    )
+
+    duro_topic_converter = Node(
+        package="duro_gps_launcher",
+        executable="duro_topic_converter",
+        name="duro_topic_converter",
+        namespace = LaunchConfiguration("duro_namespace"),
+        output="screen",
     )
     
     return LaunchDescription([
         duro_ip_arg,
         duro_port_arg,
-        duro_node
+        duro_namespace_arg,
+        duro_node,
+        duro_topic_converter
     ])
