@@ -29,7 +29,6 @@ public:
     {
         timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControl::loop, this));  
         cmd_pub = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmdLat", 30);
-        twist_pub = this->create_publisher<geometry_msgs::msg::Twist>("lexus3/cmd_vel", 30);
 
         traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
         ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
@@ -140,10 +139,6 @@ private:
         ctrl_cmd.longitudinal.velocity = input.target_speed;
         printf("target speed is %f\n", ctrl_cmd.longitudinal.velocity);
 
-        twist_msg.linear.x = input.target_speed;
-        twist_msg.angular.z = output.steeringAngleTarget;
-
-        twist_pub->publish(twist_msg);
         cmd_pub->publish(ctrl_cmd);
     }
     rclcpp::TimerBase::SharedPtr timer_;
@@ -153,7 +148,6 @@ private:
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
     autoware_control_msgs::msg::Control ctrl_cmd;
-    geometry_msgs::msg::Twist twist_msg;
 };
 
 int main(int argc, char *argv[])
