@@ -34,8 +34,49 @@ void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, Planne
             trajectoryPoint.velocity = input.path.targetSpeed.at(n);
             output.trajectory.push_back(trajectoryPoint);
         }
+    
+    // remap parameters
+    /*std::vector<double> nodePointDistances;
+    this->get_parameter<std::vector<double>>(
+        "/plan_lat_lane_follow_ldm/nodePointDistances", nodePointDistances);
+    for (int np=0; np<3; np++)
+    {
+        m_ldmParams.P_nodePointDistances[np] = nodePointDistances.at(np);   
+    }
+    std::vector<double> pLeft;
+    this->get_parameter<std::vector<double>>(
+        "/plan_lat_lane_follow_ldm/pLeft", pLeft);
+    m_ldmParams.P[0U] = pLeft.at(0U); 
+    m_ldmParams.P[1U] = pLeft.at(1U); 
+    m_ldmParams.P[2U] = pLeft.at(2U); 
+    m_ldmParams.P[7U] = pLeft.at(3U); 
+    m_ldmParams.P[8U] = pLeft.at(4U); 
+    m_ldmParams.P[9U] = pLeft.at(5U); 
+    m_ldmParams.P[14U] = pLeft.at(6U); 
+    m_ldmParams.P[15U] = pLeft.at(7U); 
+    m_ldmParams.P[16U] = pLeft.at(8U); 
 
-    /*if (inputPlausibilityCheck(input))
+    std::vector<double> pRight;
+    this->get_parameter<std::vector<double>>(
+        "/plan_lat_lane_follow_ldm/pRight", pRight);
+    m_ldmParams.P[3U] = pRight.at(0U); 
+    m_ldmParams.P[4U] = pRight.at(1U); 
+    m_ldmParams.P[5U] = pRight.at(2U); 
+    m_ldmParams.P[10U] = pRight.at(3U); 
+    m_ldmParams.P[11U] = pRight.at(4U); 
+    m_ldmParams.P[12U] = pRight.at(5U); 
+    m_ldmParams.P[17U] = pRight.at(6U); 
+    m_ldmParams.P[18U] = pRight.at(7U); 
+    m_ldmParams.P[19U] = pRight.at(8U); 
+
+    this->get_parameter<double>(
+        "/plan_lat_lane_follow_ldm/pStraight", m_ldmParams.P[6U]);
+    this->get_parameter<double>(
+        "/plan_lat_lane_follow_ldm/pStraight", m_ldmParams.P[13U]);
+    this->get_parameter<double>(
+        "/plan_lat_lane_follow_ldm/pStraight", m_ldmParams.P[20U]);    
+
+    if (inputPlausibilityCheck(input))
     {
         // fit polynomial
         calculateNodePoints(input);
@@ -57,7 +98,7 @@ void crp::apl::PlanLatLaneFollowHandler::plan(const PlannerInput & input, Planne
         uint8_t relevantSegment = 0U;
         TrajectoryPoint trajectoryPoint;
 
-        /*while(x<input.path.pathPoints.at(input.path.pathPoints.size()-1).pose.position.x)
+        while(x<input.path.pathPoints.at(input.path.pathPoints.size()-1).pose.position.x)
         {
             // loop through all points
             // finding the right segment first
@@ -99,6 +140,8 @@ void crp::apl::PlanLatLaneFollowHandler::calculateNodePoints(
     std::vector<float> segmentPointsX;
     std::vector<float> segmentPointsY;
     uint16_t startIdx{0U};
+    m_scenarioPolynomials.coeffs.clear();
+    m_scenarioPolynomials.kappaNominal.clear();
 
     for (uint8_t np=0U; 
         np<sizeof(m_ldmParams.P_nodePointDistances)/sizeof(*m_ldmParams.P_nodePointDistances); np++)
@@ -129,6 +172,7 @@ void crp::apl::PlanLatLaneFollowHandler::calculateNodePoints(
                 coeffs.c1 = c.at(1U);
                 coeffs.c2 = c.at(2U);
                 coeffs.c3 = c.at(3U);
+
                 m_scenarioPolynomials.coeffs.push_back(coeffs);
                 m_scenarioPolynomials.kappaNominal.push_back(averageCurvatureBetweenNodepoints);
             }

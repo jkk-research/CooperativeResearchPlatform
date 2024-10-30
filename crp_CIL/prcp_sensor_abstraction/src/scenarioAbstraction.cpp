@@ -38,7 +38,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         lanelet::geometry::findNearest(m_laneletMap->laneletLayer, currentPoint, 1);
     lanelet::Lanelet egoLanelet = actuallyNearestLanelets.front().second;
 
-    lanelet::traffic_rules::SpeedLimitInformation limit = trafficRules->speedLimit(egoLanelet);
+    lanelet::traffic_rules::SpeedLimitInformation limit = m_trafficRules->speedLimit(egoLanelet);
 
     uint16_t nearestPointIdx = m_abstractionUtils.getGPSNNPointIdx(currentPoint, egoLanelet); // nearest point to ego on lane
 
@@ -46,6 +46,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     outPath.header.stamp = this->now();
 
     float currentPathLength = 0;
+    double egoLaneletSpeedLimit = m_trafficRules->speedLimit(egoLanelet).speedLimit.value();
     lanelet::ConstLineString2d egoCenterline = egoLanelet.centerline2d();
     tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],static_cast<float>(limit.speedLimit.value())); 
     outPath.points.push_back(
@@ -79,6 +80,8 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         currentPointIdx = 0;
         while (currentPathLength < localPathLength)
         {
+            double currentLaneletSpeedLimit = m_trafficRules->speedLimit(currentLanelet).speedLimit.value();
+
             lanelet::ConstLineString2d currentCenterline = currentLanelet.centerline2d();
 
             while (currentPathLength < localPathLength && currentPointIdx < currentCenterline.size())
@@ -124,11 +127,13 @@ void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map
 
 void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
 {
+    if (!m_isMapLoaded)
+        return;
     if (!m_isGpsTransformSet)
     {
         tf2_ros::Buffer tfBuffer(this->get_clock());
         tf2_ros::TransformListener tfListener(tfBuffer);
-        m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(10, 0));
+        m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(5, 0));
         m_isGpsTransformSet = true;
     }
     // transform ego pose to map frame

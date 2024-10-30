@@ -43,13 +43,13 @@ private:
 
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_movingObjects_;
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_obstacles_;
-    rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr m_pub_lane_path_;
-    rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr m_pub_drivable_surface_;
+    rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lane_path_;
+    rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivable_surface_;
     rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lanePath_;
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivableSurface_;
 
-    bool m_isMapLoaded = false;
-    bool m_isGpsTransformSet = false;
+    bool m_isMapLoaded{false};
+    bool m_isGpsTransformSet{false};
 
     lanelet::LaneletMapPtr                        m_laneletMap;
     lanelet::traffic_rules::TrafficRulesPtr       m_trafficRules;

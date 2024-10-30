@@ -115,6 +115,7 @@ tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::AbstractionUtils::transf
     tier4_planning_msgs::msg::PathPointWithLaneId outPoint;
     outPoint.point.pose.position.x = R[0] * translatedX + R[1] * translatedY;
     outPoint.point.pose.position.y = -R[1] * translatedX + R[0] * translatedY;
+    outPoint.point.longitudinal_velocity_mps = pathPoint.point.longitudinal_velocity_mps;
 
     return outPoint;
 }
@@ -126,6 +127,6 @@ tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::AbstractionUtils::lanele
     tier4_planning_msgs::msg::PathPointWithLaneId pathPoint;
     pathPoint.point.pose.position.x = pt.x();
     pathPoint.point.pose.position.y = pt.y();
-    pathPoint.point.twist.linear.x = speedLimit;
+    pathPoint.point.longitudinal_velocity_mps = speedLimit;
     return pathPoint;
 }
