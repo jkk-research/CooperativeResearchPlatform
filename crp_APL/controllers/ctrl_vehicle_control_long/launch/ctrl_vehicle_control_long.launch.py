@@ -8,8 +8,8 @@ def generate_launch_description():
         package="ctrl_vehicle_control_long",
         executable="ctrl_vehicle_control_long",
         parameters=[
-            {"/ctrl/axMax": 2.0},
-            {"/ctrl/axMin": -2.0},
+            {"/ctrl/axMax": 20.0},
+            {"/ctrl/axMin": -40.0},
             {"/ctrl/jxMax": 1.0},
             {"/ctrl/jxMin": -1.0},
             {"/ctrl/speedControlLookAheadTime": 0.6}

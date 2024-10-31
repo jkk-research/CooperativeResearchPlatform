@@ -46,12 +46,12 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     outPath.header.stamp = this->now();
 
     float currentPathLength = 0;
-    double egoLaneletSpeedLimit = m_trafficRules->speedLimit(egoLanelet).speedLimit.value();
+    float egoLaneletSpeedLimit = limit.speedLimit.value();
     lanelet::ConstLineString2d egoCenterline = egoLanelet.centerline2d();
-    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],static_cast<float>(limit.speedLimit.value())); 
+    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],egoLaneletSpeedLimit); 
     outPath.points.push_back(
         m_abstractionUtils.transformToLocal(
-            m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],static_cast<float>(limit.speedLimit.value())),
+            m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],egoLaneletSpeedLimit),
             m_egoPoseMapFrame
         )
     ); // add ego point
@@ -59,7 +59,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     while (currentPathLength < localPathLength && currentPointIdx < egoCenterline.size())
     {
         // add points to path from ego lanelet
-        tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[currentPointIdx],static_cast<float>(limit.speedLimit.value()));
+        tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[currentPointIdx],egoLaneletSpeedLimit);
         currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
         outPath.points.push_back(
             m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)
@@ -80,14 +80,14 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         currentPointIdx = 0;
         while (currentPathLength < localPathLength)
         {
-            double currentLaneletSpeedLimit = m_trafficRules->speedLimit(currentLanelet).speedLimit.value();
+            float currentLaneletSpeedLimit = m_trafficRules->speedLimit(currentLanelet).speedLimit.value();
 
             lanelet::ConstLineString2d currentCenterline = currentLanelet.centerline2d();
 
             while (currentPathLength < localPathLength && currentPointIdx < currentCenterline.size())
             {
                 // add points to path from current lanelet
-                tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx],static_cast<float>(limit.speedLimit.value()));
+                tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx],currentLaneletSpeedLimit);
                 currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
                 outPath.points.push_back(
                     m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)

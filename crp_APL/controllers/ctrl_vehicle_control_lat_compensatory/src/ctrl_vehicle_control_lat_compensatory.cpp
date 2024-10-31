@@ -5,7 +5,6 @@
 #include <math.h>
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/pose.hpp"
-#include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "crp_msgs/msg/ego.hpp"
@@ -143,7 +142,6 @@ private:
     }
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::Publisher<autoware_control_msgs::msg::Control>::SharedPtr cmd_pub;
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr twist_pub;
 
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;

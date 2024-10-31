@@ -37,7 +37,7 @@ def generate_launch_description():
     
     return LaunchDescription([
         ExecuteProcess(
-            cmd=['/home/dev/ros2_ws/src/jkk_utils/mcap_rec/etc/record_mcap1.sh', tag_, date_and_time_],
+            cmd=['/home/dev/crp_ws/src/CooperativeResearchPlatform/crp_VIL/mcap_rec/etc/record_mcap.sh', tag_, date_and_time_],
             log_cmd=True,
             shell=True,
             output='screen',
