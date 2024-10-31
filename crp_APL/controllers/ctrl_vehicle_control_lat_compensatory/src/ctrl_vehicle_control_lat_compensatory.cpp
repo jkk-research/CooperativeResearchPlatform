@@ -142,6 +142,7 @@ private:
         twist_msg.linear.x = input.target_speed;
         twist_msg.angular.z = output.steeringAngleTarget;
 
+        twist_pub->publish(twist_msg);
         cmd_pub->publish(ctrl_cmd);
     }
     rclcpp::TimerBase::SharedPtr timer_;
@@ -150,7 +151,6 @@ private:
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
     autoware_control_msgs::msg::Control ctrl_cmd;
-    geometry_msgs::msg::Twist twist_msg;
 };
 
 int main(int argc, char *argv[])
