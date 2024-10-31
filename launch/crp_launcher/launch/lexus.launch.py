@@ -2,6 +2,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
+from launch.conditions import LaunchConfigurationEquals
 from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
@@ -10,6 +11,11 @@ from os.path import join
 def generate_launch_description():
     
     # ARGS
+
+    select_gps_arg = DeclareLaunchArgument(
+        'select_gps',
+        default_value='duro',
+        description='Select the GPS to use: nova or duro')
 
     # novatel gps
     novatel_namespace_arg = DeclareLaunchArgument(
@@ -32,6 +38,16 @@ def generate_launch_description():
         'novatel_frame_id',
         default_value='/lexus3/gps/nova',
         description='Frame id of the Novatel GPS')
+
+    # duro gps
+    duro_ip_arg = DeclareLaunchArgument(
+        'duro_ip',
+        default_value='192.168.10.11',
+        description='IP address of the duro GPS')
+    duro_port_arg = DeclareLaunchArgument(
+        'duro_port',
+        default_value='55555',
+        description='Port of the duro GPS')
 
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
@@ -69,7 +85,18 @@ def generate_launch_description():
                 get_package_share_directory('novatel_gps_launcher'),
                 'launch',
                 'novatel.launch.py')
-        )
+        ),
+        condition = LaunchConfigurationEquals('select_gps', 'nova')
+    )
+
+    duro_gps = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('duro_gps_launcher'),
+                'launch',
+                'duro.launch.py')
+        ),
+        condition = LaunchConfigurationEquals('select_gps', 'duro')
     )
 
     static_tf = IncludeLaunchDescription(
@@ -228,13 +255,43 @@ def generate_launch_description():
         )
     )
 
+    lexus_speed_control = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'speed_control.launch.py')
+        )
+    )
+
+    vehicle_control_lat = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('ctrl_vehicle_control_lat_compensatory'),
+                'launch',
+                'ctrl_vehicle_control_lat_compensatory.launch.py')
+        )
+    )
+
+    vehicle_control_long = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('ctrl_vehicle_control_long'),
+                'launch',
+                'ctrl_vehicle_control_long.launch.py')
+        )
+    )
+
     return LaunchDescription([
         # args
+        select_gps_arg,
         novatel_namespace_arg,
         novatel_ip_arg,
         novatel_port_arg,
         novatel_imu_frame_id_arg,
         novatel_frame_id_arg,
+        duro_ip_arg,
+        duro_port_arg,
         lanelet_file_path_arg,
         lanelet_map_frame_id_arg,
         lanelet_output_topic_arg,
@@ -245,12 +302,17 @@ def generate_launch_description():
 
         # vehicle nodes
         novatel_gps,
+        duro_gps,
         static_tf,
         vehicle_can,
         vehicle_speed_control,
-        #camera_zed,
+        # lidar_left,
+        # lidar_center,
+        # lidar_right,
+        # camera_zed,
         camera_mpc,
         pacmod_extender,
+        lexus_speed_control,
 
         # nodes
         lanelet_file_loader,
@@ -259,6 +321,8 @@ def generate_launch_description():
         behavior_planning,
         motion_planning,
         vehicle_control,
+        vehicle_control_lat,
+        vehicle_control_long,
 
         planner_lat_lane_follow_ldm
     ])
