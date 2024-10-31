@@ -127,6 +127,6 @@ tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::AbstractionUtils::lanele
     tier4_planning_msgs::msg::PathPointWithLaneId pathPoint;
     pathPoint.point.pose.position.x = pt.x();
     pathPoint.point.pose.position.y = pt.y();
-    pathPoint.point.twist.linear.x = speedLimit;
+    pathPoint.point.longitudinal_velocity_mps = speedLimit;
     return pathPoint;
 }
