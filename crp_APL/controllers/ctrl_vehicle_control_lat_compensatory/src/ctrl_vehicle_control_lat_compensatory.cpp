@@ -5,7 +5,6 @@
 #include <math.h>
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/pose.hpp"
-#include "geometry_msgs/msg/twist.hpp"
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "std_msgs/msg/float32.hpp"
 #include "crp_msgs/msg/ego.hpp"
@@ -139,10 +138,6 @@ private:
         ctrl_cmd.longitudinal.velocity = input.target_speed;
         printf("target speed is %f\n", ctrl_cmd.longitudinal.velocity);
 
-        twist_msg.linear.x = input.target_speed;
-        twist_msg.angular.z = output.steeringAngleTarget;
-
-        twist_pub->publish(twist_msg);
         cmd_pub->publish(ctrl_cmd);
     }
     rclcpp::TimerBase::SharedPtr timer_;
