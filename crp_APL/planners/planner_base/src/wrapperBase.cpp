@@ -44,6 +44,7 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
 
     // path
     m_input.path.pathPoints.clear();
+    m_input.path.targetSpeed.clear();
     for (const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint : msg->path.path.points)
     {
         PlannerInputPathPoint inputPoint;
@@ -53,6 +54,7 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
         inputPoint.pose.orientation = getYawFromQuaternion(pathPoint.point.pose.orientation);
         m_input.path.pathPoints.push_back(inputPoint);
         m_input.path.targetSpeed.push_back(pathPoint.point.longitudinal_velocity_mps);
+        printf("velocity in input: %f\n", pathPoint.point.longitudinal_velocity_mps);
     }
     // TODO: decide the function of laneID
 

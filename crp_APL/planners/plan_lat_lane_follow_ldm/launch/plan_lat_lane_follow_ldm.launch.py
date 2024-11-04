@@ -20,7 +20,7 @@ def generate_launch_description():
                 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0]},
-            {"/plan_lat_lane_follow_ldm/pStraight": 0.0}
+            {"/plan_lat_lane_follow_ldm/pStraight": -10.0}
         ]
     )
 

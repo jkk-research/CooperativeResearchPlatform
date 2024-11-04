@@ -6,19 +6,7 @@ def generate_launch_description():
 
     ctrl_vehicle_control = Node(
         package="ctrl_vehicle_control",
-        executable="ctrl_vehicle_control",
-        parameters=[
-            {"/ctrl/ffGainOffsetGround": 0.66},
-            {"/ctrl/ffGainSlope": 0.0},
-            {"/ctrl/ffLookAheadTime": 0.68},
-            {"/ctrl/steeringAngleLPFilter": 0.2},
-            {"/ctrl/fbLookAheadTime": 0.6},
-            {"/ctrl/fbPGain": 0.48},
-            {"/ctrl/fbDGain": 1.1},
-            {"/ctrl/fbIGain": 0.0},
-            {"/ctrl/fbMinLookAheadDistance": 0.0},
-            {"/ctrl/fbIntegralLimit": 3.0}
-        ]
+        executable="ctrl_vehicle_control"
     )
 
     ld.add_action(ctrl_vehicle_control)
