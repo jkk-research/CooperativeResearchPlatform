@@ -5,7 +5,15 @@ while [ ! -e "src/" ]; do
 done
 echo $(pwd)
 
+rosdep install --from-paths src --ignore-src -r -y
 colcon build --symlink-install --packages-select \
+tier4_planning_msgs \
+autoware_common_msgs \
+autoware_planning_msgs \
+autoware_perception_msgs \
+autoware_control_msgs \
+autoware_localization_msgs \
+autoware_map_msgs \
 crp_msgs \
 prcp_sensor_abstraction \
 prcp_situation_analysis \
