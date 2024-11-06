@@ -6,7 +6,7 @@ done
 echo $(pwd)
 
 rosdep install --from-paths src --ignore-src -r -y
-colcon build --symlink-install --packages-select \
+colcon build --packages-select \
 tier4_planning_msgs \
 autoware_common_msgs \
 autoware_planning_msgs \
