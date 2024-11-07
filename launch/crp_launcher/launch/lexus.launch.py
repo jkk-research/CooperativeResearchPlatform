@@ -77,6 +77,18 @@ def generate_launch_description():
         default_value='70.0',
         description='Length of the scenario in meters')
     
+
+    # CORE
+
+    crp_core = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('crp_launcher'),
+                'launch',
+                'core.launch.py')
+        )
+    )
+
     # NODES
 
     novatel_gps = IncludeLaunchDescription(
@@ -198,87 +210,12 @@ def generate_launch_description():
         )
     )
 
-    sensor_abstraction = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('prcp_sensor_abstraction'),
-                'launch',
-                'sensor_abstraction.launch.py')
-        )
-    )
-
-    environmental_fusion = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('prcp_situation_analysis'),
-                'launch',
-                'environmental_fusion.launch.py')
-        )
-    )
-
-    behavior_planning = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('plan_behavior_planning'),
-                'launch',
-                'behavior_planning.launch.py'
-            )
-        )
-    )
-
-    motion_planning = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('plan_motion_planning'),
-                'launch',
-                'motion_planning.launch.py'
-            )
-        )
-    )
-
-    planner_lat_lane_follow_ldm = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('plan_lat_lane_follow_ldm'),
-                'launch',
-                'plan_lat_lane_follow_ldm.launch.py'
-            )
-        )
-    )
-
-    vehicle_control = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('ctrl_vehicle_control'),
-                'launch',
-                'ctrl_vehicle_control.launch.py')
-        )
-    )
-
     lexus_speed_control = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('lexus_bringup'),
                 'launch',
                 'speed_control.launch.py')
-        )
-    )
-
-    vehicle_control_lat = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('ctrl_vehicle_control_lat_compensatory'),
-                'launch',
-                'ctrl_vehicle_control_lat_compensatory.launch.py')
-        )
-    )
-
-    vehicle_control_long = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('ctrl_vehicle_control_long'),
-                'launch',
-                'ctrl_vehicle_control_long.launch.py')
         )
     )
 
@@ -300,6 +237,9 @@ def generate_launch_description():
         vehicle_tire_angle_topic_arg,
         local_path_length_arg,
 
+        # core
+        crp_core,
+
         # vehicle nodes
         novatel_gps,
         duro_gps,
@@ -316,13 +256,4 @@ def generate_launch_description():
 
         # nodes
         lanelet_file_loader,
-        sensor_abstraction,
-        environmental_fusion,
-        behavior_planning,
-        motion_planning,
-        vehicle_control,
-        vehicle_control_lat,
-        vehicle_control_long,
-
-        planner_lat_lane_follow_ldm
     ])
