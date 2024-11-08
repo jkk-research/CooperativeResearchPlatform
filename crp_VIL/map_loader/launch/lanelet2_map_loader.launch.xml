@@ -1,7 +1,6 @@
 <launch>
   <arg name="lanelet2_map_loader_param_path" default="$(find-pkg-share map_loader)/config/lanelet2_map_loader.param.yaml"/>
-  <arg name="lanelet2_map_path"/>
-  <arg name="lanelet2_map_topic" default="vector_map"/>
+  <arg name="lanelet2_map_topic" default="/map/global_static_map_from_file/lanelet2_map"/>
   <arg name="lanelet2_map_marker_topic" default="vector_map_marker"/>
 
   <node pkg="map_loader" exec="lanelet2_map_visualization" name="lanelet2_map_visualization" output="both">

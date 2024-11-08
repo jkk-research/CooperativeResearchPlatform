@@ -95,6 +95,7 @@ void Lanelet2MapVisualizationNode::on_map_bin(
   lanelet::ConstLanelets shoulder_lanelets = lanelet::utils::query::shoulderLanelets(all_lanelets);
   lanelet::ConstLanelets crosswalk_lanelets =
     lanelet::utils::query::crosswalkLanelets(all_lanelets);
+  lanelet::ConstLanelets bicycle_lane_lanelets;
   lanelet::ConstLineStrings3d partitions = lanelet::utils::query::getAllPartitions(viz_lanelet_map);
   lanelet::ConstLineStrings3d pedestrian_polygon_markings =
     lanelet::utils::query::getAllPedestrianPolygonMarkings(viz_lanelet_map);
@@ -130,6 +131,7 @@ void Lanelet2MapVisualizationNode::on_map_bin(
   std::vector<lanelet::NoParkingAreaConstPtr> no_parking_reg_elems =
     lanelet::utils::query::noParkingAreas(all_lanelets);
   lanelet::ConstLineStrings3d curbstones = lanelet::utils::query::curbstones(viz_lanelet_map);
+  std::vector<lanelet::BusStopAreaConstPtr> bus_stop_reg_elems;
 
   std_msgs::msg::ColorRGBA cl_road;
   std_msgs::msg::ColorRGBA cl_shoulder;
@@ -289,6 +291,21 @@ void Lanelet2MapVisualizationNode::on_map_bin(
   insert_marker_array(
     &map_marker_array, lanelet::visualization::intersectionAreaAsMarkerArray(
                          intersection_areas, cl_intersection_area));
+
+  
+  insert_marker_array(
+    &map_marker_array,
+    lanelet::visualization::laneletDirectionAsMarkerArray(bicycle_lane_lanelets, "bicycle_lane_"));
+  insert_marker_array(
+    &map_marker_array, lanelet::visualization::laneletsBoundaryAsMarkerArray(
+                         bicycle_lane_lanelets, cl_ll_borders /* use ll_border color */,
+                         viz_lanelets_centerline_, "bicycle_lane_"));
+  insert_marker_array(
+    &map_marker_array, lanelet::visualization::generateLaneletIdMarker(
+                         bicycle_lane_lanelets, cl_lanelet_id /* use lanelet_id color */));
+  insert_marker_array(
+    &map_marker_array, lanelet::visualization::laneletsAsTriangleMarkerArray(
+                         "bicycle_lane_lanelets", bicycle_lane_lanelets, cl_bicycle_lane));
 
   pub_marker_->publish(map_marker_array);
 }
