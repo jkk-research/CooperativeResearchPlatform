@@ -33,3 +33,7 @@
 	path = crp_VIL/duro_driver/duro_gps_driver
 	url = https://github.com/szenergy/duro_gps_driver
 	branch = ros2-humble
+[submodule "crp_VIL/kalman_pos"]
+	path = crp_VIL/kalman_pos
+	url = https://github.com/jkk-research/kalman_pos.git
+	branch = ros2
