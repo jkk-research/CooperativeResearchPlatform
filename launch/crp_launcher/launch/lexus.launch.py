@@ -17,17 +17,6 @@ def generate_launch_description():
         default_value='nova',
         description='Select the GPS to use: nova or duro')
 
-    ekf_config_path_arg = DeclareLaunchArgument(
-        'ekf_config_path', 
-        default_value=[
-            get_package_share_directory('crp_launcher'),
-            '/config/',
-            'ekf_',
-            LaunchConfiguration('select_gps'),
-            '.yaml'
-        ]
-    )
-
     # novatel gps
     novatel_namespace_arg = DeclareLaunchArgument(
         'novatel_namespace',
@@ -63,6 +52,22 @@ def generate_launch_description():
         'duro_namespace',
         default_value='lexus3/gps/duro',
         description='Namespace for the Duro GPS')
+
+    # ekf
+    ekf_config_path_arg = DeclareLaunchArgument(
+        'ekf_config_path', 
+        default_value=[
+            get_package_share_directory('crp_launcher'),
+            '/config/',
+            'ekf_',
+            LaunchConfiguration('select_gps'),
+            '.yaml'
+        ]
+    )
+    ekf_frame_arg = DeclareLaunchArgument(
+        'ekf_frame',
+        default_value='map',
+        description='Frame of the EKF pose')
 
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
@@ -131,6 +136,15 @@ def generate_launch_description():
         executable='kalman_pos_node',
         output='screen',
         parameters=[LaunchConfiguration('ekf_config_path')]
+    )
+
+    ekf_topic_converter = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('ekf_wrapper'),
+                'launch',
+                'ekfTopicConverter.launch.py')
+        )
     )
 
     static_tf = IncludeLaunchDescription(
@@ -250,6 +264,7 @@ def generate_launch_description():
         duro_port_arg,
         duro_namespace_arg,
         ekf_config_path_arg,
+        ekf_frame_arg,
         lanelet_file_path_arg,
         lanelet_map_frame_id_arg,
         lanelet_output_topic_arg,
@@ -266,6 +281,7 @@ def generate_launch_description():
         novatel_gps,
         duro_gps,
         ekf_localizer,
+        ekf_topic_converter,
         vehicle_can,
         vehicle_speed_control,
         # lidar_left,

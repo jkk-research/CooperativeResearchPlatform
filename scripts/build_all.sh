@@ -24,6 +24,7 @@ packages=(
   novatel_gps_launcher
   pacmod_extender
   pacmod_interface
+  kalman_pos
 )
 
 packages_string=""

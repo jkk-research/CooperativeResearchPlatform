@@ -5,11 +5,11 @@ kalman_pos_node:
     nav_sat_fix_topic : "/lexus3/gps/nova/fix"
     # inspvax_topic : "gps/nova/inspvax"
     imu_topic : "/lexus3/gps/nova/imu"
-    est_cog_topic : "estimated_pose_cog"
-    est_trav_distance_odom_topic : "distance"
-    est_trav_distance_est_pos_topic : "estimated_trav_dist_est_pos"
-    est_baselink_topic : "/sensing/ekf/estimated_pose"
-    est_accuracy_topic : "estimation_accuracy"
+    est_cog_topic : "/ekf/estimated_pose_cog"
+    est_trav_distance_odom_topic : "/ekf/distance"
+    est_trav_distance_est_pos_topic : "/ekf/estimated_trav_dist_est_pos"
+    est_baselink_topic : "/ekf/estimated_pose_baselink"
+    est_accuracy_topic : "/ekf/estimation_accuracy"
     loop_rate_hz : 60
     estimation_method : 10
     gnss_source : "none"
