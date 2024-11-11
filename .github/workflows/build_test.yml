@@ -1,0 +1,28 @@
+name: Build test
+
+on:
+  push:
+    branches:
+      - main
+      - 67-crptg1-ci-setup
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04	
+    container: ros:humble-ros-base-jammy
+    steps:
+      - uses: actions/checkout@v2
+      - name: create a ros2 workspace
+        run: mkdir -p ros2_ws/src
+      - name: copy the package to the workspace
+        run: cp -r src ros2_ws/src
+      - name: APt update
+        run: apt update
+      - name: install dependencies
+        run: cd ros2_ws && source /opt/ros/noetic/setup.bash && rosdep update && rosdep install --from-paths src --ignore-src -r -y 
+        shell: bash   
+      - name: build the workspace
+        run: cd ros2_ws && colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select tier4_planning_msgs     
