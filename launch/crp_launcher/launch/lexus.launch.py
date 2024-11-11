@@ -6,12 +6,15 @@ from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
-from sys import argv
 
 
 def generate_launch_description():
     # ARGS
 
+    localization_source_arg = DeclareLaunchArgument(
+        'localization_source',
+        default_value='gnss',
+        description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
         default_value='nova',
@@ -243,6 +246,15 @@ def generate_launch_description():
         )
     )
 
+    sensor_abstraction = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('prcp_sensor_abstraction'),
+                'launch',
+                'sensor_abstraction.launch.py')
+        )
+    )
+
     lexus_speed_control = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
@@ -254,7 +266,9 @@ def generate_launch_description():
 
     return LaunchDescription([
         # args
+        localization_source_arg,
         select_gps_arg,
+
         novatel_namespace_arg,
         novatel_ip_arg,
         novatel_port_arg,
@@ -290,6 +304,7 @@ def generate_launch_description():
         # camera_zed,
         camera_mpc,
         pacmod_extender,
+        sensor_abstraction,
         lexus_speed_control,
 
         # nodes

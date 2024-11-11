@@ -10,8 +10,15 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 
+include_directories(include)
+
 add_executable(ekf_topic_converter src/ekfTopicConverter.cpp)
 ament_target_dependencies(ekf_topic_converter rclcpp geometry_msgs)
+
+install(TARGETS
+  ekf_topic_converter
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 install(DIRECTORY 
   launch

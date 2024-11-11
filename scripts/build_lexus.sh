@@ -25,6 +25,8 @@ packages=(
   pacmod_extender
   pacmod_interface
   kalman_pos
+  ekf_wrapper
+  prcp_sensor_abstraction
 )
 
 packages_string=""

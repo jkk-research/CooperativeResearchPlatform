@@ -3,6 +3,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 
 namespace crp
 {
@@ -19,7 +20,7 @@ private:
 
     rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr sub_ekfPose_;
 
-    rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr pub_ekfPose_;
+    rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr pub_ekfPose_;
 
     std::string m_ekfFrame;
 };

@@ -9,16 +9,25 @@ crp::cil::EKFTopicConverter::EKFTopicConverter() : Node("ekf_topic_converter")
 
     sub_ekfPose_ = this->create_subscription<geometry_msgs::msg::PoseStamped>("/ekf/estimated_pose_baselink", 10, std::bind(&EKFTopicConverter::ekfPoseCallback, this, std::placeholders::_1));
 
-    pub_ekfPose_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("/sensing/ekf/estimated_pose", 1);
+    pub_ekfPose_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/sensing/ekf/estimated_pose", 1);
 }
 
 
 void crp::cil::EKFTopicConverter::ekfPoseCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
 {
-    geometry_msgs::msg::PoseStamped converted_msg;
+    geometry_msgs::msg::PoseWithCovarianceStamped converted_msg;
     converted_msg.header.stamp = msg->header.stamp;
     converted_msg.header.frame_id = m_ekfFrame;
-    converted_msg.pose = msg->pose;
+    converted_msg.pose.pose = msg->pose;
 
     pub_ekfPose_->publish(converted_msg);
+}
+
+
+int main(int argc, char *argv[])
+{
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<crp::cil::EKFTopicConverter>());
+    rclcpp::shutdown();
+    return 0;
 }
