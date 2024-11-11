@@ -117,7 +117,7 @@ def generate_launch_description():
     novatel_gps = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
-                get_package_share_directory('novatel_gps_launcher'),
+                get_package_share_directory('novatel_gps_wrapper'),
                 'launch',
                 'novatel.launch.py')
         ),
@@ -127,7 +127,7 @@ def generate_launch_description():
     duro_gps = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
-                get_package_share_directory('duro_gps_launcher'),
+                get_package_share_directory('duro_gps_wrapper'),
                 'launch',
                 'duro.launch.py')
         ),
