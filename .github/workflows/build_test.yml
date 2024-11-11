@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: create a ros2 workspace
         run: mkdir -p ros2_ws/src
+      - name: Off secrets
+        run: git config --global --add safe.directory '*'
       - name: Pull selectes submoules
         run: git submodule update --init --recursive external/autoware_msgs/ external/tier4_autoware_msgs/
       - name: copy the package to the workspace
