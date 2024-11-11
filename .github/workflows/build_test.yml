@@ -18,7 +18,7 @@ jobs:
       - name: create a ros2 workspace
         run: mkdir -p ros2_ws/src
       - name: copy the package to the workspace
-        run: cp -r */ ros2_ws/src
+        run: cp -r crp_APL crp_CIL/ crp_VIL/ doc/ external/ scripts/ ros2_ws/src
       - name: APt update
         run: apt update
       - name: install dependencies
