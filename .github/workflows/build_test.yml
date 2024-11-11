@@ -27,5 +27,6 @@ jobs:
         run: apt update
       - name: install dependencies
         run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install --from-paths src --ignore-src -r -y
+        shell: bash
       - name: build the workspace
         run: cd ros2_ws && source /opt/ros/humble/setup.bash && colcon build
