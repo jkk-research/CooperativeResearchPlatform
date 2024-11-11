@@ -15,7 +15,7 @@ crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("CtrlVehicleCo
     this->declare_parameter("/ctrl/axMax", 2.0f);
     this->declare_parameter("/ctrl/axMin", -2.0f);
     this->declare_parameter("/ctrl/jxMax", 1.0f);
-    this->declare_parameter("/ctrl/jxMin", -1.0f);
+    this->declare_parameter("/ctrl/jxMin", -1
     this->declare_parameter("/ctrl/speedControlLookAheadTime", 0.6f);
 
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_long has been started");
