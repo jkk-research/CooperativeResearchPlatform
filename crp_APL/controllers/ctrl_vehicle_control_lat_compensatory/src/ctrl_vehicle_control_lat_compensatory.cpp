@@ -64,6 +64,7 @@ private:
         input.path_y.clear();
         input.path_theta.clear();
         double quaternion[4];
+
         
         // this callback maps the input trajectory to the internal interface
         for (long unsigned int i=0; i<input_msg.points.size(); i++)

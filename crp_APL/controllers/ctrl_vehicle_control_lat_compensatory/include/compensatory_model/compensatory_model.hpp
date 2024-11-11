@@ -26,7 +26,7 @@ namespace crp
                 Filters m_posDerivativeFilter;
 
 
-                double* m_coefficients;
+                double m_coefficients;
                 std::vector<double> m_localPath_x;
                 std::vector<double> m_localPath_y;
                 std::vector<double> m_localPathCut_x;

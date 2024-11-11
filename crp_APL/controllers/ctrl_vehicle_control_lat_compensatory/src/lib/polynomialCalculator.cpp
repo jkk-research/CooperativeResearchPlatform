@@ -2,7 +2,7 @@
 
 namespace crp{
     namespace apl{
-        double* PolynomialCalculator::calculateThirdOrderPolynomial (
+        double PolynomialCalculator::calculateThirdOrderPolynomial (
         std::vector<double> x, std::vector<double> y){
             calculateMmatrix(x);
             detM = calculateDeterminant(M);

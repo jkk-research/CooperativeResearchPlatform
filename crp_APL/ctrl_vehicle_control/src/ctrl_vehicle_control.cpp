@@ -14,10 +14,31 @@ crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
     m_sub_controlLong_ = this->create_subscription<autoware_control_msgs::msg::Control>("/control/command/control_cmdLong", 10, std::bind(&ControlHandler::controlLongCallback, this, std::placeholders::_1));
 
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
+
+    // initialize control message
+    ctrl_msg.lateral.steering_tire_angle = 0.0f;
+    ctrl_msg.lateral.steering_tire_rotation_rate = 0.0f;
+    ctrl_msg.longitudinal.velocity = 0.0f;
+
+    // initialize twist message
+    twist_msg.linear.x = 0.0f;
+    twist_msg.linear.y = 0.0f;
+    twist_msg.linear.z = 0.0f;
+    twist_msg.angular.x = 0.0f;
+    twist_msg.angular.y = 0.0f;
+    twist_msg.angular.z = 0.0f;
+
 }
 
 void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::msg::Control::SharedPtr msg)
 {
+    // check for nan values
+    if (std::isnan(msg->lateral.steering_tire_angle))
+    {
+        RCLCPP_WARN(this->get_logger(), "Received nan value for steering angle");
+        return;
+    }
+
     twist_msg.angular.z = msg->lateral.steering_tire_angle;
     ctrl_msg.lateral.steering_tire_angle = msg->lateral.steering_tire_angle;
     ctrl_msg.lateral.steering_tire_rotation_rate = 0.0f;
@@ -25,12 +46,22 @@ void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::m
 
 void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::msg::Control::SharedPtr msg)
 {
+    // check for nan values
+    if (std::isnan(msg->longitudinal.velocity))
+    {
+        RCLCPP_WARN(this->get_logger(), "Received nan value for velocity");
+        return;
+    }
+
+
     twist_msg.linear.x = msg->longitudinal.velocity;
     ctrl_msg.longitudinal.velocity = msg->longitudinal.velocity;
 }
 
 void crp::apl::ControlHandler::run()
 {
+    ctrl_msg.stamp = this->now();
+
     m_pub_twist_->publish(twist_msg);
     m_pub_control_->publish(ctrl_msg);
 }    
