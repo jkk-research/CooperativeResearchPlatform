@@ -25,9 +25,9 @@ jobs:
         run: cp -r crp_APL crp_CIL/ crp_VIL/ doc/ external/ scripts/ ros2_ws/src
       - name: APt update
         run: apt update
-      - name: install dependencies
+      - name: install pacmod3
         run: |
-            sudo apt install apt-transport-https
+            sudo apt install -y apt-transport-https
             sudo sh -c 'echo "deb [trusted=yes] https://s3.amazonaws.com/autonomoustuff-repo/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/autonomoustuff-public.list'
             sudo apt update
             sudo apt install ros-$ROS_DISTRO-pacmod3
