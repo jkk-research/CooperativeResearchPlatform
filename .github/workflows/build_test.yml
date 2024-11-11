@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 67-crptg1-ci-setup
   pull_request:
     branches:
       - main
