@@ -16,9 +16,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: create a ros2 workspace
-        run: ls -l
+        run: mkdir -p ros2_ws/src
       - name: copy the package to the workspace
-        run: cp -r tier4_planning_msgs ros2_ws/src
+        run: cp -r */ ros2_ws/src
       - name: APt update
         run: apt update
       - name: install dependencies
