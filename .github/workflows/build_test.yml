@@ -20,7 +20,7 @@ jobs:
       - name: Off secrets
         run: git config --global --add safe.directory '*'
       - name: Pull selectes submoules
-        run: git submodule update --init --recursive external/autoware_msgs/ external/tier4_autoware_msgs/
+        run: git submodule update --init --recursive external/autoware_msgs/ external/tier4_autoware_msgs/ crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode/
       - name: copy the package to the workspace
         run: cp -r crp_APL crp_CIL/ crp_VIL/ doc/ external/ scripts/ ros2_ws/src
       - name: pacmod3 install
