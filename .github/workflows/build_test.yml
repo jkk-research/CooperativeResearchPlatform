@@ -23,8 +23,8 @@ jobs:
         run: git submodule update --init --recursive external/autoware_msgs/ external/tier4_autoware_msgs/
       - name: copy the package to the workspace
         run: cp -r crp_APL crp_CIL/ crp_VIL/ doc/ external/ scripts/ ros2_ws/src
-      - name: APt update
-        run: apt update
+      - name: pacmod3 install
+        run: apt install apt-transport-https && sudo sh -c 'echo "deb [trusted=yes] https://s3.amazonaws.com/autonomoustuff-repo/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/autonomoustuff-public.list' && apt update && apt install -y ros-humble-pacmod3
       - name: install dependencies
         run: cd ros2_ws && source /opt/ros/humble/setup.bash && rosdep update && rosdep install --from-paths src --ignore-src -r -y
         shell: bash
