@@ -3,9 +3,17 @@ cd $script_dir
 while [ ! -e "src/" ]; do
   cd ../
 done
-echo $(pwd)
+echo "Build location: "$(pwd)
 
-colcon build --symlink-install --packages-select \
+rosdep install --from-paths $script_dir/../crp_APL $script_dir/../crp_CIL --ignore-src -r -y
+colcon build --packages-select \
+tier4_planning_msgs \
+autoware_common_msgs \
+autoware_planning_msgs \
+autoware_perception_msgs \
+autoware_control_msgs \
+autoware_localization_msgs \
+autoware_map_msgs \
 crp_msgs \
 prcp_sensor_abstraction \
 prcp_situation_analysis \
@@ -18,4 +26,6 @@ plan_lon_intelligent_speed_adjust \
 plan_motion_planning \
 crp_launcher \
 ctrl_vehicle_control \
+ctrl_vehicle_control_lat_compensatory \
+ctrl_vehicle_control_long \
 test_node
