@@ -10,8 +10,8 @@ crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
     m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 30);
     m_pub_twist_ = this->create_publisher<geometry_msgs::msg::Twist>("lexus3/cmd_vel", 30);
 
-    m_sub_controlLat_ = this->create_subscription<autoware_control_msgs::msg::Control>("/control/command/control_cmdLat", 10, std::bind(&ControlHandler::controlLatCallback, this, std::placeholders::_1));
-    m_sub_controlLong_ = this->create_subscription<autoware_control_msgs::msg::Control>("/control/command/control_cmdLong", 10, std::bind(&ControlHandler::controlLongCallback, this, std::placeholders::_1));
+    m_sub_controlLat_ = this->create_subscription<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 10, std::bind(&ControlHandler::controlLatCallback, this, std::placeholders::_1));
+    m_sub_controlLong_ = this->create_subscription<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 10, std::bind(&ControlHandler::controlLongCallback, this, std::placeholders::_1));
 
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
 
@@ -30,32 +30,32 @@ crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
 
 }
 
-void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::msg::Control::SharedPtr msg)
+void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::msg::Lateral::SharedPtr msg)
 {
     // check for nan values
-    if (std::isnan(msg->lateral.steering_tire_angle))
+    if (std::isnan(msg->steering_tire_angle))
     {
         RCLCPP_WARN(this->get_logger(), "Received nan value for steering angle");
         return;
     }
 
-    twist_msg.angular.z = msg->lateral.steering_tire_angle;
-    ctrl_msg.lateral.steering_tire_angle = msg->lateral.steering_tire_angle;
+    twist_msg.angular.z = msg->steering_tire_angle;
+    ctrl_msg.lateral.steering_tire_angle = msg->steering_tire_angle;
     ctrl_msg.lateral.steering_tire_rotation_rate = 0.0f;
 }
 
-void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::msg::Control::SharedPtr msg)
+void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::msg::Longitudinal::SharedPtr msg)
 {
     // check for nan values
-    if (std::isnan(msg->longitudinal.velocity))
+    if (std::isnan(msg->velocity))
     {
         RCLCPP_WARN(this->get_logger(), "Received nan value for velocity");
         return;
     }
 
 
-    twist_msg.linear.x = msg->longitudinal.velocity;
-    ctrl_msg.longitudinal.velocity = msg->longitudinal.velocity;
+    twist_msg.linear.x = msg->velocity;
+    ctrl_msg.longitudinal.velocity = msg->velocity;
 }
 
 void crp::apl::ControlHandler::run()

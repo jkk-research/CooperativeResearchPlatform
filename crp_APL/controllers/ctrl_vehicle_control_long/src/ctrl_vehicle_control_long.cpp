@@ -7,7 +7,7 @@ using std::placeholders::_1;
 crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("CtrlVehicleControlLong")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLong::run, this));  
-    m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmdLong", 30);
+    m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 30);
 
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLong::egoCallback, this, std::placeholders::_1));
     m_sub_trajectory_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLong::trajectoryCallback, this, std::placeholders::_1));
@@ -28,10 +28,10 @@ void crp::apl::CtrlVehicleControlLong::trajectoryCallback(const autoware_plannin
     
     if (msg->points.size() == 0U)
     {
-        m_ctrl_msg.longitudinal.velocity = 0.0f;
+        m_ctrl_msg.velocity = 0.0f;
     }
     else{
-        m_ctrl_msg.longitudinal.velocity = 
+        m_ctrl_msg.velocity = 
                     msg->points.at(msg->points.size()-1U).longitudinal_velocity_mps;
         //m_ctrl_msg.longitudinal.velocity = msg->points.at(0U).longitudinal_velocity_mps;
     }
@@ -46,22 +46,22 @@ void crp::apl::CtrlVehicleControlLong::trajectoryCallback(const autoware_plannin
             // filtering with acceleration
             if(msg->points.at(wp).longitudinal_velocity_mps >= (m_egoSpeed+p_axMax*dT))
             {
-                m_ctrl_msg.longitudinal.velocity = m_egoSpeed+p_axMax*dT;  
+                m_ctrl_msg.velocity = m_egoSpeed+p_axMax*dT;  
             }
             else if(msg->points.at(wp).longitudinal_velocity_mps <= (m_egoSpeed+p_axMin*dT))
             {
                 if (m_egoSpeed+p_axMin*dT < 2.0)
                 {
-                    m_ctrl_msg.longitudinal.velocity = 0.0;
+                    m_ctrl_msg.velocity = 0.0;
                 }
                 else
                 {
-                    m_ctrl_msg.longitudinal.velocity = m_egoSpeed+p_axMin*dT;
+                    m_ctrl_msg.velocity = m_egoSpeed+p_axMin*dT;
                 }
             }
             else
             {
-                m_ctrl_msg.longitudinal.velocity = 
+                m_ctrl_msg.velocity = 
                     msg->points.at(wp).longitudinal_velocity_mps;
             }
             break;

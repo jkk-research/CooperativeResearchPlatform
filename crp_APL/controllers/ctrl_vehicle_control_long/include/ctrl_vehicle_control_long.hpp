@@ -35,11 +35,11 @@ namespace crp
             void run();
 
             rclcpp::TimerBase::SharedPtr m_timer_;
-            rclcpp::Publisher<autoware_control_msgs::msg::Control>::SharedPtr m_pub_control_;
+            rclcpp::Publisher<autoware_control_msgs::msg::Longitudinal>::SharedPtr m_pub_control_;
 
             rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_trajectory_;
             rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_sub_ego_;
-            autoware_control_msgs::msg::Control m_ctrl_msg;
+            autoware_control_msgs::msg::Longitudinal m_ctrl_msg;
 
             // member parameters
             double p_axMax{0.0f};

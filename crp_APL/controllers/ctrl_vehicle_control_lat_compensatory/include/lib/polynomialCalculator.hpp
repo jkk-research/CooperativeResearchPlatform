@@ -11,7 +11,7 @@ namespace crp
     {
         class PolynomialCalculator{
             public:
-                double calculateThirdOrderPolynomial (std::vector<double> x, std::vector<double> y);
+                double* calculateThirdOrderPolynomial (std::vector<double> x, std::vector<double> y);
 
                 double M [4][4] {0.0f};
                 double detM;

@@ -22,12 +22,12 @@ namespace crp
             ControlHandler();
 
             private:
-                void controlLatCallback(const autoware_control_msgs::msg::Control::SharedPtr msg);
-                void controlLongCallback(const autoware_control_msgs::msg::Control::SharedPtr msg);
+                void controlLatCallback(const autoware_control_msgs::msg::Lateral::SharedPtr msg);
+                void controlLongCallback(const autoware_control_msgs::msg::Longitudinal::SharedPtr msg);
                 
                 void run();
-                rclcpp::Subscription<autoware_control_msgs::msg::Control>::SharedPtr m_sub_controlLat_;
-                rclcpp::Subscription<autoware_control_msgs::msg::Control>::SharedPtr m_sub_controlLong_;
+                rclcpp::Subscription<autoware_control_msgs::msg::Lateral>::SharedPtr m_sub_controlLat_;
+                rclcpp::Subscription<autoware_control_msgs::msg::Longitudinal>::SharedPtr m_sub_controlLong_;
                 
                 rclcpp::Publisher<autoware_control_msgs::msg::Control>::SharedPtr m_pub_control_;
                 rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr m_pub_twist_;
