@@ -34,7 +34,7 @@ namespace crp
 
                 rclcpp::TimerBase::SharedPtr m_timer_;    
 
-                geometry_msgs::msg::Twist twist_msg;
+                geometry_msgs::msg::Twist m_twistMsg;
                 autoware_control_msgs::msg::Control ctrl_msg;
         };
 
