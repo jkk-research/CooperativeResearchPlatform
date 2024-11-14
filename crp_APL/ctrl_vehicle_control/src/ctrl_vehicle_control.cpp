@@ -21,12 +21,12 @@ crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
     ctrl_msg.longitudinal.velocity = 0.0f;
 
     // initialize twist message
-    twist_msg.linear.x = 0.0f;
-    twist_msg.linear.y = 0.0f;
-    twist_msg.linear.z = 0.0f;
-    twist_msg.angular.x = 0.0f;
-    twist_msg.angular.y = 0.0f;
-    twist_msg.angular.z = 0.0f;
+    m_twistMsg.linear.x = 0.0f;
+    m_twistMsg.linear.y = 0.0f;
+    m_twistMsg.linear.z = 0.0f;
+    m_twistMsg.angular.x = 0.0f;
+    m_twistMsg.angular.y = 0.0f;
+    m_twistMsg.angular.z = 0.0f;
 
 }
 
@@ -39,9 +39,9 @@ void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::m
         return;
     }
 
-    twist_msg.angular.z = msg->steering_tire_angle;
+    m_twistMsg.angular.z = msg->steering_tire_angle;
     ctrl_msg.lateral.steering_tire_angle = msg->steering_tire_angle;
-    ctrl_msg.lateral.steering_tire_rotation_rate = 0.0f;
+    ctrl_msg.lateral.steering_tire_rotation_rate = msg->steering_tire_rotation_rate;
 }
 
 void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::msg::Longitudinal::SharedPtr msg)
@@ -54,7 +54,7 @@ void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::
     }
 
 
-    twist_msg.linear.x = msg->velocity;
+    m_twistMsg.linear.x = msg->velocity;
     ctrl_msg.longitudinal.velocity = msg->velocity;
 }
 
@@ -62,7 +62,7 @@ void crp::apl::ControlHandler::run()
 {
     ctrl_msg.stamp = this->now();
 
-    m_pub_twist_->publish(twist_msg);
+    m_pub_twist_->publish(m_twistMsg);
     m_pub_control_->publish(ctrl_msg);
 }    
 
