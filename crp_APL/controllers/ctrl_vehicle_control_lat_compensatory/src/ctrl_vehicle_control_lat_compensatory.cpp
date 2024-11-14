@@ -141,7 +141,7 @@ private:
         cmd_pub->publish(ctrl_cmd);
     }
     rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr cmd_pub;
+    rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd;
 
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
