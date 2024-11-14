@@ -13,7 +13,6 @@ find_package(lanelet2_core REQUIRED)
 find_package(lanelet2_projection REQUIRED)
 find_package(lanelet2_io REQUIRED)
 find_package(autoware_lanelet2_extension REQUIRED)
-find_package(visualization_msgs REQUIRED)
 
 
 include_directories(
