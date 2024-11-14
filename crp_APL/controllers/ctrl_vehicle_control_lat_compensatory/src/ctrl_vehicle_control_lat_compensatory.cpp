@@ -145,7 +145,7 @@ private:
 
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
-    autoware_control_msgs::msg::Lateral ctrl_cmd;
+    autoware_control_msgs::msg::Lateral ctrlCmd;
 };
 
 int main(int argc, char *argv[])
