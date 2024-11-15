@@ -32,16 +32,16 @@ public:
         traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
         ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
 
-        this->declare_parameter("/ctrl/ffGainOffsetGround", 1.0f);
+        this->declare_parameter("/ctrl/ffGainOffsetGround", 0.1f);
         this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
-        this->declare_parameter("/ctrl/ffLookAheadTime", 1.5f);
+        this->declare_parameter("/ctrl/ffLookAheadTime", 0.67f);
         this->declare_parameter("/ctrl/ffMinLookAheadDistance", 0.1f);
-        this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.7f);
-        this->declare_parameter("/ctrl/fbLookAheadTime", 0.0f);
-        this->declare_parameter("/ctrl/fbPGain", 1.0);
+        this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.5f);
+        this->declare_parameter("/ctrl/fbLookAheadTime", 0.25f);
+        this->declare_parameter("/ctrl/fbPGain", 0.3f);
         this->declare_parameter("/ctrl/fbDGain", 0.1f);
-        this->declare_parameter("/ctrl/fbIGain", 0.0f);
-        this->declare_parameter("/ctrl/fbThetaGain", 0.0f);
+        this->declare_parameter("/ctrl/fbIGain", 0.05f);
+        this->declare_parameter("/ctrl/fbThetaGain", 2.0f);
         this->declare_parameter("/ctrl/fbMinLookAheadDistance", 0.0f);
         this->declare_parameter("/ctrl/fbIntegralLimit", 3.0f);
         this->declare_parameter("/ctrl/trajectory_distance", 50.0f);
@@ -122,7 +122,7 @@ private:
         m_compensatoryModel.run(input, output, params);
 
         // print all the parameters
-        RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", params.ffGainOffsetGround);
+        /*RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", params.ffGainOffsetGround);
         RCLCPP_INFO(this->get_logger(), "ffGainSlope: %f", params.ffGainSlope);
         RCLCPP_INFO(this->get_logger(), "ffLookAheadTime: %f", params.ffLookAheadTime);
         RCLCPP_INFO(this->get_logger(), "ffMinLookAheadDistance: %f", params.ffMinLookAheadDistance);
@@ -131,7 +131,7 @@ private:
         RCLCPP_INFO(this->get_logger(), "fbPGain: %f", params.fbPGain);
         RCLCPP_INFO(this->get_logger(), "fbDGain: %f", params.fbDGain);
         RCLCPP_INFO(this->get_logger(), "fbIGain: %f", params.fbIGain);
-        RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", params.fbThetaGain);
+        RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", params.fbThetaGain);*/
 
         // steering angle and steering angle gradiant
         ctrlCmd.stamp = this->now();
