@@ -103,6 +103,15 @@
       "topicName": "/lexus3/control_reinit",
       "datatype": "std_msgs/msg/Bool"
     },
+    "Publish!32kth13": {
+      "buttonText": "Publish",
+      "buttonTooltip": "",
+      "advancedView": true,
+      "value": "{\n  \"target_speed\": { \"data\": 11.4\n  },\n  \"curve_driving_style\": { \"data\": 0\n  }\n}",
+      "topicName": "/ui/behavior",
+      "datatype": "crp_msgs/msg/Behavior",
+      "foxglovePanelTitle": "Behavior"
+    },
     "Gauge!1dii1on": {
       "path": "/ego.twist.twist.linear.x",
       "minValue": 0,
@@ -453,7 +462,11 @@
                 },
                 "second": {
                   "first": "RawMessages!2larpau",
-                  "second": "Publish!3eqe9hn",
+                  "second": {
+                    "first": "Publish!3eqe9hn",
+                    "second": "Publish!32kth13",
+                    "direction": "row"
+                  },
                   "direction": "row",
                   "splitPercentage": 28.950826562211713
                 },
