@@ -17,7 +17,7 @@ def generate_launch_description():
             'ros2 param set ',
             '/CtrlVehicleControl ',
             '/ctrl/fbPGain ',
-            '0.3'
+            '2.0'
         ]],
         shell=True
     )
@@ -47,7 +47,7 @@ def generate_launch_description():
             'ros2 param set ',
             '/CtrlVehicleControl ',
             '/ctrl/fbThetaGain ',
-            '2.0'
+            '0.0'
         ]],
         shell=True
     )
@@ -57,7 +57,7 @@ def generate_launch_description():
             'ros2 param set ',
             '/CtrlVehicleControl ',
             '/ctrl/fbLookAheadTime ',
-            '0.67'
+            '0.1'
         ]],
         shell=True
     )
@@ -77,7 +77,7 @@ def generate_launch_description():
             'ros2 param set ',
             '/CtrlVehicleControl ',
             '/ctrl/ffGainOffsetGround ',
-            '0.1'
+            '0.0'
         ]],
         shell=True
     )
@@ -93,9 +93,21 @@ def generate_launch_description():
         )
     )
 
+    # TEST NODE
+
+    test_node = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('test_node'),
+                'launch',
+                'test_node.launch.py')
+        )
+    )
+
     return LaunchDescription([
 
         # nodes
+        test_node,
         crp_core,
 
         # args

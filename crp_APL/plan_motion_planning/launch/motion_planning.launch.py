@@ -2,7 +2,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    behavior_planner = Node(
+    motion_planning = Node(
         package="plan_motion_planning",
         executable="motion_handler",
         name="motion_handler",
@@ -10,7 +10,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        behavior_planner
+        motion_planning
     ])
 
     return ld
