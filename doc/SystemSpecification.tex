@@ -514,6 +514,35 @@ Calculations:
 	\item Yaw rate $\psi= v_\xi  tan(\frac{\alpha_f}{L_w})$, where $\psi$ is the yaw rate, $\alpha_f$ is the front road-wheel angle and $L_w$ is the wheelbase.
 \end{itemize}
 
+
+\subsection{duro\_gps\_launcher}
+\subsubsection{Purpose}
+The purpose of this package is to launch the duro GPS driver. The driver is in a separate repository included as a subrepository. It also contains a node (duro\_topic\_converter) that converts the duro GPS topics to the predefined CRP topics.
+\subsubsection{Usage}
+The package only contains the launcher for the driver. This can be started as follows:
+\begin{lstlisting}
+    ros2 launch duro_gps_launcher duro.launch.py
+\end{lstlisting}
+\subsubsection{Launch parameters}
+The parameters of the launcher are given in Table \ref{tab:duro_gps_launcher}. The default values are set for the Lexus vehicle.
+\begin{table}[!h]
+    \captionsetup{justification=centering}
+    \normalsize
+    \caption{\label{tab:duro_gps_launcher} Duro gps launcher parameters.}
+    \begin{tabular}{| l | l | l |}
+        \hline
+        \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
+        \hline
+        duro\_namespace  & gps/duro       & Namespace for the Novatel GPS \\
+        \hline
+        duro\_ip         & 192.168.10.11  & IP address of the Duro GPS \\
+        \hline
+        duro\_port       & 5555           & Port of the Novatel GPS \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
 \subsection{novatel\_gps\_launcher}
 \subsubsection{Purpose}
 The purpose of this package is to launch the novatel GPS driver. The driver is in a separate repository included as a subrepository. It also contains a node (novatel\_topic\_converter) that converts the novatel GPS topics to the predefined CRP topics.
@@ -578,6 +607,19 @@ Launch parameters are given in Table \ref{tab:lanelet_handler}.
     \end{tabular}
 \end{table}
 
+
+\subsection{mcap\_rec}
+\subsubsection{Purpose}
+This package contains scipts for recording all the necessary topics of the project.
+\subsubsection{Usage}
+The package can be used by the provided launchers:
+\begin{lstlisting}
+    ros2 launch mcap_rec recordLexus.launch.py tag:=name_of_the_recording
+\end{lstlisting}
+\subsubsection{Recorded params}
+Each launcher has a different preset for which topics to record. The recorded topics are defined in the etc folder in txt files.
+
+
 \subsection{nissan\_can\_driver}
 \subsubsection{Purpose}
 The purpose of this package is to publish the vehicle status (speed, steering) to topics and receive control commands from topics to control the vehicle.
@@ -598,7 +640,8 @@ Launch parameters are given in Table \ref{tab:nissan_can_driver_params}.
         \hline
         \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
         \hline
-        autoware\_control\_input & True  & Whether to use autoware or standard type input message for control  \\
+        autoware\_control\_input & True  & Whether to use autoware or standard type \\
+                                 &       & input message for control \\
         \hline
         kvaser\_hardware\_id     & 11162 & HW ID of the kvaser device used for CAN communication \\
         \hline
