@@ -27,7 +27,7 @@ public:
     CtrlVehicleControl() : Node("CtrlVehicleControl")
     {
         timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControl::loop, this));  
-        cmd_pub = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmdLat", 30);
+        m_pub_cmd = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
 
         traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
         ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
@@ -64,6 +64,7 @@ private:
         input.path_y.clear();
         input.path_theta.clear();
         double quaternion[4];
+
         
         // this callback maps the input trajectory to the internal interface
         for (long unsigned int i=0; i<input_msg.points.size(); i++)
@@ -133,19 +134,18 @@ private:
         RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", params.fbThetaGain);
 
         // steering angle and steering angle gradiant
-        ctrl_cmd.lateral.steering_tire_angle = output.steeringAngleTarget;
-        ctrl_cmd.lateral.steering_tire_rotation_rate = 0.0f;
-        ctrl_cmd.longitudinal.velocity = input.target_speed;
-        printf("target speed is %f\n", ctrl_cmd.longitudinal.velocity);
+        ctrlCmd.stamp = this->now();
+        ctrlCmd.steering_tire_angle = output.steeringAngleTarget;
+        ctrlCmd.steering_tire_rotation_rate = 0.0f;
 
-        cmd_pub->publish(ctrl_cmd);
+        m_pub_cmd->publish(ctrlCmd);
     }
     rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Publisher<autoware_control_msgs::msg::Control>::SharedPtr cmd_pub;
+    rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd;
 
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
-    autoware_control_msgs::msg::Control ctrl_cmd;
+    autoware_control_msgs::msg::Lateral ctrlCmd;
 };
 
 int main(int argc, char *argv[])
