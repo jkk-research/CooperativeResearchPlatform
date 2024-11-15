@@ -1,26 +1,29 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.conditions import LaunchConfigurationEquals
+from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
 
 
 def generate_launch_description():
-    
     # ARGS
 
+    localization_source_arg = DeclareLaunchArgument(
+        'localization_source',
+        default_value='gnss',
+        description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
-        default_value='duro',
+        default_value='nova',
         description='Select the GPS to use: nova or duro')
 
     # novatel gps
     novatel_namespace_arg = DeclareLaunchArgument(
         'novatel_namespace',
-        default_value='gps/nova',
+        default_value='lexus3/gps/nova',
         description='Namespace for the Novatel GPS')
     novatel_ip_arg = DeclareLaunchArgument(
         'novatel_ip',
@@ -48,6 +51,26 @@ def generate_launch_description():
         'duro_port',
         default_value='55555',
         description='Port of the duro GPS')
+    duro_namespace_arg = DeclareLaunchArgument(
+        'duro_namespace',
+        default_value='lexus3/gps/duro',
+        description='Namespace for the Duro GPS')
+
+    # ekf
+    ekf_config_path_arg = DeclareLaunchArgument(
+        'ekf_config_path', 
+        default_value=[
+            get_package_share_directory('crp_launcher'),
+            '/config/',
+            'ekf_',
+            LaunchConfiguration('select_gps'),
+            '.yaml'
+        ]
+    )
+    ekf_frame_arg = DeclareLaunchArgument(
+        'ekf_frame',
+        default_value='map',
+        description='Frame of the EKF pose')
 
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
@@ -94,7 +117,7 @@ def generate_launch_description():
     novatel_gps = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
-                get_package_share_directory('novatel_gps_launcher'),
+                get_package_share_directory('novatel_gps_wrapper'),
                 'launch',
                 'novatel.launch.py')
         ),
@@ -104,11 +127,27 @@ def generate_launch_description():
     duro_gps = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
-                get_package_share_directory('duro_gps_launcher'),
+                get_package_share_directory('duro_gps_wrapper'),
                 'launch',
                 'duro.launch.py')
         ),
         condition = LaunchConfigurationEquals('select_gps', 'duro')
+    )
+    
+    ekf_localizer = Node(
+        package='kalman_pos',
+        executable='kalman_pos_node',
+        output='screen',
+        parameters=[LaunchConfiguration('ekf_config_path')]
+    )
+
+    ekf_topic_converter = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('ekf_wrapper'),
+                'launch',
+                'ekfTopicConverter.launch.py')
+        )
     )
 
     static_tf = IncludeLaunchDescription(
@@ -186,10 +225,7 @@ def generate_launch_description():
                 'launch',
                 'drivers',
                 'can_and_status.launch.py')
-        ),
-        # launch_arguments={
-        #     'namespace': 'pacmod'
-        # }.items()
+        )
     )
 
     vehicle_speed_control = IncludeLaunchDescription(
@@ -210,6 +246,15 @@ def generate_launch_description():
         )
     )
 
+    sensor_abstraction = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('prcp_sensor_abstraction'),
+                'launch',
+                'sensor_abstraction.launch.py')
+        )
+    )
+
     lexus_speed_control = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
@@ -221,7 +266,9 @@ def generate_launch_description():
 
     return LaunchDescription([
         # args
+        localization_source_arg,
         select_gps_arg,
+
         novatel_namespace_arg,
         novatel_ip_arg,
         novatel_port_arg,
@@ -229,6 +276,9 @@ def generate_launch_description():
         novatel_frame_id_arg,
         duro_ip_arg,
         duro_port_arg,
+        duro_namespace_arg,
+        ekf_config_path_arg,
+        ekf_frame_arg,
         lanelet_file_path_arg,
         lanelet_map_frame_id_arg,
         lanelet_output_topic_arg,
@@ -241,9 +291,11 @@ def generate_launch_description():
         crp_core,
 
         # vehicle nodes
+        static_tf,
         novatel_gps,
         duro_gps,
-        static_tf,
+        ekf_localizer,
+        ekf_topic_converter,
         vehicle_can,
         vehicle_speed_control,
         # lidar_left,
@@ -252,6 +304,7 @@ def generate_launch_description():
         # camera_zed,
         camera_mpc,
         pacmod_extender,
+        sensor_abstraction,
         lexus_speed_control,
 
         # nodes

@@ -1,4 +1,4 @@
-#include "duro_gps_launcher/duroTopicConverter.hpp"
+#include "duro_gps_wrapper/duroTopicConverter.hpp"
 
 
 crp::vil::DuroTopicConverter::DuroTopicConverter() : Node("duro_topic_converter")
