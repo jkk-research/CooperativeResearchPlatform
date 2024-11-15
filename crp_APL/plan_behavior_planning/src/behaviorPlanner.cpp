@@ -34,8 +34,10 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
 {
     crp_msgs::msg::TargetSpace targetSpaceMsg;
 
-    if (msg->paths.size() > 0)
+    if (msg->paths.size() > 0){
         targetSpaceMsg.path = msg->paths[0];
+    }
+
 
     for (tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint : targetSpaceMsg.path.path.points)
     {

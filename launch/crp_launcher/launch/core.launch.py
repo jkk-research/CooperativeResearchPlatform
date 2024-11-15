@@ -88,5 +88,5 @@ def generate_launch_description():
         vehicle_control_lat,
         vehicle_control_long,
 
-        planner_lat_lane_follow_ldm
+        #planner_lat_lane_follow_ldm
     ])

@@ -15,6 +15,9 @@
 
 #include "../../../interfaces/plannerInterfaces/plannerInterfaces.hpp"
 
+#include "geometryUtils/inc/geometricPathCalculation.hpp"
+
+
 namespace crp
 {
 namespace apl
@@ -51,6 +54,8 @@ private:
 
     PlannerInput  m_input;
     PlannerOutput m_output;
+
+    GeometricPathCalculation m_geometricPathCalculator;
 };
 
 } // namespace apl
