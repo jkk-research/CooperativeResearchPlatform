@@ -94,16 +94,16 @@ void crp::apl::CtrlVehicleControlLat::loop()
     m_compensatoryModel.run(m_input, m_output, m_params);
 
     // print all the parameters
-    RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", m_params.ffGainOffsetGround);
-    RCLCPP_INFO(this->get_logger(), "ffGainSlope: %f", m_params.ffGainSlope);
-    RCLCPP_INFO(this->get_logger(), "ffLookAheadTime: %f", m_params.ffLookAheadTime);
-    RCLCPP_INFO(this->get_logger(), "ffMinLookAheadDistance: %f", m_params.ffMinLookAheadDistance);
-    RCLCPP_INFO(this->get_logger(), "steeringAngleLPFilter: %f", m_params.steeringAngleLPFilter);
-    RCLCPP_INFO(this->get_logger(), "fbLookAheadTime: %f", m_params.fbLookAheadTime);
-    RCLCPP_INFO(this->get_logger(), "fbPGain: %f", m_params.fbPGain);
-    RCLCPP_INFO(this->get_logger(), "fbDGain: %f", m_params.fbDGain);
-    RCLCPP_INFO(this->get_logger(), "fbIGain: %f", m_params.fbIGain);
-    RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", m_params.fbThetaGain);
+    // RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", m_params.ffGainOffsetGround);
+    // RCLCPP_INFO(this->get_logger(), "ffGainSlope: %f", m_params.ffGainSlope);
+    // RCLCPP_INFO(this->get_logger(), "ffLookAheadTime: %f", m_params.ffLookAheadTime);
+    // RCLCPP_INFO(this->get_logger(), "ffMinLookAheadDistance: %f", m_params.ffMinLookAheadDistance);
+    // RCLCPP_INFO(this->get_logger(), "steeringAngleLPFilter: %f", m_params.steeringAngleLPFilter);
+    // RCLCPP_INFO(this->get_logger(), "fbLookAheadTime: %f", m_params.fbLookAheadTime);
+    // RCLCPP_INFO(this->get_logger(), "fbPGain: %f", m_params.fbPGain);
+    // RCLCPP_INFO(this->get_logger(), "fbDGain: %f", m_params.fbDGain);
+    // RCLCPP_INFO(this->get_logger(), "fbIGain: %f", m_params.fbIGain);
+    // RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", m_params.fbThetaGain);
 
     // steering angle and steering angle gradiant
     m_ctrlCmdMsg.stamp = this->now();
