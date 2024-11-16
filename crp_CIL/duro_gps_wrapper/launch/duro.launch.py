@@ -46,7 +46,7 @@ def generate_launch_description():
     )
 
     duro_topic_converter = Node(
-        package="duro_gps_launcher",
+        package="duro_gps_wrapper",
         executable="duro_topic_converter",
         name="duro_topic_converter",
         namespace = LaunchConfiguration("duro_namespace"),
