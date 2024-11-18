@@ -10,7 +10,6 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>tf2_ros</depend>
-  <depend>prcp_sensor_abstraction</depend>
   <depend>prcp_situation_analysis</depend>
   <depend>plan_behavior_planning</depend>
   <depend>plan_motion_planning</depend>
