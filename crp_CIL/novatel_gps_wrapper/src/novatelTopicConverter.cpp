@@ -1,4 +1,4 @@
-#include "novatel_gps_launcher/novatelTopicConverter.hpp"
+#include "novatel_gps_wrapper/novatelTopicConverter.hpp"
 
 
 crp::vil::NovatelTopicConverter::NovatelTopicConverter() : Node("novatel_topic_converter")

@@ -7,6 +7,7 @@
 namespace crp
 {
     namespace apl{
+        
         class GeometricOperators{
             public:
                 double transformQuatToEuler (const double quaternion [4]);

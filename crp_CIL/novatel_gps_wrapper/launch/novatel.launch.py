@@ -72,7 +72,7 @@ def generate_launch_description():
     )
 
     novatel_topic_converter = Node(
-        package='novatel_gps_launcher',
+        package='novatel_gps_wrapper',
         executable='novatel_topic_converter',
         name='novatel_topic_converter',
         namespace=LaunchConfiguration("novatel_namespace"),

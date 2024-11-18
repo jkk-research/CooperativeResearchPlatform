@@ -4,11 +4,22 @@
 crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
 {
     this->declare_parameter<std::string>("vehicle_tire_angle_topic", "/sensing/vehicle/tire_angle");
+    this->declare_parameter<std::string>("localization_source", "ekf");
     std::string tireAngleTopic;
+    std::string localizationSource;
     this->get_parameter("vehicle_tire_angle_topic", tireAngleTopic);
+    this->get_parameter("localization_source", localizationSource);
+    std::string localizationTopic = "";
+    if (localizationSource == "ekf")
+        localizationTopic = "/sensing/ekf/estimated_pose";
+    else if (localizationSource == "gnss")
+        localizationTopic = "/sensing/gnss/pose_with_covariance";
+    else
+        throw std::runtime_error("Unknown localization source: " + localizationSource);
+    
 
     m_sub_pose_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
-        "/sensing/gnss/pose_with_covariance", 10, std::bind(&EgoAbstraction::poseCallback, this, std::placeholders::_1));
+        localizationTopic, 10, std::bind(&EgoAbstraction::poseCallback, this, std::placeholders::_1));
     
     m_sub_twist_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
         "/sensing/vehicle/twist", 10, std::bind(&EgoAbstraction::twistCallback, this, std::placeholders::_1));
