@@ -1,6 +1,5 @@
 from launch import LaunchDescription
-from launch_ros.actions import Node
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, OpaqueFunction
 from launch.conditions import LaunchConfigurationEquals
 from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
@@ -17,7 +16,7 @@ def generate_launch_description():
         description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
-        default_value='nova',
+        default_value='duro',
         description='Select the GPS to use: nova or duro')
 
     # novatel gps
@@ -57,16 +56,22 @@ def generate_launch_description():
         description='Namespace for the Duro GPS')
 
     # ekf
-    ekf_config_path_arg = DeclareLaunchArgument(
-        'ekf_config_path', 
-        default_value=[
-            get_package_share_directory('crp_launcher'),
-            '/config/',
-            'ekf_',
-            LaunchConfiguration('select_gps'),
-            '.yaml'
-        ]
-    )
+    ekf_current_pose_topic_arg = DeclareLaunchArgument(
+        'ekf_current_pose_topic',
+        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/current_pose'],
+        description='Name of the current pose (geometry_msgs/PoseStamped) topic')
+    ekf_vehicle_status_topic_arg = DeclareLaunchArgument(
+        'ekf_vehicle_status_topic',
+        default_value='/lexus3/vehicle_status',
+        description='Name of the vehicle status (geometry_msgs/TwistStamped) topic where linear.x is the speed and angular.z is the tire angle')
+    ekf_nav_sat_fix_topic_arg = DeclareLaunchArgument(
+        'ekf_nav_sat_fix_topic',
+        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/navsatfix'],
+        description='Name of the nav sat fix (sensor_msgs/NavSatFix) topic')
+    ekf_imu_topic_arg = DeclareLaunchArgument(
+        'ekf_imu_topic',
+        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/imu'],
+        description='Name of the IMU (sensor_msgs/Imu) topic')
     ekf_frame_arg = DeclareLaunchArgument(
         'ekf_frame',
         default_value='map',
@@ -100,6 +105,35 @@ def generate_launch_description():
         default_value='70.0',
         description='Length of the scenario in meters')
     
+    # vehicle parameters
+    vehicle_param_c1_arg = DeclareLaunchArgument(
+        'vehicle_param_c1',
+        default_value='3000.0',
+        description='Vehicle parameter: ')
+    vehicle_param_c2_arg = DeclareLaunchArgument(
+        'vehicle_param_c2',
+        default_value='3000.0',
+        description='Vehicle parameter: ')
+    vehicle_param_m_arg = DeclareLaunchArgument(
+        'vehicle_param_m',
+        default_value='180.0',
+        description='Vehicle parameter: ')
+    vehicle_param_jz_arg = DeclareLaunchArgument(
+        'vehicle_param_jz',
+        default_value='270.0',
+        description='Vehicle parameter: ')
+    vehicle_param_l1_arg = DeclareLaunchArgument(
+        'vehicle_param_l1',
+        default_value='0.624',
+        description='Vehicle parameter:' )
+    vehicle_param_l2_arg = DeclareLaunchArgument(
+        'vehicle_param_l2',
+        default_value='0.676',
+        description='Vehicle parameter: ')
+    vehicle_param_swr_arg = DeclareLaunchArgument(
+        'vehicle_param_swr',
+        default_value='1.0',
+        description='Vehicle parameter: ')
 
     # CORE
 
@@ -134,19 +168,12 @@ def generate_launch_description():
         condition = LaunchConfigurationEquals('select_gps', 'duro')
     )
     
-    ekf_localizer = Node(
-        package='kalman_pos',
-        executable='kalman_pos_node',
-        output='screen',
-        parameters=[LaunchConfiguration('ekf_config_path')]
-    )
-
-    ekf_topic_converter = IncludeLaunchDescription(
+    ekf_wrapper = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('ekf_wrapper'),
                 'launch',
-                'ekfTopicConverter.launch.py')
+                'ekfWrapper.launch.py')
         )
     )
 
@@ -277,7 +304,10 @@ def generate_launch_description():
         duro_ip_arg,
         duro_port_arg,
         duro_namespace_arg,
-        ekf_config_path_arg,
+        ekf_current_pose_topic_arg,
+        ekf_vehicle_status_topic_arg,
+        ekf_nav_sat_fix_topic_arg,
+        ekf_imu_topic_arg,
         ekf_frame_arg,
         lanelet_file_path_arg,
         lanelet_map_frame_id_arg,
@@ -286,6 +316,13 @@ def generate_launch_description():
         lanelet_visualization_topic_arg,
         vehicle_tire_angle_topic_arg,
         local_path_length_arg,
+        vehicle_param_c1_arg,
+        vehicle_param_c2_arg,
+        vehicle_param_m_arg,
+        vehicle_param_jz_arg,
+        vehicle_param_l1_arg,
+        vehicle_param_l2_arg,
+        vehicle_param_swr_arg,
 
         # core
         crp_core,
@@ -294,8 +331,7 @@ def generate_launch_description():
         static_tf,
         novatel_gps,
         duro_gps,
-        ekf_localizer,
-        ekf_topic_converter,
+        ekf_wrapper,
         vehicle_can,
         vehicle_speed_control,
         # lidar_left,

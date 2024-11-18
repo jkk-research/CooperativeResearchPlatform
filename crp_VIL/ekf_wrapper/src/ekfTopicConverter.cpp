@@ -1,7 +1,7 @@
 #include "ekf_wrapper/ekfTopicConverter.hpp"
 
 
-crp::cil::EKFTopicConverter::EKFTopicConverter() : Node("ekf_topic_converter")
+crp::vil::EKFTopicConverter::EKFTopicConverter() : Node("ekf_topic_converter")
 {
     this->declare_parameter<std::string>("ekf_frame", "map");
     
@@ -13,7 +13,7 @@ crp::cil::EKFTopicConverter::EKFTopicConverter() : Node("ekf_topic_converter")
 }
 
 
-void crp::cil::EKFTopicConverter::ekfPoseCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
+void crp::vil::EKFTopicConverter::ekfPoseCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg)
 {
     geometry_msgs::msg::PoseWithCovarianceStamped converted_msg;
     converted_msg.header.stamp = msg->header.stamp;
@@ -27,7 +27,7 @@ void crp::cil::EKFTopicConverter::ekfPoseCallback(const geometry_msgs::msg::Pose
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<crp::cil::EKFTopicConverter>());
+    rclcpp::spin(std::make_shared<crp::vil::EKFTopicConverter>());
     rclcpp::shutdown();
     return 0;
 }

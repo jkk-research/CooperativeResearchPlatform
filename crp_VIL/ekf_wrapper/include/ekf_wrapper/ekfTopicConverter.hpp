@@ -1,5 +1,5 @@
-#ifndef CRP_CIL_EKF_TOPIC_CONVERTER_EKFWRAPPER_HPP
-#define CRP_CIL_EKF_TOPIC_CONVERTER_EKFWRAPPER_HPP
+#ifndef CRP_VIL_EKF_TOPIC_CONVERTER_EKFWRAPPER_HPP
+#define CRP_VIL_EKF_TOPIC_CONVERTER_EKFWRAPPER_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
@@ -7,7 +7,7 @@
 
 namespace crp
 {
-namespace cil
+namespace vil
 {
 
 class EKFTopicConverter : public rclcpp::Node
@@ -25,6 +25,6 @@ private:
     std::string m_ekfFrame;
 };
 
-} // namespace cil
+} // namespace vil
 } // namespace crp
-#endif //CRP_CIL_EKF_TOPIC_CONVERTER_EKFWRAPPER_HPP
+#endif //CRP_VIL_EKF_TOPIC_CONVERTER_EKFWRAPPER_HPP
