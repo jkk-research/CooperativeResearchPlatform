@@ -12,6 +12,12 @@ trap - INT
 
 # build lexus packages
 packages=(
+  tier4_debug_msgs
+  tier4_external_api_msgs
+  tier4_control_msgs
+  tier4_system_msgs
+  tier4_api_msgs
+  tier4_vehicle_msgs
   duro_gps_driver
   duro_gps_wrapper
   kvaser_interface
