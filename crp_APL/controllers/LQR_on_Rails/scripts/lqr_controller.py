@@ -27,14 +27,14 @@ dt = 0.1  # time tick[s]
 L = 2.9  # Wheel base of the vehicle [m]
 max_steer = np.deg2rad(45.0)  # maximum steering angle[rad]
 
-lqr_Q[0, 0] = 0.1
+lqr_Q[0, 0] = 0.001
 lqr_Q[1, 1] = 0.0
-lqr_Q[2, 2] = 0.1
+lqr_Q[2, 2] = 0.001
 lqr_Q[3, 3] = 0.0
-lqr_Q[4, 4] = 0.6
+lqr_Q[4, 4] = 0.8
 
 lqr_R[0, 0] = 30.0
-lqr_R[1, 1] = 30.0
+lqr_R[1, 1] = 2.0
 
 show_animation = True
 
@@ -80,8 +80,8 @@ class ROSController(Node):
 
     def __init__(self):
 
-        super().__init__('ROS_LQR_Controller')
-        
+        super().__init__('lqr_on_rails')
+
         self.cx = []
         self.cy = []
         self.cyaw = []
@@ -93,29 +93,38 @@ class ROSController(Node):
 
         self.state = State(x=0.0, y=0.0, yaw=0.0, v=0.0, steer=0.0)
 
+        self.control_clock = self.create_timer(0.05, self.control_loop)
 
         self.ctrl_lat_publisher = self.create_publisher(Lateral, '/control/command/control_cmdLat', 10)
         self.ctrl_long_publisher = self.create_publisher(Longitudinal, '/control/command/control_cmdLong', 10)
-        self.traj_subscriber = self.create_subscription(Trajectory, '/plan/trajetory', self.recive_trajectory, 10)
+        self.traj_subscriber = self.create_subscription(Trajectory, '/plan/trajectory', self.recive_trajectory, 10)
         self.ego_subscriber = self.create_subscription(Ego, '/ego', self.recive_ego, 10)
 
-        self.control_clock = self.create_timer(0.05, self.control_loop)
 
 
     def recive_trajectory(self, msg):
-        
+
         ax = []
         ay = []
 
         for i in range(len(msg.points)):
             ax.append(msg.points[i].pose.position.x)
             ay.append(msg.points[i].pose.position.y)
-        
-        self.cx, self.cy, self.cyaw, self.ck, self.s = cubic_spline_planner.calc_spline_course(
+            self.sp.append(msg.points[i].longitudinal_velocity_mps)
+
+        self.cyaw = []    
+       
+        self.cyaw = np.arctan2(np.diff(ay), np.diff(ax)).tolist()        
+
+        self.cx, self.cy, yaw, self.ck, self.s = cubic_spline_planner.calc_spline_course(
             ax, ay, ds=0.1)
+        
+        print(len(self.cx),len(self.cy))
+        
 
 
     def recive_ego(self, msg):
+
         self.state.x = msg.pose.pose.position.x
         self.state.y = msg.pose.pose.position.y
         self.state.yaw = msg.pose.pose.orientation.z
@@ -161,6 +170,8 @@ class ROSController(Node):
 
     def control_loop(self):
 
+        start_time = time.time()
+
         ctrl_cmd_lateral = Lateral()
         ctrl_cmd_lateral.stamp = self.get_clock().now().to_msg()
         ctrl_cmd_lateral.steering_tire_angle = 0.0
@@ -171,19 +182,30 @@ class ROSController(Node):
         ctrl_cmd_longitudinal.velocity = 0.0
         ctrl_cmd_longitudinal.acceleration = 0.0
 
+
         if len(self.cx) <= 0:
             self.ctrl_lat_publisher.publish(ctrl_cmd_lateral)
             self.ctrl_long_publisher.publish(ctrl_cmd_longitudinal)
             return
 
 
-        ind, e = self.calc_nearest_index(self.state, self.cx, self.cy, self.cyaw)
+        # ind, e = self.calc_nearest_index(self.state, self.cx, self.cy, self.cyaw)
 
-        tv = self.sp[ind]
 
-        k = self.ck[ind]
+        tv = 40.0
+
+        k = self.ck[0]
         v = self.state.v
-        th_e = self.cyaw[ind]
+        e = self.cy[0]
+        th_e = self.cyaw[0]
+
+        # Lateral error
+        # e: lateral distance to the path
+        # th_e: angle difference to the path
+        # print("e: ", e)
+        # print("th_e: ", th_e)
+        # print(len(self.cyaw))
+
 
         # A = [1.0, dt, 0.0, 0.0, 0.0
         #      0.0, 0.0, v, 0.0, 0.0]
@@ -238,12 +260,16 @@ class ROSController(Node):
         accel = ustar[1, 0]
 
 
-        ctrl_cmd_lateral.steering_tire_angle = delta
-        ctrl_cmd_longitudinal.velocity = tv
+        ctrl_cmd_lateral.steering_tire_angle = delta*-1
+        ctrl_cmd_longitudinal.velocity = self.state.v + accel * 0.05
+
 
 
         self.ctrl_lat_publisher.publish(ctrl_cmd_lateral)
         self.ctrl_long_publisher.publish(ctrl_cmd_longitudinal)
+
+        end_time = time.time()
+        print("Control loop execution time: ", end_time - start_time)
 
 
     def calc_nearest_index(self, state, cx, cy, cyaw):
