@@ -9,8 +9,8 @@ crp::apl::CtrlVehicleControlLat::CtrlVehicleControlLat() : Node("CtrlVehicleCont
     timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLat::loop, this));  
     m_pub_cmd = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
 
-    traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLat::trajCallback, this, std::placeholders::_1));
-    ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLat::egoVehicleCallback, this, std::placeholders::_1));
+    m_traj_sub_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLat::trajCallback, this, std::placeholders::_1));
+    m_egoVehicle_sub_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLat::egoVehicleCallback, this, std::placeholders::_1));
 
     this->declare_parameter("/ctrl/ffGainOffsetGround", 1.0f);
     this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
@@ -106,11 +106,11 @@ void crp::apl::CtrlVehicleControlLat::loop()
     RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", params.fbThetaGain);
 
     // steering angle and steering angle gradiant
-    ctrlCmd.stamp = this->now();
-    ctrlCmd.steering_tire_angle = output.steeringAngleTarget;
-    ctrlCmd.steering_tire_rotation_rate = 0.0f;
+    m_ctrlCmdMsg.stamp = this->now();
+    m_ctrlCmdMsg.steering_tire_angle = output.steeringAngleTarget;
+    m_ctrlCmdMsg.steering_tire_rotation_rate = 0.0f;
 
-    m_pub_cmd->publish(ctrlCmd);
+    m_pub_cmd->publish(m_ctrlCmdMsg);
 }
 
 
