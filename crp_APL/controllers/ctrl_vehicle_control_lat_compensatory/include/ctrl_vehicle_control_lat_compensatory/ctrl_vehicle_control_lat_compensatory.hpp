@@ -47,7 +47,7 @@ namespace crp
                 rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd;
 
                 rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_traj_sub_;
-                rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
+                rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_egoVehicle_sub_;
                 autoware_control_msgs::msg::Lateral ctrlCmd;
         }; 
     } // namespace apl
