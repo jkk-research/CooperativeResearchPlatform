@@ -48,7 +48,7 @@ namespace crp
 
                 rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_traj_sub_;
                 rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_egoVehicle_sub_;
-                autoware_control_msgs::msg::Lateral ctrlCmd;
+                autoware_control_msgs::msg::Lateral m_ctrlCmdMsg;
         }; 
     } // namespace apl
 }
