@@ -61,7 +61,6 @@ void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::
 void crp::apl::ControlHandler::run()
 {
     m_ctrlCmdMsg.stamp = this->now();
-    m_twistMsg.stamp = this->now();
 
     m_pub_twist_->publish(m_twistMsg);
     m_pub_control_->publish(m_ctrlCmdMsg);
