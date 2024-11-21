@@ -46,7 +46,7 @@ namespace crp
                 rclcpp::TimerBase::SharedPtr timer_;
                 rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd;
 
-                rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr traj_sub;
+                rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_traj_sub_;
                 rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr ego_vehicle_sub;
                 autoware_control_msgs::msg::Lateral ctrlCmd;
         }; 
