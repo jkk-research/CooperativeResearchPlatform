@@ -32,9 +32,9 @@ namespace crp
 
             private:
                 // VARIABLES
-                crp::apl::ControlInput input;
-                crp::apl::ControlOutput output;
-                crp::apl::ControlParams params;
+                crp::apl::ControlInput m_input;
+                crp::apl::ControlOutput m_output;
+                crp::apl::ControlParams m_params;
                 crp::apl::GeometricOperators m_geometricOperator;
                 crp::apl::CompensatoryModel m_compensatoryModel;
 

@@ -32,82 +32,82 @@ crp::apl::CtrlVehicleControlLat::CtrlVehicleControlLat() : Node("CtrlVehicleCont
 
 void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
 {
-    input.path_x.clear();
-    input.path_y.clear();
-    input.path_theta.clear();
+    m_input.path_x.clear();
+    m_input.path_y.clear();
+    m_input.path_theta.clear();
     double quaternion[4];
 
     
     // this callback maps the input trajectory to the internal interface
     for (long unsigned int i=0; i<input_msg.points.size(); i++)
     {
-        input.path_x.push_back(input_msg.points.at(i).pose.position.x);
-        input.path_y.push_back(input_msg.points.at(i).pose.position.y);
+        m_input.path_x.push_back(input_msg.points.at(i).pose.position.x);
+        m_input.path_y.push_back(input_msg.points.at(i).pose.position.y);
         quaternion[0] = input_msg.points.at(i).pose.orientation.x; 
         quaternion[1] = input_msg.points.at(i).pose.orientation.y; 
         quaternion[2] = input_msg.points.at(i).pose.orientation.z; 
         quaternion[3] = input_msg.points.at(i).pose.orientation.w; 
-        input.path_theta.push_back(m_geometricOperator.transformQuatToEuler(quaternion));
+        m_input.path_theta.push_back(m_geometricOperator.transformQuatToEuler(quaternion));
     }
 
     if (input_msg.points.size() > 0)
-        input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
+        m_input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
     else
-        input.target_speed = 0.0f;
+        m_input.target_speed = 0.0f;
 
 }
 
 void crp::apl::CtrlVehicleControlLat::egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
 {
-    input.vxEgo = input_msg.twist.twist.linear.x;
-    input.egoSteeringAngle = input_msg.tire_angle_front;
+    m_input.vxEgo = input_msg.twist.twist.linear.x;
+    m_input.egoSteeringAngle = input_msg.tire_angle_front;
 
-    input.egoPoseGlobal[0] = input_msg.pose.pose.position.x;
-    input.egoPoseGlobal[1] = input_msg.pose.pose.position.y;
+    m_input.egoPoseGlobal[0] = input_msg.pose.pose.position.x;
+    m_input.egoPoseGlobal[1] = input_msg.pose.pose.position.y;
     double quaternion[4];
     quaternion[0] = input_msg.pose.pose.orientation.x; 
     quaternion[1] = input_msg.pose.pose.orientation.y; 
     quaternion[2] = input_msg.pose.pose.orientation.z; 
     quaternion[3] = input_msg.pose.pose.orientation.w; 
     double theta = m_geometricOperator.transformQuatToEuler(quaternion);
-    input.egoPoseGlobal[2] = theta;
+    m_input.egoPoseGlobal[2] = theta;
 }
 
 void crp::apl::CtrlVehicleControlLat::loop()
 {
     // parameter assignments
-    params.ffGainOffsetGround = this->get_parameter("/ctrl/ffGainOffsetGround").as_double();
-    params.ffGainSlope = this->get_parameter("/ctrl/ffGainSlope").as_double();
-    params.ffLookAheadTime = this->get_parameter("/ctrl/ffLookAheadTime").as_double();
-    params.ffMinLookAheadDistance = this->get_parameter("/ctrl/ffMinLookAheadDistance").as_double();
-    params.steeringAngleLPFilter = this->get_parameter("/ctrl/steeringAngleLPFilter").as_double();
-    params.fbLookAheadTime = this->get_parameter("/ctrl/fbLookAheadTime").as_double();
-    params.fbPGain = this->get_parameter("/ctrl/fbPGain").as_double();
-    params.fbDGain = this->get_parameter("/ctrl/fbDGain").as_double();
-    params.fbIGain = this->get_parameter("/ctrl/fbIGain").as_double();
-    params.fbThetaGain = this->get_parameter("/ctrl/fbThetaGain").as_double();
-    params.fbMinLookAheadDistance = this->get_parameter("/ctrl/fbMinLookAheadDistance").as_double();
-    params.fbIntegralLimit = this->get_parameter("/ctrl/fbIntegralLimit").as_double();
-    params.trajectory_distance = this->get_parameter("/ctrl/trajectory_distance").as_double();
-    params.debugKPIs = this->get_parameter("/ctrl/debugKPIs").as_bool();
+    m_params.ffGainOffsetGround = this->get_parameter("/ctrl/ffGainOffsetGround").as_double();
+    m_params.ffGainSlope = this->get_parameter("/ctrl/ffGainSlope").as_double();
+    m_params.ffLookAheadTime = this->get_parameter("/ctrl/ffLookAheadTime").as_double();
+    m_params.ffMinLookAheadDistance = this->get_parameter("/ctrl/ffMinLookAheadDistance").as_double();
+    m_params.steeringAngleLPFilter = this->get_parameter("/ctrl/steeringAngleLPFilter").as_double();
+    m_params.fbLookAheadTime = this->get_parameter("/ctrl/fbLookAheadTime").as_double();
+    m_params.fbPGain = this->get_parameter("/ctrl/fbPGain").as_double();
+    m_params.fbDGain = this->get_parameter("/ctrl/fbDGain").as_double();
+    m_params.fbIGain = this->get_parameter("/ctrl/fbIGain").as_double();
+    m_params.fbThetaGain = this->get_parameter("/ctrl/fbThetaGain").as_double();
+    m_params.fbMinLookAheadDistance = this->get_parameter("/ctrl/fbMinLookAheadDistance").as_double();
+    m_params.fbIntegralLimit = this->get_parameter("/ctrl/fbIntegralLimit").as_double();
+    m_params.trajectory_distance = this->get_parameter("/ctrl/trajectory_distance").as_double();
+    m_params.debugKPIs = this->get_parameter("/ctrl/debugKPIs").as_bool();
 
-    m_compensatoryModel.run(input, output, params);
+    m_compensatoryModel.run(m_input, m_output, m_params);
 
     // print all the parameters
-    RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", params.ffGainOffsetGround);
-    RCLCPP_INFO(this->get_logger(), "ffGainSlope: %f", params.ffGainSlope);
-    RCLCPP_INFO(this->get_logger(), "ffLookAheadTime: %f", params.ffLookAheadTime);
-    RCLCPP_INFO(this->get_logger(), "ffMinLookAheadDistance: %f", params.ffMinLookAheadDistance);
-    RCLCPP_INFO(this->get_logger(), "steeringAngleLPFilter: %f", params.steeringAngleLPFilter);
-    RCLCPP_INFO(this->get_logger(), "fbLookAheadTime: %f", params.fbLookAheadTime);
-    RCLCPP_INFO(this->get_logger(), "fbPGain: %f", params.fbPGain);
-    RCLCPP_INFO(this->get_logger(), "fbDGain: %f", params.fbDGain);
-    RCLCPP_INFO(this->get_logger(), "fbIGain: %f", params.fbIGain);
-    RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", params.fbThetaGain);
+    RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", m_params.ffGainOffsetGround);
+    RCLCPP_INFO(this->get_logger(), "ffGainSlope: %f", m_params.ffGainSlope);
+    RCLCPP_INFO(this->get_logger(), "ffLookAheadTime: %f", m_params.ffLookAheadTime);
+    RCLCPP_INFO(this->get_logger(), "ffMinLookAheadDistance: %f", m_params.ffMinLookAheadDistance);
+    RCLCPP_INFO(this->get_logger(), "steeringAngleLPFilter: %f", m_params.steeringAngleLPFilter);
+    RCLCPP_INFO(this->get_logger(), "fbLookAheadTime: %f", m_params.fbLookAheadTime);
+    RCLCPP_INFO(this->get_logger(), "fbPGain: %f", m_params.fbPGain);
+    RCLCPP_INFO(this->get_logger(), "fbDGain: %f", m_params.fbDGain);
+    RCLCPP_INFO(this->get_logger(), "fbIGain: %f", m_params.fbIGain);
+    RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", m_params.fbThetaGain);
 
     // steering angle and steering angle gradiant
     m_ctrlCmdMsg.stamp = this->now();
-    m_ctrlCmdMsg.steering_tire_angle = output.steeringAngleTarget;
+    m_ctrlCmdMsg.steering_tire_angle = m_output.steeringAngleTarget;
     m_ctrlCmdMsg.steering_tire_rotation_rate = 0.0f;
 
     m_pub_cmd->publish(m_ctrlCmdMsg);
