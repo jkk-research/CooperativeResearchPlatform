@@ -11,6 +11,22 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+# Add the Python script to the install target
+install(
+    PROGRAMS
+        scripts/cubic_spline_planner.py  # Path to your Python script
+        scripts/lqr_controller.py  # Path to your Python script
+    DESTINATION lib/${PROJECT_NAME}  # Install location
+)
+
+# Install launch files
+install(
+    DIRECTORY launch/
+    DESTINATION share/${PROJECT_NAME}/launch
+)
+
+
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights

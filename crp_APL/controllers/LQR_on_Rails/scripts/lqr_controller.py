@@ -1,21 +1,15 @@
-"""
+#!/usr/bin/env python3
 
-Path tracking simulation with LQR speed and steering control
-
-author Atsushi Sakai (@Atsushi_twi)
-
-"""
 import math
-import sys
-import matplotlib.pyplot as plt
 import numpy as np
 import scipy.linalg as la
 import cubic_spline_planner
 import time
+from numba import jit,njit
 import rclpy
 from rclpy.node import Node
 from autoware_control_msgs.msg import Lateral,Longitudinal
-from autoware_planning_msgs.msg import Trajectory,TrajectoryPoint
+from autoware_planning_msgs.msg import Trajectory
 from crp_msgs.msg import Ego
 
 # === Parameters =====
@@ -25,7 +19,7 @@ lqr_Q = np.eye(5)
 lqr_R = np.eye(2)
 dt = 0.1  # time tick[s]
 L = 2.9  # Wheel base of the vehicle [m]
-max_steer = np.deg2rad(45.0)  # maximum steering angle[rad]
+max_steer = np.deg2rad(20.0)  # maximum steering tire angle[deg]
 
 lqr_Q[0, 0] = 0.001
 lqr_Q[1, 1] = 0.0
@@ -93,6 +87,15 @@ class ROSController(Node):
 
         self.state = State(x=0.0, y=0.0, yaw=0.0, v=0.0, steer=0.0)
 
+        # read in ros params from the launch file
+        self.declare_parameter('dt', dt, rclpy.Parameter.Type.DOUBLE)
+        self.declare_parameter('wheel_base', L, rclpy.Parameter.Type.DOUBLE)
+        self.declare_parameter('max_steer_tire_angle', max_steer, rclpy.Parameter.Type.DOUBLE)
+
+        dt = self.get_parameter('dt')
+        L = self.get_parameter('wheel_base')
+        max_steer = self.get_parameter('max_steer_tire_angle')
+
         self.control_clock = self.create_timer(0.05, self.control_loop)
 
         self.ctrl_lat_publisher = self.create_publisher(Lateral, '/control/command/control_cmdLat', 10)
@@ -100,29 +103,30 @@ class ROSController(Node):
         self.traj_subscriber = self.create_subscription(Trajectory, '/plan/trajectory', self.recive_trajectory, 10)
         self.ego_subscriber = self.create_subscription(Ego, '/ego', self.recive_ego, 10)
 
+        self.get_logger().info("LQR Controller Node has started!")
+        
+        # ros log the dt, wheel base, and max steer tire angle
+        self.get_logger().info(f"Current variable value: {dt}, {L}, {max_steer}")
 
-
+    
     def recive_trajectory(self, msg):
 
         ax = []
         ay = []
 
-        for i in range(len(msg.points)):
-            ax.append(msg.points[i].pose.position.x)
-            ay.append(msg.points[i].pose.position.y)
-            self.sp.append(msg.points[i].longitudinal_velocity_mps)
+        ax = [point.pose.position.x for point in msg.points]
+        ay = [point.pose.position.y for point in msg.points]
+        self.sp = [point.longitudinal_velocity_mps for point in msg.points]
 
         self.cyaw = []    
        
-        self.cyaw = np.arctan2(np.diff(ay), np.diff(ax)).tolist()        
+        self.cyaw = np.arctan2(np.diff(ay), np.diff(ax)).tolist()
 
         self.cx, self.cy, yaw, self.ck, self.s = cubic_spline_planner.calc_spline_course(
-            ax, ay, ds=0.1)
-        
-        print(len(self.cx),len(self.cy))
+            ax, ay, ds=0.2)   
         
 
-
+    
     def recive_ego(self, msg):
 
         self.state.x = msg.pose.pose.position.x
@@ -131,6 +135,7 @@ class ROSController(Node):
         self.state.v = msg.twist.twist.linear.x
         self.state.steer = msg.tire_angle_front
 
+    
     def solve_dare(self, A, B, Q, R):
         """
         solve a discrete time_Algebraic Riccati equation (DARE)
@@ -148,8 +153,8 @@ class ROSController(Node):
             x = x_next
 
         return x_next
-
-
+    
+    
     def dlqr(self, A, B, Q, R):
         """Solve the discrete time lqr controller.
         x[k+1] = A x[k] + B u[k]
@@ -189,7 +194,7 @@ class ROSController(Node):
             return
 
 
-        # ind, e = self.calc_nearest_index(self.state, self.cx, self.cy, self.cyaw)
+        ind, e = self.calc_nearest_index(self.state, self.cx, self.cy, self.cyaw)
 
 
         tv = 40.0
@@ -269,7 +274,7 @@ class ROSController(Node):
         self.ctrl_long_publisher.publish(ctrl_cmd_longitudinal)
 
         end_time = time.time()
-        print("Control loop execution time: ", end_time - start_time)
+        #print("Control loop execution time: ", end_time - start_time)
 
 
     def calc_nearest_index(self, state, cx, cy, cyaw):
