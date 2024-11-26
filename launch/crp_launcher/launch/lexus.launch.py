@@ -108,31 +108,31 @@ def generate_launch_description():
     # vehicle parameters
     vehicle_param_c1_arg = DeclareLaunchArgument(
         'vehicle_param_c1',
-        default_value='3000.0',
+        default_value='5000.0',
         description='Vehicle parameter: ')
     vehicle_param_c2_arg = DeclareLaunchArgument(
         'vehicle_param_c2',
-        default_value='3000.0',
+        default_value='5000.0',
         description='Vehicle parameter: ')
     vehicle_param_m_arg = DeclareLaunchArgument(
         'vehicle_param_m',
-        default_value='180.0',
+        default_value='2300.0',
         description='Vehicle parameter: ')
     vehicle_param_jz_arg = DeclareLaunchArgument(
         'vehicle_param_jz',
-        default_value='270.0',
+        default_value='4500.0',
         description='Vehicle parameter: ')
     vehicle_param_l1_arg = DeclareLaunchArgument(
         'vehicle_param_l1',
-        default_value='0.624',
+        default_value='1.236',
         description='Vehicle parameter:' )
     vehicle_param_l2_arg = DeclareLaunchArgument(
         'vehicle_param_l2',
-        default_value='0.676',
+        default_value='1.553',
         description='Vehicle parameter: ')
     vehicle_param_swr_arg = DeclareLaunchArgument(
         'vehicle_param_swr',
-        default_value='1.0',
+        default_value='14.8',
         description='Vehicle parameter: ')
 
     # CORE
