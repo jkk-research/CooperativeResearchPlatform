@@ -98,48 +98,135 @@ double crp::apl::MotionHandler::pointDistance(const crp::apl::Point3D & p1, cons
     return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
 }
 
+void crp::apl::MotionHandler::transformPoint(const crp::apl::Point3D & inPoint, const crp::apl::Pose3D & origo, crp::apl::Point3D & outPoint)
+{
+    float cosR = cos(origo.orientation);
+    float sinR = sin(origo.orientation);
+
+    float translatedX{0.0};
+    float translatedY{0.0};
+    translatedX = inPoint.x - origo.position.x;
+    translatedY = inPoint.y - origo.position.y;
+
+    outPoint.x = cosR * translatedX + sinR * translatedY;
+    outPoint.y = -sinR * translatedX + cosR * translatedY;
+}
+
 void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Trajectory & outputTrajectory, const PlannerOutput & longitudinalTrajectory)
 {
+    uint32_t lastFirstMatchIdx = 0; // first (by index) closest match in longitudinal trajectory the last time
     for (uint32_t i=0; i<outputTrajectory.points.size(); i++)
     {
+        // find neighboring points in longitudinal trajectory with two stage filtering
+        // first stage (filter by euclidean distance)
         Point3D pt{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, 0};
 
-        double minDist1 = std::numeric_limits<double>::max();
-        double minDist2 = std::numeric_limits<double>::max();
-        uint32_t speedIdx1, speedIdx2;
+        double minDist = std::numeric_limits<double>::max();
+        uint32_t closestSpeedIdx;
 
-        for (uint32_t j=0; j<longitudinalTrajectory.trajectory.size(); j++){
+        // find two closest points in longitudinal trajectory
+        for (uint32_t j=lastFirstMatchIdx; j<longitudinalTrajectory.trajectory.size(); j++){
             double d = pointDistance(pt, longitudinalTrajectory.trajectory[j].pose.position);
-            if (d < minDist1)
+            if (d < minDist)
             {
-                minDist2 = minDist1;
-                speedIdx2 = speedIdx1;
-
-                minDist1 = d;
-                speedIdx1 = j;
+                minDist = d;
+                closestSpeedIdx = j;
             }
-            else if (d < minDist2)
+            else
             {
-                minDist2 = d;
-                speedIdx2 = j;
+                break; // stop when distance begins to grow
             }
         }
 
-        // interpolate speed
-        if (minDist1 == 0)
+        // second stage (filter after transformation)
+        Pose3D origo{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, getYawFromQuaternion(outputTrajectory.points[i].pose.orientation)};
+        int32_t ipPointIdx1 = -1;
+        int32_t ipPointIdx2 = -1;
+        // find first point
+        Point3D closestPointTransformed;
+        transformPoint(longitudinalTrajectory.trajectory[closestSpeedIdx].pose.position, origo, closestPointTransformed);
+        if (closestPointTransformed.x == 0)
         {
-            // exact match, prevents division by zero
-            outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[speedIdx1].velocity;
+            ipPointIdx1 = closestSpeedIdx;
+            ipPointIdx2 = closestSpeedIdx;
         }
-        else if (minDist2 == 0)
+        else if (closestPointTransformed.x > 0)
         {
-            // exact match, prevents division by zero
-            outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[speedIdx2].velocity;
+            int32_t j = closestSpeedIdx - 1;
+            int32_t lastPointIdx = closestSpeedIdx;
+            while (j >= 0)
+            {
+                Point3D pointTransformed;
+                transformPoint(longitudinalTrajectory.trajectory[j].pose.position, origo, pointTransformed);
+                if (pointTransformed.x < 0)
+                {
+                    ipPointIdx1 = j;
+                    break;
+                }
+                lastPointIdx = j;
+
+                j--;
+            }
+            ipPointIdx2 = lastPointIdx;
         }
         else
         {
-            outputTrajectory.points[i].longitudinal_velocity_mps = (longitudinalTrajectory.trajectory[speedIdx1].velocity * minDist2 + longitudinalTrajectory.trajectory[speedIdx2].velocity * minDist1) / (minDist1 + minDist2);
+            uint32_t j = closestSpeedIdx + 1;
+            uint32_t lastPointIdx = closestSpeedIdx;
+            while (j < longitudinalTrajectory.trajectory.size())
+            {
+                Point3D pointTransformed;
+                transformPoint(longitudinalTrajectory.trajectory[j].pose.position, origo, pointTransformed);
+                if (pointTransformed.x > 0)
+                {
+                    ipPointIdx2 = j;
+                    break;
+                }
+                lastPointIdx = j;
+
+                j++;
+            }
+            ipPointIdx1 = lastPointIdx;
         }
+
+        if (ipPointIdx1 == -1 && ipPointIdx2 == -1)
+        {
+            // no points found
+            // TODO: 0 / default speed / last speed / exception
+            continue;
+        }
+        else if (ipPointIdx1 == -1)
+        {
+            // only one point found
+            outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx2].velocity;
+        }
+        else if (ipPointIdx2 == -1)
+        {
+            // only one point found
+            outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx1].velocity;
+        }
+        else
+        {
+            // interpolate speed
+            double dist1 = pointDistance(pt, longitudinalTrajectory.trajectory[ipPointIdx1].pose.position);
+            double dist2 = pointDistance(pt, longitudinalTrajectory.trajectory[ipPointIdx2].pose.position);
+            if (dist1 == 0)
+            {
+                // exact match, prevents division by zero
+                outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx1].velocity;
+            }
+            else if (dist2 == 0)
+            {
+                // exact match, prevents division by zero
+                outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx2].velocity;
+            }
+            else
+            {
+                outputTrajectory.points[i].longitudinal_velocity_mps = (longitudinalTrajectory.trajectory[ipPointIdx1].velocity * dist2 + longitudinalTrajectory.trajectory[ipPointIdx2].velocity * dist1) / (dist1 + dist2);
+            }
+        }
+
+        lastFirstMatchIdx = ipPointIdx1;
     }
 }
 
