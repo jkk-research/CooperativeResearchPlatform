@@ -93,11 +93,61 @@ float crp::apl::MotionHandler::getYawFromQuaternion(const geometry_msgs::msg::Qu
     return yaw;
 }
 
+double crp::apl::MotionHandler::pointDistance(const crp::apl::Point3D & p1, const crp::apl::Point3D & p2)
+{
+    return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+}
+
+void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Trajectory & outputTrajectory, const PlannerOutput & longitudinalTrajectory)
+{
+    for (uint32_t i=0; i<outputTrajectory.points.size(); i++)
+    {
+        Point3D pt{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, 0};
+
+        double minDist1 = std::numeric_limits<double>::max();
+        double minDist2 = std::numeric_limits<double>::max();
+        uint32_t speedIdx1, speedIdx2;
+
+        for (uint32_t j=0; j<longitudinalTrajectory.trajectory.size(); j++){
+            double d = pointDistance(pt, longitudinalTrajectory.trajectory[j].pose.position);
+            if (d < minDist1)
+            {
+                minDist2 = minDist1;
+                speedIdx2 = speedIdx1;
+
+                minDist1 = d;
+                speedIdx1 = j;
+            }
+            else if (d < minDist2)
+            {
+                minDist2 = d;
+                speedIdx2 = j;
+            }
+        }
+
+        // interpolate speed
+        if (minDist1 == 0)
+        {
+            // exact match, prevents division by zero
+            outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[speedIdx1].velocity;
+        }
+        else if (minDist2 == 0)
+        {
+            // exact match, prevents division by zero
+            outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[speedIdx2].velocity;
+        }
+        else
+        {
+            outputTrajectory.points[i].longitudinal_velocity_mps = (longitudinalTrajectory.trajectory[speedIdx1].velocity * minDist2 + longitudinalTrajectory.trajectory[speedIdx2].velocity * minDist1) / (minDist1 + minDist2);
+        }
+    }
+}
+
 void crp::apl::MotionHandler::mapIncomingInputs()
 {
     m_outputTrajectory.points.clear();
     // This method maps the m_lateralTrajectory and m_longitudinalTrajectory members to the output
-    if (m_currentStrategy == "laneFollowWithSpeedAdjust")
+    if (m_currentStrategy == "laneFollowWithDefaultSpeed")
     {
         // requirement: both longitudinal and lateral trajectory available and of same size
         if (m_lateralTrajectory.trajectory.size() > 0)
@@ -114,6 +164,25 @@ void crp::apl::MotionHandler::mapIncomingInputs()
                 point.longitudinal_velocity_mps = m_lateralTrajectory.trajectory.at(n).velocity;
                 m_outputTrajectory.points.push_back(point);
             }
+        }
+    }
+    else if (m_currentStrategy == "laneFollowWithSpeedAdjust")
+    {
+        // requirement: both longitudinal and lateral trajectory available and of same size
+        if (m_lateralTrajectory.trajectory.size() > 0)
+        {
+            unsigned long int N = m_lateralTrajectory.trajectory.size();
+            // map lateral and longitudinal together
+            autoware_planning_msgs::msg::TrajectoryPoint point;
+            for (unsigned long int n=0; n<N; n++)
+            {
+                point.pose.position.x = m_lateralTrajectory.trajectory.at(n).pose.position.x;
+                point.pose.position.y = m_lateralTrajectory.trajectory.at(n).pose.position.y;
+                tf2::Quaternion(tf2::Vector3(0, 0, 1), m_lateralTrajectory.trajectory.at(n).pose.orientation);
+                point.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), m_lateralTrajectory.trajectory.at(n).pose.orientation));
+                m_outputTrajectory.points.push_back(point);
+            }
+            interpolateSpeed(m_outputTrajectory, m_longitudinalTrajectory);
         }
     }
     // else: do nothing

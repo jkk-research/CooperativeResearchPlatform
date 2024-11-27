@@ -22,11 +22,13 @@ public:
     MotionHandler();
 
 private:
-    void scenarioCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg);
-    void planLatLaneFollowCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
-    void planLonEmergencyCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
-    void planLonIntelligentSpeedAdjustCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
-    void visualizeTrajectory();
+    void   scenarioCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg);
+    void   planLatLaneFollowCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
+    void   planLonEmergencyCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
+    void   planLonIntelligentSpeedAdjustCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
+    double pointDistance(const crp::apl::Point3D & p1, const crp::apl::Point3D & p2);
+    void   interpolateSpeed(autoware_planning_msgs::msg::Trajectory & outputTrajectory, const PlannerOutput & longitudinalTrajectory);
+    void   visualizeTrajectory();
     
     void run();
     void mapIncomingInputs();
