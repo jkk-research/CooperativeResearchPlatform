@@ -1,7 +1,7 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, OpaqueFunction
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, SetLaunchConfiguration
 from launch.conditions import LaunchConfigurationEquals
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
@@ -12,7 +12,7 @@ def generate_launch_description():
 
     localization_source_arg = DeclareLaunchArgument(
         'localization_source',
-        default_value='gnss',
+        default_value='ekf',
         description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
@@ -22,7 +22,7 @@ def generate_launch_description():
     # novatel gps
     novatel_namespace_arg = DeclareLaunchArgument(
         'novatel_namespace',
-        default_value='lexus3/gps/nova',
+        default_value='/lexus3/gps/nova',
         description='Namespace for the Novatel GPS')
     novatel_ip_arg = DeclareLaunchArgument(
         'novatel_ip',
@@ -52,7 +52,7 @@ def generate_launch_description():
         description='Port of the duro GPS')
     duro_namespace_arg = DeclareLaunchArgument(
         'duro_namespace',
-        default_value='lexus3/gps/duro',
+        default_value='/lexus3/gps/duro',
         description='Namespace for the Duro GPS')
 
     # ekf
@@ -64,9 +64,15 @@ def generate_launch_description():
         'ekf_vehicle_status_topic',
         default_value='/lexus3/vehicle_status',
         description='Name of the vehicle status (geometry_msgs/TwistStamped) topic where linear.x is the speed and angular.z is the tire angle')
+    ekf_navsatfix_name = SetLaunchConfiguration(
+        'navsatfix_name',
+        PythonExpression([
+            "'fix' if '", LaunchConfiguration('select_gps'), "' == 'nova' else 'navsatfix'"
+        ])
+    )
     ekf_nav_sat_fix_topic_arg = DeclareLaunchArgument(
         'ekf_nav_sat_fix_topic',
-        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/navsatfix'],
+        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/', LaunchConfiguration('navsatfix_name')],
         description='Name of the nav sat fix (sensor_msgs/NavSatFix) topic')
     ekf_imu_topic_arg = DeclareLaunchArgument(
         'ekf_imu_topic',
@@ -306,6 +312,7 @@ def generate_launch_description():
         duro_namespace_arg,
         ekf_current_pose_topic_arg,
         ekf_vehicle_status_topic_arg,
+        ekf_navsatfix_name,
         ekf_nav_sat_fix_topic_arg,
         ekf_imu_topic_arg,
         ekf_frame_arg,

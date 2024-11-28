@@ -62,17 +62,6 @@ def generate_launch_description():
         default_value='nova',
         description='Select the GPS to use: nova or duro')
     
-    ekf_config_path_arg = DeclareLaunchArgument(
-        'ekf_config_path', 
-        default_value=[
-            get_package_share_directory('ekf_wrapper'),
-            '/config/',
-            'ekf_',
-            LaunchConfiguration('select_gps'),
-            '.yaml'
-        ]
-    )
-    
     ekf_localizer = Node(
         package='kalman_pos',
         executable='kalman_pos_node',
@@ -133,7 +122,6 @@ def generate_launch_description():
         vehicle_param_swr_arg,
         ekf_frame_arg,
         select_gps_arg,
-        ekf_config_path_arg,
 
         ekf_localizer,
         ekf_topic_converter_node
