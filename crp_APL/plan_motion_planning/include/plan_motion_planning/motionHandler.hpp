@@ -28,6 +28,7 @@ private:
     void   planLonIntelligentSpeedAdjustCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
     double pointDistance(const crp::apl::Point3D & p1, const crp::apl::Point3D & p2);
     void   transformPoint(const crp::apl::Point3D & inPoint, const crp::apl::Pose3D & origo, crp::apl::Point3D & outPoint);
+    void   findNeighbouringPointsLocal(const PlannerOutputTrajectory & trajectory, const Pose3D & targetPose, const uint32_t & closestPtIdx, int32_t & outIpPointIdx1, int32_t & outIpPointIdx2);
     void   interpolateSpeed(autoware_planning_msgs::msg::Trajectory & outputTrajectory, const PlannerOutput & longitudinalTrajectory);
     void   visualizeTrajectory();
     

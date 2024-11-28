@@ -112,19 +112,78 @@ void crp::apl::MotionHandler::transformPoint(const crp::apl::Point3D & inPoint, 
     outPoint.y = -sinR * translatedX + cosR * translatedY;
 }
 
+void crp::apl::MotionHandler::findNeighbouringPointsLocal(const PlannerOutputTrajectory & trajectory, const Pose3D & targetPose, const uint32_t & closestPtIdx, int32_t & outIpPointIdx1, int32_t & outIpPointIdx2)
+{
+    int32_t ipPointIdx1 = -1;
+    int32_t ipPointIdx2 = -1;
+    // transform closest point to local coordinate system
+    Point3D closestPointTransformed;
+    transformPoint(trajectory[closestPtIdx].pose.position, targetPose, closestPointTransformed);
+    if (closestPointTransformed.x == 0)
+    {
+        // exact match
+        ipPointIdx1 = closestPtIdx;
+        ipPointIdx2 = closestPtIdx;
+    }
+    else if (closestPointTransformed.x > 0)
+    {
+        // search backwards for sign change
+        int32_t j = closestPtIdx - 1;
+        int32_t lastPointIdx = closestPtIdx;
+        while (j >= 0)
+        {
+            Point3D pointTransformed;
+            transformPoint(trajectory[j].pose.position, targetPose, pointTransformed);
+            if (pointTransformed.x < 0)
+            {
+                ipPointIdx1 = j;
+                break;
+            }
+            lastPointIdx = j;
+
+            j--;
+        }
+        ipPointIdx2 = lastPointIdx;
+    }
+    else
+    {
+        // search forwards for sign change
+        uint32_t j = closestPtIdx + 1;
+        uint32_t lastPointIdx = closestPtIdx;
+        while (j < trajectory.size())
+        {
+            Point3D pointTransformed;
+            transformPoint(trajectory[j].pose.position, targetPose, pointTransformed);
+            if (pointTransformed.x > 0)
+            {
+                ipPointIdx2 = j;
+                break;
+            }
+            lastPointIdx = j;
+
+            j++;
+        }
+        ipPointIdx1 = lastPointIdx;
+    }
+
+    outIpPointIdx1 = ipPointIdx1;
+    outIpPointIdx2 = ipPointIdx2;
+
+}
+
 void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Trajectory & outputTrajectory, const PlannerOutput & longitudinalTrajectory)
 {
     uint32_t lastFirstMatchIdx = 0; // first (by index) closest match in longitudinal trajectory the last time
     for (uint32_t i=0; i<outputTrajectory.points.size(); i++)
     {
         // find neighboring points in longitudinal trajectory with two stage filtering
-        // first stage (filter by euclidean distance)
+        // find closest point (euclidean distance)
         Point3D pt{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, 0};
 
         double minDist = std::numeric_limits<double>::max();
         uint32_t closestSpeedIdx;
 
-        // find two closest points in longitudinal trajectory
+        // find the closest point in longitudinal trajectory
         for (uint32_t j=lastFirstMatchIdx; j<longitudinalTrajectory.trajectory.size(); j++){
             double d = pointDistance(pt, longitudinalTrajectory.trajectory[j].pose.position);
             if (d < minDist)
@@ -138,59 +197,10 @@ void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Traj
             }
         }
 
-        // second stage (filter after transformation)
-        Pose3D origo{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, getYawFromQuaternion(outputTrajectory.points[i].pose.orientation)};
-        int32_t ipPointIdx1 = -1;
-        int32_t ipPointIdx2 = -1;
-        // transform closest point to local coordinate system
-        Point3D closestPointTransformed;
-        transformPoint(longitudinalTrajectory.trajectory[closestSpeedIdx].pose.position, origo, closestPointTransformed);
-        if (closestPointTransformed.x == 0)
-        {
-            // exact match
-            ipPointIdx1 = closestSpeedIdx;
-            ipPointIdx2 = closestSpeedIdx;
-        }
-        else if (closestPointTransformed.x > 0)
-        {
-            // search backwards for sign change
-            int32_t j = closestSpeedIdx - 1;
-            int32_t lastPointIdx = closestSpeedIdx;
-            while (j >= 0)
-            {
-                Point3D pointTransformed;
-                transformPoint(longitudinalTrajectory.trajectory[j].pose.position, origo, pointTransformed);
-                if (pointTransformed.x < 0)
-                {
-                    ipPointIdx1 = j;
-                    break;
-                }
-                lastPointIdx = j;
-
-                j--;
-            }
-            ipPointIdx2 = lastPointIdx;
-        }
-        else
-        {
-            // search forwards for sign change
-            uint32_t j = closestSpeedIdx + 1;
-            uint32_t lastPointIdx = closestSpeedIdx;
-            while (j < longitudinalTrajectory.trajectory.size())
-            {
-                Point3D pointTransformed;
-                transformPoint(longitudinalTrajectory.trajectory[j].pose.position, origo, pointTransformed);
-                if (pointTransformed.x > 0)
-                {
-                    ipPointIdx2 = j;
-                    break;
-                }
-                lastPointIdx = j;
-
-                j++;
-            }
-            ipPointIdx1 = lastPointIdx;
-        }
+        // filter after transformation
+        Pose3D targetPose{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, getYawFromQuaternion(outputTrajectory.points[i].pose.orientation)};
+        int32_t ipPointIdx1, ipPointIdx2;
+        findNeighbouringPointsLocal(longitudinalTrajectory.trajectory, targetPose, closestSpeedIdx, ipPointIdx1, ipPointIdx2);
 
         // interpolate based on found points
         if (ipPointIdx1 == -1 && ipPointIdx2 == -1)
