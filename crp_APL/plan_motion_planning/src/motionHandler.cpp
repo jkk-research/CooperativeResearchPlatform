@@ -142,16 +142,18 @@ void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Traj
         Pose3D origo{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, getYawFromQuaternion(outputTrajectory.points[i].pose.orientation)};
         int32_t ipPointIdx1 = -1;
         int32_t ipPointIdx2 = -1;
-        // find first point
+        // transform closest point to local coordinate system
         Point3D closestPointTransformed;
         transformPoint(longitudinalTrajectory.trajectory[closestSpeedIdx].pose.position, origo, closestPointTransformed);
         if (closestPointTransformed.x == 0)
         {
+            // exact match
             ipPointIdx1 = closestSpeedIdx;
             ipPointIdx2 = closestSpeedIdx;
         }
         else if (closestPointTransformed.x > 0)
         {
+            // search backwards for sign change
             int32_t j = closestSpeedIdx - 1;
             int32_t lastPointIdx = closestSpeedIdx;
             while (j >= 0)
@@ -171,6 +173,7 @@ void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Traj
         }
         else
         {
+            // search forwards for sign change
             uint32_t j = closestSpeedIdx + 1;
             uint32_t lastPointIdx = closestSpeedIdx;
             while (j < longitudinalTrajectory.trajectory.size())
@@ -189,21 +192,23 @@ void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Traj
             ipPointIdx1 = lastPointIdx;
         }
 
+        // interpolate based on found points
         if (ipPointIdx1 == -1 && ipPointIdx2 == -1)
         {
             // no points found
             // TODO: 0 / default speed / last speed / exception
-            continue;
         }
         else if (ipPointIdx1 == -1)
         {
             // only one point found
             outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx2].velocity;
+            lastFirstMatchIdx = ipPointIdx2;
         }
         else if (ipPointIdx2 == -1)
         {
             // only one point found
             outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx1].velocity;
+            lastFirstMatchIdx = ipPointIdx1;
         }
         else
         {
@@ -224,9 +229,8 @@ void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Traj
             {
                 outputTrajectory.points[i].longitudinal_velocity_mps = (longitudinalTrajectory.trajectory[ipPointIdx1].velocity * dist2 + longitudinalTrajectory.trajectory[ipPointIdx2].velocity * dist1) / (dist1 + dist2);
             }
+            lastFirstMatchIdx = ipPointIdx1;
         }
-
-        lastFirstMatchIdx = ipPointIdx1;
     }
 }
 
