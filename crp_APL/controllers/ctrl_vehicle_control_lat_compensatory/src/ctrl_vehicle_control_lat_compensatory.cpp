@@ -40,30 +40,7 @@ void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs:
     
     // this callback maps the input trajectory to the internal interface
     for (long unsigned int i=0; i<input_msg.points.size(); i++)
-    {
-        timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControl::loop, this));  
-        m_pub_cmd = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
-
-        traj_sub = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControl::trajCallback, this, std::placeholders::_1));
-        ego_vehicle_sub = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControl::egoVehicleCallback, this, std::placeholders::_1));
-
-        this->declare_parameter("/ctrl/ffGainOffsetGround", 0.1f);
-        this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
-        this->declare_parameter("/ctrl/ffLookAheadTime", 0.67f);
-        this->declare_parameter("/ctrl/ffMinLookAheadDistance", 0.1f);
-        this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.5f);
-        this->declare_parameter("/ctrl/fbLookAheadTime", 0.25f);
-        this->declare_parameter("/ctrl/fbPGain", 0.3f);
-        this->declare_parameter("/ctrl/fbDGain", 0.1f);
-        this->declare_parameter("/ctrl/fbIGain", 0.05f);
-        this->declare_parameter("/ctrl/fbThetaGain", 2.0f);
-        this->declare_parameter("/ctrl/fbMinLookAheadDistance", 0.0f);
-        this->declare_parameter("/ctrl/fbIntegralLimit", 3.0f);
-        this->declare_parameter("/ctrl/trajectory_distance", 50.0f);
-        this->declare_parameter("/ctrl/debugKPIs", true);
-
-        RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
-      
+    {      
         m_input.path_x.push_back(input_msg.points.at(i).pose.position.x);
         m_input.path_y.push_back(input_msg.points.at(i).pose.position.y);
         quaternion[0] = input_msg.points.at(i).pose.orientation.x; 
