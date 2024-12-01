@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
-import math
 import numpy as np
 import scipy.linalg as la
-import cubic_spline_planner
 import time
-from numba import jit,njit
 import rclpy
 from rclpy.node import Node
 from autoware_control_msgs.msg import Lateral,Longitudinal
@@ -17,9 +14,6 @@ from crp_msgs.msg import Ego
 # LQR parameter
 lqr_Q = np.eye(5)
 lqr_R = np.eye(2)
-dt = 0.1  # time tick[s]
-L = 2.9  # Wheel base of the vehicle [m]
-max_steer = np.deg2rad(20.0)  # maximum steering tire angle[deg]
 
 lqr_Q[0, 0] = 0.001
 lqr_Q[1, 1] = 0.0
@@ -87,14 +81,18 @@ class ROSController(Node):
 
         self.state = State(x=0.0, y=0.0, yaw=0.0, v=0.0, steer=0.0)
 
-        # read in ros params from the launch file
-        self.declare_parameter('dt', dt, rclpy.Parameter.Type.DOUBLE)
-        self.declare_parameter('wheel_base', L, rclpy.Parameter.Type.DOUBLE)
-        self.declare_parameter('max_steer_tire_angle', max_steer, rclpy.Parameter.Type.DOUBLE)
+        self.dt = 0.05
+        self.L = 2.9
+        self.max_steer = np.deg2rad(20.0)
 
-        dt = self.get_parameter('dt')
-        L = self.get_parameter('wheel_base')
-        max_steer = self.get_parameter('max_steer_tire_angle')
+        # read in ros params from the launch file
+        self.declare_parameter('dt', self.dt)
+        self.declare_parameter('wheel_base', self.L)
+        self.declare_parameter('max_steer_tire_angle', self.max_steer)
+
+        self.dt = self.get_parameter('dt').value
+        self.L = self.get_parameter('wheel_base').value
+        self.max_steer = self.get_parameter('max_steer_tire_angle').value
 
         self.control_clock = self.create_timer(0.05, self.control_loop)
 
@@ -106,25 +104,16 @@ class ROSController(Node):
         self.get_logger().info("LQR Controller Node has started!")
         
         # ros log the dt, wheel base, and max steer tire angle
-        self.get_logger().info(f"Current variable value: {dt}, {L}, {max_steer}")
+        self.get_logger().info(f"Current variable value: {self.dt}, {self.L}, {self.max_steer}")
 
     
     def recive_trajectory(self, msg):
 
-        ax = []
-        ay = []
-
-        ax = [point.pose.position.x for point in msg.points]
-        ay = [point.pose.position.y for point in msg.points]
+        self.cx = [point.pose.position.x for point in msg.points]
+        self.cy = [point.pose.position.y for point in msg.points]
         self.sp = [point.longitudinal_velocity_mps for point in msg.points]
-
-        self.cyaw = []    
        
-        self.cyaw = np.arctan2(np.diff(ay), np.diff(ax)).tolist()
-
-        self.cx, self.cy, yaw, self.ck, self.s = cubic_spline_planner.calc_spline_course(
-            ax, ay, ds=0.2)   
-        
+        self.cyaw = np.arctan2(np.diff(self.cy), np.diff(self.cx)).tolist()        
 
     
     def recive_ego(self, msg):
@@ -194,12 +183,9 @@ class ROSController(Node):
             return
 
 
-        ind, e = self.calc_nearest_index(self.state, self.cx, self.cy, self.cyaw)
+        tv = self.sp[0]
 
-
-        tv = 40.0
-
-        k = self.ck[0]
+        # k = -self.ck[0] # for now skip the feedforward term #TODO
         v = self.state.v
         e = self.cy[0]
         th_e = self.cyaw[0]
@@ -219,10 +205,10 @@ class ROSController(Node):
         #      0.0, 0.0, 0.0, 0.0, 1.0]
         A = np.zeros((5, 5))
         A[0, 0] = 1.0
-        A[0, 1] = dt
+        A[0, 1] = self.dt
         A[1, 2] = v
         A[2, 2] = 1.0
-        A[2, 3] = dt
+        A[2, 3] = self.dt
         A[4, 4] = 1.0
 
         # B = [0.0, 0.0
@@ -231,8 +217,8 @@ class ROSController(Node):
         #     v/L, 0.0
         #     0.0, dt]
         B = np.zeros((5, 2))
-        B[3, 0] = v / L
-        B[4, 1] = dt
+        B[3, 0] = v / self.L
+        B[4, 1] = self.dt
 
         K, _, _ = self.dlqr(A, B, lqr_Q, lqr_R)
 
@@ -257,52 +243,19 @@ class ROSController(Node):
         ustar = -K @ x
 
         # calc steering input
-        ff = math.atan2(L * k, 1)  # feedforward steering angle
+        #ff = math.atan2(L * k, 1)  # feedforward steering angle #TODO
         fb = pi_2_pi(ustar[0, 0])  # feedback steering angle
-        delta = ff + fb
+        delta = fb
 
         # calc accel input
         accel = ustar[1, 0]
 
 
         ctrl_cmd_lateral.steering_tire_angle = delta*-1
-        ctrl_cmd_longitudinal.velocity = self.state.v + accel * 0.05
-
-
+        ctrl_cmd_longitudinal.velocity = self.state.v + (accel * self.dt)
 
         self.ctrl_lat_publisher.publish(ctrl_cmd_lateral)
         self.ctrl_long_publisher.publish(ctrl_cmd_longitudinal)
-
-        end_time = time.time()
-        #print("Control loop execution time: ", end_time - start_time)
-
-
-    def calc_nearest_index(self, state, cx, cy, cyaw):
-        dx = [state.x - icx for icx in cx]
-        dy = [state.y - icy for icy in cy]
-
-        d = [idx ** 2 + idy ** 2 for (idx, idy) in zip(dx, dy)]
-
-        mind = min(d)
-
-        ind = d.index(mind)
-
-        mind = math.sqrt(mind)
-
-        dxl = cx[ind] - state.x
-        dyl = cy[ind] - state.y
-
-        angle = pi_2_pi(cyaw[ind] - math.atan2(dyl, dxl))
-        if angle < 0:
-            mind *= -1
-
-        # Project RMS error onto vehicle
-        vehicle_vector = [-np.cos(state.yaw + np.pi / 2),
-                        -np.sin(state.yaw + np.pi / 2)]
-        lateral_error_from_vehicle = np.dot([dx[ind], dy[ind]], vehicle_vector)
-
-        return ind, -lateral_error_from_vehicle
-
 
 
 def main(args=None):

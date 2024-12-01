@@ -14,7 +14,6 @@ find_package(ament_cmake REQUIRED)
 # Add the Python script to the install target
 install(
     PROGRAMS
-        scripts/cubic_spline_planner.py  # Path to your Python script
         scripts/lqr_controller.py  # Path to your Python script
     DESTINATION lib/${PROJECT_NAME}  # Install location
 )
