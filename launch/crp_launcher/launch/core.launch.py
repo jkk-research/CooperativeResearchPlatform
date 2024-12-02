@@ -12,6 +12,13 @@ def generate_launch_description():
     
     # ARGS
 
+    # behavior planning
+    behavior_current_scenario_arg = DeclareLaunchArgument(
+        'behavior_current_scenario',
+        default_value='laneFollowWithSpeedAdjust',
+        description='Current scenario'
+    )
+
     # sensor abstraction
     vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
         'vehicle_tire_angle_topic',
@@ -101,6 +108,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         # args
+        behavior_current_scenario_arg,
         vehicle_tire_angle_topic_arg,
         vehicle_tire_angle_topic_arg,
         local_path_length_arg,

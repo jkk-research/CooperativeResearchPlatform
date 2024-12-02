@@ -67,6 +67,13 @@ def generate_launch_description():
         default_value="/map/global_static_map_from_file/lanelet2_map_visualization",
         description='Output topic for the lanelet2 map binary')
 
+    # behavior planning
+    behavior_current_scenario_arg = DeclareLaunchArgument(
+        'behavior_current_scenario',
+        default_value='laneFollowWithDefaultSpeed',
+        description='Current scenario'
+    )
+    
     # sensor abstraction
     vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
         'vehicle_tire_angle_topic',
@@ -232,6 +239,7 @@ def generate_launch_description():
         lanelet_file_path_arg,
         lanelet_map_frame_id_arg,
         lanelet_output_topic_arg,
+        behavior_current_scenario_arg,
         vehicle_tire_angle_topic_arg,
         lanelet_visualization_topic_arg,
         vehicle_tire_angle_topic_arg,

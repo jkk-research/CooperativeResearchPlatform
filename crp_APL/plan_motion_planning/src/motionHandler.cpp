@@ -24,6 +24,9 @@ void crp::apl::MotionHandler::scenarioCallback(const tier4_planning_msgs::msg::S
     if(msg->current_scenario == "laneFollowWithSpeedAdjust"){
         m_currentStrategy = "laneFollowWithSpeedAdjust";
     }
+    else if(msg->current_scenario == "laneFollowWithDefaultSpeed"){
+        m_currentStrategy = "laneFollowWithDefaultSpeed";
+    }
     else{
         m_currentStrategy = "off";
     }
@@ -36,6 +39,7 @@ void crp::apl::MotionHandler::planLatLaneFollowCallback(const autoware_planning_
     // waypoints are coming from the lane follow node - in case of strategy incl. lane follow lateral information should be handed over
     m_lateralTrajectory.trajectory.clear();
     if (m_currentStrategy == "laneFollowWithSpeedAdjust" ||
+        m_currentStrategy == "laneFollowWithDefaultSpeed" ||
             m_currentStrategy == "laneFollow"
         ){
         for (const auto & outputPoint : msg->points)

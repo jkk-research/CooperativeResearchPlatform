@@ -64,7 +64,7 @@ void crp::apl::BehaviorPlanner::behaviorCallback(const crp_msgs::msg::Behavior::
 
 void crp::apl::BehaviorPlanner::loop()
 {
-    // possible Scenrios: "off", "laneFollowWithSpeedAdjust", "laneFollow", "speedAdjust"
+    // possible Scenrios: "off", "laneFollowWithDefaultSpeed", "laneFollowWithSpeedAdjust", "laneFollow", "speedAdjust"
 
     std::string current_scenario_msg = this->get_parameter("/behavior_planner/current_scenario").as_string();
 
