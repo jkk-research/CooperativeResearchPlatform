@@ -4,6 +4,18 @@
 crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstraction")
 {
     this->declare_parameter<float>("local_path_length", 75.0);
+    this->declare_parameter<std::string>("localization_source", "ekf");
+
+    std::string localizationSource;
+    this->get_parameter("localization_source", localizationSource);
+
+    std::string localizationTopic = "";
+    if (localizationSource == "ekf")
+        localizationTopic = "/sensing/ekf/estimated_pose";
+    else if (localizationSource == "gnss")
+        localizationTopic = "/sensing/gnss/pose_with_covariance";
+    else
+        throw std::runtime_error("Unknown localization source: " + localizationSource);
 
     m_laneletMap = std::make_shared<lanelet::LaneletMap>();
 
@@ -11,7 +23,7 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
         "map/global_static_map_from_file/lanelet2_map", rclcpp::QoS{1}.transient_local(), std::bind(&ScenarioAbstraction::staticMapFromFileCallback, this, std::placeholders::_1));
 
     m_sub_pose_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
-        "/sensing/gnss/pose_with_covariance", 10, std::bind(&ScenarioAbstraction::poseCallback, this, std::placeholders::_1));
+        localizationTopic, 10, std::bind(&ScenarioAbstraction::poseCallback, this, std::placeholders::_1));
 
     m_pub_movingObjects_   = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_moving_objects", 10);
     m_pub_obstacles_       = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_obstacles", 10);

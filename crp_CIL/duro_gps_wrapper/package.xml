@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>duro_gps_launcher</name>
+  <name>duro_gps_wrapper</name>
   <version>0.0.0</version>
   <description>Launcher for duro gps</description>
   <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>

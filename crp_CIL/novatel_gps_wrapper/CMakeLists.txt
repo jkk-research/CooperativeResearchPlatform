@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(duro_gps_launcher)
+project(novatel_gps_wrapper)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -12,11 +12,11 @@ find_package(tf2_geometry_msgs REQUIRED)
 
 include_directories(include)
 
-add_executable(duro_topic_converter src/duroTopicConverter.cpp)
-ament_target_dependencies(duro_topic_converter rclcpp geometry_msgs tf2_geometry_msgs)
+add_executable(novatel_topic_converter src/novatelTopicConverter.cpp)
+ament_target_dependencies(novatel_topic_converter rclcpp geometry_msgs tf2_geometry_msgs)
 
 install(TARGETS
-  duro_topic_converter
+  novatel_topic_converter
   DESTINATION lib/${PROJECT_NAME}
 )
 

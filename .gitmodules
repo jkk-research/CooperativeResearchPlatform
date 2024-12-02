@@ -11,7 +11,7 @@
 	path = crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode
 	url = https://github.com/jkk-research/plan_lateral_planner_ldm.git
 [submodule "crp_VIL/novatel_gps_driver"]
-	path = crp_VIL/novatel_driver/novatel_gps_driver
+	path = crp_VIL/novatel_gps_driver
 	url = https://github.com/jkk-research/novatel_gps_driver.git
 [submodule "crp_VIL/nissan_can_driver"]
 	path = crp_VIL/nissan_can_driver
@@ -30,6 +30,10 @@
 	url = https://github.com/astuff/kvaser_interface.git
 	branch = ros2_master
 [submodule "crp_VIL/duro_driver/duro_gps_driver"]
-	path = crp_VIL/duro_driver/duro_gps_driver
+	path = crp_VIL/duro_gps_driver
 	url = https://github.com/szenergy/duro_gps_driver
 	branch = ros2-humble
+[submodule "crp_VIL/kalman_pos"]
+	path = crp_CIL/kalman_pos
+	url = https://github.com/jkk-research/kalman_pos.git
+	branch = ros2

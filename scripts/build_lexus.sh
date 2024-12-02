@@ -12,8 +12,14 @@ trap - INT
 
 # build lexus packages
 packages=(
+  tier4_debug_msgs
+  tier4_external_api_msgs
+  tier4_control_msgs
+  tier4_system_msgs
+  tier4_api_msgs
+  tier4_vehicle_msgs
   duro_gps_driver
-  duro_gps_launcher
+  duro_gps_wrapper
   kvaser_interface
   lanelet_handler
   lexus_bringup
@@ -21,9 +27,12 @@ packages=(
   mpc_camera_driver
   novatel_gps_msgs
   novatel_gps_driver
-  novatel_gps_launcher
+  novatel_gps_wrapper
   pacmod_extender
   pacmod_interface
+  kalman_pos
+  ekf_wrapper
+  prcp_sensor_abstraction
 )
 
 packages_string=""

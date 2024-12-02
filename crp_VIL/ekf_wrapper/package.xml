@@ -1,20 +1,17 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>crp_launcher</name>
+  <name>ekf_wrapper</name>
   <version>0.0.0</version>
-  <description>Launchers for the CRP project.</description>
+  <description>Converts EKF output message to the predefined output.</description>
   <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
   <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>tf2_ros</depend>
-  <depend>prcp_situation_analysis</depend>
-  <depend>plan_behavior_planning</depend>
-  <depend>plan_motion_planning</depend>
-  <depend>plan_lat_lane_follow_ldm</depend>
-  <depend>ctrl_vehicle_control</depend>
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>kalman_pos</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
