@@ -10,7 +10,7 @@ mkdir -p $DIR3
 cd $DIR3
 TEXT1="$1" # first argument is the text
 TIME1="$2"  # second argument is the time
-FILE1="${TEXT1}${TIME1}"
+FILE1="${TEXT1}_${TIME1}"
 PWD1="$(pwd)"
 echo "Writing to file: $PWD1/$FILE1"
 # 524288000 byte is ~0.5 GB

@@ -1,0 +1,29 @@
+\begin{thebibliography}{1}
+
+\bibitem{LaneletBasic}
+Philipp Bender, Julius Ziegler, and Christoph Stiller.
+\newblock Lanelets: Efficient map representation for autonomous driving.
+\newblock pages 420--425, 06 2014.
+
+\bibitem{laneletApplication}
+{Seong Hyun} Bae, {Hyung Jin} Han, and Hakil Kim.
+\newblock µ-lanelet graph for precise global path planning of robo-taxi.
+\newblock {\em Journal of Institute of Control, Robotics and Systems},
+  27(11):925--932, 2021.
+
+\bibitem{PythonLanelet}
+Miguel~Luis Lagahit and Masashi Matsuoka.
+\newblock gpkg2lanelet v1.0: A python-based conversion tool that converts hd
+  map vector primitives from geopackage format to lanelet2 format.
+\newblock 01 2022.
+
+\bibitem{laneletValidation}
+Kai-Wei Chiang, Meng-Lun Tsai, S.~Lin, Yen~En Huang, J.-C Zeng, Y.-F Chang,
+  J.-A Chen, Y.-C Huang, C.-S Yang, Jyh-Ching Juang, C.-K Wang, C.-F Lin,
+  J.~Lee, H.~Darweesh, and P.-L Li.
+\newblock Establishment of hd maps verification and validation procedure with
+  opendrive and autoware (lanelet2) formats.
+\newblock {\em ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial
+  Information Sciences}, X-1/W1-2023:621--627, 12 2023.
+
+\end{thebibliography}

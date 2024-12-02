@@ -19,26 +19,7 @@ def generate_launch_description():
         description='Current scenario ("off", "laneFollowWithDefaultSpeed", "laneFollowWithSpeedAdjust", "laneFollow", "speedAdjust")'
     )
 
-    # sensor abstraction
-    vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
-        'vehicle_tire_angle_topic',
-        default_value='/sensing/vehicle/tire_angle',
-        description='Length of the scenario in meters')
-    local_path_length_arg = DeclareLaunchArgument(
-        'local_path_length',
-        default_value='70.0',
-        description='Length of the scenario in meters')
-    
     # NODES
-
-    sensor_abstraction = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('prcp_sensor_abstraction'),
-                'launch',
-                'sensor_abstraction.launch.py')
-        )
-    )
 
     environmental_fusion = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -109,12 +90,8 @@ def generate_launch_description():
     return LaunchDescription([
         # args
         behavior_current_scenario_arg,
-        vehicle_tire_angle_topic_arg,
-        vehicle_tire_angle_topic_arg,
-        local_path_length_arg,
 
         # nodes
-        sensor_abstraction,
         environmental_fusion,
         behavior_planning,
         motion_planning,

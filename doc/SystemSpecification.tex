@@ -521,14 +521,14 @@ The purpose of this package is to launch the duro GPS driver. The driver is in a
 \subsubsection{Usage}
 The package only contains the launcher for the driver. This can be started as follows:
 \begin{lstlisting}
-    ros2 launch duro_gps_launcher duro.launch.py
+    ros2 launch duro_gps_wrapper duro.launch.py
 \end{lstlisting}
 \subsubsection{Launch parameters}
-The parameters of the launcher are given in Table \ref{tab:duro_gps_launcher}. The default values are set for the Lexus vehicle.
+The parameters of the launcher are given in Table \ref{tab:duro_gps_wrapper}. The default values are set for the Lexus vehicle.
 \begin{table}[!h]
     \captionsetup{justification=centering}
     \normalsize
-    \caption{\label{tab:duro_gps_launcher} Duro gps launcher parameters.}
+    \caption{\label{tab:duro_gps_wrapper} Duro gps launcher parameters.}
     \begin{tabular}{| l | l | l |}
         \hline
         \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
@@ -549,14 +549,14 @@ The purpose of this package is to launch the novatel GPS driver. The driver is i
 \subsubsection{Usage}
 The package only contains the launcher for the driver. This can be started as follows:
 \begin{lstlisting}
-    ros2 launch novatel_gps_launcher novatel.launch.py
+    ros2 launch novatel_gps_wrapper novatel.launch.py
 \end{lstlisting}
 \subsubsection{Launch parameters}
-The parameters of the launcher are given in Table \ref{tab:novatel_gps_launcher}. The default values are set for the Nissan leaf vehicle.
+The parameters of the launcher are given in Table \ref{tab:novatel_gps_wrapper}. The default values are set for the Nissan leaf vehicle.
 \begin{table}[!h]
     \captionsetup{justification=centering}
     \normalsize
-    \caption{\label{tab:novatel_gps_launcher} Novatel gps launcher parameters.}
+    \caption{\label{tab:novatel_gps_wrapper} Novatel gps launcher parameters.}
     \begin{tabular}{| l | l | l |}
         \hline
         \textbf{Name} & \textbf{Default value} & \textbf{Description} \\
@@ -672,6 +672,124 @@ Input topics are given in Table \ref{tab:nissan_can_driver_inputs}.
         \hline
     \end{tabular}
 \end{table}
+
+\section{Map Creation}
+\subsection{Data Process}
+To create lane maps, the following devices were used in a single vehicle:
+\begin{itemize}
+    \item Bosch MPC2.0 video camera - detecting lane edge markings \cite{mpc25},
+    \item ADMA Gen3 GNSS system with RTK service - for accurate localization \cite{adma}.
+\end{itemize}
+According to the datasheet of the devices, the camera estimates lane marking centerpoint position compared to the vehicle rear axis with an accuracy of $2 cm$, 
+assuming confidence of at least $75\%$. The confidence value is also provided by the camera and measured during our test drives. In the data process phase 
+measurement points that have lower confidence than this threshold are neglected.
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=1.0\textwidth]{mapPub/ZZ_all.pdf}}
+    \caption{Result of the map data preprocess - sorted lanes from multiple measurement file.}
+    \label{fig:ZZ_all}
+\end{figure}
+\newline
+After the lane marking points are processed, they are saved to a compact structure. In this structure, each lane edge marking is given an identification number, 
+namely: $id=1$ for the outer lane right edge, $id=2$ for the outer lane left edge (equally, the inner lane right edge), and $id=3$ for the inner lane left 
+edge. Also, the lane centerlines are stored, with separate ID, as $id=1$ for the centerline of the outer lane, and $id=2$ for that of the inner lane. 
+All measurements plotted in the UTM coordinate frame is seen in Figure \ref{fig:ZZ_all}. The circles indicate the starting point of each lines. A few anomalies
+are seen:
+\begin{itemize}
+    \item not all the measurements start at the same localization, there are significant differences for some of them.
+    \item there is a deviation between estimated lines due to the aformentioned conditions. These errors are more illustrated in Figure \ref{fig:ZZ_straight_close}.
+\end{itemize}
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=1.0\textwidth]{mapPub/ZZ_straight_mid_close.pdf}}
+    \caption{Lane edge id=2. There is a deviation between estimates coming from multiple measurements.}
+    \label{fig:ZZ_straight_close}
+\end{figure}
+Theoretically, the variance of the lane edge estimates can be calculated. However, there are two major issues:
+\begin{itemize}
+    \item there are not enough measurements to create a probability distribution from point to point,
+    \item the points are not sampled at the same position,
+    \item orientation of the lane changes between $-\Pi$ and $\Pi$, which may lead to non-monotonic X values, therefore function interpretation is difficult.
+\end{itemize}
+The second and third problem are illustrated in Figure \ref{fig:deviation_problem}. To overcome these issues, we propose multiple solutions. In the upcoming 
+sections details are provided for all.
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=0.6\textwidth]{mapPub/deviation_problem.png}}
+    \caption{Illustration of a realistc lane marking detection scenario. Problems are that a) there is a deviation of points due to the localization and 
+    detection inaccuracies, and b) the points are given in equal time steps, but without synchronization to each other (measurements are recorded after 
+    each other).}
+    \label{fig:deviation_problem}
+\end{figure}
+\subsection{Lightweight Mapping}
+Lightweight solution is to rotate sections of the route into a frame which provided strictly monotonic increasing X values. This helps to formulate the 
+problem az a function approximation where the $X_{rotated}$ coordinates are the independent variables. Then, a selected function can be fitted.
+For example, polylines may be used to describe the lane edge lines. Then, using Least-Square Regression the polyline coefficients can be calculated knowing
+the line data ahead. Please be noted that similar solution may be applied when data is not available preliminary (i.e., online estimation), but other techniques, 
+such as system identification techniques must be introduced. This increases the complexity of the algorithm and reduced the accuracy. In this case the data 
+is available, therefore a full regression can be applied offline, in MATLAB, using preliminary function called \emph{polyfit(x,y,n)} of MATLAB, where $x$ and $y$ are 
+vectors of the measurement points, and $n$ is the degree of the polyline. The most important is parameter of the regression is $n$. Choosing a low $n$ saves computational 
+time but may lead to poor fit on the data while large value of $n$ results in good fit accuracy but takes more time to calculate and is prone to overfit 
+on the data, therefore extrapolation is difficult. The problem can be simplified if the shape of the line to be estimated is simpler, which can be achieved but 
+cutting the complete route to snippets. In this case, the route consists of the clearly seen straight section followed by a right curve. Even though this is a very 
+simple situation, the following procedure can be used in all similar cases, where straight sections are connected via curves:
+\begin{itemize}
+    \item calculate curvature along the route and cut the route per straights and curves,
+    \item rotate snippets to have strictly monotonic X values,
+    \item regression of polyline onto the data.
+\end{itemize}
+\subsubsection{Road curvature estimation}
+First, the road curvature shall be calculated. Without analytically fitting a curve a telling the curvature based on the curve parameters, numerical derivation can be used.
+Nominally, the curvature is the rate of the orientation change, where orientation stands for the tangential direction angle, the rate is calculated based on the step along 
+the $X$ axis. In the end, the curvature will be given in $\frac{1}{m}$ unit given the $X$ is in $meters$. The curvature can be calculated per (\ref{eq:curvature}).
+\begin{equation} \label{eq:curvature}
+    \kappa(t) = \frac{d\Theta}{dX} = \frac{d^2Y}{dX^2}
+\end{equation} 
+However, the route is given in discrete time, sampled with $T=T_s$ step times. Therefore, (\ref{eq:curvature}) can be rewritten to numerical derivations:
+\begin{equation} \label{eq:discrete_orientation}
+    \Theta[k] = \frac{Y[k]-Y[k-1]}{X[k]-X[k-1]}
+\end{equation}
+\begin{equation} \label{eq:discrete_curvature}
+    \kappa[k] = \frac{\Theta[k]-\Theta[k-1]}{X[k]-X[k-1]}
+\end{equation}
+Assuming that $X[k] \neq X[k-1]$. However, in the example shown in Figure \ref{fig:deviation_problem}, this condition is not fulfilled necessarily. Therefore, a pre-check and 
+transformation are needed, to ensure that $X$ gets strictly monotonic. Algorithm steps are the following:
+\begin{enumerate}
+    \item Step 1: calculate mean orientation of the complete route (i.e., $\overline{\Theta} = \frac{1}{N}\sum_{k=1}^{N}\Theta[k]$)
+    \item Step 2: rotate the route with $\overline{\Theta}$ and translate it to point $\begin{bmatrix}
+        0 & 0 \end{bmatrix}$
+    \item Step 3: check, if $X$ is strictly monotonic, if yes, end of algorithm, if no, then continue with Step 4,
+    \item Step 4: iterate from the first point along the $X$ axis, until $\abs{X[k]-X[k-1]} \ge dX_{min}$, if not, then Step 5,
+    \item Step 5: insert braking point, store previously checked $X-Y$ pairs, reinitialize the checking by repeating Step 3 and Step 4, now with the points deduced by the stored points. Iterate Step 3-5 until the end of the route.
+\end{enumerate}
+After this algorithm, there are pre-checked snippets, all with strictly monotonic $X$ values, therefore (\ref{eq:discrete_orientation}-\ref{eq:discrete_curvature}) can be calculated for all of them. Then, 
+the calculated curvature vectors are concatenated, resulting in the curvature of the original, uncut point series. Now, the following check is done:
+\begin{enumerate}
+    \item Step 1: find sections, where $\abs{\kappa} < \kappa_{min}$ and label them as straights,
+    \item Step 2: find sections, where $\kappa < -\kappa_{min}$ and label them as right curves,
+    \item Step 3: find sections, where $\kappa > \kappa_{min}$ and label them as left curves.
+\end{enumerate}
+Now, given the curve information, the route can be cut into snippets.
+
+\subsubsection{Rotate to local coordinates}
+
+\subsubsection{Regression of polyline}
+
+\subsection{Results}
+The results are shown in Figure \ref{fig:fittedLines_zoomed}. This is an example, where the original measurement points are shown with small dots, while the regression line is shown as solid.
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=0.6\textwidth]{mapPub/fittedLines_zoomed.pdf}}
+    \caption{An example (lane id 1 midlane) of the fitting result. Zoomed in to show the regression performance and make the original measurement points visible.}
+    \label{fig:fittedLines_zoomed}
+\end{figure}
+
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=0.6\textwidth]{mapPub/fittedLines.pdf}}
+    \caption{Three lines are fitted, and visualized together with the original figure.}
+    \label{fig:fittedLines}
+\end{figure}
 
 \bibliography{refs}% common bib file
 %% if required, the content of .bbl file can be included here once bbl is generated
