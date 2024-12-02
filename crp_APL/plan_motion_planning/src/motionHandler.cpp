@@ -24,6 +24,9 @@ void crp::apl::MotionHandler::scenarioCallback(const tier4_planning_msgs::msg::S
     if(msg->current_scenario == "laneFollowWithSpeedAdjust"){
         m_currentStrategy = "laneFollowWithSpeedAdjust";
     }
+    else if(msg->current_scenario == "laneFollowWithDefaultSpeed"){
+        m_currentStrategy = "laneFollowWithDefaultSpeed";
+    }
     else{
         m_currentStrategy = "off";
     }
@@ -36,6 +39,7 @@ void crp::apl::MotionHandler::planLatLaneFollowCallback(const autoware_planning_
     // waypoints are coming from the lane follow node - in case of strategy incl. lane follow lateral information should be handed over
     m_lateralTrajectory.trajectory.clear();
     if (m_currentStrategy == "laneFollowWithSpeedAdjust" ||
+        m_currentStrategy == "laneFollowWithDefaultSpeed" ||
             m_currentStrategy == "laneFollow"
         ){
         for (const auto & outputPoint : msg->points)
@@ -93,11 +97,164 @@ float crp::apl::MotionHandler::getYawFromQuaternion(const geometry_msgs::msg::Qu
     return yaw;
 }
 
+double crp::apl::MotionHandler::pointDistance(const crp::apl::Point3D & p1, const crp::apl::Point3D & p2)
+{
+    return sqrt(pow(p1.x - p2.x, 2) + pow(p1.y - p2.y, 2));
+}
+
+void crp::apl::MotionHandler::transformPoint(const crp::apl::Point3D & inPoint, const crp::apl::Pose3D & origo, crp::apl::Point3D & outPoint)
+{
+    float cosR = cos(origo.orientation);
+    float sinR = sin(origo.orientation);
+
+    float translatedX{0.0};
+    float translatedY{0.0};
+    translatedX = inPoint.x - origo.position.x;
+    translatedY = inPoint.y - origo.position.y;
+
+    outPoint.x = cosR * translatedX + sinR * translatedY;
+    outPoint.y = -sinR * translatedX + cosR * translatedY;
+}
+
+void crp::apl::MotionHandler::findNeighbouringPointsLocal(const PlannerOutputTrajectory & trajectory, const Pose3D & targetPose, const uint32_t & closestPtIdx, int32_t & outIpPointIdx1, int32_t & outIpPointIdx2)
+{
+    int32_t ipPointIdx1 = -1;
+    int32_t ipPointIdx2 = -1;
+    // transform closest point to local coordinate system
+    Point3D closestPointTransformed;
+    transformPoint(trajectory[closestPtIdx].pose.position, targetPose, closestPointTransformed);
+    if (closestPointTransformed.x == 0)
+    {
+        // exact match
+        ipPointIdx1 = closestPtIdx;
+        ipPointIdx2 = closestPtIdx;
+    }
+    else if (closestPointTransformed.x > 0)
+    {
+        // search backwards for sign change
+        int32_t j = closestPtIdx - 1;
+        int32_t lastPointIdx = closestPtIdx;
+        while (j >= 0)
+        {
+            Point3D pointTransformed;
+            transformPoint(trajectory[j].pose.position, targetPose, pointTransformed);
+            if (pointTransformed.x < 0)
+            {
+                ipPointIdx1 = j;
+                break;
+            }
+            lastPointIdx = j;
+
+            j--;
+        }
+        ipPointIdx2 = lastPointIdx;
+    }
+    else
+    {
+        // search forwards for sign change
+        uint32_t j = closestPtIdx + 1;
+        uint32_t lastPointIdx = closestPtIdx;
+        while (j < trajectory.size())
+        {
+            Point3D pointTransformed;
+            transformPoint(trajectory[j].pose.position, targetPose, pointTransformed);
+            if (pointTransformed.x > 0)
+            {
+                ipPointIdx2 = j;
+                break;
+            }
+            lastPointIdx = j;
+
+            j++;
+        }
+        ipPointIdx1 = lastPointIdx;
+    }
+
+    outIpPointIdx1 = ipPointIdx1;
+    outIpPointIdx2 = ipPointIdx2;
+
+}
+
+void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Trajectory & outputTrajectory, const PlannerOutput & longitudinalTrajectory)
+{
+    uint32_t lastFirstMatchIdx = 0; // first (by index) closest match in longitudinal trajectory the last time
+    float lastSpeed = 0.0; // last speed used for interpolation
+    for (uint32_t i=0; i<outputTrajectory.points.size(); i++)
+    {
+        // find neighboring points in longitudinal trajectory with two stage filtering
+        // find closest point (euclidean distance)
+        Point3D pt{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, 0};
+
+        double minDist = std::numeric_limits<double>::max();
+        uint32_t closestSpeedIdx;
+
+        // find the closest point in longitudinal trajectory
+        for (uint32_t j=lastFirstMatchIdx; j<longitudinalTrajectory.trajectory.size(); j++){
+            double d = pointDistance(pt, longitudinalTrajectory.trajectory[j].pose.position);
+            if (d < minDist)
+            {
+                minDist = d;
+                closestSpeedIdx = j;
+            }
+            else
+            {
+                break; // stop when distance begins to grow
+            }
+        }
+
+        // filter after transformation
+        Pose3D targetPose{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, getYawFromQuaternion(outputTrajectory.points[i].pose.orientation)};
+        int32_t ipPointIdx1, ipPointIdx2;
+        findNeighbouringPointsLocal(longitudinalTrajectory.trajectory, targetPose, closestSpeedIdx, ipPointIdx1, ipPointIdx2);
+
+        // interpolate based on found points
+        if (ipPointIdx1 == -1 && ipPointIdx2 == -1)
+        {
+            // no points found
+            outputTrajectory.points[i].longitudinal_velocity_mps = lastSpeed;
+            RCLCPP_WARN(this->get_logger(), "No points found in longitudinal trajectory for interpolation");
+        }
+        else if (ipPointIdx1 == -1)
+        {
+            // only one point found
+            outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx2].velocity;
+            lastFirstMatchIdx = ipPointIdx2;
+        }
+        else if (ipPointIdx2 == -1)
+        {
+            // only one point found
+            outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx1].velocity;
+            lastFirstMatchIdx = ipPointIdx1;
+        }
+        else
+        {
+            // interpolate speed
+            double dist1 = pointDistance(pt, longitudinalTrajectory.trajectory[ipPointIdx1].pose.position);
+            double dist2 = pointDistance(pt, longitudinalTrajectory.trajectory[ipPointIdx2].pose.position);
+            if (dist1 == 0)
+            {
+                // exact match, prevents division by zero
+                outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx1].velocity;
+            }
+            else if (dist2 == 0)
+            {
+                // exact match, prevents division by zero
+                outputTrajectory.points[i].longitudinal_velocity_mps = longitudinalTrajectory.trajectory[ipPointIdx2].velocity;
+            }
+            else
+            {
+                outputTrajectory.points[i].longitudinal_velocity_mps = (longitudinalTrajectory.trajectory[ipPointIdx1].velocity * dist2 + longitudinalTrajectory.trajectory[ipPointIdx2].velocity * dist1) / (dist1 + dist2);
+            }
+            lastFirstMatchIdx = ipPointIdx1;
+        }
+    }
+}
+
 void crp::apl::MotionHandler::mapIncomingInputs()
 {
     m_outputTrajectory.points.clear();
     // This method maps the m_lateralTrajectory and m_longitudinalTrajectory members to the output
-    if (m_currentStrategy == "laneFollowWithSpeedAdjust")
+    if (m_currentStrategy == "laneFollowWithDefaultSpeed")
     {
         // requirement: both longitudinal and lateral trajectory available and of same size
         if (m_lateralTrajectory.trajectory.size() > 0)
@@ -114,6 +271,25 @@ void crp::apl::MotionHandler::mapIncomingInputs()
                 point.longitudinal_velocity_mps = m_lateralTrajectory.trajectory.at(n).velocity;
                 m_outputTrajectory.points.push_back(point);
             }
+        }
+    }
+    else if (m_currentStrategy == "laneFollowWithSpeedAdjust")
+    {
+        // requirement: both longitudinal and lateral trajectory available and of same size
+        if (m_lateralTrajectory.trajectory.size() > 0)
+        {
+            unsigned long int N = m_lateralTrajectory.trajectory.size();
+            // map lateral and longitudinal together
+            autoware_planning_msgs::msg::TrajectoryPoint point;
+            for (unsigned long int n=0; n<N; n++)
+            {
+                point.pose.position.x = m_lateralTrajectory.trajectory.at(n).pose.position.x;
+                point.pose.position.y = m_lateralTrajectory.trajectory.at(n).pose.position.y;
+                tf2::Quaternion(tf2::Vector3(0, 0, 1), m_lateralTrajectory.trajectory.at(n).pose.orientation);
+                point.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), m_lateralTrajectory.trajectory.at(n).pose.orientation));
+                m_outputTrajectory.points.push_back(point);
+            }
+            interpolateSpeed(m_outputTrajectory, m_longitudinalTrajectory);
         }
     }
     // else: do nothing
