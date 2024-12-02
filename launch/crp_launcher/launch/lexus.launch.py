@@ -71,7 +71,7 @@ def generate_launch_description():
     behavior_current_scenario_arg = DeclareLaunchArgument(
         'behavior_current_scenario',
         default_value='laneFollowWithDefaultSpeed',
-        description='Current scenario'
+        description='Current scenario ("off", "laneFollowWithDefaultSpeed", "laneFollowWithSpeedAdjust", "laneFollow", "speedAdjust")'
     )
     
     # sensor abstraction
