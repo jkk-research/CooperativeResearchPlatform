@@ -13,6 +13,7 @@ autoware_planning_msgs \
 autoware_perception_msgs \
 autoware_control_msgs \
 autoware_localization_msgs \
+autoware_vehicle_msgs \
 autoware_map_msgs \
 crp_msgs \
 prcp_situation_analysis \

@@ -96,3 +96,9 @@
 /lexus3/os_right/points
 /control/command/control_cmdLat
 /control/command/control_cmdLong
+/ekf/distance
+/ekf/estimated_pose_baselink
+/ekf/estimated_pose_cog
+/ekf/estimated_trav_dist_est_pos
+/ekf/estimation_accuracy
+/sensing/ekf/estimated_pose
