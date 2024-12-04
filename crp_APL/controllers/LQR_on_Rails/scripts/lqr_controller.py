@@ -99,7 +99,7 @@ class ROSController(Node):
         self.ctrl_lat_publisher = self.create_publisher(Lateral, '/control/command/control_cmdLat', 10)
         self.ctrl_long_publisher = self.create_publisher(Longitudinal, '/control/command/control_cmdLong', 10)
         self.traj_subscriber = self.create_subscription(Trajectory, '/plan/trajectory', self.recive_trajectory, 10)
-        self.ego_subscriber = self.create_subscription(Ego, '/ego', self.recive_ego, 10)
+        self.ego_subscriber = self.create_subscription(Ego, '/ego', self.receive_ego, 10)
 
         self.get_logger().info("LQR Controller Node has started!")
         
