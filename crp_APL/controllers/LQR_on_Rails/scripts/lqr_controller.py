@@ -181,6 +181,19 @@ class ROSController(Node):
             self.ctrl_lat_publisher.publish(ctrl_cmd_lateral)
             self.ctrl_long_publisher.publish(ctrl_cmd_longitudinal)
             return
+        
+        live_Q = self.get_parameter('Q').value
+        live_R = self.get_parameter('R').value
+
+        lqr_Q[0, 0] = live_Q[0]
+        lqr_Q[1, 1] = live_Q[1]
+        lqr_Q[2, 2] = live_Q[2]
+        lqr_Q[3, 3] = live_Q[3]
+        lqr_Q[4, 4] = live_Q[4]
+
+        lqr_R[0, 0] = live_R[0]
+        lqr_R[1, 1] = live_R[1]
+        
 
 
         tv = self.sp[0]
