@@ -107,7 +107,7 @@ class ROSController(Node):
         self.get_logger().info(f"Current variable value: {self.dt}, {self.L}, {self.max_steer}")
 
     
-    def recive_trajectory(self, msg):
+    def receive_trajectory(self, msg):
 
         self.cx = [point.pose.position.x for point in msg.points]
         self.cy = [point.pose.position.y for point in msg.points]
