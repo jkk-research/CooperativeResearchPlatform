@@ -9,20 +9,6 @@ from autoware_control_msgs.msg import Lateral,Longitudinal
 from autoware_planning_msgs.msg import Trajectory
 from crp_msgs.msg import Ego
 
-# === Parameters =====
-
-# LQR parameter
-lqr_Q = np.eye(5)
-lqr_R = np.eye(2)
-
-lqr_Q[0, 0] = 0.001
-lqr_Q[1, 1] = 0.0
-lqr_Q[2, 2] = 0.001
-lqr_Q[3, 3] = 0.0
-lqr_Q[4, 4] = 0.8
-
-lqr_R[0, 0] = 30.0
-lqr_R[1, 1] = 2.0
 
 show_animation = True
 
@@ -85,10 +71,25 @@ class ROSController(Node):
         self.L = 2.9
         self.max_steer = np.deg2rad(20.0)
 
+        # LQR parameter
+        self.lqr_Q = np.eye(5)
+        self.lqr_R = np.eye(2)
+
+        self.lqr_Q[0, 0] = 0.001
+        self.lqr_Q[1, 1] = 0.0
+        self.lqr_Q[2, 2] = 0.001
+        self.lqr_Q[3, 3] = 0.0
+        self.lqr_Q[4, 4] = 0.8
+
+        self.lqr_R[0, 0] = 30.0
+        self.lqr_R[1, 1] = 2.0
+
         # read in ros params from the launch file
         self.declare_parameter('dt', self.dt)
         self.declare_parameter('wheel_base', self.L)
         self.declare_parameter('max_steer_tire_angle', self.max_steer)
+        self.declare_parameter('Q', self.lqr_Q.diagonal().tolist())
+        self.declare_parameter('R', self.lqr_R.diagonal().tolist())
 
         self.dt = self.get_parameter('dt').value
         self.L = self.get_parameter('wheel_base').value
@@ -98,7 +99,7 @@ class ROSController(Node):
 
         self.ctrl_lat_publisher = self.create_publisher(Lateral, '/control/command/control_cmdLat', 10)
         self.ctrl_long_publisher = self.create_publisher(Longitudinal, '/control/command/control_cmdLong', 10)
-        self.traj_subscriber = self.create_subscription(Trajectory, '/plan/trajectory', self.recive_trajectory, 10)
+        self.traj_subscriber = self.create_subscription(Trajectory, '/plan/trajectory', self.receive_trajectory, 10)
         self.ego_subscriber = self.create_subscription(Ego, '/ego', self.receive_ego, 10)
 
         self.get_logger().info("LQR Controller Node has started!")
@@ -116,7 +117,7 @@ class ROSController(Node):
         self.cyaw = np.arctan2(np.diff(self.cy), np.diff(self.cx)).tolist()        
 
     
-    def recive_ego(self, msg):
+    def receive_ego(self, msg):
 
         self.state.x = msg.pose.pose.position.x
         self.state.y = msg.pose.pose.position.y
@@ -185,14 +186,14 @@ class ROSController(Node):
         live_Q = self.get_parameter('Q').value
         live_R = self.get_parameter('R').value
 
-        lqr_Q[0, 0] = live_Q[0]
-        lqr_Q[1, 1] = live_Q[1]
-        lqr_Q[2, 2] = live_Q[2]
-        lqr_Q[3, 3] = live_Q[3]
-        lqr_Q[4, 4] = live_Q[4]
+        self.lqr_Q[0, 0] = live_Q[0]
+        self.lqr_Q[1, 1] = live_Q[1]
+        self.lqr_Q[2, 2] = live_Q[2]
+        self.lqr_Q[3, 3] = live_Q[3]
+        self.lqr_Q[4, 4] = live_Q[4]
 
-        lqr_R[0, 0] = live_R[0]
-        lqr_R[1, 1] = live_R[1]
+        self.lqr_R[0, 0] = live_R[0]
+        self.lqr_R[1, 1] = live_R[1]
         
 
 
@@ -233,7 +234,7 @@ class ROSController(Node):
         B[3, 0] = v / self.L
         B[4, 1] = self.dt
 
-        K, _, _ = self.dlqr(A, B, lqr_Q, lqr_R)
+        K, _, _ = self.dlqr(A, B, self.lqr_Q, self.lqr_R)
 
         # state vector
         # x = [e, dot_e, th_e, dot_th_e, delta_v]
