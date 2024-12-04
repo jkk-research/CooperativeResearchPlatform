@@ -85,8 +85,8 @@ def generate_launch_description():
         behavior_planning,
         motion_planning,
         vehicle_control,
-        vehicle_control_lat,
-        vehicle_control_long,
+        #vehicle_control_lat,
+        #vehicle_control_long,
 
         planner_lat_lane_follow_ldm
     ])

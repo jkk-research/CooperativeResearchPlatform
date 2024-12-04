@@ -129,6 +129,8 @@ namespace crp
                 3.0f*m_coefficients[3]*std::pow(m_lookAheadDistanceFb,2));
 
             m_posIntegralError = m_posIntegralError+m_posErr*params.dT;
+            m_posIntegralError = std::min(std::max(-params.fbIntegralLimit, m_posIntegralError), 
+                params.fbIntegralLimit);
 
             m_posDerivativeError = (m_posErr-m_posErrPrev)/params.dT;
             m_posDerivativeError = m_posDerivativeFilter.lowPassFilter(m_posDerivativeError, m_posDerivativeError_prev, 0.9f);
@@ -136,15 +138,13 @@ namespace crp
             m_targetAccelerationFB = params.fbPGain*m_posErr +
                 params.fbDGain*m_posDerivativeError;
 
-            if (m_posIntegralError < params.fbIntegralLimit)
-            {
-                m_targetAccelerationFB = m_targetAccelerationFB +
+            m_targetAccelerationFB = m_targetAccelerationFB +
                 params.fbIGain*m_posIntegralError;
-            }
             
-            m_targetAccelerationFB = m_targetAccelerationFB + params.fbThetaGain * m_orientationErr;
+            m_targetAccelerationFB = m_targetAccelerationFB + 
+                params.fbThetaGain * m_orientationErr;
             
-            if(params.debugKPIs){printf("errors %f, %f, %f\n", m_posErr, m_posIntegralError, m_posDerivativeError); printf("ayTarFB %f\n", m_targetAccelerationFB);}
+            if(params.debugKPIs){printf("errors %f, %f, %f, %f\n", m_posErr, m_posIntegralError, m_posDerivativeError, m_orientationErr); printf("ayTarFB %f\n", m_targetAccelerationFB);}
 
             m_posErrPrev = m_posErr;
         }

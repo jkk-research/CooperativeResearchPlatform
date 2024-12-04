@@ -4,11 +4,18 @@
 crp::apl::TestNode::TestNode() : Node("test_node")
 {
     m_sub_ctrlCmd_   = this->create_subscription<autoware_control_msgs::msg::Control>(
-        "/control/command/ctrl_cmd", 10, std::bind(&TestNode::controlCommandCallback, this, std::placeholders::_1));
+        "/control/command/control_cmd", 10, std::bind(&TestNode::controlCommandCallback, this, std::placeholders::_1));
 
-    m_pub_world_    = this->create_publisher<crp_msgs::msg::World>("world", 1);
-    m_pub_scenario_ = this->create_publisher<crp_msgs::msg::Scenario>("scenario", 1);
-    m_pub_ego_      = this->create_publisher<crp_msgs::msg::Ego>("ego", 1);
+    // new setup
+    m_pub_movingObjects_   = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_moving_objects", 10);
+    m_pub_obstacles_       = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_obstacles", 10);
+    m_pub_lanePath_        = this->create_publisher<tier4_planning_msgs::msg::PathWithLaneId>("cai/local_lane/path", 10);
+    m_pub_drivableSurface_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("cai/local_drivable_surface", 10);
+
+    m_pub_kinematicState_ = this->create_publisher<autoware_localization_msgs::msg::KinematicState>("cai/kinematic_state", 10);
+    m_pub_egoStatus_      = this->create_publisher<crp_msgs::msg::EgoStatus>("cai/ego_status", 10);
+
+    m_pub_behavior_       = this->create_publisher<crp_msgs::msg::Behavior>("/ui/behavior", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&TestNode::run, this));
 }
@@ -29,7 +36,6 @@ void crp::apl::TestNode::vehicleModel()
     float dy = m_vehicleSpeedTarget*std::sin(x[2])*dT;
     x[0] = x[0] + dx*dT;
     x[1] = x[1] + dy*dT;
-    printf("x-y is %f-%f\n", x[0], x[1]);
     return;
 }
 
@@ -51,6 +57,10 @@ float* crp::apl::TestNode::globalToEgoTransform(float globalPose[3])
 void crp::apl::TestNode::calculateRoute()
 {
     // this method calculates the route and prepares it for the scenario mapping
+    m_localPath_x.clear();
+    m_localPath_y.clear();
+    m_localPath_theta.clear();
+
     float dx = 1.0;
     float xGlobal[1001];
     float yGlobal[1001];
@@ -71,9 +81,9 @@ void crp::apl::TestNode::calculateRoute()
         globalPoint[0] = xGlobal[i]; globalPoint[1] = yGlobal[i]; globalPoint[2] = thetaGlobal[i];
         float* localPoint;
         localPoint = globalToEgoTransform(globalPoint);
-        m_localPath[i][0] = localPoint[0];
-        m_localPath[i][1] = localPoint[1];
-        m_localPath[i][2] = localPoint[2];
+        m_localPath_x.push_back(localPoint[0]);
+        m_localPath_y.push_back(localPoint[1]);
+        m_localPath_theta.push_back(localPoint[2]);
     }
 
     return;
@@ -93,43 +103,99 @@ float crp::apl::TestNode::getYawFromQuaternion(const geometry_msgs::msg::Quatern
     return yaw;
 }
 
-void crp::apl::TestNode::mapScenario()
+void crp::apl::TestNode::calculateSpeed()
 {
-    // mapping the necessary signals to the map message
-    m_scenarioMsg.paths.clear();
-    crp_msgs::msg::PathWithTrafficRules path;
-    tier4_planning_msgs::msg::PathPointWithLaneId pathPoint;
-    for (int i=0; i<1001; i++)
+    if(m_vehicleTooFarFromPath || m_noEnoughPointsLeft)
     {
-        if (m_localPath[i][0]>=0.0 && m_localPath[i][0]<=100.0)
+        m_maximumSpeed = 0.0;
+    }
+    else
+    {
+        m_maximumSpeed = m_maximumSpeedInit;
+    }
+}
+
+void crp::apl::TestNode::mapPath()
+{
+    float currentPathLength = 0;
+    m_outPathMsg.points.clear();
+    m_noEnoughPointsLeft = true;
+    for (int i=0; i<m_localPath_x.size(); i++)
+    {
+        if (m_localPath_x.at(i)>=0)
         {
-            pathPoint.point.pose.position.x = m_localPath[i][0];
-            pathPoint.point.pose.position.y = m_localPath[i][1];
-            tf2::Quaternion(tf2::Vector3(0, 0, 1), m_localPath[i][2]);
-            pathPoint.point.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), m_localPath[i][2]));
+            // add points to path from simulated path
+            tier4_planning_msgs::msg::PathPointWithLaneId currentPoint;
+            currentPoint.point.pose.position.x = m_localPath_x.at(i);
+            currentPoint.point.pose.position.y = m_localPath_y.at(i);
+            tf2::Quaternion quat;
+            quat.setRPY(0.0f, 0.0f, m_localPath_theta.at(i));
+            currentPoint.point.pose.orientation = tf2::toMsg(quat);
 
-            pathPoint.point.longitudinal_velocity_mps = 20.0;
+            currentPoint.point.longitudinal_velocity_mps = m_maximumSpeed;
 
-            path.path.points.push_back(pathPoint);
+            float ds;
+            if (i==0)
+            {
+                ds = std::pow(std::pow(m_localPath_x.at(i),2)+
+                    std::pow(m_localPath_y.at(i),2),0.5);
+            }
+            else
+            {
+                ds = std::pow(std::pow(m_localPath_x.at(i)-m_localPath_x.at(i-1),2)+
+                    std::pow(m_localPath_y.at(i)-m_localPath_y.at(i-1),2),0.5);
+            }
+
+            currentPathLength = currentPathLength+ds;
+
+            m_outPathMsg.points.push_back(
+                currentPoint
+            );
+
+            if(std::abs(m_outPathMsg.points.at(0).point.pose.position.y > 3.0))
+            {
+                m_vehicleTooFarFromPath = true;
+            }
+            
+            if (currentPathLength > 100.0)
+            {
+                m_noEnoughPointsLeft = false;
+                break;
+            }
         }
     }
-    path.traffic_rules.maximum_speed = 20.0;
-    // only one lane at the moment
-    m_scenarioMsg.paths.push_back(path);
-    
+    printf("current path length %f\n", currentPathLength);
+    return;
+}
+
+void crp::apl::TestNode::mapObstacles()
+{
+    // to be filled up
+    return;
+}
+
+void crp::apl::TestNode::mapMovingObjects()
+{
+    // to be filled up
+    return;
+}
+
+void crp::apl::TestNode::mapDrivableSurface()
+{
+    // to be filled up
     return;
 }
 
 void crp::apl::TestNode::mapEgo()
 {
-    m_egoMsg.pose.pose.position.x = x[0];
-    m_egoMsg.pose.pose.position.y = x[1];
+    m_egoStatus.tire_angle_front = m_roadWheelAngleTarget;
+    m_kinematicState.pose_with_covariance.pose.position.x = x[0];
+    m_kinematicState.pose_with_covariance.pose.position.y = x[1];
     tf2::Quaternion(tf2::Vector3(0, 0, 1), x[2]);
-    m_egoMsg.pose.pose.orientation = tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), x[2]));
+    m_kinematicState.pose_with_covariance.pose.orientation = 
+        tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), x[2])); 
 
-    m_egoMsg.twist.twist.linear.x = m_vehicleSpeedTarget;
-
-    m_egoMsg.tire_angle_front = m_roadWheelAngleTarget;
+    m_kinematicState.twist_with_covariance.twist.linear.x = m_vehicleSpeedTarget;
 
     return;
 }
@@ -141,13 +207,28 @@ void crp::apl::TestNode::run()
     // calculate local path
     calculateRoute();
 
+    calculateSpeed();
+
     // finally, map results to output messages
-    mapScenario();
+    mapPath();
+    mapDrivableSurface();
+    mapMovingObjects();
+    mapObstacles();
+
     mapEgo();
 
-    m_pub_world_->publish(m_worldMsg);
-    m_pub_scenario_->publish(m_scenarioMsg);
-    m_pub_ego_->publish(m_egoMsg);
+    m_behavior.target_speed.data = m_maximumSpeedInit;
+
+    // new publishing
+    m_pub_movingObjects_->publish(m_movingObjectsMsg);
+    m_pub_obstacles_->publish(m_movingObjectsMsg);
+    m_pub_lanePath_->publish(m_outPathMsg);
+    m_pub_drivableSurface_->publish(m_drivableSurfaceMsg);
+
+    m_pub_kinematicState_->publish(m_kinematicState);
+    m_pub_egoStatus_->publish(m_egoStatus);
+
+    m_pub_behavior_->publish(m_behavior);
 }
 
 
