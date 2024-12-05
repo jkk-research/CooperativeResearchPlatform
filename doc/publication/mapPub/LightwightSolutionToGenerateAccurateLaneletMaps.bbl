@@ -1,5 +1,13 @@
 \begin{thebibliography}{1}
 
+\bibitem{poggenhans2018lanelet2}
+Fabian Poggenhans, Jan-Hendrik Pauls, Johannes Janosovits, Stefan Orf,
+  Maximilian Naumann, Florian Kuhnt, and Matthias Mayr.
+\newblock Lanelet2: A high-definition map framework for the future of automated
+  driving.
+\newblock In {\em Proc.\ IEEE Intell.\ Trans.\ Syst.\ Conf.}, Hawaii, USA,
+  November 2018.
+
 \bibitem{LaneletBasic}
 Philipp Bender, Julius Ziegler, and Christoph Stiller.
 \newblock Lanelets: Efficient map representation for autonomous driving.
@@ -25,5 +33,12 @@ Kai-Wei Chiang, Meng-Lun Tsai, S.~Lin, Yen~En Huang, J.-C Zeng, Y.-F Chang,
   opendrive and autoware (lanelet2) formats.
 \newblock {\em ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial
   Information Sciences}, X-1/W1-2023:621--627, 12 2023.
+
+\bibitem{HighwayLanelet}
+Christopher Doer, Michael Henzler, Heiner Messner, and Gert~F. Trommer.
+\newblock Hd map generation from vehicle fleet data for highly automated
+  driving on highways.
+\newblock In {\em 2020 IEEE Intelligent Vehicles Symposium (IV)}, page
+  2014–2020. IEEE Press, 2020.
 
 \end{thebibliography}
