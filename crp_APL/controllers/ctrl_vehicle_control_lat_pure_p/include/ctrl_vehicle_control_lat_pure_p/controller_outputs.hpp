@@ -11,8 +11,8 @@ namespace crp
     namespace apl
     {
         struct ControlOutput{
-            double accelerationTarget{0.0f};
-            double steeringAngleTarget{0.0f};
+            double m_accelerationTarget{0.0f};
+            double m_steeringAngleTarget{0.0f};
         };
     }
 }

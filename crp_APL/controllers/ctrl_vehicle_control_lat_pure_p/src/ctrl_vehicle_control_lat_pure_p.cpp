@@ -15,22 +15,20 @@ crp::apl::CtrlVehicleControlLat::CtrlVehicleControlLat() : Node("CtrlVehicleCont
     this->declare_parameter("/ctrl/lookahead_time", 1.0f);
     this->declare_parameter("/ctrl/wheelbase", 2.7f);
 
-    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
 }
 
 void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
 {
-    m_input.path_x.clear();
-    m_input.path_y.clear();
-    m_input.path_theta.clear();
+    m_input.m_path_x.clear();
+    m_input.m_path_y.clear();
     double quaternion[4];
 
     
     // this callback maps the input trajectory to the internal interface
     for (long unsigned int i=0; i<input_msg.points.size(); i++)
     {
-        m_input.path_x.push_back(input_msg.points.at(i).pose.position.x);
-        m_input.path_y.push_back(input_msg.points.at(i).pose.position.y);
+        m_input.m_path_x.push_back(input_msg.points.at(i).pose.position.x);
+        m_input.m_path_y.push_back(input_msg.points.at(i).pose.position.y);
     }
 
     if (input_msg.points.size() > 0)
@@ -59,9 +57,9 @@ void crp::apl::CtrlVehicleControlLat::pure_p_control()
     float current_distance = 0.0f;
     int target_index = 0;
 
-    for (int i = 0; i < m_input.path_x.size()-1; i++)
+    for (int i = 0; i < m_input.m_path_x.size()-1; i++)
     {
-        current_distance += sqrt(pow(m_input.path_x.at(i+1) - m_input.path_x.at(i), 2) + pow(m_input.path_y.at(i+1) - m_input.path_y.at(i), 2));
+        current_distance += sqrt(pow(m_input.m_path_x.at(i+1) - m_input.m_path_x.at(i), 2) + pow(m_input.m_path_y.at(i+1) - m_input.m_path_y.at(i), 2));
         if (current_distance > distance_to_index)
         {
             target_index = i;
@@ -70,11 +68,11 @@ void crp::apl::CtrlVehicleControlLat::pure_p_control()
     }
 
     // calculate the steering angle
-    m_output.steeringAngleTarget = 0.0f;
+    m_output.m_steeringAngleTarget = 0.0f;
 
-    float alpha = atan2(m_input.path_y[target_index], m_input.path_x[target_index]);
+    float alpha = atan2(m_input.m_path_y[target_index], m_input.m_path_x[target_index]);
 
-    m_output.steeringAngleTarget = atan2(2.0f * m_params.wheelbase * sin(alpha) / distance_to_index, 1);
+    m_output.m_steeringAngleTarget = atan2(2.0f * m_params.wheelbase * sin(alpha) / distance_to_index, 1);
 
 }
 
@@ -85,12 +83,12 @@ void crp::apl::CtrlVehicleControlLat::loop()
     m_params.wheelbase = this->get_parameter("/ctrl/wheelbase").as_double();
 
     // control algorithm
-    if(m_input.path_x.size() > 0 && m_input.path_y.size() > 0)
+    if(m_input.m_path_x.size() > 0 && m_input.m_path_y.size() > 0)
         pure_p_control();
 
     // steering angle and steering angle gradiant
     m_ctrlCmdMsg.stamp = this->now();
-    m_ctrlCmdMsg.steering_tire_angle = m_output.steeringAngleTarget;
+    m_ctrlCmdMsg.steering_tire_angle = m_output.m_steeringAngleTarget;
     m_ctrlCmdMsg.steering_tire_rotation_rate = 0.0f;
 
     m_pub_cmd->publish(m_ctrlCmdMsg);

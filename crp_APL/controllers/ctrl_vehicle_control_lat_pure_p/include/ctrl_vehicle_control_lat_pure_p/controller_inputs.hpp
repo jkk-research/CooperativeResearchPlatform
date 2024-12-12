@@ -12,9 +12,9 @@ namespace crp
     namespace apl
     {
         struct ControlInput{
-            std::vector<double> path_x;
-            std::vector<double> path_y;
-            std::vector<double> path_theta;
+            std::vector<double> m_path_x;
+            std::vector<double> m_path_y;
+            std::vector<double> m_path_theta;
             double target_speed{0.0f};
             double egoPoseGlobal [3]{0.0f};
             double vxEgo{0.0f};

@@ -1,5 +1,5 @@
-#ifndef CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_HPP
-#define CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_HPP
+#ifndef CRP_APL_CTRL_VEHICLE_LAT_STANLEY_HPP
+#define CRP_APL_CTRL_VEHICLE_LAT_STANLEY_HPP
 
 #include <chrono>
 #include <functional>
@@ -50,4 +50,4 @@ namespace crp
         }; 
     } // namespace apl
 }
-#endif // CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_HPP
+#endif // CRP_APL_CTRL_VEHICLE_LAT_STANLEY_HPP
