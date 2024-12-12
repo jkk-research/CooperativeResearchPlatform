@@ -113,14 +113,16 @@ void crp::apl::CtrlVehicleControlLat::loop()
 
     // control algorithm
     if(m_input.m_path_x.size() > 0 && m_input.m_path_y.size() > 0)
+    {
         stanleyControl();
 
-    // steering angle and steering angle gradiant
-    m_ctrlCmdMsg.stamp = this->now();
-    m_ctrlCmdMsg.steering_tire_angle = m_output.m_steeringAngleTarget;
-    m_ctrlCmdMsg.steering_tire_rotation_rate = 0.0f;
+        // steering angle and steering angle gradiant
+        m_ctrlCmdMsg.stamp = this->now();
+        m_ctrlCmdMsg.steering_tire_angle = m_output.m_steeringAngleTarget;
+        m_ctrlCmdMsg.steering_tire_rotation_rate = 0.0f;
 
-    m_pub_cmd->publish(m_ctrlCmdMsg);
+        m_pub_cmd->publish(m_ctrlCmdMsg);
+    }
 }
 
 

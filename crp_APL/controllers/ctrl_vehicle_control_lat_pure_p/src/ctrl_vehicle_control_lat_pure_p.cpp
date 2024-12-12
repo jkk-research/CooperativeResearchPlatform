@@ -50,7 +50,7 @@ void crp::apl::CtrlVehicleControlLat::egoVehicleCallback(const crp_msgs::msg::Eg
 void crp::apl::CtrlVehicleControlLat::pure_p_control()
 {
     
-    float distance_to_index = m_input.vxEgo * m_params.lookahead_time;
+    float distance_to_index = std::max(m_input.vxEgo * m_params.lookahead_time, 2.0);
 
     RCLCPP_INFO(this->get_logger(), "distance to index: %f", distance_to_index);
 
@@ -68,7 +68,6 @@ void crp::apl::CtrlVehicleControlLat::pure_p_control()
     }
 
     // calculate the steering angle
-    m_output.m_steeringAngleTarget = 0.0f;
 
     float alpha = atan2(m_input.m_path_y[target_index], m_input.m_path_x[target_index]);
 
@@ -84,14 +83,15 @@ void crp::apl::CtrlVehicleControlLat::loop()
 
     // control algorithm
     if(m_input.m_path_x.size() > 0 && m_input.m_path_y.size() > 0)
+    {
         pure_p_control();
+        // steering angle and steering angle gradiant
+        m_ctrlCmdMsg.stamp = this->now();
+        m_ctrlCmdMsg.steering_tire_angle = m_output.m_steeringAngleTarget;
+        m_ctrlCmdMsg.steering_tire_rotation_rate = 0.0f;
 
-    // steering angle and steering angle gradiant
-    m_ctrlCmdMsg.stamp = this->now();
-    m_ctrlCmdMsg.steering_tire_angle = m_output.m_steeringAngleTarget;
-    m_ctrlCmdMsg.steering_tire_rotation_rate = 0.0f;
-
-    m_pub_cmd->publish(m_ctrlCmdMsg);
+        m_pub_cmd->publish(m_ctrlCmdMsg);
+    }
 }
 
 
