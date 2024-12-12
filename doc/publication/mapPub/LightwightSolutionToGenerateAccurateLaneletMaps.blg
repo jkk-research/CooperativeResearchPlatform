@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: LightwightSolutionToGenerateAccurateLaneletMaps.aux
+The style file: unsrt.bst
+Database file #1: refs.bib
+Warning--empty booktitle in LaneletBasic
+Warning--empty booktitle in PythonLanelet
+You've used 6 entries,
+            1791 wiz_defined-function locations,
+            492 strings with 5306 characters,
+and the built_in function-call counts, 1905 in all, are:
+= -- 154
+> -- 114
+< -- 2
++ -- 40
+- -- 34
+* -- 130
+:= -- 288
+add.period$ -- 19
+call.type$ -- 6
+change.case$ -- 6
+chr.to.int$ -- 0
+cite$ -- 8
+duplicate$ -- 96
+empty$ -- 167
+format.name$ -- 34
+if$ -- 439
+int.to.chr$ -- 0
+int.to.str$ -- 6
+missing$ -- 6
+newline$ -- 33
+num.names$ -- 6
+pop$ -- 30
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 62
+stack$ -- 0
+substring$ -- 96
+swap$ -- 39
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 12
+width$ -- 7
+write$ -- 66
+(There were 2 warnings)
