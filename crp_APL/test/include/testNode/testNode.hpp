@@ -79,7 +79,6 @@ private:
     double m_roadWheelAngleTarget{0.0f};
     double m_vehicleSpeedTarget{0.0f};
     double p_wheelBase{2.7f}; // in meters
-
     double m_axEgo{0.0f}; // in m/s^2
     double m_ayEgo{0.0f}; // in m/s^2
     double m_vxEgo{0.0f}; // in m/s^2

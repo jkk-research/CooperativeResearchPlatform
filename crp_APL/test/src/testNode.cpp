@@ -20,7 +20,6 @@ crp::apl::TestNode::TestNode() : Node("test_node")
     this->declare_parameter("/test/maximumSpeedInit", 20.0f); // in m/s
     this->declare_parameter("/test/previewDistance", 100.0f); // in m
 
-
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&TestNode::run, this));
 }
 
@@ -43,7 +42,6 @@ void crp::apl::TestNode::vehicleModel()
     x[1] = x[1] + dy*dT;
 
     m_ayEgo = yawRate*m_vxEgo;
-
     return;
 }
 
@@ -127,47 +125,6 @@ void crp::apl::TestNode::mapPath()
 {
     float currentPathLength = 0;
     m_outPathMsg.points.clear();
-    m_noEnoughPointsLeft = true;
-    for (int i=0; i<m_localPath_x.size(); i++)
-    {
-        if (m_localPath_x.at(i)>=0)
-        {
-            // add points to path from simulated path
-            tier4_planning_msgs::msg::PathPointWithLaneId currentPoint;
-            currentPoint.point.pose.position.x = m_localPath_x.at(i);
-            currentPoint.point.pose.position.y = m_localPath_y.at(i);
-            tf2::Quaternion quat;
-            quat.setRPY(0.0f, 0.0f, m_localPath_theta.at(i));
-            currentPoint.point.pose.orientation = tf2::toMsg(quat);
-
-            currentPoint.point.longitudinal_velocity_mps = m_maximumSpeed;
-
-            float ds;
-            if (i==0)
-            {
-                ds = std::pow(std::pow(m_localPath_x.at(i),2)+
-                    std::pow(m_localPath_y.at(i),2),0.5);
-            }
-            else
-            {
-                ds = std::pow(std::pow(m_localPath_x.at(i)-m_localPath_x.at(i-1),2)+
-                    std::pow(m_localPath_y.at(i)-m_localPath_y.at(i-1),2),0.5);
-            }
-
-
-    {
-        m_maximumSpeed = 0.0;
-    }
-    else
-    {
-        m_maximumSpeed = m_maximumSpeedInit;
-    }
-}
-
-void crp::apl::TestNode::mapPath()
-{
-    float currentPathLength = 0;
-    m_outPathMsg.points.clear();
     m_outPathMsg.header.stamp = this->now();
     m_noEnoughPointsLeft = true;
     for (int i=0; i<m_localPath_x.size(); i++)
@@ -214,8 +171,6 @@ void crp::apl::TestNode::mapPath()
             }
         }
     }
-    printf("current path length %f\n", currentPathLength);
-
     return;
 }
 
@@ -239,8 +194,6 @@ void crp::apl::TestNode::mapDrivableSurface()
 
 void crp::apl::TestNode::mapEgo()
 {
-    m_egoStatus.tire_angle_front = m_roadWheelAngleTarget;
-
     m_egoStatus.header.stamp = this->now();
     m_egoStatus.tire_angle_front = m_roadWheelAngleTarget;
 
@@ -250,9 +203,7 @@ void crp::apl::TestNode::mapEgo()
     tf2::Quaternion(tf2::Vector3(0, 0, 1), x[2]);
     m_kinematicState.pose_with_covariance.pose.orientation = 
         tf2::toMsg(tf2::Quaternion(tf2::Vector3(0, 0, 1), x[2])); 
-  
-    m_kinematicState.twist_with_covariance.twist.linear.x = m_vehicleSpeedTarget;
-  
+
     m_kinematicState.twist_with_covariance.twist.linear.x = m_vxEgo;
 
     m_kinematicState.accel_with_covariance.accel.linear.x = m_axEgo;
@@ -282,9 +233,7 @@ void crp::apl::TestNode::run()
 
     mapEgo();
 
-
     m_behavior.header.stamp = this->now();
-
     m_behavior.target_speed.data = m_maximumSpeedInit;
 
     // new publishing
