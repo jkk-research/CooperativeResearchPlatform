@@ -10,8 +10,6 @@ from autoware_planning_msgs.msg import Trajectory
 from crp_msgs.msg import Ego
 
 
-show_animation = True
-
 def angle_mod(x, zero_2_2pi=False, degree=False):
 
 

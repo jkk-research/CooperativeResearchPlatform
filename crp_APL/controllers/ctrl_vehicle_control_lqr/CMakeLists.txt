@@ -11,6 +11,15 @@ find_package(ament_cmake REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+find_package(ament_cmake REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(autoware_control_msgs REQUIRED)
+find_package(autoware_planning_msgs REQUIRED)
+find_package(autoware_vehicle_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(crp_msgs REQUIRED)
+
 # Add the Python script to the install target
 install(
     PROGRAMS
