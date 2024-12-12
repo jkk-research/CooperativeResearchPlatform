@@ -16,7 +16,6 @@ find_package(geometry_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(autoware_control_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
-find_package(autoware_vehicle_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(crp_msgs REQUIRED)
 
