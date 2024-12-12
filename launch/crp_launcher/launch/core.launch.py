@@ -1,14 +1,28 @@
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
-from launch.conditions import LaunchConfigurationEquals
-from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
 
 
 def generate_launch_description():
+    # vehicle control
+    lat_accel_limit_arg = DeclareLaunchArgument(
+        'lat_accel_lim',
+        default_value='3.0',
+        description='Lateral acceleration limit')
+    jerk_limit_arg = DeclareLaunchArgument(
+        'jerk_lim',
+        default_value='0.5f',
+        description='Jerk limit')
+    
+    # vehicle params
+    vehicle_param_L_arg = DeclareLaunchArgument(
+        'vehicle_param_L',
+        default_value='2.7',
+        description='Vehicle parameter: ')
+    
     # NODES
 
     environmental_fusion = IncludeLaunchDescription(
@@ -79,6 +93,9 @@ def generate_launch_description():
 
     return LaunchDescription([
         # args
+        lat_accel_limit_arg,
+        jerk_limit_arg,
+        vehicle_param_L_arg,
 
         # nodes
         environmental_fusion,

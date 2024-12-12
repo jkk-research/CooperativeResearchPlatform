@@ -6,6 +6,14 @@ using std::placeholders::_1;
 
 crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
 {
+    this->declare_parameter<float>("lat_accel_lim", 3.0f);
+    this->declare_parameter<float>("jerk_lim", 0.5f);
+    this->declare_parameter<float>("vehicle_param_L", 2.7f);
+
+    this->get_parameter<float>("lat_accel_lim", m_latAccelLim);
+    this->get_parameter<float>("jerk_lim", m_jerkLim);
+    this->get_parameter<float>("vehicle_param_L", m_wheelBase);
+
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&ControlHandler::run, this));  
     m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 30);
     m_pub_twist_ = this->create_publisher<geometry_msgs::msg::Twist>("lexus3/cmd_vel", 30);
@@ -27,7 +35,6 @@ crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
     m_twistMsg.angular.x = 0.0f;
     m_twistMsg.angular.y = 0.0f;
     m_twistMsg.angular.z = 0.0f;
-
 }
 
 void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::msg::Lateral::SharedPtr msg)
@@ -39,9 +46,26 @@ void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::m
         return;
     }
 
-    m_twistMsg.angular.z = msg->steering_tire_angle;
-    m_ctrlCmdMsg.lateral.steering_tire_angle = msg->steering_tire_angle;
-    m_ctrlCmdMsg.lateral.steering_tire_rotation_rate = msg->steering_tire_rotation_rate;
+    float tireAngleLim = 20; // default: no limit
+
+    if (m_twistMsg.linear.x != 0)
+    {
+        // calculate tire angle limit based on lateral acceleration limit
+        tireAngleLim = atan((m_latAccelLim * m_wheelBase) / pow(m_twistMsg.linear.x, 2));
+    }
+
+    m_twistMsg.angular.z = std::min(msg->steering_tire_angle, tireAngleLim);
+    m_ctrlCmdMsg.lateral.steering_tire_angle = std::min(msg->steering_tire_angle, tireAngleLim);
+
+    float tireRotationRateLim = 10; // default: no limit
+
+    if (m_twistMsg.linear.x != 0)
+    {
+        // calculate tire rotation rate limit based on jerk limit
+        tireRotationRateLim = (m_jerkLim * m_wheelBase) / (pow(m_twistMsg.linear.x, 2) * pow(tan(m_ctrlCmdMsg.lateral.steering_tire_angle), 2));
+    }
+
+    m_ctrlCmdMsg.lateral.steering_tire_rotation_rate = std::min(msg->steering_tire_rotation_rate, tireRotationRateLim);
 }
 
 void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::msg::Longitudinal::SharedPtr msg)

@@ -111,6 +111,16 @@ def generate_launch_description():
         default_value='70.0',
         description='Length of the scenario in meters')
     
+    # vehicle control
+    lat_accel_limit_arg = DeclareLaunchArgument(
+        'lat_accel_lim',
+        default_value='3.0',
+        description='Lateral acceleration limit')
+    jerk_limit_arg = DeclareLaunchArgument(
+        'jerk_lim',
+        default_value='0.5f',
+        description='Jerk limit')
+
     # vehicle parameters
     vehicle_param_c1_arg = DeclareLaunchArgument(
         'vehicle_param_c1',
@@ -139,6 +149,10 @@ def generate_launch_description():
     vehicle_param_swr_arg = DeclareLaunchArgument(
         'vehicle_param_swr',
         default_value='14.8',
+        description='Vehicle parameter: ')
+    vehicle_param_L_arg = DeclareLaunchArgument(
+        'vehicle_param_L',
+        default_value='2.7',
         description='Vehicle parameter: ')
 
     # CORE
@@ -323,6 +337,8 @@ def generate_launch_description():
         lanelet_visualization_topic_arg,
         vehicle_tire_angle_topic_arg,
         local_path_length_arg,
+        lat_accel_limit_arg,
+        jerk_limit_arg,
         vehicle_param_c1_arg,
         vehicle_param_c2_arg,
         vehicle_param_m_arg,
@@ -330,6 +346,7 @@ def generate_launch_description():
         vehicle_param_l1_arg,
         vehicle_param_l2_arg,
         vehicle_param_swr_arg,
+        vehicle_param_L_arg,
 
         # core
         crp_core,

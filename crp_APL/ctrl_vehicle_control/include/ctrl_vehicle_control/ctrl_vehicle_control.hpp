@@ -19,7 +19,7 @@ namespace crp
         class ControlHandler : public rclcpp::Node
         {
             public:
-            ControlHandler();
+                ControlHandler();
 
             private:
                 void controlLatCallback(const autoware_control_msgs::msg::Lateral::SharedPtr msg);
@@ -36,6 +36,10 @@ namespace crp
 
                 geometry_msgs::msg::Twist m_twistMsg;
                 autoware_control_msgs::msg::Control m_ctrlCmdMsg;
+
+                float m_latAccelLim{0u};
+                float m_jerkLim{0u};
+                float m_wheelBase{0.0f};
         };
 
     } // namespace apl
