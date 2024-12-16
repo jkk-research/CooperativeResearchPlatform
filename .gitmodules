@@ -29,7 +29,7 @@
 	path = crp_VIL/kvaser_interface
 	url = https://github.com/astuff/kvaser_interface.git
 	branch = ros2_master
-[submodule "crp_VIL/duro_driver/duro_gps_driver"]
+[submodule "crp_VIL/duro_gps_driver"]
 	path = crp_VIL/duro_gps_driver
 	url = https://github.com/szenergy/duro_gps_driver
 	branch = ros2-humble
