@@ -9,16 +9,6 @@ from os.path import join
 
 
 def generate_launch_description():
-    
-    # ARGS
-
-    # behavior planning
-    behavior_current_scenario_arg = DeclareLaunchArgument(
-        'behavior_current_scenario',
-        default_value='laneFollowWithSpeedAdjust',
-        description='Current scenario ("off", "laneFollowWithDefaultSpeed", "laneFollowWithSpeedAdjust", "laneFollow", "speedAdjust")'
-    )
-
     # NODES
 
     environmental_fusion = IncludeLaunchDescription(
@@ -88,9 +78,6 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        # args
-        behavior_current_scenario_arg,
-
         # nodes
         environmental_fusion,
         behavior_planning,
