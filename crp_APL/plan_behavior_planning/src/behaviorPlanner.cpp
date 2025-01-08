@@ -17,8 +17,6 @@ crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
     m_pub_strategy = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
     m_pub_target_space = this->create_publisher<crp_msgs::msg::TargetSpace>("plan/target_space", 10);
 
-    this->declare_parameter("/behavior_planner/current_scenario", "laneFollowWithSpeedAdjust");
-
     timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&BehaviorPlanner::loop, this));  
 }
 
@@ -66,9 +64,8 @@ void crp::apl::BehaviorPlanner::behaviorCallback(const crp_msgs::msg::Behavior::
 
 void crp::apl::BehaviorPlanner::loop()
 {
-    // possible Scenrios: "off", "laneFollowWithSpeedAdjust", "laneFollow", "speedAdjust"
-
-    std::string current_scenario_msg = this->get_parameter("/behavior_planner/current_scenario").as_string();
+    // possible Scenrios: "off", "laneFollowWithDefaultSpeed", "", "laneFollow", "speedAdjust"
+    std::string current_scenario_msg = "laneFollowWithSpeedAdjust";
 
     tier4_planning_msgs::msg::Scenario scenario_msg;
     scenario_msg.current_scenario = current_scenario_msg;

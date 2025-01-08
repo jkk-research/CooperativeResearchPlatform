@@ -78,8 +78,6 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        # args
-
         # nodes
         environmental_fusion,
         behavior_planning,
