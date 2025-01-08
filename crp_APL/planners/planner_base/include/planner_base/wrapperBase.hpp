@@ -15,7 +15,7 @@
 
 #include "../../../interfaces/plannerInterfaces/plannerInterfaces.hpp"
 
-#include "geometryUtils/inc/geometricPathCalculation.hpp"
+#include "../../../crp_utils/geometryUtils/inc/geometricPathCalculation.hpp"
 
 
 namespace crp
