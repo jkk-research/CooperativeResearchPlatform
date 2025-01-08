@@ -81,10 +81,11 @@ def generate_launch_description():
         # nodes
         environmental_fusion,
         behavior_planning,
+        planner_lat_lane_follow_ldm,
         motion_planning,
         vehicle_control,
         vehicle_control_lat,
         vehicle_control_long,
 
-        #planner_lat_lane_follow_ldm
+        
     ])
