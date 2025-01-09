@@ -40,7 +40,7 @@ void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs:
     
     // this callback maps the input trajectory to the internal interface
     for (long unsigned int i=0; i<input_msg.points.size(); i++)
-    {
+    {      
         m_input.path_x.push_back(input_msg.points.at(i).pose.position.x);
         m_input.path_y.push_back(input_msg.points.at(i).pose.position.y);
         quaternion[0] = input_msg.points.at(i).pose.orientation.x; 
@@ -54,7 +54,6 @@ void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs:
         m_input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
     else
         m_input.target_speed = 0.0f;
-
 }
 
 void crp::apl::CtrlVehicleControlLat::egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
@@ -112,7 +111,6 @@ void crp::apl::CtrlVehicleControlLat::loop()
 
     m_pub_cmd->publish(m_ctrlCmdMsg);
 }
-
 
 int main(int argc, char *argv[])
 {
