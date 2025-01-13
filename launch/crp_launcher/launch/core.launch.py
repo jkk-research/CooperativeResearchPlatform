@@ -50,6 +50,16 @@ def generate_launch_description():
         )
     )
 
+    planner_lon_intelligent_speed_adjust = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('plan_lon_intelligent_speed_adjust'),
+                'launch',
+                'plan_lon_intelligent_speed_adjust.launch.py'
+            )
+        )
+    )
+
     vehicle_control = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
@@ -81,10 +91,12 @@ def generate_launch_description():
         # nodes
         environmental_fusion,
         behavior_planning,
+        planner_lat_lane_follow_ldm,
+        planner_lon_intelligent_speed_adjust,
         motion_planning,
         vehicle_control,
         vehicle_control_lat,
         vehicle_control_long,
 
-        planner_lat_lane_follow_ldm
+        
     ])

@@ -8,7 +8,7 @@ crp::apl::WrapperPlanLonIntelligentSpeedAdjust::WrapperPlanLonIntelligentSpeedAd
 
 void crp::apl::WrapperPlanLonIntelligentSpeedAdjust::plan(const PlannerInput & input, PlannerOutput & output)
 {
-    // TODO
+    m_planLongitudinalTrajectory.run(input, output);
     return;
 }
 

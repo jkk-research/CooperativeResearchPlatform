@@ -15,7 +15,7 @@ def generate_launch_description():
     change_controller_PGain = ExecuteProcess(
         cmd=[[
             'ros2 param set ',
-            '/CtrlVehicleControl ',
+            '/CtrlVehicleControlLat ',
             '/ctrl/fbPGain ',
             '2.0'
         ]],
@@ -25,7 +25,7 @@ def generate_launch_description():
     change_controller_IGain = ExecuteProcess(
         cmd=[[
             'ros2 param set ',
-            '/CtrlVehicleControl ',
+            '/CtrlVehicleControlLat ',
             '/ctrl/fbIGain ',
             '0.05'
         ]],
@@ -35,7 +35,7 @@ def generate_launch_description():
     change_controller_DGain = ExecuteProcess(
         cmd=[[
             'ros2 param set ',
-            '/CtrlVehicleControl ',
+            '/CtrlVehicleControlLat ',
             '/ctrl/fbDGain ',
             '0.1'
         ]],
@@ -45,7 +45,7 @@ def generate_launch_description():
     change_controller_ThetaGain = ExecuteProcess(
         cmd=[[
             'ros2 param set ',
-            '/CtrlVehicleControl ',
+            '/CtrlVehicleControlLat ',
             '/ctrl/fbThetaGain ',
             '0.0'
         ]],
@@ -55,7 +55,7 @@ def generate_launch_description():
     change_controller_fbLookAheadTime = ExecuteProcess(
         cmd=[[
             'ros2 param set ',
-            '/CtrlVehicleControl ',
+            '/CtrlVehicleControlLat ',
             '/ctrl/fbLookAheadTime ',
             '0.1'
         ]],
@@ -65,7 +65,7 @@ def generate_launch_description():
     change_controller_steeringLpFilter = ExecuteProcess(
         cmd=[[
             'ros2 param set ',
-            '/CtrlVehicleControl ',
+            '/CtrlVehicleControlLat ',
             '/ctrl/steeringAngleLPFilter ',
             '0.5'
         ]],
@@ -75,7 +75,7 @@ def generate_launch_description():
     change_controller_ffGainOffsetGround = ExecuteProcess(
         cmd=[[
             'ros2 param set ',
-            '/CtrlVehicleControl ',
+            '/CtrlVehicleControlLat ',
             '/ctrl/ffGainOffsetGround ',
             '0.0'
         ]],

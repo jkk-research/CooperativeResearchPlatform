@@ -9,7 +9,6 @@
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 
-
 namespace crp
 {
 namespace apl

@@ -13,7 +13,6 @@ find_package(autoware_perception_msgs REQUIRED)
 find_package(autoware_localization_msgs REQUIRED)
 find_package(tier4_planning_msgs REQUIRED)
 
-
 include_directories(include)
 
 add_executable(ego_fusion src/egoFusion.cpp)

@@ -16,6 +16,7 @@ crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
 
     // initialize control message
+
     m_ctrlCmdMsg.lateral.steering_tire_angle = 0.0f;
     m_ctrlCmdMsg.lateral.steering_tire_rotation_rate = 0.0f;
     m_ctrlCmdMsg.longitudinal.velocity = 0.0f;

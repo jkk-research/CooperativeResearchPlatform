@@ -40,7 +40,7 @@ void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs:
     
     // this callback maps the input trajectory to the internal interface
     for (long unsigned int i=0; i<input_msg.points.size(); i++)
-    {
+    {      
         m_input.path_x.push_back(input_msg.points.at(i).pose.position.x);
         m_input.path_y.push_back(input_msg.points.at(i).pose.position.y);
         quaternion[0] = input_msg.points.at(i).pose.orientation.x; 
@@ -54,7 +54,6 @@ void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs:
         m_input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
     else
         m_input.target_speed = 0.0f;
-
 }
 
 void crp::apl::CtrlVehicleControlLat::egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
@@ -94,16 +93,16 @@ void crp::apl::CtrlVehicleControlLat::loop()
     m_compensatoryModel.run(m_input, m_output, m_params);
 
     // print all the parameters
-    RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", m_params.ffGainOffsetGround);
-    RCLCPP_INFO(this->get_logger(), "ffGainSlope: %f", m_params.ffGainSlope);
-    RCLCPP_INFO(this->get_logger(), "ffLookAheadTime: %f", m_params.ffLookAheadTime);
-    RCLCPP_INFO(this->get_logger(), "ffMinLookAheadDistance: %f", m_params.ffMinLookAheadDistance);
-    RCLCPP_INFO(this->get_logger(), "steeringAngleLPFilter: %f", m_params.steeringAngleLPFilter);
-    RCLCPP_INFO(this->get_logger(), "fbLookAheadTime: %f", m_params.fbLookAheadTime);
-    RCLCPP_INFO(this->get_logger(), "fbPGain: %f", m_params.fbPGain);
-    RCLCPP_INFO(this->get_logger(), "fbDGain: %f", m_params.fbDGain);
-    RCLCPP_INFO(this->get_logger(), "fbIGain: %f", m_params.fbIGain);
-    RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", m_params.fbThetaGain);
+    // RCLCPP_INFO(this->get_logger(), "ffGainOffsetGround: %f", m_params.ffGainOffsetGround);
+    // RCLCPP_INFO(this->get_logger(), "ffGainSlope: %f", m_params.ffGainSlope);
+    // RCLCPP_INFO(this->get_logger(), "ffLookAheadTime: %f", m_params.ffLookAheadTime);
+    // RCLCPP_INFO(this->get_logger(), "ffMinLookAheadDistance: %f", m_params.ffMinLookAheadDistance);
+    // RCLCPP_INFO(this->get_logger(), "steeringAngleLPFilter: %f", m_params.steeringAngleLPFilter);
+    // RCLCPP_INFO(this->get_logger(), "fbLookAheadTime: %f", m_params.fbLookAheadTime);
+    // RCLCPP_INFO(this->get_logger(), "fbPGain: %f", m_params.fbPGain);
+    // RCLCPP_INFO(this->get_logger(), "fbDGain: %f", m_params.fbDGain);
+    // RCLCPP_INFO(this->get_logger(), "fbIGain: %f", m_params.fbIGain);
+    // RCLCPP_INFO(this->get_logger(), "fbThetaGain: %f", m_params.fbThetaGain);
 
     // steering angle and steering angle gradiant
     m_ctrlCmdMsg.stamp = this->now();
@@ -112,7 +111,6 @@ void crp::apl::CtrlVehicleControlLat::loop()
 
     m_pub_cmd->publish(m_ctrlCmdMsg);
 }
-
 
 int main(int argc, char *argv[])
 {
