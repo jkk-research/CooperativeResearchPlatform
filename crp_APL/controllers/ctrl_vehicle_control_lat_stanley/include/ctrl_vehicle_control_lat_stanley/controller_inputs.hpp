@@ -22,7 +22,7 @@ namespace crp
         };
 
         struct ControlParams{
-            double k_gain{0.5f};
+            double K_GAIN{0.5f};
             double wheelbase{2.9f};
         };
     }

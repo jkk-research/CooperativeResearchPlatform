@@ -21,7 +21,6 @@ void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs:
 {
     m_input.m_path_x.clear();
     m_input.m_path_y.clear();
-    double quaternion[4];
 
     
     // this callback maps the input trajectory to the internal interface
@@ -52,15 +51,13 @@ void crp::apl::CtrlVehicleControlLat::pure_p_control()
     
     float distance_to_index = std::max(m_input.vxEgo * m_params.lookahead_time, 2.0);
 
-    RCLCPP_INFO(this->get_logger(), "distance to index: %f", distance_to_index);
-
     float current_distance = 0.0f;
     int target_index = 0;
 
     for (int i = 0; i < m_input.m_path_x.size()-1; i++)
     {
         current_distance += sqrt(pow(m_input.m_path_x.at(i+1) - m_input.m_path_x.at(i), 2) + pow(m_input.m_path_y.at(i+1) - m_input.m_path_y.at(i), 2));
-        if (current_distance > distance_to_index)
+        if (current_distance >= distance_to_index)
         {
             target_index = i;
             break;

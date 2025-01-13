@@ -42,7 +42,7 @@ namespace crp
                 void loop();
 
                 rclcpp::TimerBase::SharedPtr timer_;
-                rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd;
+                rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd_;
 
                 rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_traj_sub_;
                 rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_egoVehicle_sub_;
