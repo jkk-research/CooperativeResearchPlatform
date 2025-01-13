@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>ctrl_vehicle_control_lat_compensatory</name>
+  <name>ctrl_vehicle_control_lat_stanley</name>
   <version>0.0.0</version>
-  <description>Vehicle Control Package with Compensatory Model</description>
-  <maintainer email="gfigneczi1@ga.sze.hu">gfigneczi1</maintainer>
+  <description>Vehicle Control Package with Stanley lateral controller</description>
+  <maintainer email="mesics.matyas@ga.sze.hu">mesmatyi</maintainer>
   <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
