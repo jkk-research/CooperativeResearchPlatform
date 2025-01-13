@@ -37,10 +37,12 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
     }
 
 
-    for (tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint : targetSpaceMsg.path.path.points)
-    {
-        pathPoint.point.longitudinal_velocity_mps = std::min(m_maximum_speed, pathPoint.point.longitudinal_velocity_mps);
-    }
+    //for (tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint : targetSpaceMsg.path.path.points)
+    //{
+    //    pathPoint.point.longitudinal_velocity_mps = std::min(m_maximum_speed, pathPoint.point.longitudinal_velocity_mps);
+    //}
+
+    targetSpaceMsg.path.traffic_rules.maximum_speed = m_maximum_speed;
 
     targetSpaceMsg.free_space = msg->free_space;
     
