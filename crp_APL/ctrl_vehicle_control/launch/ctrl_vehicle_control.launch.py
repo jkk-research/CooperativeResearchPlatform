@@ -7,11 +7,11 @@ def generate_launch_description():
     # args
     lat_accel_limit_arg = DeclareLaunchArgument(
         'lat_accel_lim',
-        default_value='3.0f',
+        default_value='3.0',
         description='Lateral acceleration limit')
     jerk_limit_arg = DeclareLaunchArgument(
         'jerk_lim',
-        default_value='0.5f',
+        default_value='0.5',
         description='Jerk limit')
     vehicle_param_L_arg = DeclareLaunchArgument(
         'vehicle_param_L',
