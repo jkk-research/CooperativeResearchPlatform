@@ -177,6 +177,17 @@ void crp::apl::MotionHandler::findNeighbouringPointsLocal(const PlannerOutputTra
 
 void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Trajectory & outputTrajectory, const PlannerOutput & longitudinalTrajectory)
 {
+    if (outputTrajectory.points.size() == 0)
+    {
+        RCLCPP_WARN(this->get_logger(), "No points in output trajectory for interpolation");
+        return;
+    }
+    if (longitudinalTrajectory.trajectory.size() == 0)
+    {
+        RCLCPP_WARN(this->get_logger(), "No points in longitudinal trajectory for interpolation");
+        return;
+    }
+    
     uint32_t lastFirstMatchIdx = 0; // first (by index) closest match in longitudinal trajectory the last time
     float lastSpeed = 0.0; // last speed used for interpolation
     for (uint32_t i=0; i<outputTrajectory.points.size(); i++)
