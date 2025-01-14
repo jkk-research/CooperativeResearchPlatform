@@ -13,12 +13,20 @@ find_package(planner_base REQUIRED)
 include_directories(include ${planner_base_INCLUDE_DIRS})
 
 
-add_executable(plan_lon_intelligent_speed_adjust src/wrapperPlanLonIntelligentSpeedAdjust.cpp)
+add_executable(plan_lon_intelligent_speed_adjust 
+    src/wrapperPlanLonIntelligentSpeedAdjust.cpp
+    src/functionCode/src/planLongitudinalTrajectory.cpp)
+    
 ament_target_dependencies(plan_lon_intelligent_speed_adjust rclcpp planner_base)
 
 install(TARGETS
 plan_lon_intelligent_speed_adjust
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}
 )
 
 ament_package()
