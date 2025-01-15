@@ -25,6 +25,8 @@ namespace crp
                 Filters m_steeringAngleFilter;
                 Filters m_posDerivativeFilter;
 
+                // GENERIC VARIABLES
+                double m_lookAheadPose[3]{0.0f, 0.0f, 0.0f};
 
                 double* m_coefficients;
                 std::vector<double> m_localPath_x;
@@ -71,6 +73,8 @@ namespace crp
                 void calculateSteeringAngle(const ControlInput& input, const ControlParams& params);
 
                 void cutRelevantLocalSnippet();
+
+                void calculateLookAheadPose(const ControlInput& input, const ControlParams& params);
 
                 double steeringInverseDynamics(const double& steeringAngle, const ControlParams& params);
         };

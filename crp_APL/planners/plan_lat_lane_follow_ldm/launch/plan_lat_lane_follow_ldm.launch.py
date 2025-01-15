@@ -10,7 +10,7 @@ def generate_launch_description():
         name='plan_lat_lane_follow_ldm',
         output='screen',
         parameters=[
-            {"/plan_lat_lane_follow_ldm/nodePointDistances": [25.0, 50.0, 75.0]},
+            {"/plan_lat_lane_follow_ldm/nodePointDistances": [10.0, 39.0, 96.0]},
             {"/plan_lat_lane_follow_ldm/trajectoryResolution": 1.0},
             {"/plan_lat_lane_follow_ldm/pLeft": [
                 0.0, 0.0, 0.0,
@@ -20,7 +20,7 @@ def generate_launch_description():
                 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0,
                 0.0, 0.0, 0.0]},
-            {"/plan_lat_lane_follow_ldm/pStraight": -10.0}
+            {"/plan_lat_lane_follow_ldm/pStraight": 0.0}
         ]
     )
 

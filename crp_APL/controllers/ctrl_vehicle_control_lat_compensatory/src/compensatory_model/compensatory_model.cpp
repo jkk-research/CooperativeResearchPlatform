@@ -25,7 +25,6 @@ namespace crp
             // cut snippet
             cutRelevantLocalSnippet();
 
-
             if (input.path_x.size() < 4)
             {
             
@@ -38,8 +37,9 @@ namespace crp
                 
                 printf("Trajectory length is %d\n", input.path_x.size());
                 m_coefficients = m_polynomialCalculator.calculateThirdOrderPolynomial(m_localPathCut_x, m_localPathCut_y);
-                printf("coefficients are %f %f %f %f\n", m_coefficients[0], m_coefficients[1], m_coefficients[2], m_coefficients[3]);
-                // print the first 10 points of the trajectory
+                
+                calculateLookAheadPose(input, params);
+                
                 // feedforward control
                 calculateFeedforward(input, params);
 
@@ -86,20 +86,17 @@ namespace crp
             // filter.
 
             m_lookAheadDistance = std::max(params.ffMinLookAheadDistance, params.ffLookAheadTime*input.vxEgo);
-            // second derivative of the 3rd order polynomial
-            m_targetCurvature = 2.0f*m_coefficients[2]+6.0f*m_coefficients[3]*m_lookAheadDistance;
+            // second derivative of the 3rd order polynomial, filtered
+            printf("relevant coefficients are %f, %f\n", m_coefficients[2], m_coefficients[3]);
+            m_targetCurvature = 0.99f*m_targetCurvature + 
+                                0.01f*(2.0f*m_coefficients[2]+6.0f*m_coefficients[3]*m_lookAheadDistance);
 
             if(params.debugKPIs)
             {printf("data before limitation: c0=%f, lad=%f, kappa=%f\n", m_coefficients[0], m_lookAheadDistance, m_targetCurvature);}
-            m_targetCurvature = std::max(std::min(m_targetCurvature, params.maxCurvature), -params.maxCurvature);
-            if(params.debugKPIs){printf("kappa after limitation %f\n", m_targetCurvature);}
-            // the target curvature is compensated with a velocity dependent scaling factor
-            m_targetCurvature = m_targetCurvature*(params.ffGainOffsetGround+input.vxEgo*params.ffGainSlope);
 
-            if(params.debugKPIs){printf("kappa after velocity compensation %f\n", m_targetCurvature);}
             // finally, lateral feedforward acceleration is calculated - this is done to be in harmony 
             // with the feedback path later (out of scope of this method)
-            m_targetAccelerationFF = m_targetCurvature * std::pow(input.vxEgo,2);
+            m_targetAccelerationFF = params.ffGainOffsetGround*std::min(std::max(-params.maxFFAcceleration, m_targetCurvature * std::pow(input.vxEgo,2)), params.maxFFAcceleration);
 
             if(params.debugKPIs)
                 {printf("ayTarFF %f\n", m_targetAccelerationFF);}
@@ -117,16 +114,9 @@ namespace crp
 
             m_lookAheadDistanceFb = std::max(params.fbMinLookAheadDistance, params.fbLookAheadTime*input.vxEgo);
 
-            m_posErr = 
-                m_coefficients[0]+
-                m_coefficients[1]*m_lookAheadDistanceFb +
-                m_coefficients[2]*std::pow(m_lookAheadDistanceFb,2)+
-                m_coefficients[3]*std::pow(m_lookAheadDistanceFb,3);
+            m_posErr = m_lookAheadPose[1];
 
-            m_orientationErr = atan(
-                m_coefficients[1]+
-                2.0f*m_coefficients[2]*m_lookAheadDistanceFb+
-                3.0f*m_coefficients[3]*std::pow(m_lookAheadDistanceFb,2));
+            m_orientationErr = m_lookAheadPose[2];
 
             m_posIntegralError = m_posIntegralError+m_posErr*params.dT;
             m_posIntegralError = std::min(std::max(-params.fbIntegralLimit, m_posIntegralError), 
@@ -143,6 +133,8 @@ namespace crp
             
             m_targetAccelerationFB = m_targetAccelerationFB + 
                 params.fbThetaGain * m_orientationErr;
+
+            m_targetAccelerationFB = std::min(std::max(-params.maxAcceleration, m_targetAccelerationFB), params.maxAcceleration);
             
             if(params.debugKPIs){printf("errors %f, %f, %f, %f\n", m_posErr, m_posIntegralError, m_posDerivativeError, m_orientationErr); printf("ayTarFB %f\n", m_targetAccelerationFB);}
 
@@ -208,12 +200,61 @@ namespace crp
             }
    }
 
+    void CompensatoryModel::calculateLookAheadPose(const ControlInput& input, const ControlParams& params)
+    {
+        // calculate the look ahead pose based on a predicted position of the vehicle.
+        // look ahead time is taken from parameters.
+
+        // feedback look ahead pose
+        float lookAheadDistance = params.fbLookAheadTime*input.vxEgo;
+        float lookAheadOrientationChange = 
+            params.fbLookAheadTime*tan(input.egoSteeringAngle)/params.vehAxleDistance*input.vxEgo;
+
+        printf("predicted orientation change is %f\n", lookAheadOrientationChange*180/3.14159);
+        
+        // in the ego frame x-y the displacements are
+        float predictedVehiclePoset1[3];
+        predictedVehiclePoset1[0] = lookAheadDistance*cos(lookAheadOrientationChange);
+        predictedVehiclePoset1[1] = lookAheadDistance*sin(lookAheadOrientationChange);
+        predictedVehiclePoset1[2] = lookAheadOrientationChange;
+
+        // calculate the look ahead point in the t0 ego frame
+        float lookAheadPointt0[3];
+        lookAheadPointt0[0] = predictedVehiclePoset1[0];
+        lookAheadPointt0[1] = 
+                m_coefficients[0]+
+                m_coefficients[1]*predictedVehiclePoset1[0] +
+                m_coefficients[2]*std::pow(predictedVehiclePoset1[0],2)+
+                m_coefficients[3]*std::pow(predictedVehiclePoset1[0],3);
+        lookAheadPointt0[2] = 
+                atan(m_coefficients[1] +
+                2.0f*m_coefficients[2]*predictedVehiclePoset1[0]+
+                3.0f*m_coefficients[3]*std::pow(predictedVehiclePoset1[0],2));
+
+        // now making the correction for the predicted new pose and calculate the prospective error
+        // (this is a global to local like transformation)
+        // translation first, then rotation
+        m_lookAheadPose[0] = (lookAheadPointt0[0] - predictedVehiclePoset1[0])*cos(predictedVehiclePoset1[2]) +
+                                (lookAheadPointt0[1] - predictedVehiclePoset1[1])*sin(predictedVehiclePoset1[2]);
+        
+        m_lookAheadPose[1] = -1.0f*(lookAheadPointt0[0] - predictedVehiclePoset1[0])*sin(predictedVehiclePoset1[2]) +
+                                (lookAheadPointt0[1] - predictedVehiclePoset1[1])*cos(predictedVehiclePoset1[2]);
+
+        // finally, angle adjustment
+        m_lookAheadPose[2] = lookAheadPointt0[2] - predictedVehiclePoset1[2];
+
+        printf("look ahead pose is %f ,%f, %f\n", m_lookAheadPose[0], m_lookAheadPose[1], m_lookAheadPose[2]);
+
+    }
+
         void CompensatoryModel::calculateSteeringAngle(const ControlInput& input, const ControlParams& params)
         {
-            // calculate steering angle from the acceleration based on target curvature
-            m_targetSteeringAngleFF = std::atan(m_targetCurvature*params.vehAxleDistance);
-
             double vxLim = std::max(params.vxMin, input.vxEgo);
+
+            // calculate steering angle from the acceleration based on target curvature
+            double targetCurvatureFF = m_targetAccelerationFF / std::pow(vxLim,2);
+            m_targetSteeringAngleFF = std::atan(targetCurvatureFF*params.vehAxleDistance);
+            
             double targetCurvatureFb = m_targetAccelerationFB / std::pow(vxLim,2);
             m_targetSteeringAngleFB = std::atan(targetCurvatureFb*params.vehAxleDistance);
 
