@@ -152,6 +152,33 @@ def generate_launch_description():
         )
     )
 
+    # crp_core = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         join(
+    #             get_package_share_directory('crp_launcher'),
+    #             'launch',
+    #             'core_lqr.launch.py')
+    #     )
+    # )
+
+    # crp_core = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         join(
+    #             get_package_share_directory('crp_launcher'),
+    #             'launch',
+    #             'core_stanley.launch.py')
+    #     )
+    # )
+
+    # crp_core = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         join(
+    #             get_package_share_directory('crp_launcher'),
+    #             'launch',
+    #             'core.pure_p.py')
+    #     )
+    # )
+
     # NODES
 
     novatel_gps = IncludeLaunchDescription(

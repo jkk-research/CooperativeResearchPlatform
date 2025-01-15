@@ -7,7 +7,7 @@ from launch.substitutions import LaunchConfiguration
 def generate_launch_description():
     lanelet2_path_arg = DeclareLaunchArgument(
         'map_file_path',
-        default_value="/home/matyko/Downloads/ZalaZone_Handling.osm",
+        default_value="/home/matyko/lanelet2_maps/auto_mapper/lightweight_lanelet.osm",
         description='Path to the lanelet2 map file'
     )
 
