@@ -16,7 +16,7 @@ def generate_launch_description():
         description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
-        default_value='duro',
+        default_value='nova',
         description='Select the GPS to use: nova or duro')
 
     # novatel gps
@@ -188,6 +188,7 @@ def generate_launch_description():
         condition = LaunchConfigurationEquals('select_gps', 'duro')
     )
     
+
     ekf_wrapper = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(

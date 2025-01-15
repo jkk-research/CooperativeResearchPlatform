@@ -52,9 +52,25 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
         inputPoint.pose.position.y = pathPoint.point.pose.position.y;
         inputPoint.pose.position.z = pathPoint.point.pose.position.z;
         inputPoint.pose.orientation = getYawFromQuaternion(pathPoint.point.pose.orientation);
+
         m_input.path.pathPoints.push_back(inputPoint);
         m_input.path.targetSpeed.push_back(pathPoint.point.longitudinal_velocity_mps);
-        printf("velocity in input: %f\n", pathPoint.point.longitudinal_velocity_mps);
+    }
+
+    // calculating the curvature
+    std::vector<float> x; 
+    std::vector<float> y; 
+    for (int i=0; i<m_input.path.pathPoints.size(); i++)
+    {
+        x.push_back(m_input.path.pathPoints.at(i).pose.position.x);
+        y.push_back(m_input.path.pathPoints.at(i).pose.position.y);
+    }
+
+    std::vector<float> c = m_geometricPathCalculator.calculateCurvature(x,y);
+
+    for (int i=0; i<c.size(); i++)
+    {
+        m_input.path.pathPoints.at(i).curvature = c.at(i);
     }
     // TODO: decide the function of laneID
 

@@ -682,64 +682,93 @@ To create lane maps, the following devices were used in a single vehicle:
 \end{itemize}
 According to the datasheet of the devices, the camera estimates lane marking centerpoint position compared to the vehicle rear axis with an accuracy of $2 cm$, 
 assuming confidence of at least $75\%$. The confidence value is also provided by the camera and measured during our test drives. In the data process phase 
-measurement points that have lower confidence than this threshold are neglected.
+measurement points that have lower confidence than this threshold are neglected. Then, the points of the lane edges and centerlines are calculated. 
+The camera returns various parameters of the lane edges. These are the following:
+\begin{itemize}
+    \item $d$ - lateral position of the lane edge(s) in the ego vehicle frame (note: the ego vehicle frame is aligned with the middle point of the rear axle),
+    \item $\Theta$ - orientation offset to the lane edge(s),
+    \item $\kappa = \frac{1}{R}$ - curvature of the lane edge(s).
+\end{itemize}
+All quantities are calculated at $x=0$ local coordinate. An illustration of the parameters is shown in Figure \ref{fig:lanegeometry}.
 \begin{figure}[h]
     %\captionsetup{justification=raggedleft}
-    \center{\includegraphics[width=1.0\textwidth]{mapPub/ZZ_all.pdf}}
-    \caption{Result of the map data preprocess - sorted lanes from multiple measurement file.}
-    \label{fig:ZZ_all}
+    \center{\includegraphics[width=0.6\textwidth]{mapPub/lanegeometry.png}}
+    \caption{The lane geometry relations in the ego vehicle frame.}
+    \label{fig:lanegeometry}
+\end{figure}
+Knowing the pose of the ego vehicle, i.e., $\boldsymbol{P}_{ego} = \begin{bmatrix}
+    \boldsymbol{\rho}(X,Y) & \Psi
+\end{bmatrix}$ the global (UTM) position and orientation of the vehicle, the all-time lane edge 
+point at $x=0$ local coordinate can be calculated from $\boldsymbol{P}_{ego}$ and $d(x=0)$, with the following simple 2D transformation equations:
+\begin{align} \label{eq:2DTransform}
+    X_{lane}(t) = X(t) - sin(\Psi(t))d(t) \\
+    Y_{lane}(t) = Y(t) + cos(\Psi(t))d(t)
+\end{align}
+The camera used in the current study can detect the lane edges of the ego lane, therefore there are $d_{left}(t)$ and $d_{right}(t)$. The lateral distance to the 
+centerline of the lane is calculated as the average of the left and right lane edge distance values, namely: $d_{center}(t) = 0.5*(d_{left}(t)+d_{right}(t))$.
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=1.0\textwidth]{mapPub/idInterpretation.png}}
+    \caption{Interpretation of the lane identification numbers - illustration only.}
+    \label{fig:idInterpretation}
 \end{figure}
 \newline
-After the lane marking points are processed, they are saved to a compact structure. In this structure, each lane edge marking is given an identification number, 
-namely: $id=1$ for the outer lane right edge, $id=2$ for the outer lane left edge (equally, the inner lane right edge), and $id=3$ for the inner lane left 
-edge. Also, the lane centerlines are stored, with separate ID, as $id=1$ for the centerline of the outer lane, and $id=2$ for that of the inner lane. 
-All measurements plotted in the UTM coordinate frame is seen in Figure \ref{fig:ZZ_all}. The circles indicate the starting point of each lines. A few anomalies
-are seen:
-\begin{itemize}
-    \item not all the measurements start at the same localization, there are significant differences for some of them.
-    \item there is a deviation between estimated lines due to the aformentioned conditions. These errors are more illustrated in Figure \ref{fig:ZZ_straight_close}.
-\end{itemize}
+After the lane marking points are processed, they are saved to a compact structure. In this structure, each lane edge marking, as well as the centerline are stored 
+separately. 
 \begin{figure}[h]
     %\captionsetup{justification=raggedleft}
-    \center{\includegraphics[width=1.0\textwidth]{mapPub/ZZ_straight_mid_close.pdf}}
-    \caption{Lane edge id=2. There is a deviation between estimates coming from multiple measurements.}
-    \label{fig:ZZ_straight_close}
+    \center{\includegraphics[width=1.0\textwidth]{mapPub/idInterpretation.png}}
+    \caption{Interpretation of the lane identification numbers - illustration only.}
+    \label{fig:idInterpretation}
 \end{figure}
-Theoretically, the variance of the lane edge estimates can be calculated. However, there are two major issues:
+\newline
+\newline
+\fbox{Note: the steps given in this subsection are implemented in \emph{dataPreprocess.m}}
+
+\subsection{Algorithm steps}
+By this point, a well conditioned structure of the lane edges and centerlines are produced. The preprocess steps are summarized as follows:
+\begin{enumerate}
+    \item Read raw measurement files and do the name standardization,
+    \item pre-filtering unreliable measurement points either due to camera maldetection or DGPS inaccuracies,
+    \item apply 2D transformation to calculate line points of lane edges and the centerlines,
+    \item match the road, lanes and lane edges to predefined identification numbers.
+\end{enumerate}
+Out of this list, the first three steps can be done without any issues. However, the last step is difficult with no prior knowledge. E.g., how shall we know which road 
+the vehicle is on? By knowing the road ID, how can we decide which lane the vehicle travels in (especially valid for multi-lane roads, such as highways)?
+To overcome this issue, we propose the following two-step approach:
 \begin{itemize}
-    \item there are not enough measurements to create a probability distribution from point to point,
-    \item the points are not sampled at the same position,
-    \item orientation of the lane changes between $-\Pi$ and $\Pi$, which may lead to non-monotonic X values, therefore function interpretation is difficult.
+    \item Step 1: \textbf{referencing phase}. In this phase we create reference lanelets that contain all ID information and a bounding box around each lane lines. The bounding box approach allows a certain deviation from the reference line but still ensures accurate mapping of the new meausurement to the existing lanes. The source of the reference lanes is discussed later.
+    \item Step 2: \textbf{accurate phase}. In this phase we read new measurements from the raw files, and match the lanes in it to the reference lines. Once this is done, the stored reference line is recalculated and made more accurate with the information held by the new measurement. The assumption is the more occurance of one lane line the more accurate the reference line.
 \end{itemize}
-The second and third problem are illustrated in Figure \ref{fig:deviation_problem}. To overcome these issues, we propose multiple solutions. In the upcoming 
-sections details are provided for all.
+The two-phase approach is also illustrated in Figure \ref{fig:twoPhaseApproach}. The reference file can come from three different sources. When the route is not yet 
+included in the CRP map database, the Open Street Map database can be used as a prior information or own measurements can be used. In the latter case, manual labelling is 
+necessary, and shall be included e.g., in the file name. This way, a prior reference line can be used, based on which the boundary boxes are calculated.
+If the route is included in the CRP database already, it can be read in and used for the accurate phase. In all cases, creation of the bounding boxes is necessary.
+For this, details are provided later.\newline
+In the accurate phase the new meausurement is associated with the bounding boxes. Then, the existing reference lines and the new measurement are merged, and regression is 
+applied on them to yield the new, more accurate reference line. Finally, the database is updated by feeding the more accurate reference line structures back.
 \begin{figure}[h]
     %\captionsetup{justification=raggedleft}
-    \center{\includegraphics[width=0.6\textwidth]{mapPub/deviation_problem.png}}
-    \caption{Illustration of a realistc lane marking detection scenario. Problems are that a) there is a deviation of points due to the localization and 
-    detection inaccuracies, and b) the points are given in equal time steps, but without synchronization to each other (measurements are recorded after 
-    each other).}
-    \label{fig:deviation_problem}
+    \center{\includegraphics[width=1.0\textwidth]{mapPub/twoPhaseApproach.png}}
+    \caption{Two phase approach of reference line creation.}
+    \label{fig:twoPhaseApproach}
 \end{figure}
-\subsection{Lightweight Mapping}
-Lightweight solution is to rotate sections of the route into a frame which provided strictly monotonic increasing X values. This helps to formulate the 
-problem az a function approximation where the $X_{rotated}$ coordinates are the independent variables. Then, a selected function can be fitted.
-For example, polylines may be used to describe the lane edge lines. Then, using Least-Square Regression the polyline coefficients can be calculated knowing
-the line data ahead. Please be noted that similar solution may be applied when data is not available preliminary (i.e., online estimation), but other techniques, 
-such as system identification techniques must be introduced. This increases the complexity of the algorithm and reduced the accuracy. In this case the data 
-is available, therefore a full regression can be applied offline, in MATLAB, using preliminary function called \emph{polyfit(x,y,n)} of MATLAB, where $x$ and $y$ are 
-vectors of the measurement points, and $n$ is the degree of the polyline. The most important is parameter of the regression is $n$. Choosing a low $n$ saves computational 
-time but may lead to poor fit on the data while large value of $n$ results in good fit accuracy but takes more time to calculate and is prone to overfit 
-on the data, therefore extrapolation is difficult. The problem can be simplified if the shape of the line to be estimated is simpler, which can be achieved but 
-cutting the complete route to snippets. In this case, the route consists of the clearly seen straight section followed by a right curve. Even though this is a very 
+
+\subsection{Manual Reference Phase}
+Manual reference lines can be calculated by using own measurements and labelled road and lane id information.
+\newline \newline
+\fbox{Note: the steps given in this section are implemented in \emph{createManualReference.m}}
+\subsubsection{Strictly Monotonic Increasing Coordinates}
+The goal is to rotate sections of the route into a frame which provided strictly monotonic increasing X values. This helps to formulate the regression
+problem as a function approximation where the $X_{rotated}$ coordinates are the independent variables. Then, a selected function can be fitted.
+Even though this is a very 
 simple situation, the following procedure can be used in all similar cases, where straight sections are connected via curves:
 \begin{itemize}
     \item calculate curvature along the route and cut the route per straights and curves,
     \item rotate snippets to have strictly monotonic X values,
     \item regression of polyline onto the data.
 \end{itemize}
-\subsubsection{Road curvature estimation}
-First, the road curvature shall be calculated. Without analytically fitting a curve a telling the curvature based on the curve parameters, numerical derivation can be used.
+Without analytically fitting a curve a telling the curvature based on the curve parameters, numerical derivation can be used.
 Nominally, the curvature is the rate of the orientation change, where orientation stands for the tangential direction angle, the rate is calculated based on the step along 
 the $X$ axis. In the end, the curvature will be given in $\frac{1}{m}$ unit given the $X$ is in $meters$. The curvature can be calculated per (\ref{eq:curvature}).
 \begin{equation} \label{eq:curvature}
@@ -765,15 +794,71 @@ transformation are needed, to ensure that $X$ gets strictly monotonic. Algorithm
 After this algorithm, there are pre-checked snippets, all with strictly monotonic $X$ values, therefore (\ref{eq:discrete_orientation}-\ref{eq:discrete_curvature}) can be calculated for all of them. Then, 
 the calculated curvature vectors are concatenated, resulting in the curvature of the original, uncut point series. Now, the following check is done:
 \begin{enumerate}
-    \item Step 1: find sections, where $\abs{\kappa} < \kappa_{min}$ and label them as straights,
-    \item Step 2: find sections, where $\kappa < -\kappa_{min}$ and label them as right curves,
-    \item Step 3: find sections, where $\kappa > \kappa_{min}$ and label them as left curves.
+    \item Step 1: find sections, where $\abs{\kappa} < \kappa_{min}$ and label them as straights - $type = 0$,
+    \item Step 2: find sections, where $\kappa < -\kappa_{min}$ and label them as right curves - $type = 2$,
+    \item Step 3: find sections, where $\kappa > \kappa_{min}$ and label them as left curves - $type = 1$.
 \end{enumerate}
 Now, given the curve information, the route can be cut into snippets.
+\newline \newline
+\fbox{Note: the steps given in this subsection are implemented in \emph{calculateRoadCurvatureTypes.m}}
 
-\subsubsection{Rotate to local coordinates}
+\subsubsection{Bounding Box Creation}
+Now, taking the snippets for each reference lanes, a bounding box is calculated which forms a band around the reference line. By using a band, a certain deviation from 
+the exact reference line is allowed. This is necessary, as the new measurements must be matched with the reference lines.
+\newline \newline
+\fbox{Note: the steps given in this subsection are implemented in \emph{createBoundingBoxes.m}}
 
-\subsubsection{Regression of polyline}
+\subsection{Accurate Phase}
+The accurate phase reads in the reference file (from any source), maps the new measurements to the reference lines and make the regression again to yield more accurate 
+reference lines.
+\newline \newline
+\fbox{Note: the steps given in this subsection are implemented in \emph{createMap.m}}
+
+\subsubsection{Regression}
+All measurements plotted in the UTM coordinate frame is seen in Figure \ref{fig:ZZ_all}. The circles indicate the starting point of each lines. A few anomalies
+are seen:
+\begin{itemize}
+    \item not all the measurements start at the same localization, there are significant differences for some of them,
+    \item there is a deviation between estimated lines due to the aformentioned conditions. These errors are more illustrated in Figure \ref{fig:ZZ_straight_close}.
+\end{itemize}
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=1.0\textwidth]{mapPub/ZZ_all.pdf}}
+    \caption{Result of the map data preprocess - sorted lanes from multiple measurement file.}
+    \label{fig:ZZ_all}
+\end{figure}
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=1.0\textwidth]{mapPub/ZZ_straight_mid_close.pdf}}
+    \caption{Lane edge id=2. There is a deviation between estimates coming from multiple measurements.}
+    \label{fig:ZZ_straight_close}
+\end{figure}
+Theoretically, the variance of the lane edge estimates can be calculated. However, there are two major issues:
+\begin{itemize}
+    \item there are not enough measurements to create a probability distribution from point to point,
+    \item the points are not sampled at the same position,
+    \item orientation of the lane changes between $-\Pi$ and $\Pi$, which may lead to non-monotonic X values, therefore function interpretation is difficult.
+\end{itemize}
+The second and third problem are illustrated in Figure \ref{fig:deviation_problem}. As during reference phase the snippets are cut to have strictly monotonic 
+$X$ local coordinates, the regression problem can be treated as a function approximation problem. 
+For example, polylines may be used to describe the lane edge lines. Then, using Least-Square Regression the polyline coefficients can be calculated knowing
+the line data ahead. Please be noted that similar solution may be applied when data is not available preliminary (i.e., online estimation), but other techniques, 
+such as system identification techniques must be introduced. This increases the complexity of the algorithm and reduced the accuracy. In this case the data 
+is available, therefore a full regression can be applied offline, in MATLAB, using preliminary function called \emph{polyfit(x,y,n)} of MATLAB, where $x$ and $y$ are 
+vectors of the measurement points, and $n$ is the degree of the polyline. The most important is parameter of the regression is $n$. Choosing a low $n$ saves computational 
+time but may lead to poor fit on the data while large value of $n$ results in good fit accuracy but takes more time to calculate and is prone to overfit 
+on the data, therefore extrapolation is difficult. The problem can be simplified if the shape of the line to be estimated is simpler, which can be achieved but 
+cutting the complete route to snippets. In this case, the route consists of the clearly seen straight section followed by a right curve. 
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=0.6\textwidth]{mapPub/deviation_problem.png}}
+    \caption{Illustration of a realistc lane marking detection scenario. Problems are that a) there is a deviation of points due to the localization and 
+    detection inaccuracies, and b) the points are given in equal time steps, but without synchronization to each other (measurements are recorded after 
+    each other).}
+    \label{fig:deviation_problem}
+\end{figure}
+\newline \newline
+\fbox{Note: the steps given in this subsection are implemented in \emph{calculateSmoothLine.m}}
 
 \subsection{Results}
 The results are shown in Figure \ref{fig:fittedLines_zoomed}. This is an example, where the original measurement points are shown with small dots, while the regression line is shown as solid.
@@ -791,9 +876,5 @@ The results are shown in Figure \ref{fig:fittedLines_zoomed}. This is an example
     \label{fig:fittedLines}
 \end{figure}
 
-\bibliography{refs}% common bib file
-%% if required, the content of .bbl file can be included here once bbl is generated
-%%\input sn-article.bbl
-
-
+\bibliography{refs}
 \end{document}
