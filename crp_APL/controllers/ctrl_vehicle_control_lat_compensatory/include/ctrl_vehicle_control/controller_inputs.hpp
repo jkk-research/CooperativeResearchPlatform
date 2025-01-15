@@ -27,7 +27,8 @@ namespace crp
             double ffLookAheadTime{1.5f};
             double ffMinLookAheadDistance{0.1f};
             double vehAxleDistance{2.9f};
-            double maxCurvature{0.1};
+            double maxAcceleration{3.0f};
+            double maxFFAcceleration{1.0f};
             double steeringAngleLPFilter{0.7f};
             double fbLookAheadTime{0.0f};
             double fbPGain{0.5f};

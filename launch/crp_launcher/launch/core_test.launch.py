@@ -67,7 +67,7 @@ def generate_launch_description():
             'ros2 param set ',
             '/CtrlVehicleControlLat ',
             '/ctrl/steeringAngleLPFilter ',
-            '0.5'
+            '0.8'
         ]],
         shell=True
     )
