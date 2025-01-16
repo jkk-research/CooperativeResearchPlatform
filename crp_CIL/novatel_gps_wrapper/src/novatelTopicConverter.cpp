@@ -14,20 +14,7 @@ void crp::vil::NovatelTopicConverter::currentPoseCallback(const geometry_msgs::m
     geometry_msgs::msg::PoseWithCovarianceStamped poseWithCovariance;
     poseWithCovariance.header = msg->header;
     poseWithCovariance.pose.pose = msg->pose;
-
-    tf2::Quaternion q_orig;
-    tf2::convert(msg->pose.orientation, q_orig);
-
-    tf2::Matrix3x3 m(q_orig);
-    double roll, pitch, yaw;
-    m.getRPY(roll, pitch, yaw);
-
-    yaw += M_PI / 2.0;
-
-    tf2::Quaternion q_rotated;
-    q_rotated.setRPY(roll, pitch, yaw);
-
-    poseWithCovariance.pose.pose.orientation = tf2::toMsg(q_rotated);
+    poseWithCovariance.pose.pose.orientation = msg->pose.orientation;
 
     m_pub_currentPoseWithCovariance_->publish(poseWithCovariance);
 }
