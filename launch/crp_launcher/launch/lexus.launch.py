@@ -12,7 +12,7 @@ def generate_launch_description():
 
     localization_source_arg = DeclareLaunchArgument(
         'localization_source',
-        default_value='ekf',
+        default_value='gnss',
         description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
@@ -175,7 +175,7 @@ def generate_launch_description():
     #         join(
     #             get_package_share_directory('crp_launcher'),
     #             'launch',
-    #             'core.pure_p.py')
+    #             'core_pure_p.launch.py')
     #     )
     # )
 
