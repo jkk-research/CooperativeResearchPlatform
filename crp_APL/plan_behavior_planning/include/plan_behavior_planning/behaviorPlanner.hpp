@@ -34,7 +34,7 @@ private:
     rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy;
     rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_target_space;
 
-    rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::TimerBase::SharedPtr m_timer_;
     
     float m_maximum_speed;
 };
