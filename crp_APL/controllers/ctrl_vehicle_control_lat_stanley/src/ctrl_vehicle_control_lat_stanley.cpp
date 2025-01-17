@@ -4,26 +4,25 @@ using namespace std::chrono_literals;
 using std::placeholders::_1;
 
 
-crp::apl::CtrlVehicleControlLat::CtrlVehicleControlLat() : Node("CtrlVehicleControlLatStanley")
+crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("CtrlVehicleControlLatStanley")
 {
-    timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLat::loop, this));  
+    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLatStanley::loop, this));  
     m_pub_cmd_ = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
 
-    m_traj_sub_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLat::trajCallback, this, std::placeholders::_1));
-    m_egoVehicle_sub_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLat::egoVehicleCallback, this, std::placeholders::_1));
+    m_sub_traj_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLatStanley::trajCallback, this, std::placeholders::_1));
+    m_sub_egoVehicle_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLatStanley::egoVehicleCallback, this, std::placeholders::_1));
 
     this->declare_parameter("/ctrl/k_gain", 0.5f);
     this->declare_parameter("/ctrl/wheelbase", 2.7f);
 
-    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
+    RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatStanley has been started");
 }
 
-void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
+void crp::apl::CtrlVehicleControlLatStanley::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
 {
     m_input.m_path_x.clear();
     m_input.m_path_y.clear();
 
-    
     // this callback maps the input trajectory to the internal interface
     for (long unsigned int i=0; i<input_msg.points.size(); i++)
     {
@@ -32,22 +31,22 @@ void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs:
     }
 
     if (input_msg.points.size() > 0)
-        m_input.m_target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
+        m_input.targetSpeed = input_msg.points.at(0).longitudinal_velocity_mps;
     else
-        m_input.m_target_speed = 0.0f;
+        m_input.targetSpeed = 0.0f;
 
 }
 
-void crp::apl::CtrlVehicleControlLat::egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
+void crp::apl::CtrlVehicleControlLatStanley::egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
 {
-    m_input.m_vxEgo = input_msg.twist.twist.linear.x;
-    m_input.m_egoSteeringAngle = input_msg.tire_angle_front;
+    m_input.vxEgo = input_msg.twist.twist.linear.x;
+    m_input.egoSteeringAngle = input_msg.tire_angle_front;
 
-    m_input.m_egoPoseGlobal[0] = input_msg.pose.pose.position.x;
-    m_input.m_egoPoseGlobal[1] = input_msg.pose.pose.position.y;
+    m_input.egoPoseGlobal[0] = input_msg.pose.pose.position.x;
+    m_input.egoPoseGlobal[1] = input_msg.pose.pose.position.y;
 }
 
-void crp::apl::CtrlVehicleControlLat::error_calculation(double &lateral_error, double &heading_error)
+void crp::apl::CtrlVehicleControlLatStanley::error_calculation(double &lateral_error, double &heading_error)
 {
     // calculate the front axle error
     float front_axle_error = 0.0f;
@@ -86,28 +85,28 @@ void crp::apl::CtrlVehicleControlLat::error_calculation(double &lateral_error, d
 }
 
 
-void crp::apl::CtrlVehicleControlLat::stanleyControl()
+void crp::apl::CtrlVehicleControlLatStanley::stanleyControl()
 {
     // implement the stanley control algorithm
 
     // calculate the steering angle
-    m_output.m_steeringAngleTarget = 0.0f;
+    m_output.steeringAngleTarget = 0.0f;
 
     double front_axle_error = 0.0;
     double theta_e = 0.0;
 
     error_calculation(front_axle_error, theta_e);
 
-    float theta_d = atan2(m_params.K_GAIN * front_axle_error, m_input.m_vxEgo);
+    float theta_d = atan2(m_params.k_gain * front_axle_error, m_input.vxEgo);
 
-    m_output.m_steeringAngleTarget = theta_e + theta_d;
+    m_output.steeringAngleTarget = theta_e + theta_d;
 
 }
 
-void crp::apl::CtrlVehicleControlLat::loop()
+void crp::apl::CtrlVehicleControlLatStanley::loop()
 {
     // parameter assignments
-    m_params.K_GAIN= this->get_parameter("/ctrl/k_gain").as_double();
+    m_params.k_gain= this->get_parameter("/ctrl/k_gain").as_double();
     m_params.wheelbase = this->get_parameter("/ctrl/wheelbase").as_double();
 
     // control algorithm
@@ -117,7 +116,7 @@ void crp::apl::CtrlVehicleControlLat::loop()
 
         // steering angle and steering angle gradiant
         m_ctrlCmdMsg.stamp = this->now();
-        m_ctrlCmdMsg.steering_tire_angle = m_output.m_steeringAngleTarget;
+        m_ctrlCmdMsg.steering_tire_angle = m_output.steeringAngleTarget;
         m_ctrlCmdMsg.steering_tire_rotation_rate = 0.0f;
 
         m_pub_cmd_->publish(m_ctrlCmdMsg);
@@ -128,7 +127,7 @@ void crp::apl::CtrlVehicleControlLat::loop()
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<crp::apl::CtrlVehicleControlLat>());
+    rclcpp::spin(std::make_shared<crp::apl::CtrlVehicleControlLatStanley>());
     rclcpp::shutdown();
     return 0;
 }

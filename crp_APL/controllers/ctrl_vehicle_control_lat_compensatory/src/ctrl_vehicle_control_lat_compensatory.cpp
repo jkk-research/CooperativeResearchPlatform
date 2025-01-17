@@ -1,16 +1,13 @@
 #include <ctrl_vehicle_control_lat_compensatory/ctrl_vehicle_control_lat_compensatory.hpp>
 
-using namespace std::chrono_literals;
-using std::placeholders::_1;
 
-
-crp::apl::CtrlVehicleControlLat::CtrlVehicleControlLat() : Node("CtrlVehicleControlLat")
+crp::apl::CtrlVehicleControlLatCompensatory::CtrlVehicleControlLatCompensatory() : Node("CtrlVehicleControlLatCompensatory")
 {
-    timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLat::loop, this));  
+    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLatCompensatory::loop, this));  
     m_pub_cmd = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
 
-    m_traj_sub_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLat::trajCallback, this, std::placeholders::_1));
-    m_egoVehicle_sub_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLat::egoVehicleCallback, this, std::placeholders::_1));
+    m_sub_traj_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLatCompensatory::trajCallback, this, std::placeholders::_1));
+    m_sub_egoVehicle_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLatCompensatory::egoVehicleCallback, this, std::placeholders::_1));
 
         this->declare_parameter("/ctrl/ffLookAheadTime", 0.68f);
         this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.2f);
@@ -28,17 +25,16 @@ crp::apl::CtrlVehicleControlLat::CtrlVehicleControlLat() : Node("CtrlVehicleCont
         
 
 
-    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
+    RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatCompensatory has been started");
 }
 
-void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
+void crp::apl::CtrlVehicleControlLatCompensatory::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
 {
     m_input.path_x.clear();
     m_input.path_y.clear();
     m_input.path_theta.clear();
     double quaternion[4];
 
-    
     // this callback maps the input trajectory to the internal interface
     for (long unsigned int i=0; i<input_msg.points.size(); i++)
     {      
@@ -52,12 +48,12 @@ void crp::apl::CtrlVehicleControlLat::trajCallback(const autoware_planning_msgs:
     }
 
     if (input_msg.points.size() > 0)
-        m_input.target_speed = input_msg.points.at(0).longitudinal_velocity_mps;
+        m_input.targetSpeed = input_msg.points.at(0).longitudinal_velocity_mps;
     else
-        m_input.target_speed = 0.0f;
+        m_input.targetSpeed = 0.0f;
 }
 
-void crp::apl::CtrlVehicleControlLat::egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
+void crp::apl::CtrlVehicleControlLatCompensatory::egoVehicleCallback(const crp_msgs::msg::Ego input_msg)
 {
     m_input.vxEgo = input_msg.twist.twist.linear.x;
     m_input.egoSteeringAngle = input_msg.tire_angle_front;
@@ -73,7 +69,7 @@ void crp::apl::CtrlVehicleControlLat::egoVehicleCallback(const crp_msgs::msg::Eg
     m_input.egoPoseGlobal[2] = theta;
 }
 
-void crp::apl::CtrlVehicleControlLat::loop()
+void crp::apl::CtrlVehicleControlLatCompensatory::loop()
 {
     // parameter assignments
     m_params.ffLookAheadTime = this->get_parameter("/ctrl/ffLookAheadTime").as_double();
@@ -103,7 +99,7 @@ void crp::apl::CtrlVehicleControlLat::loop()
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<crp::apl::CtrlVehicleControlLat>());
+    rclcpp::spin(std::make_shared<crp::apl::CtrlVehicleControlLatCompensatory>());
     rclcpp::shutdown();
     return 0;
 }

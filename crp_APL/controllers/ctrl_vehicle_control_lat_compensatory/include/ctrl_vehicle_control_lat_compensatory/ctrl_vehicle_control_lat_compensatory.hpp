@@ -1,5 +1,5 @@
-#ifndef CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_HPP
-#define CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_HPP
+#ifndef CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_CTRLVEHILECONTROLLATCOMPENSATORY_HPP
+#define CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_CTRLVEHILECONTROLLATCOMPENSATORY_HPP
 
 #include <chrono>
 #include <functional>
@@ -25,10 +25,10 @@ namespace crp
 {
     namespace apl
     {
-        class CtrlVehicleControlLat : public rclcpp::Node
+        class CtrlVehicleControlLatCompensatory : public rclcpp::Node
         {
             public:
-                CtrlVehicleControlLat();
+                CtrlVehicleControlLatCompensatory();
 
             private:
                 // VARIABLES
@@ -43,13 +43,13 @@ namespace crp
 
                 void loop();
 
-                rclcpp::TimerBase::SharedPtr timer_;
+                rclcpp::TimerBase::SharedPtr m_timer_;
                 rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd;
 
-                rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_traj_sub_;
-                rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_egoVehicle_sub_;
+                rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_traj_;
+                rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_sub_egoVehicle_;
                 autoware_control_msgs::msg::Lateral m_ctrlCmdMsg;
         }; 
     } // namespace apl
 }
-#endif // CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_HPP
+#endif // CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_CTRLVEHILECONTROLLATCOMPENSATORY_HPP

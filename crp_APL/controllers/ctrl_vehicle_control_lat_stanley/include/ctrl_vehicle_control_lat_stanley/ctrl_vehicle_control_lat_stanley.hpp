@@ -1,5 +1,5 @@
-#ifndef CRP_APL_CTRL_VEHICLE_LAT_STANLEY_HPP
-#define CRP_APL_CTRL_VEHICLE_LAT_STANLEY_HPP
+#ifndef CRP_APL_CTRL_VEHICLE_LAT_STANLEY_CTRLVEHICLECONTROLLATSTANLEY_HPP
+#define CRP_APL_CTRL_VEHICLE_LAT_STANLEY_CTRLVEHICLECONTROLLATSTANLEY_HPP
 
 #include <chrono>
 #include <functional>
@@ -19,14 +19,15 @@
 #include "ctrl_vehicle_control_lat_stanley/controller_inputs.hpp"
 #include "ctrl_vehicle_control_lat_stanley/controller_outputs.hpp"
 
+
 namespace crp
 {
     namespace apl
     {
-        class CtrlVehicleControlLat : public rclcpp::Node
+        class CtrlVehicleControlLatStanley : public rclcpp::Node
         {
             public:
-                CtrlVehicleControlLat();
+                CtrlVehicleControlLatStanley();
 
             private:
                 // VARIABLES
@@ -41,13 +42,13 @@ namespace crp
                 void stanleyControl();
                 void loop();
 
-                rclcpp::TimerBase::SharedPtr timer_;
+                rclcpp::TimerBase::SharedPtr m_timer_;
                 rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd_;
 
-                rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_traj_sub_;
-                rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_egoVehicle_sub_;
+                rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_traj_;
+                rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_sub_egoVehicle_;
                 autoware_control_msgs::msg::Lateral m_ctrlCmdMsg;
         }; 
     } // namespace apl
 }
-#endif // CRP_APL_CTRL_VEHICLE_LAT_STANLEY_HPP
+#endif // CRP_APL_CTRL_VEHICLE_LAT_STANLEY_CTRLVEHICLECONTROLLATSTANLEY_HPP
