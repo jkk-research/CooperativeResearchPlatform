@@ -1,7 +1,4 @@
-#include "ctrl_vehicle_control/ctrl_vehicle_control.hpp"
-
-using namespace std::chrono_literals;
-using std::placeholders::_1;
+#include "ctrl_vehicle_control/control_handler.hpp"
 
 
 crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
@@ -13,7 +10,7 @@ crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
     m_sub_controlLat_ = this->create_subscription<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 10, std::bind(&ControlHandler::controlLatCallback, this, std::placeholders::_1));
     m_sub_controlLong_ = this->create_subscription<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 10, std::bind(&ControlHandler::controlLongCallback, this, std::placeholders::_1));
 
-    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
+    RCLCPP_INFO(this->get_logger(), "control_handler has been started");
 
     // initialize control message
 

@@ -46,13 +46,13 @@ void crp::apl::CtrlVehicleControlLatPureP::pure_p_control()
 {
     float distance_to_index = std::max(m_input.vxEgo * m_params.lookaheadTime, 2.0);
 
-    float current_distance = 0.0f;
+    float currentDistance = 0.0f;
     int target_index = 0;
 
     for (int i = 0; i < m_input.m_path_x.size()-1; i++)
     {
-        current_distance += sqrt(pow(m_input.m_path_x.at(i+1) - m_input.m_path_x.at(i), 2) + pow(m_input.m_path_y.at(i+1) - m_input.m_path_y.at(i), 2));
-        if (current_distance >= distance_to_index)
+        currentDistance += sqrt(pow(m_input.m_path_x.at(i+1) - m_input.m_path_x.at(i), 2) + pow(m_input.m_path_y.at(i+1) - m_input.m_path_y.at(i), 2));
+        if (currentDistance >= distance_to_index)
         {
             target_index = i;
             break;

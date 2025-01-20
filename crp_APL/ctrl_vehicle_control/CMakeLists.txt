@@ -16,15 +16,15 @@ find_package(geometry_msgs REQUIRED)
 
 include_directories(include)
 
-add_executable(ctrl_vehicle_control src/ctrl_vehicle_control.cpp)
+add_executable(control_handler src/control_handler.cpp)
 
-ament_target_dependencies(ctrl_vehicle_control rclcpp geometry_msgs std_msgs autoware_control_msgs pacmod3_msgs)
+ament_target_dependencies(control_handler rclcpp geometry_msgs std_msgs autoware_control_msgs pacmod3_msgs)
 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
-  ctrl_vehicle_control
+  control_handler
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
