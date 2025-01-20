@@ -1,20 +1,12 @@
 #ifndef CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_CTRLVEHILECONTROLLATCOMPENSATORY_HPP
 #define CRP_APL_CTRL_VEHICLE_LAT_COMPENSATORY_CTRLVEHILECONTROLLATCOMPENSATORY_HPP
 
-#include <chrono>
-#include <functional>
-#include <memory>
-#include <string>
-#include <math.h>
+
 #include "rclcpp/rclcpp.hpp"
-#include "geometry_msgs/msg/pose.hpp"
-#include "std_msgs/msg/float32_multi_array.hpp"
-#include "std_msgs/msg/float32.hpp"
 #include "crp_msgs/msg/ego.hpp"
 
 #include "autoware_control_msgs/msg/control.hpp"
 #include "autoware_planning_msgs/msg/trajectory.hpp"
-#include "autoware_vehicle_msgs/msg/steering_report.hpp"
 
 #include "ctrl_vehicle_control/controller_inputs.hpp"
 #include "ctrl_vehicle_control/controller_outputs.hpp"

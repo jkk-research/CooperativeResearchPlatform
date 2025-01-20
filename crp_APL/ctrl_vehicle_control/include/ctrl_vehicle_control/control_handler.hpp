@@ -1,12 +1,8 @@
-#ifndef CRP_APL_CTRL_VEHICLE_CONTROL_HPP
-#define CRP_APL_CTRL_VEHICLE_CONTROL_HPP
+#ifndef CRP_APL_CTRL_CONTROL_HANDLER_CTRLVEHICLECONTROL_HPP
+#define CRP_APL_CTRL_CONTROL_HANDLER_CTRLVEHICLECONTROL_HPP
+
 
 #include <rclcpp/rclcpp.hpp>
-#include <chrono>
-#include <functional>
-#include <memory>
-#include <string>
-#include <math.h>
 
 #include "autoware_control_msgs/msg/control.hpp"
 #include "geometry_msgs/msg/twist.hpp"
@@ -26,6 +22,7 @@ namespace crp
                 void controlLongCallback(const autoware_control_msgs::msg::Longitudinal::SharedPtr msg);
                 
                 void run();
+                
                 rclcpp::Subscription<autoware_control_msgs::msg::Lateral>::SharedPtr m_sub_controlLat_;
                 rclcpp::Subscription<autoware_control_msgs::msg::Longitudinal>::SharedPtr m_sub_controlLong_;
                 
@@ -41,4 +38,4 @@ namespace crp
 
     } // namespace apl
 } // namespace crp
-#endif // CRP_APL_CTRL_VEHICLE_CONTROL_HPP
+#endif // CRP_APL_CTRL_CONTROL_HANDLER_CTRLVEHICLECONTROL_HPP

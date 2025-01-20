@@ -1,8 +1,5 @@
 #include <ctrl_vehicle_control_lat_stanley/ctrl_vehicle_control_lat_stanley.hpp>
 
-using namespace std::chrono_literals;
-using std::placeholders::_1;
-
 
 crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("CtrlVehicleControlLatStanley")
 {
@@ -46,11 +43,8 @@ void crp::apl::CtrlVehicleControlLatStanley::egoVehicleCallback(const crp_msgs::
     m_input.egoPoseGlobal[1] = input_msg.pose.pose.position.y;
 }
 
-void crp::apl::CtrlVehicleControlLatStanley::error_calculation(double &lateral_error, double &heading_error)
+void crp::apl::CtrlVehicleControlLatStanley::error_calculation(double &lateralError, double &headingError)
 {
-    // calculate the front axle error
-    float front_axle_error = 0.0f;
-
     float target_x = m_params.wheelbase;
     float target_y = 0;
     int ind = 0;
@@ -68,7 +62,7 @@ void crp::apl::CtrlVehicleControlLatStanley::error_calculation(double &lateral_e
         }
     }
 
-    std::vector<double> front_axle_vec = {
+    std::vector<double> frontAxleVec = {
         -std::cos(M_PI / 2),  // Use std::cos for cosine
         -std::sin(M_PI / 2)   // Use std::sin for sine
     };
@@ -77,10 +71,10 @@ void crp::apl::CtrlVehicleControlLatStanley::error_calculation(double &lateral_e
     double dy = m_input.m_path_y[ind];
 
     // Dot product calculation
-    lateral_error = dx * front_axle_vec[0] + dy * front_axle_vec[1];
+    lateralError = dx * frontAxleVec[0] + dy * frontAxleVec[1];
 
     // calculate the heading error
-    heading_error = atan2(m_input.m_path_y[ind], m_input.m_path_x[ind]);
+    headingError = atan2(m_input.m_path_y[ind], m_input.m_path_x[ind]);
 
 }
 
@@ -92,12 +86,12 @@ void crp::apl::CtrlVehicleControlLatStanley::stanleyControl()
     // calculate the steering angle
     m_output.steeringAngleTarget = 0.0f;
 
-    double front_axle_error = 0.0;
-    double theta_e = 0.0;
+    double frontAxleError = 0.0f;
+    double theta_e = 0.0f;
 
-    error_calculation(front_axle_error, theta_e);
+    error_calculation(frontAxleError, theta_e);
 
-    float theta_d = atan2(m_params.k_gain * front_axle_error, m_input.vxEgo);
+    float theta_d = atan2(m_params.k_gain * frontAxleError, m_input.vxEgo);
 
     m_output.steeringAngleTarget = theta_e + theta_d;
 
