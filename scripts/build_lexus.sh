@@ -29,7 +29,6 @@ packages=(
   novatel_gps_driver
   novatel_gps_wrapper
   pacmod_extender
-  pacmod_interface
   kalman_pos
   ekf_wrapper
   prcp_sensor_abstraction
