@@ -17,7 +17,7 @@ add_executable(plan_lon_emergency src/wrapperPlanLonEmergency.cpp)
 ament_target_dependencies(plan_lon_emergency rclcpp planner_base)
 
 install(TARGETS
-plan_lon_emergency
+  plan_lon_emergency
   DESTINATION lib/${PROJECT_NAME}
 )
 
