@@ -1,6 +1,7 @@
 #ifndef CRP_APL_WRAPPER_BASE_PLANBASE_HPP
 #define CRP_APL_WRAPPER_BASE_PLANBASE_HPP
 
+
 #include <rclcpp/rclcpp.hpp>
 #include <crp_msgs/msg/target_space.hpp>
 #include <crp_msgs/msg/ego.hpp>
@@ -13,9 +14,9 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 
-#include "../../../interfaces/plannerInterfaces/plannerInterfaces.hpp"
+#include "plannerInterfaces/plannerInterfaces.hpp"
 
-#include "../../../crp_utils/geometryUtils/inc/geometricPathCalculation.hpp"
+#include "geometryUtils/inc/geometricPathCalculation.hpp"
 
 
 namespace crp
@@ -45,7 +46,7 @@ private:
     void run();
 
     rclcpp::Subscription<tier4_planning_msgs::msg::Scenario>::SharedPtr m_sub_strategy_;
-    rclcpp::Subscription<crp_msgs::msg::TargetSpace>::SharedPtr         m_sub_target_space_;
+    rclcpp::Subscription<crp_msgs::msg::TargetSpace>::SharedPtr         m_sub_targetSpace_;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                 m_sub_ego_;
 
     rclcpp::Publisher<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_pub_trajectory_;

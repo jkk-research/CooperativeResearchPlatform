@@ -1,22 +1,25 @@
-#ifndef CRP_APL_TEST_NODE_HPP
-#define CRP_APL_TEST_NODE_HPP
+#ifndef CRP_APL_TEST_NODE_TESTNODE_HPP
+#define CRP_APL_TEST_NODE_TESTNODE_HPP
+
+
+#include <iostream>
+#include <string>
 
 #include <rclcpp/rclcpp.hpp>
 #include <tf2/LinearMath/Quaternion.h>
-#include <string>
-#include "autoware_control_msgs/msg/control.hpp"
-#include <autoware_perception_msgs/msg/predicted_objects.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
-#include <autoware_localization_msgs/msg/kinematic_state.hpp>
-
-#include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
-#include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
 #include <crp_msgs/msg/ego_status.hpp>
 #include <crp_msgs/msg/behavior.hpp>
-#include <iostream>
+
+#include <autoware_control_msgs/msg/control.hpp>
+#include <autoware_perception_msgs/msg/predicted_objects.hpp>
+#include <autoware_localization_msgs/msg/kinematic_state.hpp>
+#include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
+#include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
+
 
 namespace crp
 {
@@ -36,7 +39,7 @@ private:
 
     // member methods
     void vehicleModel();
-    float dT = 0.02; // model runs in 20ms
+    float dT = 0.02f; // model runs in 20ms
 
     float* globalToEgoTransform(float globalPose[3]);
 
@@ -101,4 +104,4 @@ private:
 
 } // namespace apl
 } // namespace crp
-#endif // CRP_APL_TEST_NODE_HPP
+#endif // CRP_APL_TEST_NODE_TESTNODE_HPP

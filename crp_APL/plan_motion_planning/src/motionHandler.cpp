@@ -14,7 +14,7 @@ crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
 
     m_pub_trajectory_ = this->create_publisher<autoware_planning_msgs::msg::Trajectory>("plan/trajectory", 10);
 
-    m_pub_trajectory_viz_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/trajectoryVisualization", 10);
+    m_pub_trajectoryViz_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/trajectoryVisualization", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&MotionHandler::run, this));
 }
@@ -328,7 +328,7 @@ void crp::apl::MotionHandler::visualizeTrajectory()
         marker.points.push_back(p);
     }
 
-    m_pub_trajectory_viz_->publish(marker);
+    m_pub_trajectoryViz_->publish(marker);
 
 
     return;

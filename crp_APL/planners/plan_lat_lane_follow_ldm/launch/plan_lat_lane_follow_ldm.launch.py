@@ -1,6 +1,5 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
 
 def generate_launch_description():
     # NODES
@@ -25,9 +24,5 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        GroupAction(
-            actions=[
-                plan_lat_lane_follow_ldm
-            ]
-        )
+        plan_lat_lane_follow_ldm
     ])
