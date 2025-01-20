@@ -5,11 +5,11 @@ from launch.substitutions import LaunchConfiguration, TextSubstitution
 
 def generate_launch_description():
     maximumSpeedInit_arg = DeclareLaunchArgument(
-      '/test/maximumSpeedInit', default_value=TextSubstitution(text='20.0')
+        '/test/maximumSpeedInit', default_value=TextSubstitution(text='20.0')
     )
 
     previewDistance_arg = DeclareLaunchArgument(
-      '/test/previewDistance', default_value=TextSubstitution(text='100.0')
+        '/test/previewDistance', default_value=TextSubstitution(text='100.0')
     )
     
     test_node = Node(
@@ -20,7 +20,7 @@ def generate_launch_description():
         parameters=[{
             '/test/maximumSpeedInit': LaunchConfiguration('/test/maximumSpeedInit'),
             '/test/previewDistance': LaunchConfiguration('/test/previewDistance')
-         }]
+        }]
     )
 
     return LaunchDescription([
@@ -28,5 +28,3 @@ def generate_launch_description():
         previewDistance_arg,
         test_node
     ])
-
-    return ld

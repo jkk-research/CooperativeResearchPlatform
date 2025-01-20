@@ -21,12 +21,20 @@ set (
   ${CMAKE_SOURCE_DIR}/../../interfaces
 )
 
+set (
+  UTILS_DIR
+  ${CMAKE_SOURCE_DIR}/../../crp_utils
+)
+
 include_directories(
   include
   ${INTERFACES_DIR}
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../crp_utils)
+include_directories(
+  include
+  ${UTILS_DIR}
+)
 
 set(utils_source
 ${CMAKE_CURRENT_SOURCE_DIR}/../../crp_utils/geometryUtils/src/geometricPathCalculation.cpp)

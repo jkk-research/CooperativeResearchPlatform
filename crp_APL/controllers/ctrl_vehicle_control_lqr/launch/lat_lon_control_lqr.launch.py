@@ -2,8 +2,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 def generate_launch_description():
-    return LaunchDescription([
-        Node(
+    ctrl_vehicle_control_lat_lqr = Node(
             package='ctrl_vehicle_control_lqr',
             executable='lqr_controller.py',
             name='lqr_controller',
@@ -16,4 +15,7 @@ def generate_launch_description():
                 'R': [30.0, 2.0], # R matrix diagonal elements
             }]
         )
+    
+    return LaunchDescription([
+        ctrl_vehicle_control_lat_lqr
     ])
