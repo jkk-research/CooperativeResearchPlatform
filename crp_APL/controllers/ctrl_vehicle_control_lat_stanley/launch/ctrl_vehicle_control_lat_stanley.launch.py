@@ -8,7 +8,7 @@ def generate_launch_description():
         package="ctrl_vehicle_control_lat_stanley",
         executable="ctrl_vehicle_control_lat_stanley",
         parameters=[
-            {"/ctrl/k_gain": 0.5},
+            {"/ctrl/k_gain": 1.5},
             {"/ctrl/wheelbase": 2.7},
         ]
     )
