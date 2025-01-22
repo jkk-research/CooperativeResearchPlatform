@@ -42,6 +42,8 @@ namespace crp
             double dT{0.0333f};
             double vxMin{3.0f};
             double trajectory_distance{50.0f};
+            double sigma_thetaFP{0.25f};
+            double maxThetaFP{0.3f};
             bool debugKPIs{true};
         };
     }
