@@ -42,22 +42,62 @@ def generate_launch_description():
         shell=True
     )
     
-    change_controller_ThetaGain = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLat ',
-            '/ctrl/fbThetaGain ',
-            '0.0'
-        ]],
-        shell=True
-    )
-    
     change_controller_fbLookAheadTime = ExecuteProcess(
         cmd=[[
             'ros2 param set ',
             '/CtrlVehicleControlLat ',
             '/ctrl/fbLookAheadTime ',
             '0.1'
+        ]],
+        shell=True
+    )
+
+    change_controller_ffLookAheadTime = ExecuteProcess(
+        cmd=[[
+            'ros2 param set ',
+            '/CtrlVehicleControlLat ',
+            '/ctrl/ffLookAheadTime ',
+            '1.0'
+        ]],
+        shell=True
+    )
+
+    change_controller_sigma_thetaFP = ExecuteProcess(
+        cmd=[[
+            'ros2 param set ',
+            '/CtrlVehicleControlLat ',
+            '/ctrl/sigma_thetaFP ',
+            '0.25'
+        ]],
+        shell=True
+    )
+
+    change_controller_maxThetaFP = ExecuteProcess(
+        cmd=[[
+            'ros2 param set ',
+            '/CtrlVehicleControlLat ',
+            '/ctrl/maxThetaFP ',
+            '0.3'
+        ]],
+        shell=True
+    )
+
+    change_controller_targetAccelerationFF_lpFilterCoeff = ExecuteProcess(
+        cmd=[[
+            'ros2 param set ',
+            '/CtrlVehicleControlLat ',
+            '/ctrl/targetAccelerationFF_lpFilterCoeff ',
+            '0.99'
+        ]],
+        shell=True
+    )
+
+    change_controller_targetAccelerationFB_lpFilterCoeff = ExecuteProcess(
+        cmd=[[
+            'ros2 param set ',
+            '/CtrlVehicleControlLat ',
+            '/ctrl/targetAccelerationFB_lpFilterCoeff ',
+            '0.99'
         ]],
         shell=True
     )
@@ -72,15 +112,6 @@ def generate_launch_description():
         shell=True
     )
     
-    change_controller_ffGainOffsetGround = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLat ',
-            '/ctrl/ffGainOffsetGround ',
-            '0.0'
-        ]],
-        shell=True
-    )
 
     # CORE
 
@@ -114,8 +145,12 @@ def generate_launch_description():
         change_controller_PGain,
         change_controller_IGain,
         change_controller_DGain,
-        change_controller_ThetaGain,
         change_controller_steeringLpFilter,
-        change_controller_ffGainOffsetGround,
-        change_controller_fbLookAheadTime
+        change_controller_ffLookAheadTime,
+        change_controller_fbLookAheadTime,
+        change_controller_sigma_thetaFP,
+        change_controller_maxThetaFP,
+        change_controller_targetAccelerationFF_lpFilterCoeff,
+        change_controller_targetAccelerationFB_lpFilterCoeff
+
     ])

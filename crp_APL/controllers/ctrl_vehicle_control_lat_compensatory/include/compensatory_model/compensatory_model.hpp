@@ -68,7 +68,7 @@ namespace crp
 
                 void calculateSteeringAngle(const ControlInput& input, const ControlParams& params);
 
-                void cutRelevantLocalSnippet();
+                void cutRelevantLocalSnippet(const ControlParams &params);
 
                 void calculateLookAheadPose(const ControlInput& input, const ControlParams& params);
 

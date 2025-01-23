@@ -24,7 +24,7 @@ namespace crp
             }
 
             // cut snippet
-            cutRelevantLocalSnippet();
+            cutRelevantLocalSnippet(params);
 
             if (input.path_x.size() >= 4)
             {
@@ -73,11 +73,11 @@ namespace crp
 
             calculateLookAheadPose(input, params);
 
-            double targetAccelerationUnfiltered = 2*m_lookAheadPose[1] / (std::pow(params.fbLookAheadTime,2));
+            double targetAccelerationUnfiltered = 2.0f*m_lookAheadPose[1] / (std::pow(params.fbLookAheadTime,2));
 
             // strong filtering
-            m_targetAccelerationFF = 0.99f * m_targetAccelerationFF +
-                                0.01f * targetAccelerationUnfiltered;
+            m_targetAccelerationFF = params.targetAccelerationFF_lpFilterCoeff * m_targetAccelerationFF +
+                                (1.0f-params.targetAccelerationFF_lpFilterCoeff) * targetAccelerationUnfiltered;
 
             m_targetAccelerationFF = std::min(std::max(-params.maxAcceleration, m_targetAccelerationFF), params.maxAcceleration);
         }
@@ -91,7 +91,7 @@ namespace crp
             // 3. Integral
 
             // calculate focus point angle
-            m_lookAheadDistanceFb = std::max(params.fbMinLookAheadDistance, params.fbLookAheadTime * input.vxEgo);
+            m_lookAheadDistanceFb = params.fbLookAheadTime * input.vxEgo;
             // from coefficients
             double thetaFP = atan(m_coefficients[1] + 
                 2.0f*m_coefficients[2]*m_lookAheadDistanceFb + 
@@ -121,15 +121,15 @@ namespace crp
 
             
             // strong filtering
-            m_targetAccelerationFB = 0.99f * m_targetAccelerationFB +
-                                0.01f * targetFbAccelerationUnfiltered;
+            m_targetAccelerationFB = params.targetAccelerationFB_lpFilterCoeff * m_targetAccelerationFB +
+                                (1.0f - params.targetAccelerationFB_lpFilterCoeff) * targetFbAccelerationUnfiltered;
 
             m_targetAccelerationFB = std::min(std::max(-params.maxAcceleration, m_targetAccelerationFB), params.maxAcceleration);
 
             m_posErrPrev = m_posErr;
         }
 
-        void CompensatoryModel::cutRelevantLocalSnippet()
+        void CompensatoryModel::cutRelevantLocalSnippet(const ControlParams &params)
         {
             // this method cuts a relevant length of the total trajectory, based on the complete
             // path transformed to the ego coordinate frame
@@ -137,7 +137,7 @@ namespace crp
             unsigned long int startIdx = -1;
             unsigned long int stopIdx = -1;
             m_trajInvalid = false;
-            double maxDistance = 50; // meters
+            double maxDistance = params.trajectory_distance; // meters
             m_localPathCut_x.clear();
             m_localPathCut_y.clear();
 

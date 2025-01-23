@@ -12,20 +12,21 @@ crp::apl::CtrlVehicleControlLat::CtrlVehicleControlLat() : Node("CtrlVehicleCont
     m_traj_sub_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLat::trajCallback, this, std::placeholders::_1));
     m_egoVehicle_sub_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLat::egoVehicleCallback, this, std::placeholders::_1));
 
-        this->declare_parameter("/ctrl/ffGainOffsetGround", 0.66f);
-        this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
         this->declare_parameter("/ctrl/ffLookAheadTime", 0.68f);
-        this->declare_parameter("/ctrl/ffMinLookAheadDistance", 0.0f);
         this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.2f);
         this->declare_parameter("/ctrl/fbLookAheadTime", 0.0f);
         this->declare_parameter("/ctrl/fbPGain", 0.8f);
         this->declare_parameter("/ctrl/fbDGain", 1.1f);
         this->declare_parameter("/ctrl/fbIGain", 0.0f);
-        this->declare_parameter("/ctrl/fbThetaGain", 0.05f);
-        this->declare_parameter("/ctrl/fbMinLookAheadDistance", 0.0f);
         this->declare_parameter("/ctrl/fbIntegralLimit", 3.0f);
         this->declare_parameter("/ctrl/trajectory_distance", 50.0f);
-        this->declare_parameter("/ctrl/debugKPIs", true);
+
+        this->declare_parameter("/ctrl/sigma_thetaFP", 0.25f);
+        this->declare_parameter("/ctrl/maxThetaFP", 0.3f);
+        this->declare_parameter("/ctrl/targetAccelerationFF_lpFilterCoeff", 0.99f);
+        this->declare_parameter("/ctrl/targetAccelerationFB_lpFilterCoeff", 0.99f);
+        
+
 
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
 }
@@ -75,20 +76,19 @@ void crp::apl::CtrlVehicleControlLat::egoVehicleCallback(const crp_msgs::msg::Eg
 void crp::apl::CtrlVehicleControlLat::loop()
 {
     // parameter assignments
-    m_params.ffGainOffsetGround = this->get_parameter("/ctrl/ffGainOffsetGround").as_double();
-    m_params.ffGainSlope = this->get_parameter("/ctrl/ffGainSlope").as_double();
     m_params.ffLookAheadTime = this->get_parameter("/ctrl/ffLookAheadTime").as_double();
-    m_params.ffMinLookAheadDistance = this->get_parameter("/ctrl/ffMinLookAheadDistance").as_double();
     m_params.steeringAngleLPFilter = this->get_parameter("/ctrl/steeringAngleLPFilter").as_double();
     m_params.fbLookAheadTime = this->get_parameter("/ctrl/fbLookAheadTime").as_double();
     m_params.fbPGain = this->get_parameter("/ctrl/fbPGain").as_double();
     m_params.fbDGain = this->get_parameter("/ctrl/fbDGain").as_double();
     m_params.fbIGain = this->get_parameter("/ctrl/fbIGain").as_double();
-    m_params.fbThetaGain = this->get_parameter("/ctrl/fbThetaGain").as_double();
-    m_params.fbMinLookAheadDistance = this->get_parameter("/ctrl/fbMinLookAheadDistance").as_double();
     m_params.fbIntegralLimit = this->get_parameter("/ctrl/fbIntegralLimit").as_double();
     m_params.trajectory_distance = this->get_parameter("/ctrl/trajectory_distance").as_double();
-    m_params.debugKPIs = this->get_parameter("/ctrl/debugKPIs").as_bool();
+
+    m_params.sigma_thetaFP = this->get_parameter("/ctrl/sigma_thetaFP").as_double();
+    m_params.maxThetaFP = this->get_parameter("/ctrl/maxThetaFP").as_double();
+    m_params.targetAccelerationFF_lpFilterCoeff = this->get_parameter("/ctrl/targetAccelerationFF_lpFilterCoeff").as_double();
+    m_params.targetAccelerationFB_lpFilterCoeff = this->get_parameter("/ctrl/targetAccelerationFB_lpFilterCoeff").as_double();
 
     m_compensatoryModel.run(m_input, m_output, m_params);
 
