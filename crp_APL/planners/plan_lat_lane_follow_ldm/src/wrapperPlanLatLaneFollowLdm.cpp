@@ -26,14 +26,14 @@ void crp::apl::PlanLatLaneFollowLdm::plan(const PlannerInput & input, PlannerOut
 {
     output.trajectory.clear(); // initialize the output at empty vector in the beginning of each cycle
     // TrajectoryPoint trajectoryPoint;
-    /*for (int n=0; n<input.path.pathPoints.size(); n++)
-        {
-            trajectoryPoint.pose.position.x = input.path.pathPoints.at(n).pose.position.x;
-            trajectoryPoint.pose.position.y = input.path.pathPoints.at(n).pose.position.y;
-            trajectoryPoint.pose.orientation = 0.0;
-            trajectoryPoint.velocity = input.path.targetSpeed.at(n);
-            output.trajectory.push_back(trajectoryPoint);
-        }*/
+    // for (int n=0; n<input.path.pathPoints.size(); n++)
+    //     {
+    //         trajectoryPoint.pose.position.x = input.path.pathPoints.at(n).pose.position.x;
+    //         trajectoryPoint.pose.position.y = input.path.pathPoints.at(n).pose.position.y;
+    //         trajectoryPoint.pose.orientation = 0.0;
+    //         trajectoryPoint.velocity = input.path.targetSpeed.at(n);
+    //         output.trajectory.push_back(trajectoryPoint);
+    //     }
     
     // remap parameters
     std::vector<double> nodePointDistances;

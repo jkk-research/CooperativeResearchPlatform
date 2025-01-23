@@ -9,20 +9,20 @@ crp::apl::CtrlVehicleControlLatCompensatory::CtrlVehicleControlLatCompensatory()
     m_sub_traj_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLatCompensatory::trajCallback, this, std::placeholders::_1));
     m_sub_egoVehicle_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLatCompensatory::egoVehicleCallback, this, std::placeholders::_1));
 
-    this->declare_parameter("/ctrl/ffGainOffsetGround", 0.0f);
-    this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
-    this->declare_parameter("/ctrl/ffLookAheadTime", 0.1f);
-    this->declare_parameter("/ctrl/ffMinLookAheadDistance", 0.0f);
-    this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.5f);
-    this->declare_parameter("/ctrl/fbLookAheadTime", 0.1f);
-    this->declare_parameter("/ctrl/fbPGain", 0.1f);
-    this->declare_parameter("/ctrl/fbDGain", 0.0f);
-    this->declare_parameter("/ctrl/fbIGain", 0.0f);
-    this->declare_parameter("/ctrl/fbThetaGain", 0.0f);
-    this->declare_parameter("/ctrl/fbMinLookAheadDistance", 0.5f);
-    this->declare_parameter("/ctrl/fbIntegralLimit", 3.0f);
-    this->declare_parameter("/ctrl/trajectory_distance", 50.0f);
-    this->declare_parameter("/ctrl/debugKPIs", true);
+        this->declare_parameter("/ctrl/ffGainOffsetGround", 0.66f);
+        this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
+        this->declare_parameter("/ctrl/ffLookAheadTime", 0.68f);
+        this->declare_parameter("/ctrl/ffMinLookAheadDistance", 0.0f);
+        this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.2f);
+        this->declare_parameter("/ctrl/fbLookAheadTime", 0.0f);
+        this->declare_parameter("/ctrl/fbPGain", 0.8f);
+        this->declare_parameter("/ctrl/fbDGain", 1.1f);
+        this->declare_parameter("/ctrl/fbIGain", 0.0f);
+        this->declare_parameter("/ctrl/fbThetaGain", 0.05f);
+        this->declare_parameter("/ctrl/fbMinLookAheadDistance", 0.0f);
+        this->declare_parameter("/ctrl/fbIntegralLimit", 3.0f);
+        this->declare_parameter("/ctrl/trajectory_distance", 50.0f);
+        this->declare_parameter("/ctrl/debugKPIs", true);
 
     RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatCompensatory has been started");
 }

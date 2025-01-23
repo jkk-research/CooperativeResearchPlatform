@@ -125,7 +125,7 @@ namespace crp
             m_posDerivativeError = (m_posErr-m_posErrPrev)/params.dT;
             m_posDerivativeError = m_posDerivativeFilter.lowPassFilter(m_posDerivativeError, m_posDerivativeError_prev, 0.9f);
 
-            m_targetAccelerationFB = params.fbPGain*m_posErr +
+            m_targetAccelerationFB = params.fbPGain*m_posErr*std::abs(6*m_posErr) +
                 params.fbDGain*m_posDerivativeError;
 
             m_targetAccelerationFB = m_targetAccelerationFB +
