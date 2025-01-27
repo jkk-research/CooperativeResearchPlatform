@@ -337,7 +337,7 @@ void crp::apl::MotionHandler::visualizeTrajectory()
 void crp::apl::MotionHandler::run()
 {
     mapIncomingInputs();
-    //visualizeTrajectory();
+    visualizeTrajectory();
     m_pub_trajectory_->publish(m_outputTrajectory);
 }
 
