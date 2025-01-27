@@ -37,3 +37,7 @@
 	path = crp_CIL/kalman_pos
 	url = https://github.com/jkk-research/kalman_pos.git
 	branch = ros2
+[submodule "crp_VIL/ouster-ros"]
+	path = crp_VIL/ouster-ros
+	url = https://github.com/ouster-lidar/ouster-ros.git
+	branch = ros2

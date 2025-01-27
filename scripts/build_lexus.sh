@@ -33,6 +33,8 @@ packages=(
   kalman_pos
   ekf_wrapper
   prcp_sensor_abstraction
+  ouster_sensor_msgs
+  ouster_ros
 )
 
 packages_string=""
