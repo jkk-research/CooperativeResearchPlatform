@@ -37,10 +37,7 @@ packages=(
   ouster_ros
 )
 
-packages_string=""
-for package in "${packages[@]}"; do
-  packages_string+="$package "
-done
+packages_string=${packages[*]}
 
 packages_paths=$(colcon list --packages-up-to $packages_string -p)
 
