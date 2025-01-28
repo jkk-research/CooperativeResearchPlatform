@@ -50,8 +50,6 @@ namespace crp
                 double m_orientationErr{0.0f};
 
                 // RESULT
-                double m_targetAcceleration{0.0f};
-                double m_targetSteeringAngle{0.0f};
                 double m_k_superPosition{0.5f};
 
                 double m_targetSteeringAngle_prev{0.0f};
@@ -66,7 +64,7 @@ namespace crp
                 void calculateFeedback(const ControlInput& input, const ControlParams& params);
                 void superPoseFeedforwardAndFeedback ();
 
-                void calculateSteeringAngle(const ControlInput& input, const ControlParams& params);
+                void calculateSteeringAngle(const ControlInput& input, ControlOutput& output, const ControlParams& params);
 
                 void cutRelevantLocalSnippet(const ControlParams &params);
 

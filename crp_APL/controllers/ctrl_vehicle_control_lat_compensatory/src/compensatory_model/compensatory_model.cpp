@@ -46,7 +46,9 @@ namespace crp
                     m_k_superPosition*m_targetAccelerationFB;
 
                 // output calculation
-                calculateSteeringAngle(input, params);
+                calculateSteeringAngle(input, output, params);
+
+                printf("target steering output %f\n", output.steeringAngleTarget);
 
                 // finally, filter the output steering angle, too
                 output.steeringAngleTarget = m_steeringAngleFilter.lowPassFilter(output.steeringAngleTarget, m_targetSteeringAngle_prev, params.steeringAngleLPFilter);
@@ -73,13 +75,14 @@ namespace crp
 
             calculateLookAheadPose(input, params);
 
-            double targetAccelerationUnfiltered = 2.0f*m_lookAheadPose[1] / (std::pow(params.fbLookAheadTime,2));
+            double targetAccelerationUnfiltered = 2.0f*m_lookAheadPose[1] / (std::pow(params.ffLookAheadTime,2));
 
             // strong filtering
             m_targetAccelerationFF = params.targetAccelerationFF_lpFilterCoeff * m_targetAccelerationFF +
                                 (1.0f-params.targetAccelerationFF_lpFilterCoeff) * targetAccelerationUnfiltered;
 
             m_targetAccelerationFF = std::min(std::max(-params.maxAcceleration, m_targetAccelerationFF), params.maxAcceleration);
+
         }
 
         void CompensatoryModel::calculateFeedback(const ControlInput &input, const ControlParams &params)
@@ -236,15 +239,15 @@ namespace crp
             printf("look ahead pose is %f ,%f, %f\n", m_lookAheadPose[0], m_lookAheadPose[1], m_lookAheadPose[2]);
         }
 
-        void CompensatoryModel::calculateSteeringAngle(const ControlInput &input, const ControlParams &params)
+        void CompensatoryModel::calculateSteeringAngle(const ControlInput &input, ControlOutput& output, const ControlParams &params)
         {
             // function to map acceleration target to steering angle. Right now, no proper low level 
             // acceleration function we have, only an Ackermann mapping 
             double vxLim = std::max(params.vxMin, input.vxEgo);
 
             // calculate steering angle from the acceleration based on target curvature
-            double targetCurvature = m_targetAcceleration / std::pow(vxLim, 2);
-            m_targetSteeringAngle = std::atan(targetCurvature * params.vehAxleDistance);
+            double targetCurvature = output.accelerationTarget / std::pow(vxLim, 2);
+            output.steeringAngleTarget = std::atan(targetCurvature * params.vehAxleDistance);
 
         }
     }
