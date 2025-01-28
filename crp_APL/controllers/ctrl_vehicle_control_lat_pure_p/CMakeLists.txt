@@ -20,11 +20,13 @@ add_executable(ctrl_vehicle_control_lat_pure_p src/ctrl_vehicle_control_lat_pure
 
 ament_target_dependencies(ctrl_vehicle_control_lat_pure_p  rclcpp autoware_control_msgs autoware_planning_msgs crp_msgs)
 
-install(DIRECTORY launch
+install(DIRECTORY
+  config
+  launch
   DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS
-ctrl_vehicle_control_lat_pure_p
+  ctrl_vehicle_control_lat_pure_p
   DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

@@ -9,22 +9,20 @@ crp::apl::CtrlVehicleControlLatCompensatory::CtrlVehicleControlLatCompensatory()
     m_sub_traj_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLatCompensatory::trajCallback, this, std::placeholders::_1));
     m_sub_egoVehicle_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLatCompensatory::egoVehicleCallback, this, std::placeholders::_1));
 
-    this->declare_parameter("/ctrl/ffGainOffsetGround", 0.66f);
-    this->declare_parameter("/ctrl/ffGainSlope", 0.0f);
-    this->declare_parameter("/ctrl/ffLookAheadTime", 0.68f);
-    this->declare_parameter("/ctrl/ffMinLookAheadDistance", 0.0f);
-    this->declare_parameter("/ctrl/steeringAngleLPFilter", 0.2f);
-    this->declare_parameter("/ctrl/fbLookAheadTime", 0.0f);
-    this->declare_parameter("/ctrl/fbPGain", 0.8f);
-    this->declare_parameter("/ctrl/fbDGain", 1.1f);
-    this->declare_parameter("/ctrl/fbIGain", 0.0f);
-    this->declare_parameter("/ctrl/fbThetaGain", 0.05f);
-    this->declare_parameter("/ctrl/fbMinLookAheadDistance", 0.0f);
-    this->declare_parameter("/ctrl/fbIntegralLimit", 3.0f);
-    this->declare_parameter("/ctrl/trajectory_distance", 50.0f);
-    this->declare_parameter("/ctrl/debugKPIs", true);
-
-    RCLCPP_INFO(this->get_logger(), "gainoffsetground: %f", this->get_parameter("/ctrl/ffGainOffsetGround").as_double());
+    this->declare_parameter("/ctrl/compensatory/ffGainOffsetGround", 0.66f);
+    this->declare_parameter("/ctrl/compensatory/ffGainSlope", 0.0f);
+    this->declare_parameter("/ctrl/compensatory/ffLookAheadTime", 0.68f);
+    this->declare_parameter("/ctrl/compensatory/ffMinLookAheadDistance", 0.0f);
+    this->declare_parameter("/ctrl/compensatory/steeringAngleLPFilter", 0.2f);
+    this->declare_parameter("/ctrl/compensatory/fbLookAheadTime", 0.0f);
+    this->declare_parameter("/ctrl/compensatory/fbPGain", 0.8f);
+    this->declare_parameter("/ctrl/compensatory/fbDGain", 1.1f);
+    this->declare_parameter("/ctrl/compensatory/fbIGain", 0.0f);
+    this->declare_parameter("/ctrl/compensatory/fbThetaGain", 0.05f);
+    this->declare_parameter("/ctrl/compensatory/fbMinLookAheadDistance", 0.0f);
+    this->declare_parameter("/ctrl/compensatory/fbIntegralLimit", 3.0f);
+    this->declare_parameter("/ctrl/compensatory/trajectory_distance", 50.0f);
+    this->declare_parameter("/ctrl/compensatory/debugKPIs", true);
 
     RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatCompensatory has been started");
 }
@@ -73,20 +71,20 @@ void crp::apl::CtrlVehicleControlLatCompensatory::egoVehicleCallback(const crp_m
 void crp::apl::CtrlVehicleControlLatCompensatory::loop()
 {
     // parameter assignments
-    m_params.ffGainOffsetGround = this->get_parameter("/ctrl/ffGainOffsetGround").as_double();
-    m_params.ffGainSlope = this->get_parameter("/ctrl/ffGainSlope").as_double();
-    m_params.ffLookAheadTime = this->get_parameter("/ctrl/ffLookAheadTime").as_double();
-    m_params.ffMinLookAheadDistance = this->get_parameter("/ctrl/ffMinLookAheadDistance").as_double();
-    m_params.steeringAngleLPFilter = this->get_parameter("/ctrl/steeringAngleLPFilter").as_double();
-    m_params.fbLookAheadTime = this->get_parameter("/ctrl/fbLookAheadTime").as_double();
-    m_params.fbPGain = this->get_parameter("/ctrl/fbPGain").as_double();
-    m_params.fbDGain = this->get_parameter("/ctrl/fbDGain").as_double();
-    m_params.fbIGain = this->get_parameter("/ctrl/fbIGain").as_double();
-    m_params.fbThetaGain = this->get_parameter("/ctrl/fbThetaGain").as_double();
-    m_params.fbMinLookAheadDistance = this->get_parameter("/ctrl/fbMinLookAheadDistance").as_double();
-    m_params.fbIntegralLimit = this->get_parameter("/ctrl/fbIntegralLimit").as_double();
-    m_params.trajectory_distance = this->get_parameter("/ctrl/trajectory_distance").as_double();
-    m_params.debugKPIs = this->get_parameter("/ctrl/debugKPIs").as_bool();
+    m_params.ffGainOffsetGround = this->get_parameter("/ctrl/compensatory/ffGainOffsetGround").as_double();
+    m_params.ffGainSlope = this->get_parameter("/ctrl/compensatory/ffGainSlope").as_double();
+    m_params.ffLookAheadTime = this->get_parameter("/ctrl/compensatory/ffLookAheadTime").as_double();
+    m_params.ffMinLookAheadDistance = this->get_parameter("/ctrl/compensatory/ffMinLookAheadDistance").as_double();
+    m_params.steeringAngleLPFilter = this->get_parameter("/ctrl/compensatory/steeringAngleLPFilter").as_double();
+    m_params.fbLookAheadTime = this->get_parameter("/ctrl/compensatory/fbLookAheadTime").as_double();
+    m_params.fbPGain = this->get_parameter("/ctrl/compensatory/fbPGain").as_double();
+    m_params.fbDGain = this->get_parameter("/ctrl/compensatory/fbDGain").as_double();
+    m_params.fbIGain = this->get_parameter("/ctrl/compensatory/fbIGain").as_double();
+    m_params.fbThetaGain = this->get_parameter("/ctrl/compensatory/fbThetaGain").as_double();
+    m_params.fbMinLookAheadDistance = this->get_parameter("/ctrl/compensatory/fbMinLookAheadDistance").as_double();
+    m_params.fbIntegralLimit = this->get_parameter("/ctrl/compensatory/fbIntegralLimit").as_double();
+    m_params.trajectory_distance = this->get_parameter("/ctrl/compensatory/trajectory_distance").as_double();
+    m_params.debugKPIs = this->get_parameter("/ctrl/compensatory/debugKPIs").as_bool();
 
     m_compensatoryModel.run(m_input, m_output, m_params);
 

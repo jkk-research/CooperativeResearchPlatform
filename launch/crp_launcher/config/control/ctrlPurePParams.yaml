@@ -1,0 +1,4 @@
+CtrlVehicleControlLatPurePursuit:
+  ros__parameters:
+    /ctrl/pure_p/lookahead_time: 1.0
+    /ctrl/pure_p/wheelbase:      2.7

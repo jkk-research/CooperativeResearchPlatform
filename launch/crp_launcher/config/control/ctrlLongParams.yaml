@@ -1,0 +1,8 @@
+CtrlVehicleControlLong:
+  ros__parameters:
+    /ctrl/long/axMax: 20.0
+    /ctrl/long/axMin: -40.0
+    /ctrl/long/jxMax: 1.0
+    /ctrl/long/jxMin: -1.0
+
+    /ctrl/long/speedControlLookAheadTime: 0.6

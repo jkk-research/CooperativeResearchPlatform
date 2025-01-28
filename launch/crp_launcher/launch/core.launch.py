@@ -15,7 +15,7 @@ def generate_launch_description():
             get_package_share_directory('crp_launcher'),
             'config',
             'control',
-            'compensatoryParams.yaml'
+            'ctrlCompensatoryParams.yaml'
         ),
         description='Path to compensatory control configuration file'
     )

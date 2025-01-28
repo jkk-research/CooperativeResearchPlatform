@@ -1,0 +1,4 @@
+CtrlVehicleControlLatStanley:
+  ros__parameters:
+    /ctrl/stanley/k_gain:    1.5
+    /ctrl/stanley/wheelbase: 2.7

@@ -52,7 +52,7 @@ class ROSController(Node):
 
     def __init__(self):
 
-        super().__init__('lqr_on_rails')
+        super().__init__('ctrl_vehicle_control_lqr')
 
         self.cx = []
         self.cy = []
@@ -83,15 +83,15 @@ class ROSController(Node):
         self.lqr_R[1, 1] = 2.0
 
         # read in ros params from the launch file
-        self.declare_parameter('dt', self.dt)
-        self.declare_parameter('wheel_base', self.L)
-        self.declare_parameter('max_steer_tire_angle', self.max_steer)
-        self.declare_parameter('Q', self.lqr_Q.diagonal().tolist())
-        self.declare_parameter('R', self.lqr_R.diagonal().tolist())
+        self.declare_parameter('/ctrl/lqr/dt', self.dt)
+        self.declare_parameter('/ctrl/lqr/wheel_base', self.L)
+        self.declare_parameter('/ctrl/lqr/max_steer_tire_angle', self.max_steer)
+        self.declare_parameter('/ctrl/lqr/Q', self.lqr_Q.diagonal().tolist())
+        self.declare_parameter('/ctrl/lqr/R', self.lqr_R.diagonal().tolist())
 
-        self.dt = self.get_parameter('dt').value
-        self.L = self.get_parameter('wheel_base').value
-        self.max_steer = self.get_parameter('max_steer_tire_angle').value
+        self.dt = self.get_parameter('/ctrl/lqr/dt').value
+        self.L = self.get_parameter('/ctrl/lqr/wheel_base').value
+        self.max_steer = self.get_parameter('/ctrl/lqr/max_steer_tire_angle').value
 
         self.control_clock = self.create_timer(0.05, self.control_loop)
 
@@ -181,8 +181,8 @@ class ROSController(Node):
             self.ctrl_long_publisher.publish(ctrl_cmd_longitudinal)
             return
         
-        live_Q = self.get_parameter('Q').value
-        live_R = self.get_parameter('R').value
+        live_Q = self.get_parameter('/ctrl/lqr/Q').value
+        live_R = self.get_parameter('/ctrl/lqr/R').value
 
         self.lqr_Q[0, 0] = live_Q[0]
         self.lqr_Q[1, 1] = live_Q[1]

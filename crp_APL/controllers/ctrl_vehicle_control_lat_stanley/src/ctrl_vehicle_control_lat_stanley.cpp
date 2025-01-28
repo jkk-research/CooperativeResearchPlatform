@@ -9,8 +9,8 @@ crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("C
     m_sub_traj_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLatStanley::trajCallback, this, std::placeholders::_1));
     m_sub_egoVehicle_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLatStanley::egoVehicleCallback, this, std::placeholders::_1));
 
-    this->declare_parameter("/ctrl/k_gain", 0.5f);
-    this->declare_parameter("/ctrl/wheelbase", 2.7f);
+    this->declare_parameter("/ctrl/stanley/k_gain", 0.5f);
+    this->declare_parameter("/ctrl/stanley/wheelbase", 2.7f);
 
     RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatStanley has been started");
 }
@@ -100,8 +100,8 @@ void crp::apl::CtrlVehicleControlLatStanley::stanleyControl()
 void crp::apl::CtrlVehicleControlLatStanley::loop()
 {
     // parameter assignments
-    m_params.k_gain= this->get_parameter("/ctrl/k_gain").as_double();
-    m_params.wheelbase = this->get_parameter("/ctrl/wheelbase").as_double();
+    m_params.k_gain= this->get_parameter("/ctrl/stanley/k_gain").as_double();
+    m_params.wheelbase = this->get_parameter("/ctrl/stanley/wheelbase").as_double();
 
     // control algorithm
     if(m_input.m_path_x.size() > 0 && m_input.m_path_y.size() > 0)

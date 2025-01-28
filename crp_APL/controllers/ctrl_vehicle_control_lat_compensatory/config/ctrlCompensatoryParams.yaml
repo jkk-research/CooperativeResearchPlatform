@@ -1,0 +1,16 @@
+CtrlVehicleControlLatCompensatory:
+  ros__parameters:
+    /ctrl/compensatory/ffGainOffsetGround:     1.0
+    /ctrl/compensatory/ffGainSlope:            0.0
+    /ctrl/compensatory/ffLookAheadTime:        0.68
+    /ctrl/compensatory/ffMinLookAheadDistance: 0.0
+    /ctrl/compensatory/steeringAngleLPFilter:  0.2
+    /ctrl/compensatory/fbLookAheadTime:        0.6
+    /ctrl/compensatory/fbPGain:                0.5
+    /ctrl/compensatory/fbDGain:                0.1
+    /ctrl/compensatory/fbIGain:                0.0
+    /ctrl/compensatory/fbThetaGain:            0.0
+    /ctrl/compensatory/fbMinLookAheadDistance: 0.0
+    /ctrl/compensatory/fbIntegralLimit:        3.0
+    /ctrl/compensatory/trajectory_distance:    50.0
+    /ctrl/compensatory/debugKPIs:              True
