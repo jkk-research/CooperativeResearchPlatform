@@ -18,8 +18,6 @@ packages=(
   tier4_system_msgs
   tier4_api_msgs
   tier4_vehicle_msgs
-  tier4_map_msgs
-  map_loader
   duro_gps_driver
   duro_gps_wrapper
   kvaser_interface
@@ -36,10 +34,7 @@ packages=(
   prcp_sensor_abstraction
 )
 
-packages_string=""
-for package in "${packages[@]}"; do
-  packages_string+="$package "
-done
+packages_string=${packages[*]}
 
 packages_paths=$(colcon list --packages-up-to $packages_string -p)
 
