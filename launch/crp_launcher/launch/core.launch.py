@@ -1,14 +1,25 @@
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration
-from launch.conditions import LaunchConfigurationEquals
-from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
 
 
 def generate_launch_description():
+    # ARGUMENTS
+
+    ctrlCompensatoryConfigFileArg = DeclareLaunchArgument(
+        'ctrlCompensatoryConfigFile',
+        default_value=join(
+            get_package_share_directory('crp_launcher'),
+            'config',
+            'control',
+            'compensatoryParams.yaml'
+        ),
+        description='Path to compensatory control configuration file'
+    )
+    
     # NODES
 
     environmental_fusion = IncludeLaunchDescription(
@@ -88,6 +99,9 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        # arguments
+        ctrlCompensatoryConfigFileArg,
+        
         # nodes
         environmental_fusion,
         behavior_planning,
@@ -97,6 +111,4 @@ def generate_launch_description():
         vehicle_control,
         vehicle_control_lat,
         vehicle_control_long,
-
-        
     ])
