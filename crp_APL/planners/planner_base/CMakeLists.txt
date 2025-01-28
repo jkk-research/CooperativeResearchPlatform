@@ -21,15 +21,19 @@ set (
   ${CMAKE_SOURCE_DIR}/../../interfaces
 )
 
+set (
+  UTILS_DIR
+  ${CMAKE_SOURCE_DIR}/../../crp_utils
+)
+
 include_directories(
   include
   ${INTERFACES_DIR}
+  ${UTILS_DIR}
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../crp_utils)
-
 set(utils_source
-${CMAKE_CURRENT_SOURCE_DIR}/../../crp_utils/geometryUtils/src/geometricPathCalculation.cpp)
+${CMAKE_CURRENT_SOURCE_DIR}/../../crp_utils/geometryUtils/src/geometricPathCalculation.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../../crp_utils/geometryUtils/src/polynomialRegression.cpp)
 
 add_library(wrapper_base SHARED
   src/wrapperBase.cpp ${utils_source}
@@ -51,6 +55,7 @@ install(
 )
 
 ament_export_include_directories(${INTERFACES_DIR})
+ament_export_include_directories(${UTILS_DIR})
 ament_export_targets(wrapper_base HAS_LIBRARY_TARGET)
 ament_export_dependencies(rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs tf2 tf2_geometry_msgs)
 

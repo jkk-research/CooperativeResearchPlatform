@@ -27,5 +27,8 @@ plan_motion_planning \
 crp_launcher \
 ctrl_vehicle_control \
 ctrl_vehicle_control_lat_compensatory \
+ctrl_vehicle_control_lat_pure_p \
+ctrl_vehicle_control_lat_stanley \
+ctrl_vehicle_control_lqr \
 ctrl_vehicle_control_long \
 test_node

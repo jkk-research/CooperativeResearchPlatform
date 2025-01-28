@@ -1,6 +1,5 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
 
 def generate_launch_description():
     # NODES
@@ -15,9 +14,5 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
-        GroupAction(
-            actions=[
-                plan_lon_intelligent_speed_adjust
-            ]
-        )
+        plan_lon_intelligent_speed_adjust
     ])

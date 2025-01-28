@@ -16,14 +16,14 @@ pacmod3_msgs::msg::LinearAccelRpt PacmodDefinitions::decodeLinAccel(const can_ms
     linAccel.longitudinal_valid = (msg->data[0] >> 4) & 0x1;
     linAccel.vertical_valid = (msg->data[0] >> 5) & 0x1;
 
-    int16_t accelLat_raw = msg->data[1] << 8 | msg->data[2];
-    linAccel.lateral_accel = accelLat_raw * 0.01;
+    int16_t accelLatRaw = msg->data[1] << 8 | msg->data[2];
+    linAccel.lateral_accel = accelLatRaw * 0.01;
 
-    int16_t accelLon_raw = msg->data[3] << 8 | msg->data[4];
-    linAccel.longitudinal_accel = accelLon_raw * 0.01;
+    int16_t accelLonRaw = msg->data[3] << 8 | msg->data[4];
+    linAccel.longitudinal_accel = accelLonRaw * 0.01;
 
-    int16_t accelVert_raw = msg->data[5] << 8 | msg->data[6];
-    linAccel.vertical_accel = accelVert_raw * 0.01;
+    int16_t accelVertRaw = msg->data[5] << 8 | msg->data[6];
+    linAccel.vertical_accel = accelVertRaw * 0.01;
 
     return linAccel;
 }

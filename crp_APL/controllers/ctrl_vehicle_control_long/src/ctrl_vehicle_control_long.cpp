@@ -1,8 +1,5 @@
 #include "ctrl_vehicle_control_long.hpp"
 
-using namespace std::chrono_literals;
-using std::placeholders::_1;
-
 
 crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("CtrlVehicleControlLong")
 {

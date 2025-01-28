@@ -876,5 +876,28 @@ The results are shown in Figure \ref{fig:fittedLines_zoomed}. This is an example
     \label{fig:fittedLines}
 \end{figure}
 
+\section{Vehicle Controllers} \label{sec:vehicle_controllers}
+\subsection{Compensatory Model} \label{sec:compensatory_model}
+The model is based on the combination of various existing models, such as the pure pursuit approach (for the feedforward path) \cite{NovelPP} \cite{MultGoalPP}, the two-point visual control driver model \cite{TwoPoint},
+and the compensatory driver model \cite{ContrTheoMod}. The idea is, that there are underlying patterns and the driver acts as a closed loop controller. However, it has been shown that feedforward guess of the target 
+road wheel angle (or equal quantity) highly improves the performance. The widely used PID feedback control method, however, often has the bottlenack of being too sensitive on kinematic parameters, especially longitudinal 
+velocity. As the connection between the vehicle yawrate and the vehicle curvature is speed dependent, it makes it difficult to directly calculate the target road wheel angle. Furthermore, nonlinearity is increased by 
+the geometrical relations between the road wheel angle and the vehicle curvature. Therefore, the problem is divided into three sub-processes:
+\begin{itemize}
+    \item the tracking controller calculates the lateral acceleration target, which is still linearly connected to the pose error, then
+    \item the target lateral acceleration is mapped to the road wheel angle (vehicle curvature), the mapping contains the velocity dependency and geometrical non-linear transformation, then
+    \item the road wheel angle (vehicle curvature) is mapped to steering wheel angle (as the actuator control interface provides only steering wheel level communication).
+\end{itemize}
+The second and third steps are only open-loop mapping of one quantity to another, and the mapping function purely relies on prior, physical assumptions, such as the Ackermann steering equations.
+The block diagram of the entire chain is shown in Figure \ref{fig:compensatory_arch}. Please be noted, that the current implementation contains the highly simplified acceleration-to-road-wheel-angle and the road-wheel-angle to 
+steering-wheel-angle control maps. 
+
+\begin{figure}[h]
+    %\captionsetup{justification=raggedleft}
+    \center{\includegraphics[width=1.0\textwidth]{compensatory_arch.png}}
+    \caption{The block diagram of the compensatory driver model.}
+    \label{fig:compensatory_arch}
+\end{figure}
+
 \bibliography{refs}
 \end{document}

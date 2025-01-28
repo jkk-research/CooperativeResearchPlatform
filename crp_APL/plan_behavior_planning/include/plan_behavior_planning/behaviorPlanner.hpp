@@ -1,5 +1,6 @@
-#ifndef CRP_APL_BEHAVIORPLANNER_PLANBEHAVIORPLANNING_HPP
-#define CRP_APL_BEHAVIORPLANNER_PLANBEHAVIORPLANNING_HPP
+#ifndef CRP_APL_BEHAVIOR_PLANNER_PLANBEHAVIORPLANNING_HPP
+#define CRP_APL_BEHAVIOR_PLANNER_PLANBEHAVIORPLANNING_HPP
+
 
 #include <rclcpp/rclcpp.hpp>
 #include <crp_msgs/msg/scenario.hpp>
@@ -32,13 +33,13 @@ private:
     rclcpp::Subscription<crp_msgs::msg::Behavior>::SharedPtr                   m_sub_behavior_;
 
     rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy;
-    rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_target_space;
+    rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace;
 
-    rclcpp::TimerBase::SharedPtr timer_;
+    rclcpp::TimerBase::SharedPtr m_timer_;
     
     float m_maximum_speed;
 };
 
 } // namespace apl
 } // namespace crp
-#endif // CRP_APL_BEHAVIORPLANNER_PLANBEHAVIORPLANNING_HPP
+#endif // CRP_APL_BEHAVIOR_PLANNER_PLANBEHAVIORPLANNING_HPP

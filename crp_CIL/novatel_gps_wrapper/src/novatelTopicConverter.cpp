@@ -14,7 +14,6 @@ void crp::vil::NovatelTopicConverter::currentPoseCallback(const geometry_msgs::m
     geometry_msgs::msg::PoseWithCovarianceStamped poseWithCovariance;
     poseWithCovariance.header = msg->header;
     poseWithCovariance.pose.pose = msg->pose;
-    poseWithCovariance.pose.pose.orientation = msg->pose.orientation;
 
     m_pub_currentPoseWithCovariance_->publish(poseWithCovariance);
 }

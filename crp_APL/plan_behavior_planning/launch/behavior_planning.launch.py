@@ -4,13 +4,13 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
-    ld = LaunchDescription()
-
     behavior_planner = Node(
         package="plan_behavior_planning",
-        executable="behavior_planner"
+        executable="behavior_planner",
+        name="behavior_planner",
+        output="screen",
     )
 
-    ld.add_action(behavior_planner)
-
-    return ld
+    return LaunchDescription([
+        behavior_planner
+    ])

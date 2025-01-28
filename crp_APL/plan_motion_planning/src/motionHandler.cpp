@@ -6,7 +6,7 @@ crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
     m_sub_strategy_   = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
         "plan/strategy", 10, std::bind(&MotionHandler::scenarioCallback, this, std::placeholders::_1));
     m_sub_plan_latLaneFollow_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>(
-        "plan/lat_lane_follow/trajectory", 10, std::bind(&MotionHandler::planLatLaneFollowCallback, this, std::placeholders::_1));
+        "plan/lat_lane_follow_ldm/trajectory", 10, std::bind(&MotionHandler::planLatLaneFollowCallback, this, std::placeholders::_1));
     m_sub_plan_lonEmergency_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>(
         "plan/lon_emergency/trajectory", 10, std::bind(&MotionHandler::planLonEmergencyCallback, this, std::placeholders::_1));
     m_sub_plan_lonIntelligentSpeedAdjust_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>(
@@ -14,7 +14,7 @@ crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
 
     m_pub_trajectory_ = this->create_publisher<autoware_planning_msgs::msg::Trajectory>("plan/trajectory", 10);
 
-    m_pub_trajectory_viz_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/trajectoryVisualization", 10);
+    m_pub_trajectoryViz_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/trajectoryVisualization", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&MotionHandler::run, this));
 }
@@ -328,7 +328,7 @@ void crp::apl::MotionHandler::visualizeTrajectory()
         marker.points.push_back(p);
     }
 
-    m_pub_trajectory_viz_->publish(marker);
+    m_pub_trajectoryViz_->publish(marker);
 
 
     return;
@@ -337,7 +337,7 @@ void crp::apl::MotionHandler::visualizeTrajectory()
 void crp::apl::MotionHandler::run()
 {
     mapIncomingInputs();
-    //visualizeTrajectory();
+    visualizeTrajectory();
     m_pub_trajectory_->publish(m_outputTrajectory);
 }
 
