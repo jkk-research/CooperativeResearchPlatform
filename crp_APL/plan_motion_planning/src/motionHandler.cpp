@@ -6,7 +6,7 @@ crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
     m_sub_strategy_   = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
         "plan/strategy", 10, std::bind(&MotionHandler::scenarioCallback, this, std::placeholders::_1));
     m_sub_plan_latLaneFollow_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>(
-        "plan/plan_lat_lane_follow_ldm/trajectory", 10, std::bind(&MotionHandler::planLatLaneFollowCallback, this, std::placeholders::_1));
+        "plan/lat_lane_follow_ldm/trajectory", 10, std::bind(&MotionHandler::planLatLaneFollowCallback, this, std::placeholders::_1));
     m_sub_plan_lonEmergency_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>(
         "plan/lon_emergency/trajectory", 10, std::bind(&MotionHandler::planLonEmergencyCallback, this, std::placeholders::_1));
     m_sub_plan_lonIntelligentSpeedAdjust_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>(
