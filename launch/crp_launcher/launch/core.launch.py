@@ -22,7 +22,7 @@ def generate_launch_description():
     )
     ctrlLatMethodArg = DeclareLaunchArgument(
         'ctrlLatMethod',
-        default_value='stanley',
+        default_value='comp',
         description='Lat controller to use. Possible values: comp, purep, stanley'
     )
     ctrlLongMethodArg = DeclareLaunchArgument(
