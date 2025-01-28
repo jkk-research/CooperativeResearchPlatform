@@ -1,7 +1,7 @@
 #include <ctrl_vehicle_control_lat_pure_p/ctrl_vehicle_control_lat_pure_p.hpp>
 
 
-crp::apl::CtrlVehicleControlLatPureP::CtrlVehicleControlLatPureP() : Node("CtrlVehicleControlLatPurePursuit")
+crp::apl::CtrlVehicleControlLatPureP::CtrlVehicleControlLatPureP() : Node("ctrl_vehicle_control_lat_pure_pursuit")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLatPureP::loop, this));  
     m_pub_cmd = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);

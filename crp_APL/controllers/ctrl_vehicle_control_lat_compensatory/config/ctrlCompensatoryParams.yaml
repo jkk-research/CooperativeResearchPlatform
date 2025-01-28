@@ -1,4 +1,4 @@
-CtrlVehicleControlLatCompensatory:
+ctrl_vehicle_control_lat_compensatory:
   ros__parameters:
     /ctrl/compensatory/ffGainOffsetGround:     1.0
     /ctrl/compensatory/ffGainSlope:            0.0

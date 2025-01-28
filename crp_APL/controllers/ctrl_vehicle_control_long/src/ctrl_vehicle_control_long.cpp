@@ -1,7 +1,7 @@
 #include "ctrl_vehicle_control_long.hpp"
 
 
-crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("CtrlVehicleControlLong")
+crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("ctrl_vehicle_control_long")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLong::run, this));  
     m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 30);

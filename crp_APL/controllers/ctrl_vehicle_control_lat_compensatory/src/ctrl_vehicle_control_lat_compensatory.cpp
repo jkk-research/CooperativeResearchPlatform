@@ -1,7 +1,7 @@
 #include <ctrl_vehicle_control_lat_compensatory/ctrl_vehicle_control_lat_compensatory.hpp>
 
 
-crp::apl::CtrlVehicleControlLatCompensatory::CtrlVehicleControlLatCompensatory() : Node("CtrlVehicleControlLatCompensatory")
+crp::apl::CtrlVehicleControlLatCompensatory::CtrlVehicleControlLatCompensatory() : Node("ctrl_vehicle_control_lat_compensatory")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLatCompensatory::loop, this));  
     m_pub_cmd = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);

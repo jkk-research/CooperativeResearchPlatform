@@ -1,7 +1,7 @@
 #include <ctrl_vehicle_control_lat_stanley/ctrl_vehicle_control_lat_stanley.hpp>
 
 
-crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("CtrlVehicleControlLatStanley")
+crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("ctrl_vehicle_control_lat_stanley")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLatStanley::loop, this));  
     m_pub_cmd_ = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);

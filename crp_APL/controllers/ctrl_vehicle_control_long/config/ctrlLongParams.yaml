@@ -1,4 +1,4 @@
-CtrlVehicleControlLong:
+ctrl_vehicle_control_long:
   ros__parameters:
     /ctrl/long/axMax: 20.0
     /ctrl/long/axMin: -40.0
