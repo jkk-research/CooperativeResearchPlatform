@@ -17,7 +17,9 @@ crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
     m_pub_strategy = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
     m_pub_targetSpace = this->create_publisher<crp_msgs::msg::TargetSpace>("plan/target_space", 10);
 
-    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&BehaviorPlanner::loop, this));  
+    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&BehaviorPlanner::loop, this));
+
+    RCLCPP_INFO(this->get_logger(), "behavior_planner has been started");
 }
 
 

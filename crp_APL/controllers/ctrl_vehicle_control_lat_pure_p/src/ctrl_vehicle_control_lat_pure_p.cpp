@@ -12,7 +12,7 @@ crp::apl::CtrlVehicleControlLatPureP::CtrlVehicleControlLatPureP() : Node("ctrl_
     this->declare_parameter("/ctrl/pure_p/lookahead_time", 1.0f);
     this->declare_parameter("/ctrl/pure_p/wheelbase", 2.7f);
 
-    RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatPurePursuit has been started");
+    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_lat_pure_pursuit has been started");
 }
 
 void crp::apl::CtrlVehicleControlLatPureP::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)

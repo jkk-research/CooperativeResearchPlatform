@@ -17,6 +17,8 @@ crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
     m_pub_trajectoryViz_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/trajectoryVisualization", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&MotionHandler::run, this));
+
+    RCLCPP_INFO(this->get_logger(), "motion_handler has been started");
 }
 
 void crp::apl::MotionHandler::scenarioCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)

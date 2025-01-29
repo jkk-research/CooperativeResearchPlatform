@@ -12,7 +12,7 @@ crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("c
     this->declare_parameter("/ctrl/stanley/k_gain", 0.5f);
     this->declare_parameter("/ctrl/stanley/wheelbase", 2.7f);
 
-    RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatStanley has been started");
+    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_lat_stanley has been started");
 }
 
 void crp::apl::CtrlVehicleControlLatStanley::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)

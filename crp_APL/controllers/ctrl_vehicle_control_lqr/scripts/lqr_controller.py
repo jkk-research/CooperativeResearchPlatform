@@ -100,7 +100,7 @@ class ROSController(Node):
         self.traj_subscriber = self.create_subscription(Trajectory, '/plan/trajectory', self.receive_trajectory, 10)
         self.ego_subscriber = self.create_subscription(Ego, '/ego', self.receive_ego, 10)
 
-        self.get_logger().info("LQR Controller Node has started!")
+        self.get_logger().info("ctrl_vehicle_control_lqr has been started!")
         
         # ros log the dt, wheel base, and max steer tire angle
         self.get_logger().info(f"Current variable value: {self.dt}, {self.L}, {self.max_steer}")

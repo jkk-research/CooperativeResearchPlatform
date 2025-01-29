@@ -3,6 +3,7 @@
 
 crp::apl::WrapperPlanLatLaneFollow::WrapperPlanLatLaneFollow() : WrapperBase("plan_lat_lane_follow")
 {
+    RCLCPP_INFO(this->get_logger(), "plan_lat_lane_follow has been started");
 }
 
 

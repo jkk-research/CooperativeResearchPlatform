@@ -3,6 +3,7 @@
 
 crp::apl::WrapperPlanLonEmergency::WrapperPlanLonEmergency() : WrapperBase("plan_lon_emergency")
 {
+    RCLCPP_INFO(this->get_logger(), "plan_lon_emergency has been started");
 }
 
 

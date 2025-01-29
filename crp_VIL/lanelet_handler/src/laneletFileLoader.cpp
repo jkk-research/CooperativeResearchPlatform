@@ -25,6 +25,8 @@ crp::vil::LaneletFileLoader::LaneletFileLoader() : Node("lanelet_file_loader")
     m_pub_laneletMap_ = this->create_publisher<autoware_map_msgs::msg::LaneletMapBin>(
         mapOutputTopic, rclcpp::QoS{1}.transient_local());
 
+    RCLCPP_INFO(this->get_logger(), "lanelet_file_loader has been started");
+
     publishLaneletMap(mapFilePath);
 }
 

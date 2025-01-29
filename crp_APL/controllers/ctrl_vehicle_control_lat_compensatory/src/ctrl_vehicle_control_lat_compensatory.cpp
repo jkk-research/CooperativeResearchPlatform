@@ -24,7 +24,7 @@ crp::apl::CtrlVehicleControlLatCompensatory::CtrlVehicleControlLatCompensatory()
     this->declare_parameter("/ctrl/compensatory/trajectory_distance", 50.0f);
     this->declare_parameter("/ctrl/compensatory/debugKPIs", true);
 
-    RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatCompensatory has been started");
+    
 }
 
 void crp::apl::CtrlVehicleControlLatCompensatory::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)

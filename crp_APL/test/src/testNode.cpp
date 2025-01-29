@@ -21,6 +21,8 @@ crp::apl::TestNode::TestNode() : Node("test_node")
     this->declare_parameter("/test/previewDistance", 100.0f); // in m
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&TestNode::run, this));
+
+    RCLCPP_INFO(this->get_logger(), "test_node has been started");
 }
 
 void crp::apl::TestNode::controlCommandCallback(const autoware_control_msgs::msg::Control::SharedPtr msg)
