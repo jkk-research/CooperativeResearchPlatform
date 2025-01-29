@@ -70,7 +70,7 @@ def fit_spline(x,y):
 
     return curvature
 
-def fit_polynomial_and_curvature(x, y, degree=4):
+def fit_polynomial_and_curvature(x, y, degree=3):
     """
     Fits a polynomial of the specified degree to the given x, y points and calculates curvature.
 
@@ -172,6 +172,10 @@ class ROSController(Node):
         self.sp = [point.longitudinal_velocity_mps for point in msg.points]
        
         self.cyaw = np.arctan2(np.diff(self.cy), np.diff(self.cx)).tolist()
+
+
+        if len(self.cx) <= 0:
+            return
 
         if self.use_spline_fit:
             self.ck = fit_spline(self.cx, self.cy)
@@ -312,9 +316,9 @@ class ROSController(Node):
         # delta_v: difference between current speed and target speed
         x = np.zeros((5, 1))
         x[0, 0] = e
-        x[1, 0] = 0 # (e - self.pe) / dt
+        x[1, 0] = #(e - self.pe) / self.dt
         x[2, 0] = th_e
-        x[3, 0] = 0 # (th_e - self.pth_e) / dt
+        x[3, 0] = #(th_e - self.pth_e) / self.dt
         x[4, 0] = v - tv
 
         # input vector
@@ -325,7 +329,7 @@ class ROSController(Node):
 
         # calc steering input
         ff = math.atan2(self.L * k, 1) # feedforward steering angle
-        ff = ff * -1
+        ff = float(0.0)
         fb = pi_2_pi(ustar[0, 0])  # feedback steering angle
         delta = fb + ff
 
