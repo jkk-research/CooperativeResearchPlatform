@@ -60,7 +60,7 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
     // calculating the curvature
     std::vector<float> x; 
     std::vector<float> y; 
-    for (int i=0; i<m_input.path.pathPoints.size(); i++)
+    for (unsigned int i=0; i<m_input.path.pathPoints.size(); i++)
     {
         x.push_back(m_input.path.pathPoints.at(i).pose.position.x);
         y.push_back(m_input.path.pathPoints.at(i).pose.position.y);
@@ -68,7 +68,7 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
 
     std::vector<float> c = m_geometricPathCalculator.calculateCurvature(x,y);
 
-    for (int i=0; i<c.size(); i++)
+    for (unsigned int i=0; i<c.size(); i++)
     {
         m_input.path.pathPoints.at(i).curvature = c.at(i);
     }

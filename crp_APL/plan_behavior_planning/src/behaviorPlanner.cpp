@@ -26,6 +26,7 @@ crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
 void crp::apl::BehaviorPlanner::routeCallback(const autoware_planning_msgs::msg::LaneletRoute::SharedPtr msg)
 {
     // TODO
+    (void)msg;
     return;
 }
 
@@ -50,6 +51,7 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
 void crp::apl::BehaviorPlanner::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 {
     // TODO
+    (void)msg;
     return;
 }
 

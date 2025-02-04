@@ -51,7 +51,7 @@ void crp::apl::CtrlVehicleControlLatStanley::error_calculation(double &lateralEr
 
     float dist = std::numeric_limits<float>::max();
 
-    for(int i = 0; i < m_input.m_path_x.size(); i++)
+    for(unsigned int i = 0; i < m_input.m_path_x.size(); i++)
     {
         float ds = std::sqrt(std::pow(m_input.m_path_x[i] - target_x, 2) + std::pow(m_input.m_path_y[i] - target_y, 2));
         

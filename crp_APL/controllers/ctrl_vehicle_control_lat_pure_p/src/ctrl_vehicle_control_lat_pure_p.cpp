@@ -49,7 +49,7 @@ void crp::apl::CtrlVehicleControlLatPureP::pure_p_control()
     float currentDistance = 0.0f;
     int target_index = 0;
 
-    for (int i = 0; i < m_input.m_path_x.size()-1; i++)
+    for (unsigned int i = 0; i < m_input.m_path_x.size()-1; i++)
     {
         currentDistance += sqrt(pow(m_input.m_path_x.at(i+1) - m_input.m_path_x.at(i), 2) + pow(m_input.m_path_y.at(i+1) - m_input.m_path_y.at(i), 2));
         if (currentDistance >= distance_to_index)

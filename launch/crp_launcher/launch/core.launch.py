@@ -138,7 +138,6 @@ def generate_launch_description():
         )
     )
 
-
     ###########
     # CONTROL #
     ###########
@@ -202,7 +201,6 @@ def generate_launch_description():
         ),
         condition=LaunchConfigurationEquals('ctrlLongMethod', 'long')
     )
-
 
 
     return LaunchDescription([

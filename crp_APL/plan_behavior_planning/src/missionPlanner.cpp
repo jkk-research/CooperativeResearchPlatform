@@ -15,6 +15,7 @@ crp::apl::MissionPlanner::MissionPlanner() : Node("mission_planner")
 void crp::apl::MissionPlanner::worldCallback(const crp_msgs::msg::World::SharedPtr msg)
 {
     // TODO
+    (void)msg;
     return;
 }
 

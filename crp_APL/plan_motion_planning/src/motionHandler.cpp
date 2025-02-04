@@ -62,6 +62,7 @@ void crp::apl::MotionHandler::planLatLaneFollowCallback(const autoware_planning_
 void crp::apl::MotionHandler::planLonEmergencyCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg)
 {
     // TODO
+    (void)msg;
     return;
 }
 
@@ -196,7 +197,7 @@ void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Traj
     {
         // find neighboring points in longitudinal trajectory with two stage filtering
         // find closest point (euclidean distance)
-        Point3D pt{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, 0};
+        Point3D pt{(float)outputTrajectory.points[i].pose.position.x, (float)outputTrajectory.points[i].pose.position.y, 0};
 
         double minDist = std::numeric_limits<double>::max();
         uint32_t closestSpeedIdx;
@@ -216,7 +217,7 @@ void crp::apl::MotionHandler::interpolateSpeed(autoware_planning_msgs::msg::Traj
         }
 
         // filter after transformation
-        Pose3D targetPose{outputTrajectory.points[i].pose.position.x, outputTrajectory.points[i].pose.position.y, getYawFromQuaternion(outputTrajectory.points[i].pose.orientation)};
+        Pose3D targetPose{(float)outputTrajectory.points[i].pose.position.x, (float)outputTrajectory.points[i].pose.position.y, getYawFromQuaternion(outputTrajectory.points[i].pose.orientation)};
         int32_t ipPointIdx1, ipPointIdx2;
         findNeighbouringPointsLocal(longitudinalTrajectory.trajectory, targetPose, closestSpeedIdx, ipPointIdx1, ipPointIdx2);
 

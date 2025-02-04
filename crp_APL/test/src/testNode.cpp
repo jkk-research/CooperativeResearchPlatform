@@ -129,7 +129,7 @@ void crp::apl::TestNode::mapPath()
     m_outPathMsg.points.clear();
     m_outPathMsg.header.stamp = this->now();
     m_noEnoughPointsLeft = true;
-    for (int i=0; i<m_localPath_x.size(); i++)
+    for (unsigned int i=0; i<m_localPath_x.size(); i++)
     {
         if (m_localPath_x.at(i)>=0)
         {

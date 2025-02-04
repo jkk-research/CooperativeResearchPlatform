@@ -11,7 +11,7 @@ std::vector<float> crp::apl::GeometricPathCalculation::calculateCurvature(const 
       curvature.push_back(0.0f);
       orientation.push_back(0.0f);
    }
-   for (int i=1; i<x.size(); i++)
+   for (unsigned int i=1; i<x.size(); i++)
    {
       // conduct first derivation
       float dx = x.at(i)-x.at(i-1);
