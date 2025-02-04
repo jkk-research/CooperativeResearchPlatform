@@ -5,9 +5,11 @@ while [ ! -e "src/" ]; do
 done
 echo "Build location: "$(pwd)
 
+build_args=$@
+
 # build core
 trap 'exit' INT # trap ctrl-c
-$script_dir/build_core.sh
+$script_dir/build_core.sh $build_args
 trap - INT
 
 # build lexus packages
@@ -42,4 +44,4 @@ packages_paths=$(colcon list --packages-up-to $packages_string -p)
 
 rosdep install --from-paths $packages_paths --ignore-src -r -y
 
-colcon build --packages-select $packages_string
+colcon build --packages-select $packages_string $build_args

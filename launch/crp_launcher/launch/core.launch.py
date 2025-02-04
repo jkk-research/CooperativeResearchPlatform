@@ -200,7 +200,7 @@ def generate_launch_description():
                 'launch',
                 'ctrl_vehicle_control_long.launch.py')
         ),
-        condition=LaunchConfigurationNotEquals('ctrlLongMethod', 'long')
+        condition=LaunchConfigurationEquals('ctrlLongMethod', 'long')
     )
 
 
