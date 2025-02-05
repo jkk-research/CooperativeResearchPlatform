@@ -7,9 +7,11 @@
 #include <memory>
 #include <string>
 #include <math.h>
+#include <algorithm>
 
 #include "autoware_control_msgs/msg/control.hpp"
 #include "geometry_msgs/msg/twist.hpp"
+#include "crp_msgs/msg/ego.hpp"
 
 namespace crp
 {
@@ -24,8 +26,10 @@ namespace crp
             private:
                 void controlLatCallback(const autoware_control_msgs::msg::Lateral::SharedPtr msg);
                 void controlLongCallback(const autoware_control_msgs::msg::Longitudinal::SharedPtr msg);
+                void egoCallback(const crp_msgs::msg::Ego::SharedPtr msg);
                 
                 void run();
+                rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_sub_ego_;
                 rclcpp::Subscription<autoware_control_msgs::msg::Lateral>::SharedPtr m_sub_controlLat_;
                 rclcpp::Subscription<autoware_control_msgs::msg::Longitudinal>::SharedPtr m_sub_controlLong_;
                 
@@ -34,10 +38,10 @@ namespace crp
 
                 rclcpp::TimerBase::SharedPtr m_timer_;    
 
-                geometry_msgs::msg::Twist m_twistMsg;
-
+                geometry_msgs::msg::Twist m_twistCmdMsg;
                 autoware_control_msgs::msg::Control m_ctrlCmdMsg;
 
+                float m_currentSteeringTireAngle{0.0f};
                 float m_latAccelLim{0u};
                 float m_jerkLim{0u};
                 float m_wheelBase{0.0f};

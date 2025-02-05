@@ -15,7 +15,7 @@ def generate_launch_description():
         description='Jerk limit')
     vehicle_param_L_arg = DeclareLaunchArgument(
         'vehicle_param_L',
-        default_value='2.7',
+        default_value='2.79',
         description='Vehicle parameter: ')
     
     # nodes
