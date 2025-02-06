@@ -27,17 +27,17 @@ crp::apl::PlanLatLaneFollowLdm::PlanLatLaneFollowLdm() : WrapperBase("plan_lat_l
 void crp::apl::PlanLatLaneFollowLdm::plan(const PlannerInput & input, PlannerOutput & output)
 {
     output.trajectory.clear(); // initialize the output at empty vector in the beginning of each cycle
-    // TrajectoryPoint trajectoryPoint;
-    // for (int n=0; n<input.path.pathPoints.size(); n++)
-    //     {
-    //         trajectoryPoint.pose.position.x = input.path.pathPoints.at(n).pose.position.x;
-    //         trajectoryPoint.pose.position.y = input.path.pathPoints.at(n).pose.position.y;
-    //         trajectoryPoint.pose.orientation = 0.0;
-    //         trajectoryPoint.velocity = input.path.targetSpeed.at(n);
-    //         output.trajectory.push_back(trajectoryPoint);
-    //     }
+    TrajectoryPoint trajectoryPoint;
+    for (int n=0; n<input.path.pathPoints.size(); n++)
+        {
+            trajectoryPoint.pose.position.x = input.path.pathPoints.at(n).pose.position.x;
+            trajectoryPoint.pose.position.y = input.path.pathPoints.at(n).pose.position.y;
+            trajectoryPoint.pose.orientation = 0.0;
+            trajectoryPoint.velocity = input.path.targetSpeed.at(n);
+            output.trajectory.push_back(trajectoryPoint);
+        }
     
-    // remap parameters
+    /*// remap parameters
     std::vector<double> nodePointDistances;
     this->get_parameter<std::vector<double>>(
         "/plan_lat_lane_follow_ldm/nodePointDistances", nodePointDistances);
@@ -130,7 +130,7 @@ void crp::apl::PlanLatLaneFollowLdm::plan(const PlannerInput & input, PlannerOut
             x = x + static_cast<float>(
                 this->get_parameter("/plan_lat_lane_follow_ldm/trajectoryResolution").as_double());
         }
-    }
+    }*/
 }
 
 // method calculates the subsegments of the incoming trajectory based on a LDMParamIn type parameters struct

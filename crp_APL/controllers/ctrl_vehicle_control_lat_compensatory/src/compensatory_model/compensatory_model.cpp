@@ -63,7 +63,13 @@ namespace crp
             // feedforward and the feedback targets. The factor lies between 0 and 1.
             // k = 0: only feedforward,
             // k = 1: only feedback
-            m_k_superPosition = 0.5;
+            if (std::abs(m_coefficients[2]) < 1.25e-4)
+            {
+                m_k_superPosition = 1.0;
+            }
+            else{
+                m_k_superPosition = 0.5;
+            }
         }
 
         void CompensatoryModel::calculateFeedforward(const ControlInput &input, const ControlParams &params)
@@ -95,28 +101,26 @@ namespace crp
 
             // calculate focus point angle
             m_lookAheadDistanceFb = params.fbLookAheadTime * input.vxEgo;
-            // from coefficients
-            double thetaFP = atan(m_coefficients[1] + 
-                2.0f*m_coefficients[2]*m_lookAheadDistanceFb + 
-                3.0f*m_coefficients[3]*std::pow(m_lookAheadDistanceFb,2));
 
-            double thetaFPNormalized = thetaFP / params.maxThetaFP;
-            thetaFPNormalized = std::min(1.0, std::max(-1.0, thetaFPNormalized));
-
-            // now, calculate the gain schedule based on theta FP
-            double k = 1-exp(-std::pow(thetaFPNormalized,2)/(2.0f*std::pow(params.sigma_thetaFP,2)));
-
-
-            m_posErr = k*(m_coefficients[0]+m_coefficients[1]*m_lookAheadDistanceFb+
+            m_posErr = (m_coefficients[0]+m_coefficients[1]*m_lookAheadDistanceFb+
                         m_coefficients[2]*std::pow(m_lookAheadDistanceFb,2) +
                         m_coefficients[3]*std::pow(m_lookAheadDistanceFb,3));
 
+            double errorNormalized = m_posErr / params.maxThetaFP;
+            errorNormalized = std::min(1.0, std::max(-1.0, errorNormalized));
+
+            // now, calculate the gain schedule based on theta FP
+            double k = 1-exp(-std::pow(errorNormalized,2)/(2.0f*std::pow(params.sigma_thetaFP,2)));
+            k = std::min(std::max(k, -1.0), 1.0);
+
             m_posIntegralError = m_posIntegralError + m_posErr * params.dT;
             m_posIntegralError = std::min(std::max(-params.fbIntegralLimit, m_posIntegralError),
-                                          params.fbIntegralLimit);
+                                          params.fbIntegralLimit);     
 
             m_posDerivativeError = (m_posErr - m_posErrPrev) / params.dT;
-            m_posDerivativeError = m_posDerivativeFilter.lowPassFilter(m_posDerivativeError, m_posDerivativeError_prev, 0.999f);
+            m_posDerivativeError = m_posDerivativeFilter.lowPassFilter(m_posDerivativeError, m_posDerivativeError_prev, 0.99f);
+
+            m_posErr = k*m_posErr;  
 
             double targetFbAccelerationUnfiltered = params.fbPGain * m_posErr +
                                     params.fbDGain * m_posDerivativeError +
@@ -199,42 +203,17 @@ namespace crp
             // look ahead time is taken from parameters.
 
             // feedback look ahead pose
-            float lookAheadDistance = params.fbLookAheadTime * input.vxEgo;
-            float lookAheadOrientationChange =
-                params.fbLookAheadTime * tan(input.egoSteeringAngle) / params.vehAxleDistance * input.vxEgo;
+            m_lookAheadPose[0] = params.ffLookAheadTime * input.vxEgo;
 
-            printf("predicted orientation change is %f\n", lookAheadOrientationChange * 180 / 3.14159);
-
-            // in the ego frame x-y the displacements are
-            float predictedVehiclePoset1[3];
-            predictedVehiclePoset1[0] = lookAheadDistance * cos(lookAheadOrientationChange);
-            predictedVehiclePoset1[1] = lookAheadDistance * sin(lookAheadOrientationChange);
-            predictedVehiclePoset1[2] = lookAheadOrientationChange;
-
-            // calculate the look ahead point in the t0 ego frame
-            float lookAheadPointt0[3];
-            lookAheadPointt0[0] = predictedVehiclePoset1[0];
-            lookAheadPointt0[1] =
+            m_lookAheadPose[1] =
                 m_coefficients[0] +
-                m_coefficients[1] * predictedVehiclePoset1[0] +
-                m_coefficients[2] * std::pow(predictedVehiclePoset1[0], 2) +
-                m_coefficients[3] * std::pow(predictedVehiclePoset1[0], 3);
-            lookAheadPointt0[2] =
+                m_coefficients[1] * m_lookAheadPose[0] +
+                m_coefficients[2] * std::pow(m_lookAheadPose[0], 2) +
+                m_coefficients[3] * std::pow(m_lookAheadPose[0], 3);
+            m_lookAheadPose[2] =
                 atan(m_coefficients[1] +
-                     2.0f * m_coefficients[2] * predictedVehiclePoset1[0] +
-                     3.0f * m_coefficients[3] * std::pow(predictedVehiclePoset1[0], 2));
-
-            // now making the correction for the predicted new pose and calculate the prospective error
-            // (this is a global to local like transformation)
-            // translation first, then rotation
-            m_lookAheadPose[0] = (lookAheadPointt0[0] - predictedVehiclePoset1[0]) * cos(predictedVehiclePoset1[2]) +
-                                 (lookAheadPointt0[1] - predictedVehiclePoset1[1]) * sin(predictedVehiclePoset1[2]);
-
-            m_lookAheadPose[1] = -1.0f * (lookAheadPointt0[0] - predictedVehiclePoset1[0]) * sin(predictedVehiclePoset1[2]) +
-                                 (lookAheadPointt0[1] - predictedVehiclePoset1[1]) * cos(predictedVehiclePoset1[2]);
-
-            // finally, angle adjustment
-            m_lookAheadPose[2] = lookAheadPointt0[2] - predictedVehiclePoset1[2];
+                     2.0f * m_coefficients[2] * m_lookAheadPose[0] +
+                     3.0f * m_coefficients[3] * std::pow(m_lookAheadPose[0], 2));
 
             printf("look ahead pose is %f ,%f, %f\n", m_lookAheadPose[0], m_lookAheadPose[1], m_lookAheadPose[2]);
         }
@@ -248,7 +227,6 @@ namespace crp
             // calculate steering angle from the acceleration based on target curvature
             double targetCurvature = output.accelerationTarget / std::pow(vxLim, 2);
             output.steeringAngleTarget = std::atan(targetCurvature * params.vehAxleDistance);
-
         }
     }
 }

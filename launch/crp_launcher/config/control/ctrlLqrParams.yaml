@@ -3,6 +3,5 @@ ctrl_vehicle_control_lqr:
     /ctrl/lqr/dt: 0.0333
     /ctrl/lqr/wheel_base: 2.79
     /ctrl/lqr/max_steer_tire_angle: 0.436332
-    
-    /ctrl/lqr/Q: [0.2, 0.0, 0.2, 0.0, 10.5] # Q matrix diagonal elements 
-    /ctrl/lqr/R: [10.0, 1.0]                # R matrix diagonal elements
+    /ctrl/lqr/Q: [0.02, 0.0, 0.02, 0.0, 5.5] # Q matrix diagonal elements 
+    /ctrl/lqr/R: [12.0, 1.0]                 # R matrix diagonal elements

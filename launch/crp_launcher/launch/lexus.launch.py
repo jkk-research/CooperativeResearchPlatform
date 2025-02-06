@@ -86,7 +86,7 @@ def generate_launch_description():
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
         'map_file_path',
-        default_value='/home/dev/maps/mw.osm',
+        default_value='/home/dev/lanelet2_maps/ZalaZone/ZalaZone_Handling.osm',
         description='Length of the scenario in meters')
     lanelet_map_frame_id_arg = DeclareLaunchArgument(
         'map_frame_id',
