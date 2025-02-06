@@ -111,6 +111,29 @@ def generate_launch_description():
         default_value='70.0',
         description='Length of the scenario in meters')
     
+    # controllers
+    ctrlUseCombinedControllerArg = DeclareLaunchArgument(
+        'ctrlUseCombinedController',
+        default_value='false',
+        description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
+    )
+
+    ctrlCombinedMethodArg = DeclareLaunchArgument(
+        'ctrlCombinedMethod',
+        default_value='lqr',
+        description='Lat controller to use. Possible values: lqr'
+    )
+    ctrlLatMethodArg = DeclareLaunchArgument(
+        'ctrlLatMethod',
+        default_value='comp',
+        description='Lat controller to use. Possible values: comp, purep, stanley'
+    )
+    ctrlLongMethodArg = DeclareLaunchArgument(
+        'ctrlLongMethod',
+        default_value='long',
+        description='Controller to use. Possible values: long'
+    )
+    
     # vehicle parameters
     vehicle_param_c1_arg = DeclareLaunchArgument(
         'vehicle_param_c1',
@@ -152,33 +175,6 @@ def generate_launch_description():
         )
     )
 
-    # crp_core = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         join(
-    #             get_package_share_directory('crp_launcher'),
-    #             'launch',
-    #             'core_lqr.launch.py')
-    #     )
-    # )
-
-    # crp_core = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         join(
-    #             get_package_share_directory('crp_launcher'),
-    #             'launch',
-    #             'core_stanley.launch.py')
-    #     )
-    # )
-
-    # crp_core = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         join(
-    #             get_package_share_directory('crp_launcher'),
-    #             'launch',
-    #             'core_pure_p.launch.py')
-    #     )
-    # )
-
     # NODES
 
     novatel_gps = IncludeLaunchDescription(
@@ -208,7 +204,8 @@ def generate_launch_description():
                 get_package_share_directory('ekf_wrapper'),
                 'launch',
                 'ekfWrapper.launch.py')
-        )
+        ),
+        condition = LaunchConfigurationEquals('localization_source', 'ekf')
     )
 
     static_tf = IncludeLaunchDescription(
@@ -226,47 +223,6 @@ def generate_launch_description():
                 get_package_share_directory('pacmod_extender'),
                 'launch',
                 'pacmod_extender.launch.py')
-        )
-    )
-    
-
-    lidar_left = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('lexus_bringup'),
-                'launch',
-                'drivers',
-                'os_32_left_b.launch.py')
-        )
-    )
-
-    lidar_center = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('lexus_bringup'),
-                'launch',
-                'drivers',
-                'os_64_center_b.launch.py')
-        )
-    )
-
-    lidar_right = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('lexus_bringup'),
-                'launch',
-                'drivers',
-                'os_32_right_b.launch.py')
-        )
-    )
-
-    camera_zed = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('lexus_bringup'),
-                'launch',
-                'drivers',
-                'zed_default_a.launch.py')
         )
     )
 
@@ -316,15 +272,6 @@ def generate_launch_description():
         )
     )
 
-    lexus_speed_control = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('lexus_bringup'),
-                'launch',
-                'speed_control.launch.py')
-        )
-    )
-
     return LaunchDescription([
         # args
         localization_source_arg,
@@ -351,6 +298,10 @@ def generate_launch_description():
         lanelet_visualization_topic_arg,
         vehicle_tire_angle_topic_arg,
         local_path_length_arg,
+        ctrlUseCombinedControllerArg,
+        ctrlCombinedMethodArg,
+        ctrlLatMethodArg,
+        ctrlLongMethodArg,
         vehicle_param_c1_arg,
         vehicle_param_c2_arg,
         vehicle_param_m_arg,
@@ -368,15 +319,10 @@ def generate_launch_description():
         duro_gps,
         ekf_wrapper,
         vehicle_can,
-        vehicle_speed_control,
-        # lidar_left,
-        # lidar_center,
-        # lidar_right,
-        # camera_zed,
         camera_mpc,
         pacmod_extender,
         sensor_abstraction,
-        lexus_speed_control,
+        vehicle_speed_control,
 
         # nodes
         lanelet_file_loader,

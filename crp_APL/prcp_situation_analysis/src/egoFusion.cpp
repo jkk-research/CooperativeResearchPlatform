@@ -14,6 +14,8 @@ crp::apl::EgoFusion::EgoFusion() : Node("ego_fusion")
     m_pub_ego_ = this->create_publisher<crp_msgs::msg::Ego>("/ego", 10);
 
     m_publishTimer_ = this->create_wall_timer(std::chrono::milliseconds(50), std::bind(&EgoFusion::publishCallback, this));
+
+    RCLCPP_INFO(this->get_logger(), "ego_fusion has been started");
 }
 
 

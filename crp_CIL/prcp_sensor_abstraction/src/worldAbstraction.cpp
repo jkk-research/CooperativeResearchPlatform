@@ -10,6 +10,8 @@ crp::cil::WorldAbstraction::WorldAbstraction() : Node("world_abstraction")
 
     m_pub_staticMap_     = this->create_publisher<autoware_map_msgs::msg::LaneletMapBin>("cai/global_static_map/lanelet2_map", 10);
     m_pub_movingObjects_ = this->create_publisher<autoware_map_msgs::msg::LaneletMapBin>("cai/global_moving_objects", 10);
+
+    RCLCPP_INFO(this->get_logger(), "world_abstraction has been started");
 }
 
 

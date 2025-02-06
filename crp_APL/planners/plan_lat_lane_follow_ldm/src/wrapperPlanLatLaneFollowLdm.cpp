@@ -19,6 +19,8 @@ crp::apl::PlanLatLaneFollowLdm::PlanLatLaneFollowLdm() : WrapperBase("plan_lat_l
             0.0f, 0.0f, 0.5f});
     this->declare_parameter(
         "/plan_lat_lane_follow_ldm/pStraight", 0.0f);
+    
+    RCLCPP_INFO(this->get_logger(), "plan_lat_lane_follow_ldm has been started");
 }
 
 

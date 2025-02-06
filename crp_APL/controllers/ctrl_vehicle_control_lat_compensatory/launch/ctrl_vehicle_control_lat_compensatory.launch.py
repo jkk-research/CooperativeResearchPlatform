@@ -1,26 +1,36 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
+from ament_index_python.packages import get_package_share_directory
+from os.path import join
+
 
 def generate_launch_description():
+    # ARGUMENTS
+
+    ctrlCompensatoryConfigFileArg = DeclareLaunchArgument(
+        'ctrlCompensatoryConfigFile',
+        default_value=join(
+            get_package_share_directory('ctrl_vehicle_control_lat_compensatory'),
+            'config',
+            'ctrlCompensatoryParams.yaml'
+        ),
+        description='Path to the compensatory control configuration file'
+    )
+
+    # NODES
+
     ctrl_vehicle_control_lat_compensatory = Node(
         package="ctrl_vehicle_control_lat_compensatory",
         executable="ctrl_vehicle_control_lat_compensatory",
         parameters=[
-            {"/ctrl/ffLookAheadTime": 0.68},
-            {"/ctrl/steeringAngleLPFilter": 0.2},
-            {"/ctrl/fbLookAheadTime": 0.6},
-            {"/ctrl/fbPGain": 0.5},
-            {"/ctrl/fbDGain": 0.1},
-            {"/ctrl/fbIGain": 0.0},
-            {"/ctrl/fbIntegralLimit": 3.0},
-            {"/ctrl/trajectory_distance": 50.0},
-            {"/ctrl/sigma_thetaFP": 0.25},
-            {"/ctrl/maxThetaFP": 0.3},
-            {"/ctrl/targetAccelerationFF_lpFilterCoeff": 0.99},
-            {"/ctrl/targetAccelerationFB_lpFilterCoeff": 0.99},
+            LaunchConfiguration('ctrlCompensatoryConfigFile'),
         ]
     )
 
     return LaunchDescription([
+        ctrlCompensatoryConfigFileArg,
+
         ctrl_vehicle_control_lat_compensatory
     ])

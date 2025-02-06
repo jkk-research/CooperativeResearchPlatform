@@ -10,6 +10,8 @@ crp::vil::EKFTopicConverter::EKFTopicConverter() : Node("ekf_topic_converter")
     sub_ekfPose_ = this->create_subscription<geometry_msgs::msg::PoseStamped>("/ekf/estimated_pose_baselink", 10, std::bind(&EKFTopicConverter::ekfPoseCallback, this, std::placeholders::_1));
 
     pub_ekfPose_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/sensing/ekf/estimated_pose", 1);
+
+    RCLCPP_INFO(this->get_logger(), "ekf_topic_converter has been started");
 }
 
 

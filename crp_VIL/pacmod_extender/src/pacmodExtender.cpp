@@ -13,6 +13,8 @@ PacmodExtender::PacmodExtender() : Node("pacmod_extender_node")
     m_pub_tireAngle_    = this->create_publisher<std_msgs::msg::Float32>("/sensing/vehicle/tire_angle", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&PacmodExtender::publishMessages, this));
+
+    RCLCPP_INFO(this->get_logger(), "pacmod_extender_node has been started");
 }
 
 

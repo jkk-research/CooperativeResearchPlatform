@@ -1,7 +1,7 @@
 #include "ctrl_vehicle_control/control_handler.hpp"
 
 
-crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
+crp::apl::ControlHandler::ControlHandler() : Node("control_handler")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&ControlHandler::run, this));  
     m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 30);

@@ -29,7 +29,7 @@ namespace crp
             if (input.path_x.size() >= 4)
             {
 
-                printf("Trajectory length is %d\n", input.path_x.size());
+                printf("Trajectory length is %ld\n", input.path_x.size());
                 m_coefficients = m_polynomialCalculator.calculateThirdOrderPolynomial(m_localPathCut_x, m_localPathCut_y);
 
                 // feedforward based on preview point - output: target feedforward acceleration
@@ -119,8 +119,8 @@ namespace crp
             m_posDerivativeError = m_posDerivativeFilter.lowPassFilter(m_posDerivativeError, m_posDerivativeError_prev, 0.999f);
 
             double targetFbAccelerationUnfiltered = params.fbPGain * m_posErr +
-                                     params.fbDGain * m_posDerivativeError; +
-                                     params.fbIGain * m_posIntegralError;
+                                    params.fbDGain * m_posDerivativeError +
+                                    params.fbIGain * m_posIntegralError;
 
             
             // strong filtering
@@ -137,8 +137,8 @@ namespace crp
             // this method cuts a relevant length of the total trajectory, based on the complete
             // path transformed to the ego coordinate frame
             // step 1: searching for nearest point in trajectory
-            unsigned long int startIdx = -1;
-            unsigned long int stopIdx = -1;
+            unsigned long int startIdx = std::numeric_limits<unsigned long int>::max();
+            unsigned long int stopIdx  = std::numeric_limits<unsigned long int>::max();
             m_trajInvalid = false;
             double maxDistance = params.trajectory_distance; // meters
             m_localPathCut_x.clear();
@@ -156,7 +156,7 @@ namespace crp
                     break;
                 }
             }
-            if (startIdx == -1)
+            if (startIdx == std::numeric_limits<unsigned long int>::max())
             {
                 // no valid point was found
                 m_trajInvalid = true;
@@ -174,7 +174,7 @@ namespace crp
                     }
                 }
             }
-            if (stopIdx == -1)
+            if (stopIdx == std::numeric_limits<unsigned long int>::max())
             {
                 m_trajInvalid = true;
             }
