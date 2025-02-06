@@ -7,12 +7,15 @@ crp::apl::MissionPlanner::MissionPlanner() : Node("mission_planner")
         "world", 10, std::bind(&MissionPlanner::worldCallback, this, std::placeholders::_1));
 
     m_pub_route = this->create_publisher<autoware_planning_msgs::msg::LaneletRoute>("plan/route", 10);
+
+    RCLCPP_INFO(this->get_logger(), "mission_planner has been started");
 }
 
 
 void crp::apl::MissionPlanner::worldCallback(const crp_msgs::msg::World::SharedPtr msg)
 {
     // TODO
+    (void)msg;
     return;
 }
 

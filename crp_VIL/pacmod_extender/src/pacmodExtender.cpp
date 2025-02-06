@@ -10,8 +10,11 @@ PacmodExtender::PacmodExtender() : Node("pacmod_extender_node")
     m_pub_vehicleAccel_ = this->create_publisher<geometry_msgs::msg::AccelWithCovarianceStamped>("/sensing/vehicle/accel", 10);
     m_pub_linAccel_     = this->create_publisher<pacmod3_msgs::msg::LinearAccelRpt>("pacmod/linear_accel_rpt", 10);
     m_pub_yawRate_        = this->create_publisher<pacmod3_msgs::msg::YawRateRpt>("pacmod/yaw_rate_calc_rpt", 10);
+    m_pub_tireAngle_    = this->create_publisher<std_msgs::msg::Float32>("/sensing/vehicle/tire_angle", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&PacmodExtender::publishMessages, this));
+
+    RCLCPP_INFO(this->get_logger(), "pacmod_extender_node has been started");
 }
 
 
@@ -51,6 +54,11 @@ void PacmodExtender::twistCallback(const geometry_msgs::msg::TwistStamped::Share
     m_twistWithCovariance.twist.twist = msg->twist;
     // twist callback has tire angle in angular.z, the published message should have yaw rate
     m_twistWithCovariance.twist.twist.angular.z = msg->twist.linear.x * tan(msg->twist.angular.z) / WHEELBASE;
+
+    std_msgs::msg::Float32 tireAngleMsg;
+    tireAngleMsg.data = msg->twist.angular.z/14.8;
+
+    m_pub_tireAngle_->publish(tireAngleMsg);
 }
 
 

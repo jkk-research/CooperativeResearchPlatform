@@ -19,6 +19,8 @@ crp::apl::ScenarioFusion::ScenarioFusion() : Node("scenario_fusion")
     m_pub_scenario_ = this->create_publisher<crp_msgs::msg::Scenario>("/scenario", 10);
 
     m_publishTimer_ = this->create_wall_timer(std::chrono::milliseconds(50), std::bind(&ScenarioFusion::publishCallback, this));
+
+    RCLCPP_INFO(this->get_logger(), "scenario_fusion has been started");
 }
 
 

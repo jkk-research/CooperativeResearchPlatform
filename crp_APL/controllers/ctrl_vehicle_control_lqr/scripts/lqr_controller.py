@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import math
 import scipy.linalg as la
+from scipy.interpolate import make_interp_spline
 import time
 import rclpy
 from rclpy.node import Node
 from autoware_control_msgs.msg import Lateral,Longitudinal
+from std_msgs.msg import Float32,Float32MultiArray
 from autoware_planning_msgs.msg import Trajectory
 from crp_msgs.msg import Ego
 
@@ -47,12 +50,60 @@ class State:
 def pi_2_pi(angle):
     return angle_mod(angle)
 
+def fit_spline(x,y):
+
+    x = np.array(x)
+    y = np.array(y)
+
+    # Generate a finer grid of x values for smooth interpolation
+    x_fine = np.linspace(x.min(), x.max(), 100)
+
+    # Create the spline interpolation
+    spline = make_interp_spline(x, y)
+
+    # Evaluate the first and second derivatives of the spline
+    dy_dx = spline.derivative(nu=1)(x_fine)  # First derivative
+    d2y_dx2 = spline.derivative(nu=2)(x_fine)  # Second derivative
+
+    # Compute the curvature
+    curvature = np.abs(d2y_dx2) / (1 + dy_dx**2)**(3/2)
+
+    return curvature
+
+def fit_polynomial_and_curvature(x, y, degree=4):
+    """
+    Fits a polynomial of the specified degree to the given x, y points and calculates curvature.
+
+    Args:
+        x (array-like): The x-coordinates of the data points.
+        y (array-like): The y-coordinates of the data points.
+        degree (int): The degree of the polynomial to fit. Default is 3.
+        plot (bool): Whether to plot the fit and curvature. Default is False.
+
+    Returns:
+        tuple:
+            - numpy.ndarray: Coefficients of the polynomial in descending powers.
+            - numpy.ndarray: Curvature values at the given x points.
+    """
+    # Fit the polynomial
+    coefficients = np.polyfit(x, y, degree)
+    polynomial = np.poly1d(coefficients)
+
+    # First and second derivatives
+    first_derivative = np.polyder(polynomial, 1)
+    second_derivative = np.polyder(polynomial, 2)
+
+    # Calculate curvature
+    curvature = np.abs(second_derivative(x)) / (1 + first_derivative(x)**2)**(3/2)
+
+    return curvature
+
 # create an ROS controller class
 class ROSController(Node):
 
     def __init__(self):
 
-        super().__init__('lqr_on_rails')
+        super().__init__('ctrl_vehicle_control_lqr')
 
         self.cx = []
         self.cy = []
@@ -65,8 +116,8 @@ class ROSController(Node):
 
         self.state = State(x=0.0, y=0.0, yaw=0.0, v=0.0, steer=0.0)
 
-        self.dt = 0.05
-        self.L = 2.9
+        self.dt = 0.0333
+        self.L = 2.7
         self.max_steer = np.deg2rad(20.0)
 
         # LQR parameter
@@ -83,24 +134,32 @@ class ROSController(Node):
         self.lqr_R[1, 1] = 2.0
 
         # read in ros params from the launch file
-        self.declare_parameter('dt', self.dt)
-        self.declare_parameter('wheel_base', self.L)
-        self.declare_parameter('max_steer_tire_angle', self.max_steer)
-        self.declare_parameter('Q', self.lqr_Q.diagonal().tolist())
-        self.declare_parameter('R', self.lqr_R.diagonal().tolist())
+        self.declare_parameter('/ctrl/lqr/dt', self.dt)
+        self.declare_parameter('/ctrl/lqr/wheel_base', self.L)
+        self.declare_parameter('/ctrl/lqr/max_steer_tire_angle', self.max_steer)
+        self.declare_parameter('/ctrl/lqr/Q', self.lqr_Q.diagonal().tolist())
+        self.declare_parameter('/ctrl/lqr/R', self.lqr_R.diagonal().tolist())
 
-        self.dt = self.get_parameter('dt').value
-        self.L = self.get_parameter('wheel_base').value
-        self.max_steer = self.get_parameter('max_steer_tire_angle').value
+        self.use_spline_fit = False
+        self.curvature_lookahead = 0
 
-        self.control_clock = self.create_timer(0.05, self.control_loop)
+        self.dt = self.get_parameter('/ctrl/lqr/dt').value
+        self.L = self.get_parameter('/ctrl/lqr/wheel_base').value
+        self.max_steer = self.get_parameter('/ctrl/lqr/max_steer_tire_angle').value
+
+        self.control_clock = self.create_timer(0.0333, self.control_loop)
 
         self.ctrl_lat_publisher = self.create_publisher(Lateral, '/control/command/control_cmdLat', 10)
         self.ctrl_long_publisher = self.create_publisher(Longitudinal, '/control/command/control_cmdLong', 10)
+
+        self.debug_ff_publisher = self.create_publisher(Float32, '/control/lqr/debug/ff', 10)
+        self.debug_fb_publisher = self.create_publisher(Float32, '/control/lqr/debug/fb', 10)
+        self.debug_ck_publisher = self.create_publisher(Float32MultiArray, '/control/lqr/debug/ck', 10)
+
         self.traj_subscriber = self.create_subscription(Trajectory, '/plan/trajectory', self.receive_trajectory, 10)
         self.ego_subscriber = self.create_subscription(Ego, '/ego', self.receive_ego, 10)
 
-        self.get_logger().info("LQR Controller Node has started!")
+        self.get_logger().info("ctrl_vehicle_control_lqr has been started!")
         
         # ros log the dt, wheel base, and max steer tire angle
         self.get_logger().info(f"Current variable value: {self.dt}, {self.L}, {self.max_steer}")
@@ -112,7 +171,12 @@ class ROSController(Node):
         self.cy = [point.pose.position.y for point in msg.points]
         self.sp = [point.longitudinal_velocity_mps for point in msg.points]
        
-        self.cyaw = np.arctan2(np.diff(self.cy), np.diff(self.cx)).tolist()        
+        self.cyaw = np.arctan2(np.diff(self.cy), np.diff(self.cx)).tolist()
+
+        if self.use_spline_fit:
+            self.ck = fit_spline(self.cx, self.cy)
+        else: 
+            self.ck = fit_polynomial_and_curvature(self.cx, self.cy, degree=3)
 
     
     def receive_ego(self, msg):
@@ -181,8 +245,8 @@ class ROSController(Node):
             self.ctrl_long_publisher.publish(ctrl_cmd_longitudinal)
             return
         
-        live_Q = self.get_parameter('Q').value
-        live_R = self.get_parameter('R').value
+        live_Q = self.get_parameter('/ctrl/lqr/Q').value
+        live_R = self.get_parameter('/ctrl/lqr/R').value
 
         self.lqr_Q[0, 0] = live_Q[0]
         self.lqr_Q[1, 1] = live_Q[1]
@@ -197,7 +261,12 @@ class ROSController(Node):
 
         tv = self.sp[0]
 
-        # k = -self.ck[0] # for now skip the feedforward term #TODO
+        if self.curvature_lookahead < len(self.ck) - 1:
+            k = self.ck[self.curvature_lookahead]
+        else:
+            k = self.ck[0]
+
+
         v = self.state.v
         e = self.cy[0]
         th_e = self.cyaw[0]
@@ -255,9 +324,25 @@ class ROSController(Node):
         ustar = -K @ x
 
         # calc steering input
-        #ff = math.atan2(L * k, 1)  # feedforward steering angle #TODO
+        ff = math.atan2(self.L * k, 1) # feedforward steering angle
+        ff = ff * -1
         fb = pi_2_pi(ustar[0, 0])  # feedback steering angle
-        delta = fb
+        delta = fb + ff
+
+        Float32_msg = Float32()
+        Float32_msg.data = ff
+
+        self.debug_ff_publisher.publish(Float32_msg)
+
+        Float32_msg.data = fb
+        self.debug_fb_publisher.publish(Float32_msg)
+
+        ck_msg = Float32MultiArray()
+        
+        for ck in self.ck:
+            ck_msg.data.append(ck)
+
+        self.debug_ck_publisher.publish(ck_msg)
 
         # calc accel input
         accel = ustar[1, 0]
@@ -282,7 +367,7 @@ def main(args=None):
 
     # Clean up and shutdown
     node.destroy_node()
-    rclpy.shutdown()
+    rclpy.shutdown() 
 
 
 if __name__ == '__main__':

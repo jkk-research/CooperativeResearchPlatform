@@ -5,9 +5,11 @@ while [ ! -e "src/" ]; do
 done
 echo "Build location: "$(pwd)
 
+build_args=$@
+
 # build core
 trap 'exit' INT # trap ctrl-c
-$script_dir/build_core.sh
+$script_dir/build_core.sh $build_args
 trap - INT
 
 # build lexus packages
@@ -18,6 +20,8 @@ packages=(
   tier4_system_msgs
   tier4_api_msgs
   tier4_vehicle_msgs
+  tier4_map_msgs
+  map_loader
   duro_gps_driver
   duro_gps_wrapper
   kvaser_interface
@@ -29,19 +33,15 @@ packages=(
   novatel_gps_driver
   novatel_gps_wrapper
   pacmod_extender
-  pacmod_interface
   kalman_pos
   ekf_wrapper
   prcp_sensor_abstraction
 )
 
-packages_string=""
-for package in "${packages[@]}"; do
-  packages_string+="$package "
-done
+packages_string=${packages[*]}
 
 packages_paths=$(colcon list --packages-up-to $packages_string -p)
 
 rosdep install --from-paths $packages_paths --ignore-src -r -y
 
-colcon build --packages-select $packages_string
+colcon build --packages-select $packages_string $build_args

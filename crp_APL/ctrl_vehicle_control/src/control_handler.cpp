@@ -1,10 +1,7 @@
-#include "ctrl_vehicle_control/ctrl_vehicle_control.hpp"
-
-using namespace std::chrono_literals;
-using std::placeholders::_1;
+#include "ctrl_vehicle_control/control_handler.hpp"
 
 
-crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
+crp::apl::ControlHandler::ControlHandler() : Node("control_handler")
 {
     this->declare_parameter<float>("lat_accel_lim", 3.0f);
     this->declare_parameter<float>("jerk_lim", 0.5f);
@@ -22,7 +19,7 @@ crp::apl::ControlHandler::ControlHandler() : Node("ControlHandler")
     m_sub_controlLong_ = this->create_subscription<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 10, std::bind(&ControlHandler::controlLongCallback, this, std::placeholders::_1));
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&ControlHandler::egoCallback, this, std::placeholders::_1));
 
-    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control has been started");
+    RCLCPP_INFO(this->get_logger(), "control_handler has been started");
 
     // initialize control message
 

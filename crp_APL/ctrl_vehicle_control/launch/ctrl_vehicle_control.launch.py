@@ -21,8 +21,8 @@ def generate_launch_description():
     # nodes
     vehicle_control = Node(
         package="ctrl_vehicle_control",
-        executable="ctrl_vehicle_control",
-        name="ctrl_vehicle_control",
+        executable="control_handler",
+        name="control_handler",
         parameters=[{
             "lat_accel_lim": LaunchConfiguration('lat_accel_lim'),
             "jerk_lim": LaunchConfiguration('jerk_lim'),
@@ -37,5 +37,3 @@ def generate_launch_description():
 
         vehicle_control
     ])
-
-    return ld

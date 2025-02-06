@@ -1,13 +1,8 @@
-#ifndef CRP_APL_CTRL_VEHICLE_CONTROL_HPP
-#define CRP_APL_CTRL_VEHICLE_CONTROL_HPP
+#ifndef CRP_APL_CTRL_CONTROL_HANDLER_CTRLVEHICLECONTROL_HPP
+#define CRP_APL_CTRL_CONTROL_HANDLER_CTRLVEHICLECONTROL_HPP
+
 
 #include <rclcpp/rclcpp.hpp>
-#include <chrono>
-#include <functional>
-#include <memory>
-#include <string>
-#include <math.h>
-#include <algorithm>
 
 #include "autoware_control_msgs/msg/control.hpp"
 #include "geometry_msgs/msg/twist.hpp"
@@ -49,4 +44,4 @@ namespace crp
 
     } // namespace apl
 } // namespace crp
-#endif // CRP_APL_CTRL_VEHICLE_CONTROL_HPP
+#endif // CRP_APL_CTRL_CONTROL_HANDLER_CTRLVEHICLECONTROL_HPP

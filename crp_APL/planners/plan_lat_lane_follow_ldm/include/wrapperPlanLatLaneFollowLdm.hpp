@@ -1,5 +1,5 @@
-#ifndef CRP_APL_PLAN_LAT_LANE_FOLLOW_HANDLER_PLANLATLANEFOLLOW_HPP
-#define CRP_APL_PLAN_LAT_LANE_FOLLOW_HANDLER_PLANLATLANEFOLLOW_HPP
+#ifndef CRP_APL_PLAN_LAT_LANE_FOLLOW_LDM_HANDLER_PLANLATLANEFOLLOWLDM_HPP
+#define CRP_APL_PLAN_LAT_LANE_FOLLOW_LDM_HANDLER_PLANLATLANEFOLLOWLDM_HPP
 
 #include "planner_base/wrapperBase.hpp"
 
@@ -16,10 +16,10 @@ namespace crp
 namespace apl
 {
 
-class PlanLatLaneFollowHandler : public WrapperBase
+class PlanLatLaneFollowLdm : public WrapperBase
 {
 public:
-    PlanLatLaneFollowHandler();
+    PlanLatLaneFollowLdm();
 
 private:
     void plan(const PlannerInput & input, PlannerOutput & output) override;
@@ -40,4 +40,4 @@ private:
 
 } // namespace apl
 } // namespace crp
-#endif // CRP_APL_PLAN_LAT_LANE_FOLLOW_HANDLER_PLANLATLANEFOLLOW_HPP
+#endif // CRP_APL_PLAN_LAT_LANE_FOLLOW_LDM_HANDLER_PLANLATLANEFOLLOWLDM_HPP

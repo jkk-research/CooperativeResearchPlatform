@@ -21,6 +21,8 @@ crp::apl::TestNode::TestNode() : Node("test_node")
     this->declare_parameter("/test/previewDistance", 100.0f); // in m
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&TestNode::run, this));
+
+    RCLCPP_INFO(this->get_logger(), "test_node has been started");
 }
 
 void crp::apl::TestNode::controlCommandCallback(const autoware_control_msgs::msg::Control::SharedPtr msg)
@@ -127,7 +129,7 @@ void crp::apl::TestNode::mapPath()
     m_outPathMsg.points.clear();
     m_outPathMsg.header.stamp = this->now();
     m_noEnoughPointsLeft = true;
-    for (int i=0; i<m_localPath_x.size(); i++)
+    for (unsigned int i=0; i<m_localPath_x.size(); i++)
     {
         if (m_localPath_x.at(i)>=0)
         {

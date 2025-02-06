@@ -8,6 +8,8 @@
 #include <geometry_msgs/msg/accel_with_covariance_stamped.hpp>
 #include <pacmod3_msgs/msg/yaw_rate_rpt.hpp>
 #include <pacmod3_msgs/msg/linear_accel_rpt.hpp>
+#include <std_msgs/msg/float32.hpp>
+
 
 #include "pacmod_extender/pacmodDefinitions.hpp"
 
@@ -29,6 +31,7 @@ private:
     rclcpp::Publisher<geometry_msgs::msg::AccelWithCovarianceStamped>::SharedPtr m_pub_vehicleAccel_;
     rclcpp::Publisher<pacmod3_msgs::msg::LinearAccelRpt>::SharedPtr m_pub_linAccel_;
     rclcpp::Publisher<pacmod3_msgs::msg::YawRateRpt>::SharedPtr m_pub_yawRate_;
+    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr m_pub_tireAngle_;
 
     PacmodDefinitions pacmodDefinitions;
 
