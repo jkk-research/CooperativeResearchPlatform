@@ -20,7 +20,9 @@ add_executable(ctrl_vehicle_control_lat_stanley src/ctrl_vehicle_control_lat_sta
 
 ament_target_dependencies(ctrl_vehicle_control_lat_stanley  rclcpp autoware_control_msgs autoware_planning_msgs crp_msgs)
 
-install(DIRECTORY launch
+install(DIRECTORY
+  config
+  launch
   DESTINATION share/${PROJECT_NAME})
 
 install(TARGETS

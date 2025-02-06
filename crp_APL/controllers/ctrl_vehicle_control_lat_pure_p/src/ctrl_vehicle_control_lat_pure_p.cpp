@@ -1,7 +1,7 @@
 #include <ctrl_vehicle_control_lat_pure_p/ctrl_vehicle_control_lat_pure_p.hpp>
 
 
-crp::apl::CtrlVehicleControlLatPureP::CtrlVehicleControlLatPureP() : Node("CtrlVehicleControlLatPurePursuit")
+crp::apl::CtrlVehicleControlLatPureP::CtrlVehicleControlLatPureP() : Node("ctrl_vehicle_control_lat_pure_pursuit")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLatPureP::loop, this));  
     m_pub_cmd = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
@@ -9,10 +9,10 @@ crp::apl::CtrlVehicleControlLatPureP::CtrlVehicleControlLatPureP() : Node("CtrlV
     m_sub_traj_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLatPureP::trajCallback, this, std::placeholders::_1));
     m_sub_egoVehicle_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLatPureP::egoVehicleCallback, this, std::placeholders::_1));
 
-    this->declare_parameter("/ctrl/lookahead_time", 1.0f);
-    this->declare_parameter("/ctrl/wheelbase", 2.7f);
+    this->declare_parameter("/ctrl/pure_p/lookahead_time", 1.0f);
+    this->declare_parameter("/ctrl/pure_p/wheelbase", 2.7f);
 
-    RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatPurePursuit has been started");
+    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_lat_pure_pursuit has been started");
 }
 
 void crp::apl::CtrlVehicleControlLatPureP::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
@@ -49,7 +49,7 @@ void crp::apl::CtrlVehicleControlLatPureP::pure_p_control()
     float currentDistance = 0.0f;
     int target_index = 0;
 
-    for (int i = 0; i < m_input.m_path_x.size()-1; i++)
+    for (unsigned int i = 0; i < m_input.m_path_x.size()-1; i++)
     {
         currentDistance += sqrt(pow(m_input.m_path_x.at(i+1) - m_input.m_path_x.at(i), 2) + pow(m_input.m_path_y.at(i+1) - m_input.m_path_y.at(i), 2));
         if (currentDistance >= distance_to_index)
@@ -69,8 +69,8 @@ void crp::apl::CtrlVehicleControlLatPureP::pure_p_control()
 void crp::apl::CtrlVehicleControlLatPureP::loop()
 {
     // parameter assignments
-    m_params.lookaheadTime = this->get_parameter("/ctrl/lookahead_time").as_double();
-    m_params.wheelbase = this->get_parameter("/ctrl/wheelbase").as_double();
+    m_params.lookaheadTime = this->get_parameter("/ctrl/pure_p/lookahead_time").as_double();
+    m_params.wheelbase = this->get_parameter("/ctrl/pure_p/wheelbase").as_double();
 
     // control algorithm
     if(m_input.m_path_x.size() > 0 && m_input.m_path_y.size() > 0)

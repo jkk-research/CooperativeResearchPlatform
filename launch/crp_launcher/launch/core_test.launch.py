@@ -1,117 +1,34 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess
-from launch.substitutions import LaunchConfiguration
-from launch.conditions import LaunchConfigurationEquals
-from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
 
 
 def generate_launch_description():
-
     # ARGUMENTS
 
-    change_controller_PGain = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/fbPGain ',
-            '2.0'
-        ]],
-        shell=True
+    ctrlUseCombinedControllerArg = DeclareLaunchArgument(
+        'ctrlUseCombinedController',
+        default_value='false',
+        description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
 
-    change_controller_IGain = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/fbIGain ',
-            '0.05'
-        ]],
-        shell=True
+    ctrlCombinedMethodArg = DeclareLaunchArgument(
+        'ctrlCombinedMethod',
+        default_value='lqr',
+        description='Lat controller to use. Possible values: lqr'
     )
-    
-    change_controller_DGain = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/fbDGain ',
-            '0.1'
-        ]],
-        shell=True
+    ctrlLatMethodArg = DeclareLaunchArgument(
+        'ctrlLatMethod',
+        default_value='comp',
+        description='Lat controller to use. Possible values: comp, purep, stanley'
     )
-    
-    change_controller_fbLookAheadTime = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/fbLookAheadTime ',
-            '0.1'
-        ]],
-        shell=True
+    ctrlLongMethodArg = DeclareLaunchArgument(
+        'ctrlLongMethod',
+        default_value='long',
+        description='Controller to use. Possible values: long'
     )
-
-    change_controller_ffLookAheadTime = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/ffLookAheadTime ',
-            '1.0'
-        ]],
-        shell=True
-    )
-
-    change_controller_sigma_thetaFP = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/sigma_thetaFP ',
-            '0.25'
-        ]],
-        shell=True
-    )
-
-    change_controller_maxThetaFP = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/maxThetaFP ',
-            '0.3'
-        ]],
-        shell=True
-    )
-
-    change_controller_targetAccelerationFF_lpFilterCoeff = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/targetAccelerationFF_lpFilterCoeff ',
-            '0.99'
-        ]],
-        shell=True
-    )
-
-    change_controller_targetAccelerationFB_lpFilterCoeff = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/targetAccelerationFB_lpFilterCoeff ',
-            '0.99'
-        ]],
-        shell=True
-    )
-
-    change_controller_steeringLpFilter = ExecuteProcess(
-        cmd=[[
-            'ros2 param set ',
-            '/CtrlVehicleControlLatCompensatory ',
-            '/ctrl/steeringAngleLPFilter ',
-            '0.8'
-        ]],
-        shell=True
-    )
-    
 
     # CORE
 
@@ -136,21 +53,15 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        # arguments
+
+        ctrlUseCombinedControllerArg,
+        ctrlCombinedMethodArg,
+        ctrlLatMethodArg,
+        ctrlLongMethodArg,
 
         # nodes
+
         test_node,
         crp_core,
-
-        # args
-        change_controller_PGain,
-        change_controller_IGain,
-        change_controller_DGain,
-        change_controller_steeringLpFilter,
-        change_controller_ffLookAheadTime,
-        change_controller_fbLookAheadTime,
-        change_controller_sigma_thetaFP,
-        change_controller_maxThetaFP,
-        change_controller_targetAccelerationFF_lpFilterCoeff,
-        change_controller_targetAccelerationFB_lpFilterCoeff
-
     ])

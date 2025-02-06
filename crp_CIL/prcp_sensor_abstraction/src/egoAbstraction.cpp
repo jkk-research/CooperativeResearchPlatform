@@ -35,6 +35,8 @@ crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
 
     m_publishTimer_ = this->create_wall_timer(
         std::chrono::milliseconds(50), std::bind(&EgoAbstraction::publishCallback, this));
+
+    RCLCPP_INFO(this->get_logger(), "ego_abstraction has been started");
 }
 
 

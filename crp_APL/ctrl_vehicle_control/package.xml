@@ -15,6 +15,7 @@
   <test_depend>ament_lint_common</test_depend>
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
+  <depend>crp_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>autoware_control_msgs</depend>
   <depend>pacmod3_msgs</depend>

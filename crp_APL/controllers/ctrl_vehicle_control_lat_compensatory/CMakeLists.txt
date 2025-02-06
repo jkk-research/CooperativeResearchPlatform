@@ -22,7 +22,9 @@ add_executable(ctrl_vehicle_control_lat_compensatory src/ctrl_vehicle_control_la
 
 ament_target_dependencies(ctrl_vehicle_control_lat_compensatory  rclcpp autoware_control_msgs autoware_planning_msgs crp_msgs)
 
-install(DIRECTORY launch
+install(DIRECTORY
+  config
+  launch
   DESTINATION share/${PROJECT_NAME}
 )
 

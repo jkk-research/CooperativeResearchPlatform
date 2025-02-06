@@ -1,7 +1,7 @@
 #include <ctrl_vehicle_control_lat_stanley/ctrl_vehicle_control_lat_stanley.hpp>
 
 
-crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("CtrlVehicleControlLatStanley")
+crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("ctrl_vehicle_control_lat_stanley")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLatStanley::loop, this));  
     m_pub_cmd_ = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
@@ -9,10 +9,10 @@ crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : Node("C
     m_sub_traj_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLatStanley::trajCallback, this, std::placeholders::_1));
     m_sub_egoVehicle_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLatStanley::egoVehicleCallback, this, std::placeholders::_1));
 
-    this->declare_parameter("/ctrl/k_gain", 0.5f);
-    this->declare_parameter("/ctrl/wheelbase", 2.7f);
+    this->declare_parameter("/ctrl/stanley/k_gain", 0.5f);
+    this->declare_parameter("/ctrl/stanley/wheelbase", 2.7f);
 
-    RCLCPP_INFO(this->get_logger(), "CtrlVehicleControlLatStanley has been started");
+    RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_lat_stanley has been started");
 }
 
 void crp::apl::CtrlVehicleControlLatStanley::trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
@@ -51,7 +51,7 @@ void crp::apl::CtrlVehicleControlLatStanley::error_calculation(double &lateralEr
 
     float dist = std::numeric_limits<float>::max();
 
-    for(int i = 0; i < m_input.m_path_x.size(); i++)
+    for(unsigned int i = 0; i < m_input.m_path_x.size(); i++)
     {
         float ds = std::sqrt(std::pow(m_input.m_path_x[i] - target_x, 2) + std::pow(m_input.m_path_y[i] - target_y, 2));
         
@@ -100,8 +100,8 @@ void crp::apl::CtrlVehicleControlLatStanley::stanleyControl()
 void crp::apl::CtrlVehicleControlLatStanley::loop()
 {
     // parameter assignments
-    m_params.k_gain= this->get_parameter("/ctrl/k_gain").as_double();
-    m_params.wheelbase = this->get_parameter("/ctrl/wheelbase").as_double();
+    m_params.k_gain= this->get_parameter("/ctrl/stanley/k_gain").as_double();
+    m_params.wheelbase = this->get_parameter("/ctrl/stanley/wheelbase").as_double();
 
     // control algorithm
     if(m_input.m_path_x.size() > 0 && m_input.m_path_y.size() > 0)
