@@ -5,14 +5,18 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
+import yaml
 
+def load_yaml(file_path):
+    with open(file_path, 'r') as file:
+        return yaml.safe_load(file)
 
 def generate_launch_description():
     # ARGS
 
     localization_source_arg = DeclareLaunchArgument(
         'localization_source',
-        default_value='gnss',
+        default_value='ekf',
         description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
@@ -144,38 +148,45 @@ def generate_launch_description():
     )
     
     # vehicle parameters
-    vehicle_param_c1_arg = DeclareLaunchArgument(
-        'vehicle_param_c1',
-        default_value='5000.0',
-        description='Vehicle parameter: ')
-    vehicle_param_c2_arg = DeclareLaunchArgument(
-        'vehicle_param_c2',
-        default_value='5000.0',
-        description='Vehicle parameter: ')
-    vehicle_param_m_arg = DeclareLaunchArgument(
-        'vehicle_param_m',
-        default_value='2300.0',
-        description='Vehicle parameter: ')
-    vehicle_param_jz_arg = DeclareLaunchArgument(
-        'vehicle_param_jz',
-        default_value='4500.0',
-        description='Vehicle parameter: ')
-    vehicle_param_l1_arg = DeclareLaunchArgument(
-        'vehicle_param_l1',
-        default_value='1.236',
-        description='Vehicle parameter:' )
-    vehicle_param_l2_arg = DeclareLaunchArgument(
-        'vehicle_param_l2',
-        default_value='1.553',
-        description='Vehicle parameter: ')
-    vehicle_param_swr_arg = DeclareLaunchArgument(
-        'vehicle_param_swr',
-        default_value='14.8',
-        description='Vehicle parameter: ')
+    vehicle_params = load_yaml(join(
+        get_package_share_directory('crp_launcher'),
+        'config',
+        'vehicle',
+        'lexusParams.yaml'
+    ))
+
     vehicle_param_L_arg = DeclareLaunchArgument(
-        'vehicle_param_L',
-        default_value='2.79',
-        description='Vehicle parameter: ')
+        '/vehicle_params/L',
+        default_value=str(vehicle_params['/vehicle_params/L']),
+        description='Vehicle parameter: Wheelbase [m]')
+    vehicle_param_m_arg = DeclareLaunchArgument(
+        '/vehicle_params/m',
+        default_value=str(vehicle_params['/vehicle_params/m']),
+        description='Vehicle parameter: Mass of the vehicle [kg]')
+    vehicle_param_jz_arg = DeclareLaunchArgument(
+        '/vehicle_params/jz',
+        default_value=str(vehicle_params['/vehicle_params/jz']),
+        description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
+    vehicle_param_l1_arg = DeclareLaunchArgument(
+        '/vehicle_params/l1',
+        default_value=str(vehicle_params['/vehicle_params/l1']),
+        description='Vehicle parameter: CoG distance from the front axle [m]' )
+    vehicle_param_l2_arg = DeclareLaunchArgument(
+        '/vehicle_params/l2',
+        default_value=str(vehicle_params['/vehicle_params/l2']),
+        description='Vehicle parameter: CoG distance from the rear axle [m]')
+    vehicle_param_c1_arg = DeclareLaunchArgument(
+        '/vehicle_params/c1',
+        default_value=str(vehicle_params['/vehicle_params/c1']),
+        description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
+    vehicle_param_c2_arg = DeclareLaunchArgument(
+        '/vehicle_params/c2',
+        default_value=str(vehicle_params['/vehicle_params/c2']),
+        description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
+    vehicle_param_swr_arg = DeclareLaunchArgument(
+        '/vehicle_params/swr',
+        default_value=str(vehicle_params['/vehicle_params/swr']),
+        description='Vehicle parameter: Steering wheel ratio')
 
     # CORE
 

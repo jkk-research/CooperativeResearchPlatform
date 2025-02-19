@@ -18,10 +18,39 @@ def generate_launch_description():
         'jerk_lim',
         default_value='0.5f',
         description='Jerk limit')
+
     vehicle_param_L_arg = DeclareLaunchArgument(
-        'vehicle_param_L',
+        '/vehicle_params/L',
         default_value='2.79',
-        description='Vehicle parameter: ')
+        description='Vehicle parameter: Wheelbase [m]')
+    vehicle_param_c1_arg = DeclareLaunchArgument(
+        '/vehicle_params/c1',
+        default_value='3000.0',
+        description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
+    vehicle_param_c2_arg = DeclareLaunchArgument(
+        '/vehicle_params/c2',
+        default_value='3000.0',
+        description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
+    vehicle_param_m_arg = DeclareLaunchArgument(
+        '/vehicle_params/m',
+        default_value='180.0',
+        description='Vehicle parameter: Wheelbase [m]')
+    vehicle_param_jz_arg = DeclareLaunchArgument(
+        '/vehicle_params/jz',
+        default_value='270.0',
+        description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
+    vehicle_param_l1_arg = DeclareLaunchArgument(
+        '/vehicle_params/l1',
+        default_value='0.624',
+        description='Vehicle parameter: CoG distance from the front axle [m]' )
+    vehicle_param_l2_arg = DeclareLaunchArgument(
+        '/vehicle_params/l2',
+        default_value='0.676',
+        description='Vehicle parameter: CoG distance from the rear axle [m]')
+    vehicle_param_swr_arg = DeclareLaunchArgument(
+        '/vehicle_params/swr',
+        default_value='1.0',
+        description='Vehicle parameter: Steering wheel ratio')
 
     ctrlUseCombinedControllerArg = DeclareLaunchArgument(
         'ctrlUseCombinedController',
@@ -222,6 +251,13 @@ def generate_launch_description():
         lat_accel_limit_arg,
         jerk_limit_arg,
         vehicle_param_L_arg,
+        vehicle_param_c1_arg,
+        vehicle_param_c2_arg,
+        vehicle_param_m_arg,
+        vehicle_param_jz_arg,
+        vehicle_param_l1_arg,
+        vehicle_param_l2_arg,
+        vehicle_param_swr_arg,
 
         ctrlUseCombinedControllerArg,
         ctrlCombinedMethodArg,
