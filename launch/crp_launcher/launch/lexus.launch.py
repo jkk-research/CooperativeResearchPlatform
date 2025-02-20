@@ -126,27 +126,27 @@ def generate_launch_description():
         description='Jerk limit')
 
     # controllers
-    ctrlUseCombinedControllerArg = DeclareLaunchArgument(
-        'ctrlUseCombinedController',
+    ctrl_use_combined_controller_arg = DeclareLaunchArgument(
+        'ctrl_use_combined_controller',
         default_value='false',
         description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
-    ctrlCombinedMethodArg = DeclareLaunchArgument(
-        'ctrlCombinedMethod',
+    ctrl_combined_method_arg = DeclareLaunchArgument(
+        'ctrl_combined_method',
         default_value='lqr',
         description='Lat controller to use. Possible values: lqr'
     )
-    ctrlLatMethodArg = DeclareLaunchArgument(
-        'ctrlLatMethod',
+    ctrl_lat_method_arg = DeclareLaunchArgument(
+        'ctrl_lat_method',
         default_value='comp',
         description='Lat controller to use. Possible values: comp, purep, stanley'
     )
-    ctrlLongMethodArg = DeclareLaunchArgument(
-        'ctrlLongMethod',
+    ctrl_long_method_arg = DeclareLaunchArgument(
+        'ctrl_long_method',
         default_value='long',
         description='Controller to use. Possible values: long'
     )
-    
+
     # vehicle parameters
     vehicle_params = load_yaml(join(
         get_package_share_directory('crp_launcher'),
@@ -324,10 +324,10 @@ def generate_launch_description():
         local_path_length_arg,
         lat_accel_limit_arg,
         jerk_limit_arg,
-        ctrlUseCombinedControllerArg,
-        ctrlCombinedMethodArg,
-        ctrlLatMethodArg,
-        ctrlLongMethodArg,
+        ctrl_use_combined_controller_arg,
+        ctrl_combined_method_arg,
+        ctrl_lat_method_arg,
+        ctrl_long_method_arg,
         vehicle_param_c1_arg,
         vehicle_param_c2_arg,
         vehicle_param_m_arg,
