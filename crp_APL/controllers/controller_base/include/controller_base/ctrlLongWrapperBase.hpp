@@ -20,15 +20,15 @@ public:
 protected:
     virtual void controlLoop(const ControlInput & input, LongControlOutput & output) = 0;
 
-    LongControlOutput m_output;
-
 private:
-    void run() override;
+    void run(const ControlInput & input) override;
     void publishControlCmd(const LongControlOutput & output);
 
     rclcpp::Publisher<autoware_control_msgs::msg::Longitudinal>::SharedPtr m_pub_cmd;
     
+    LongControlOutput m_output;
     autoware_control_msgs::msg::Longitudinal m_ctrlCmdMsg;
+
 };
 
 } // namespace apl

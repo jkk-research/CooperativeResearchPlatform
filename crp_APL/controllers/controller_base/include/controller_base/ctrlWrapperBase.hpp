@@ -21,12 +21,12 @@ public:
     CtrlWrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
 protected:
-    virtual void run();
-
-    ControlInput m_input;
+    virtual void run(const ControlInput & input) = 0;
     crp::apl::DataConversion m_dataConversion;
 
 private:
+    void timerCallback();
+
     void trajectoryCallback(const autoware_planning_msgs::msg::Trajectory input_msg);
     void egoCallback(const crp_msgs::msg::Ego input_msg);
 
@@ -34,6 +34,8 @@ private:
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                      m_sub_ego_;
 
     rclcpp::TimerBase::SharedPtr m_timer_;
+
+    ControlInput m_input;
 };
 
 } // namespace apl

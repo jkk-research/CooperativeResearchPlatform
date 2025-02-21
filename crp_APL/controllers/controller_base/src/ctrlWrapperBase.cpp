@@ -7,7 +7,7 @@ crp::apl::CtrlWrapperBase::CtrlWrapperBase(const std::string & node_name, const 
     m_sub_trajectory_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlWrapperBase::trajectoryCallback, this, std::placeholders::_1));
     m_sub_ego_        = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlWrapperBase::egoCallback, this, std::placeholders::_1));
 
-    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlWrapperBase::run, this));
+    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlWrapperBase::timerCallback, this));
 }
 
 void crp::apl::CtrlWrapperBase::trajectoryCallback(const autoware_planning_msgs::msg::Trajectory input_msg)
@@ -27,12 +27,8 @@ void crp::apl::CtrlWrapperBase::trajectoryCallback(const autoware_planning_msgs:
             input_msg.points.at(i).pose.orientation.z,
             input_msg.points.at(i).pose.orientation.w
         ).at(2));
+        m_input.pathVelocity.push_back(input_msg.points.at(i).longitudinal_velocity_mps);
     }
-
-    if (input_msg.points.size() > 0)
-        m_input.targetSpeed = input_msg.points.at(0).longitudinal_velocity_mps;
-    else
-        m_input.targetSpeed = 0.0f;
 }
 
 void crp::apl::CtrlWrapperBase::egoCallback(const crp_msgs::msg::Ego input_msg)
@@ -49,4 +45,9 @@ void crp::apl::CtrlWrapperBase::egoCallback(const crp_msgs::msg::Ego input_msg)
         input_msg.pose.pose.orientation.w
     ).at(2);
     m_input.egoPoseGlobal[2] = theta;
+}
+
+void crp::apl::CtrlWrapperBase::timerCallback()
+{
+    run(m_input);
 }

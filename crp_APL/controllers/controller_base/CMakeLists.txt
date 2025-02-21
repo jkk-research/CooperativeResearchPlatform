@@ -14,7 +14,7 @@ find_package(autoware_control_msgs REQUIRED)
 
 set (
   INTERFACES_DIR
-  ${CMAKE_SOURCE_DIR}/../../interfaces
+  ${CMAKE_SOURCE_DIR}/../../crp_interfaces
 )
 
 set (
@@ -65,7 +65,6 @@ ament_export_include_directories(${INTERFACES_DIR})
 ament_export_include_directories(${UTILS_DIR})
 ament_export_targets(ctrl_lat_wrapper_base HAS_LIBRARY_TARGET)
 ament_export_targets(ctrl_long_wrapper_base HAS_LIBRARY_TARGET)
-ament_export_dependencies(rclcpp)
-
+ament_export_dependencies(rclcpp crp_msgs autoware_planning_msgs autoware_control_msgs)
 
 ament_package()

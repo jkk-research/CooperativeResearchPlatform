@@ -18,7 +18,7 @@ find_package(nav_msgs REQUIRED)
 
 set (
   INTERFACES_DIR
-  ${CMAKE_SOURCE_DIR}/../../interfaces
+  ${CMAKE_SOURCE_DIR}/../../crp_interfaces
 )
 
 set (

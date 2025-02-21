@@ -6,9 +6,9 @@ crp::apl::CtrlLatWrapperBase::CtrlLatWrapperBase(const std::string & node_name, 
 {
 }
 
-void crp::apl::CtrlLatWrapperBase::run()
+void crp::apl::CtrlLatWrapperBase::run(const ControlInput & input)
 {
-    controlLoop(m_input, m_output);
+    controlLoop(input, m_output);
     publishControlCmd(m_output);
 }
 

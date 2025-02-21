@@ -11,7 +11,7 @@ namespace apl
         std::vector<double> pathX;
         std::vector<double> pathY;
         std::vector<double> pathTheta;
-        double targetSpeed{0.0f};
+        std::vector<double> pathVelocity;
         double egoPoseGlobal [3]{0.0f};
         double vxEgo{0.0f};
         double egoSteeringAngle{0.0f};
@@ -23,7 +23,7 @@ namespace apl
     };
 
     struct LongControlOutput{
-        double speedTarget{0.0f};
+        double velocityTarget{0.0f};
     };
 
 } // namespace apl

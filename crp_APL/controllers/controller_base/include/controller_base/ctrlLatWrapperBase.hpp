@@ -20,13 +20,13 @@ public:
 protected:
     virtual void controlLoop(const ControlInput & input, LatControlOutput & output) = 0;
 
-    LatControlOutput m_output;
-
 private:
-    void run() override;
+    void run(const ControlInput & input) override;
     void publishControlCmd(const LatControlOutput & output);
+
     rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd;
 
+    LatControlOutput m_output;
     autoware_control_msgs::msg::Lateral m_ctrlCmdMsg;
 };
 
