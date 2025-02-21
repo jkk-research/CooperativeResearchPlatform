@@ -156,36 +156,36 @@ def generate_launch_description():
     ))
 
     vehicle_param_L_arg = DeclareLaunchArgument(
-        '/vehicle_params/L',
-        default_value=str(vehicle_params['/vehicle_params/L']),
+        '/vehicle_params/wheelbase',
+        default_value=str(vehicle_params['/vehicle_params/wheelbase']),
         description='Vehicle parameter: Wheelbase [m]')
     vehicle_param_m_arg = DeclareLaunchArgument(
-        '/vehicle_params/m',
-        default_value=str(vehicle_params['/vehicle_params/m']),
+        '/vehicle_params/mass',
+        default_value=str(vehicle_params['/vehicle_params/mass']),
         description='Vehicle parameter: Mass of the vehicle [kg]')
     vehicle_param_jz_arg = DeclareLaunchArgument(
         '/vehicle_params/jz',
         default_value=str(vehicle_params['/vehicle_params/jz']),
         description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
     vehicle_param_l1_arg = DeclareLaunchArgument(
-        '/vehicle_params/l1',
-        default_value=str(vehicle_params['/vehicle_params/l1']),
+        '/vehicle_params/front_axle_from_cog',
+        default_value=str(vehicle_params['/vehicle_params/front_axle_from_cog']),
         description='Vehicle parameter: CoG distance from the front axle [m]' )
     vehicle_param_l2_arg = DeclareLaunchArgument(
-        '/vehicle_params/l2',
-        default_value=str(vehicle_params['/vehicle_params/l2']),
+        '/vehicle_params/rear_axle_from_cog',
+        default_value=str(vehicle_params['/vehicle_params/rear_axle_from_cog']),
         description='Vehicle parameter: CoG distance from the rear axle [m]')
     vehicle_param_c1_arg = DeclareLaunchArgument(
-        '/vehicle_params/c1',
-        default_value=str(vehicle_params['/vehicle_params/c1']),
+        '/vehicle_params/front_wheel_cornering_stiffness',
+        default_value=str(vehicle_params['/vehicle_params/front_wheel_cornering_stiffness']),
         description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_c2_arg = DeclareLaunchArgument(
-        '/vehicle_params/c2',
-        default_value=str(vehicle_params['/vehicle_params/c2']),
+        '/vehicle_params/rear_wheel_cornering_stiffness',
+        default_value=str(vehicle_params['/vehicle_params/rear_wheel_cornering_stiffness']),
         description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_swr_arg = DeclareLaunchArgument(
-        '/vehicle_params/swr',
-        default_value=str(vehicle_params['/vehicle_params/swr']),
+        '/vehicle_params/steering_ratio',
+        default_value=str(vehicle_params['/vehicle_params/steering_ratio']),
         description='Vehicle parameter: Steering wheel ratio')
 
     # CORE

@@ -1,8 +1,8 @@
-/vehicle_params/L:   2.79
-/vehicle_params/m:   2300.0
-/vehicle_params/jz:  4500.0
-/vehicle_params/l1:  1.24
-/vehicle_params/l2:  1.55
-/vehicle_params/swr: 14.8
-/vehicle_params/c1:  5000.0
-/vehicle_params/c2:  5000.0
+/vehicle_params/wheelbase:            2.79   # m
+/vehicle_params/mass:                 2300.0 # kg
+/vehicle_params/inertia_z:            4500.0 # kg*m2
+/vehicle_params/front_axle_from_cog:  1.24   # m
+/vehicle_params/rear_axle_from_cog:   1.55   # m
+/vehicle_params/steering_ratio:       14.8   
+/vehicle_params/front_wheel_cornering_stiffness: 5000.0 # N/rad
+/vehicle_params/rear_wheel_cornering_stiffness:  5000.0 # N/rad
