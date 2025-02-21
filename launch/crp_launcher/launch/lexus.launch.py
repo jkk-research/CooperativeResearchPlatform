@@ -118,7 +118,7 @@ def generate_launch_description():
         description='Lateral acceleration limit')
     jerk_limit_arg = DeclareLaunchArgument(
         'jerk_lim',
-        default_value='0.5f',
+        default_value='0.5',
         description='Jerk limit')
 
     # controllers
