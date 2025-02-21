@@ -14,6 +14,12 @@ crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : CtrlLongWrapperBase
 
 void crp::apl::CtrlVehicleControlLong::controlLoop(const ControlInput & input, LongControlOutput & output)
 {
+    if (input.pathVelocity.size() == 0U)
+    {
+        output.velocityTarget = 0.0;
+        return;
+    }
+
     // parameter read in
     double p_axMax = this->get_parameter("/ctrl/long/axMax").as_double();
     double p_axMin = this->get_parameter("/ctrl/long/axMin").as_double();

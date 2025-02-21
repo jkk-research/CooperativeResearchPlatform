@@ -4,6 +4,7 @@
 crp::apl::CtrlLatWrapperBase::CtrlLatWrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options)
     : CtrlWrapperBase(node_name, options)
 {
+    m_pub_cmd = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 10);
 }
 
 void crp::apl::CtrlLatWrapperBase::run(const ControlInput & input)
