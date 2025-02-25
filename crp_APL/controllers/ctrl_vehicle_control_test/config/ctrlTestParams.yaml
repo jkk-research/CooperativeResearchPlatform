@@ -1,0 +1,5 @@
+ctrl_vehicle_control_test:
+  ros__parameters:
+    /ctrl/test/stepAmplitude:                     0.2
+    /ctrl/test/sinusAmplitude:                    0.1
+    /ctrl/test/sinusFrequency:                    0.2

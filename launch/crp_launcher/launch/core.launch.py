@@ -56,6 +56,16 @@ def generate_launch_description():
         ),
         description='Path to lqr control configuration file'
     )
+    ctrlTestConfigFileArg = DeclareLaunchArgument(
+        'ctrlTestConfigFile',
+        default_value=join(
+            get_package_share_directory('crp_launcher'),
+            'config',
+            'control',
+            'ctrlTestParams.yaml'
+        ),
+        description='Path to test control configuration file'
+    )
     ctrlCompensatoryConfigFileArg = DeclareLaunchArgument(
         'ctrlCompensatoryConfigFile',
         default_value=join(
@@ -176,6 +186,17 @@ def generate_launch_description():
         condition=LaunchConfigurationEquals('ctrlCombinedMethod', 'lqr')
     )
 
+    vehicle_control_test = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('ctrl_vehicle_control_test'),
+                'launch',
+                'ctrl_vehicle_control_test.launch.py')
+        ),
+        condition=LaunchConfigurationEquals('ctrlCombinedMethod', 'test')
+    )
+
+
     # lateral controllers
     vehicle_control_lat_compensatory = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -229,6 +250,7 @@ def generate_launch_description():
         ctrlLongMethodArg,
 
         ctrlLqrConfigFileArg,
+        ctrlTestConfigFileArg,
         ctrlCompensatoryConfigFileArg,
         ctrlPurePConfigFileArg,
         ctrlStanleyConfigFileArg,
@@ -247,6 +269,7 @@ def generate_launch_description():
         GroupAction(
             [
                 vehicle_control_lqr,
+                vehicle_control_test,
             ],
             condition=LaunchConfigurationEquals('ctrlUseCombinedController', 'true')
         ),
