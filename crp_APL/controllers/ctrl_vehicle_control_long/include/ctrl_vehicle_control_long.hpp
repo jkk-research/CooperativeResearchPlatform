@@ -5,6 +5,7 @@
 #include "rclcpp/rclcpp.hpp"
 
 #include "crp_msgs/msg/ego.hpp"
+#include "crp_msgs/msg/behavior_limits.hpp"
 #include "autoware_control_msgs/msg/control.hpp"
 #include "autoware_planning_msgs/msg/trajectory.hpp"
 
@@ -22,6 +23,7 @@ namespace crp
             private:
                 void trajectoryCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg);
                 void egoCallback(const crp_msgs::msg::Ego::SharedPtr msg);
+                void behaviorLimitsCallback(const crp_msgs::msg::BehaviorLimits::SharedPtr msg);
                 
                 void run();
 
@@ -30,6 +32,8 @@ namespace crp
 
                 rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_trajectory_;
                 rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_sub_ego_;
+                rclcpp::Subscription<crp_msgs::msg::BehaviorLimits>::SharedPtr m_sub_behaviorLimits_;
+                
                 autoware_control_msgs::msg::Longitudinal m_ctrl_msg;
 
                 // member parameters

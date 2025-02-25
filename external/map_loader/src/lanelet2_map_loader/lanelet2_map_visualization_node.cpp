@@ -131,7 +131,7 @@ void Lanelet2MapVisualizationNode::on_map_bin(
   std::vector<lanelet::NoParkingAreaConstPtr> no_parking_reg_elems =
     lanelet::utils::query::noParkingAreas(all_lanelets);
   lanelet::ConstLineStrings3d curbstones = lanelet::utils::query::curbstones(viz_lanelet_map);
-  std::vector<lanelet::BusStopAreaConstPtr> bus_stop_reg_elems;
+  //std::vector<lanelet::BusStopAreaConstPtr> bus_stop_reg_elems;
 
   std_msgs::msg::ColorRGBA cl_road;
   std_msgs::msg::ColorRGBA cl_shoulder;

@@ -7,6 +7,7 @@
 #include <crp_msgs/msg/ego.hpp>
 #include <crp_msgs/msg/target_space.hpp>
 #include <crp_msgs/msg/behavior.hpp>
+#include <crp_msgs/msg/behavior_limits.hpp>
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 
@@ -34,10 +35,12 @@ private:
 
     rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy;
     rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace;
+    rclcpp::Publisher<crp_msgs::msg::BehaviorLimits>::SharedPtr         m_pub_behaviorLimits;
 
     rclcpp::TimerBase::SharedPtr m_timer_;
     
     float m_maximum_speed;
+    float m_ego_speed{0.0f};
 };
 
 } // namespace apl

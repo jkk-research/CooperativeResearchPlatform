@@ -19,7 +19,7 @@ def generate_launch_description():
 
     localization_source_arg = DeclareLaunchArgument(
         'localization_source',
-        default_value='ekf',
+        default_value='gnss',
         description='Localization source [ekf or gnss]'
     )
     
