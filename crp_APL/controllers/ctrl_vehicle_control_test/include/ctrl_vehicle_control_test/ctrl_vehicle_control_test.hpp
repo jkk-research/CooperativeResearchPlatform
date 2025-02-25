@@ -4,9 +4,9 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "crp_msgs/msg/ego.hpp"
+#include "crp_msgs/msg/test.hpp"
 
 #include "autoware_control_msgs/msg/control.hpp"
-#include "autoware_planning_msgs/msg/trajectory.hpp"
 
 namespace crp
 {
@@ -25,13 +25,13 @@ namespace crp
                 float p_stepAmplitude{0.0f};
                 float p_sinusAmplitude{0.0f};
                 float p_sinusFrequency{0.0f};
+                float p_vehicleSpeed{0.0f};
 
                 float m_steeringAngleTarget{0.0f};
 
                 float t{0.0f};
                 float dT{0.01};
 
-                void trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg);
                 void egoVehicleCallback(const crp_msgs::msg::Ego input_msg);
                 void calculateSteeringAngle();
 
@@ -41,10 +41,13 @@ namespace crp
                 rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmdLat;
                 rclcpp::Publisher<autoware_control_msgs::msg::Longitudinal>::SharedPtr m_pub_cmdLong;
 
-                rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_traj_;
+                rclcpp::Publisher<crp_msgs::msg::Test>::SharedPtr m_pub_test_;
+
                 rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_sub_egoVehicle_;
                 autoware_control_msgs::msg::Lateral m_ctrlCmdLatMsg;
                 autoware_control_msgs::msg::Longitudinal m_ctrlCmdLongMsg;
+
+                crp_msgs::msg::Test m_testMsg;
         }; 
     } // namespace apl
 }

@@ -9,7 +9,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(autoware_control_msgs REQUIRED)
-find_package(autoware_planning_msgs REQUIRED)
 find_package(crp_msgs REQUIRED)
 
 
@@ -18,7 +17,7 @@ include_directories(include)
 
 add_executable(ctrl_vehicle_control_test src/ctrl_vehicle_control_test.cpp)
 
-ament_target_dependencies(ctrl_vehicle_control_test rclcpp autoware_control_msgs autoware_planning_msgs crp_msgs)
+ament_target_dependencies(ctrl_vehicle_control_test rclcpp autoware_control_msgs crp_msgs)
 
 install(DIRECTORY
   config

@@ -27,6 +27,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/EgoStatus.msg"
   "msg/Behavior.msg"
   "msg/BehaviorLimits.msg"
+  "msg/Test.msg"
   DEPENDENCIES std_msgs geometry_msgs nav_msgs autoware_planning_msgs autoware_perception_msgs tier4_planning_msgs
 )
 

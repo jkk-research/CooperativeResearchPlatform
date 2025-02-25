@@ -3,3 +3,4 @@ ctrl_vehicle_control_test:
     /ctrl/test/stepAmplitude:                     0.2
     /ctrl/test/sinusAmplitude:                    0.1
     /ctrl/test/sinusFrequency:                    0.2
+    /ctrl/test/vehicleSpeed:                      10.0
