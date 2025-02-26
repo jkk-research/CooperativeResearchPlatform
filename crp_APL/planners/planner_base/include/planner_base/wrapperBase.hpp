@@ -10,7 +10,7 @@
 #include <autoware_perception_msgs/msg/object_classification.hpp>
 #include <autoware_perception_msgs/msg/predicted_path.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
-#include <tf2/LinearMath/Quaternion.hpp>
+#include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 

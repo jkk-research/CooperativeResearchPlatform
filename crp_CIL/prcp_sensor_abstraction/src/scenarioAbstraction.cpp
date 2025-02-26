@@ -4,7 +4,7 @@
 crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstraction")
 {
     this->declare_parameter<float>("local_path_length", 75.0);
-    this->declare_parameter<std::string>("localization_source", "ekf");
+    this->declare_parameter<std::string>("localization_source", "gnss");
 
     std::string localizationSource;
     this->get_parameter("localization_source", localizationSource);

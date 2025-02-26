@@ -7,7 +7,7 @@ from launch.substitutions import LaunchConfiguration
 def generate_launch_description():
     lanelet2_path_arg = DeclareLaunchArgument(
         'map_file_path',
-        default_value="/home/dev/lanelet2_maps/ZalaZone/ZalaZone_Handling.osm",
+        default_value="/home/gfigneczi1/lanelet2_maps/ZalaZone/ZalaZone_Handling.osm",
         description='Path to the lanelet2 map file'
     )
 

@@ -12,7 +12,6 @@ find_package(nav_msgs REQUIRED)
 
 find_package(autoware_perception_msgs REQUIRED)
 find_package(autoware_localization_msgs REQUIRED)
-find_package(autoware_map_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
 find_package(autoware_control_msgs REQUIRED)
 
