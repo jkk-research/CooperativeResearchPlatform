@@ -28,11 +28,10 @@ def generate_launch_description():
         default_value='false',
         description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
-
     ctrlCombinedMethodArg = DeclareLaunchArgument(
         'ctrlCombinedMethod',
         default_value='lqr',
-        description='Lat controller to use. Possible values: lqr'
+        description='Lat controller to use. Possible values: lqr, test'
     )
     ctrlLatMethodArg = DeclareLaunchArgument(
         'ctrlLatMethod',
