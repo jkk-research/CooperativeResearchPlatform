@@ -4,8 +4,9 @@
 crp::apl::CtrlVehicleControlTest::CtrlVehicleControlTest() : Node("ctrl_vehicle_control_test")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(10), std::bind(&CtrlVehicleControlTest::loop, this));  
-    m_pub_cmdLat = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
+    m_pub_cmdLat  = this->create_publisher<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 30);
     m_pub_cmdLong = this->create_publisher<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 30);
+    m_pub_test_    = this->create_publisher<crp_msgs::msg::Test>("/control/command/control_test", 30);
 
     m_sub_egoVehicle_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlTest::egoVehicleCallback, this, std::placeholders::_1));
 
@@ -62,6 +63,8 @@ void crp::apl::CtrlVehicleControlTest::loop()
 
     m_pub_cmdLat->publish(m_ctrlCmdLatMsg);
     m_pub_cmdLong->publish(m_ctrlCmdLongMsg);
+
+    m_pub_test_->publish(m_testMsg);
 }
 
 int main(int argc, char *argv[])

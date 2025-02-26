@@ -129,8 +129,8 @@ def generate_launch_description():
     )
     ctrlCombinedMethodArg = DeclareLaunchArgument(
         'ctrlCombinedMethod',
-        default_value='lqr',
-        description='Lat controller to use. Possible values: lqr'
+        default_value='test',
+        description='Lat controller to use. Possible values: lqr, test'
     )
     ctrlLatMethodArg = DeclareLaunchArgument(
         'ctrlLatMethod',

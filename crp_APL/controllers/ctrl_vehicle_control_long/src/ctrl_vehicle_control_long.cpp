@@ -36,7 +36,27 @@ void crp::apl::CtrlVehicleControlLong::trajectoryCallback(const autoware_plannin
         
         if(distance >= lookAheadDistance)
         {
-            m_ctrl_msg.velocity = msg->points.at(wp).longitudinal_velocity_mps;
+            // filtering with acceleration
+            if(msg->points.at(wp).longitudinal_velocity_mps >= (m_egoSpeed+p_axMax*dT))
+            {
+                m_ctrl_msg.velocity = m_egoSpeed+p_axMax*dT;  
+            }
+            else if(msg->points.at(wp).longitudinal_velocity_mps <= (m_egoSpeed+p_axMin*dT))
+            {
+                if (m_egoSpeed+p_axMin*dT < 2.0)
+                {
+                    m_ctrl_msg.velocity = 0.0;
+                }
+                else
+                {
+                    m_ctrl_msg.velocity = m_egoSpeed+p_axMin*dT;
+                }
+            }
+            else
+            {
+                m_ctrl_msg.velocity = 
+                    msg->points.at(wp).longitudinal_velocity_mps;
+            }
             break;
         }
     }

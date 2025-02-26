@@ -42,8 +42,8 @@ namespace crp
                 superPoseFeedforwardAndFeedback();
 
                 // summing the target values to produce the target
-                output.accelerationTarget = (1.0f-m_k_superPosition)*m_targetAccelerationFF + 
-                    m_k_superPosition*m_targetAccelerationFB;
+                output.accelerationTarget = m_k_superPosition*m_targetAccelerationFF + 
+                    (1.0 - m_k_superPosition)*m_targetAccelerationFB;
 
                 // output calculation
                 calculateSteeringAngle(input, output, params);
@@ -65,7 +65,7 @@ namespace crp
             // k = 1: only feedback
             if (std::abs(m_coefficients[2]) < 1.25e-4)
             {
-                m_k_superPosition = 1.0;
+                m_k_superPosition = 0.0;
             }
             else{
                 m_k_superPosition = 0.5;
