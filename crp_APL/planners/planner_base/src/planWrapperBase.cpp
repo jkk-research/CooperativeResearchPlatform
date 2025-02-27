@@ -1,29 +1,29 @@
-#include "planner_base/wrapperBase.hpp"
+#include "planner_base/planWrapperBase.hpp"
 
 
-crp::apl::WrapperBase::WrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options)
+crp::apl::PlanWrapperBase::PlanWrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options)
     : rclcpp::Node(node_name, options)
 {
     m_sub_strategy_ = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
-        "plan/strategy", 10, std::bind(&WrapperBase::strategyCallback, this, std::placeholders::_1));
+        "plan/strategy", 10, std::bind(&PlanWrapperBase::strategyCallback, this, std::placeholders::_1));
     m_sub_targetSpace_ = this->create_subscription<crp_msgs::msg::TargetSpace>(
-        "plan/target_space", 10, std::bind(&WrapperBase::targetSpaceCallback, this, std::placeholders::_1));
+        "plan/target_space", 10, std::bind(&PlanWrapperBase::targetSpaceCallback, this, std::placeholders::_1));
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>(
-        "ego", 10, std::bind(&WrapperBase::egoCallback, this, std::placeholders::_1));
+        "ego", 10, std::bind(&PlanWrapperBase::egoCallback, this, std::placeholders::_1));
 
     std::string plannerName = node_name.substr(5, node_name.size()-5);
     m_pub_trajectory_ = this->create_publisher<autoware_planning_msgs::msg::Trajectory>("plan/"+plannerName+"/trajectory", 10);
 
-    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&WrapperBase::run, this));
+    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&PlanWrapperBase::run, this));
 }
 
-void crp::apl::WrapperBase::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
+void crp::apl::PlanWrapperBase::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
 {
     m_input.currentScenario = msg->current_scenario;
 }
 
 
-void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace::SharedPtr msg)
+void crp::apl::PlanWrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace::SharedPtr msg)
 {
     // target pose
     m_input.targetPose.position.x = msg->target_pose.pose.position.x;
@@ -90,7 +90,7 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
 }
 
 
-void crp::apl::WrapperBase::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
+void crp::apl::PlanWrapperBase::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 {
     m_input.egoPose.position.x = msg->pose.pose.position.x;
     m_input.egoPose.position.y = msg->pose.pose.position.y;
@@ -107,7 +107,7 @@ void crp::apl::WrapperBase::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 }
 
 
-float crp::apl::WrapperBase::getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion)
+float crp::apl::PlanWrapperBase::getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion)
 {
     tf2::Quaternion q(
         quaternion.x,
@@ -122,7 +122,7 @@ float crp::apl::WrapperBase::getYawFromQuaternion(const geometry_msgs::msg::Quat
 }
 
 
-crp::apl::OccupancyGrid crp::apl::WrapperBase::convertMsgToOccupancyGrid(const nav_msgs::msg::OccupancyGrid & msg)
+crp::apl::OccupancyGrid crp::apl::PlanWrapperBase::convertMsgToOccupancyGrid(const nav_msgs::msg::OccupancyGrid & msg)
 {
     OccupancyGrid grid;
     for (uint32_t i = 0; i < msg.info.width; i++)
@@ -138,7 +138,7 @@ crp::apl::OccupancyGrid crp::apl::WrapperBase::convertMsgToOccupancyGrid(const n
 }
 
 
-crp::apl::PlannerInputObject crp::apl::WrapperBase::convertMsgToObjects(const autoware_perception_msgs::msg::PredictedObject & msg)
+crp::apl::PlannerInputObject crp::apl::PlanWrapperBase::convertMsgToObjects(const autoware_perception_msgs::msg::PredictedObject & msg)
 {
     PlannerInputObject outObj;
 
@@ -221,7 +221,7 @@ crp::apl::PlannerInputObject crp::apl::WrapperBase::convertMsgToObjects(const au
 }
 
 
-void crp::apl::WrapperBase::convertOutputToMsg(const PlannerOutput & output, autoware_planning_msgs::msg::Trajectory & msg)
+void crp::apl::PlanWrapperBase::convertOutputToMsg(const PlannerOutput & output, autoware_planning_msgs::msg::Trajectory & msg)
 {
     for (const auto & outputPoint : output.trajectory)
     {
@@ -235,7 +235,7 @@ void crp::apl::WrapperBase::convertOutputToMsg(const PlannerOutput & output, aut
     }
 }
 
-bool crp::apl::WrapperBase::inputPlausibilityCheck(const PlannerInput & input)
+bool crp::apl::PlanWrapperBase::inputPlausibilityCheck(const PlannerInput & input)
 {
     bool m_inputPlausible = false;
     if (input.path.pathPoints.size()>1)
@@ -247,7 +247,7 @@ bool crp::apl::WrapperBase::inputPlausibilityCheck(const PlannerInput & input)
 }
 
 
-void crp::apl::WrapperBase::publishTrajectory(const PlannerOutput & trajectory)
+void crp::apl::PlanWrapperBase::publishTrajectory(const PlannerOutput & trajectory)
 {
     autoware_planning_msgs::msg::Trajectory msg;
     convertOutputToMsg(trajectory, msg);
@@ -255,8 +255,8 @@ void crp::apl::WrapperBase::publishTrajectory(const PlannerOutput & trajectory)
 }
 
 
-void crp::apl::WrapperBase::run()
+void crp::apl::PlanWrapperBase::run()
 {
-    plan(m_input, m_output);
+    planLoop(m_input, m_output);
     publishTrajectory(m_output);
 }

@@ -4,32 +4,32 @@ namespace crp
 {
     namespace apl
     {
-        void CompensatoryModel::run(ControlInput &input, ControlOutput &output, const ControlParams &params)
+        void CompensatoryModel::run(const ControlInput &input, LatControlOutput &output, const ControlParams &params)
         {
             // this method is the main method of the compensatory model. It calculates the feedforward and feedback
 
             double point[3];
-            m_localPath_x.clear();
-            m_localPath_y.clear();
-            for (unsigned long int i = 0; i < input.path_x.size(); i++)
+            m_localpathX.clear();
+            m_localpathY.clear();
+            for (unsigned long int i = 0; i < input.pathX.size(); i++)
             {
-                point[0] = input.path_x.at(i);
-                point[1] = input.path_y.at(i);
+                point[0] = input.pathX.at(i);
+                point[1] = input.pathY.at(i);
                 point[2] = 0.0f;
                 double *localPathPoint = point;
 
-                m_localPath_x.push_back(localPathPoint[0]);
-                m_localPath_y.push_back(localPathPoint[1]);
+                m_localpathX.push_back(localPathPoint[0]);
+                m_localpathY.push_back(localPathPoint[1]);
                 printf("local points x=%f y=%f\n", point[0], point[1]);
             }
 
             // cut snippet
             cutRelevantLocalSnippet(params);
 
-            if (input.path_x.size() >= 4)
+            if (input.pathX.size() >= 4)
             {
 
-                printf("Trajectory length is %ld\n", input.path_x.size());
+                printf("Trajectory length is %ld\n", input.pathX.size());
                 m_coefficients = m_polynomialCalculator.calculateThirdOrderPolynomial(m_localPathCut_x, m_localPathCut_y);
 
                 // feedforward based on preview point - output: target feedforward acceleration
@@ -148,9 +148,9 @@ namespace crp
             m_localPathCut_x.clear();
             m_localPathCut_y.clear();
 
-            for (unsigned long int i = 0; i < m_localPath_x.size(); i++)
+            for (unsigned long int i = 0; i < m_localpathX.size(); i++)
             {
-                if (m_localPath_x.at(i) > 0)
+                if (m_localpathX.at(i) > 0)
                 {
                     if (i == 0)
                         startIdx = i;
@@ -168,9 +168,9 @@ namespace crp
             else
             {
                 // find stop index
-                for (unsigned long int i = startIdx; i < m_localPath_x.size(); i++)
+                for (unsigned long int i = startIdx; i < m_localpathX.size(); i++)
                 {
-                    double pointDistance = std::sqrt(std::pow(m_localPath_x.at(i), 2) + std::pow(m_localPath_y.at(i), 2));
+                    double pointDistance = std::sqrt(std::pow(m_localpathX.at(i), 2) + std::pow(m_localpathY.at(i), 2));
                     if (pointDistance > maxDistance)
                     {
                         stopIdx = i;
@@ -187,11 +187,11 @@ namespace crp
                 // valid snippet is found, calculate real path
                 for (unsigned long int i = startIdx; i < stopIdx; i++)
                 {
-                    m_localPathCut_x.push_back(m_localPath_x.at(i));
-                    m_localPathCut_y.push_back(m_localPath_y.at(i));
+                    m_localPathCut_x.push_back(m_localpathX.at(i));
+                    m_localPathCut_y.push_back(m_localpathY.at(i));
                     if (i < startIdx + 10)
                     {
-                        printf("path after cut %f %f\n", m_localPath_x.at(i), m_localPath_y.at(i));
+                        printf("path after cut %f %f\n", m_localpathX.at(i), m_localpathY.at(i));
                     }
                 }
             }
@@ -218,7 +218,7 @@ namespace crp
             printf("look ahead pose is %f ,%f, %f\n", m_lookAheadPose[0], m_lookAheadPose[1], m_lookAheadPose[2]);
         }
 
-        void CompensatoryModel::calculateSteeringAngle(const ControlInput &input, ControlOutput& output, const ControlParams &params)
+        void CompensatoryModel::calculateSteeringAngle(const ControlInput &input, LatControlOutput& output, const ControlParams &params)
         {
             // function to map acceleration target to steering angle. Right now, no proper low level 
             // acceleration function we have, only an Ackermann mapping 

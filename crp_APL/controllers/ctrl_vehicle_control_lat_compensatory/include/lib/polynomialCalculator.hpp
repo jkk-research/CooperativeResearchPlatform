@@ -1,7 +1,7 @@
 #ifndef POLYNOMIALCALCULATOR_HPP_
 #define POLYNOMIALCALCULATOR_HPP_
 
-#include "ctrl_vehicle_control/controller_inputs.hpp"
+#include "ctrl_vehicle_control/controllerParams.hpp"
 #include <math.h>
 
 

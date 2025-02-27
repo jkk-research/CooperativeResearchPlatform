@@ -24,13 +24,13 @@ namespace crp
 namespace apl
 {
 
-class WrapperBase : public rclcpp::Node
+class PlanWrapperBase : public rclcpp::Node
 {
 public:
-    WrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
+    PlanWrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
 
 protected:
-    virtual void plan(const PlannerInput & input, PlannerOutput & output) = 0;
+    virtual void planLoop(const PlannerInput & input, PlannerOutput & output) = 0;
     bool inputPlausibilityCheck(const PlannerInput & input);
 
 private:

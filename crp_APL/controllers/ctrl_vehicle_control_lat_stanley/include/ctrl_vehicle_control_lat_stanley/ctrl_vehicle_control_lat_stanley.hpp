@@ -4,42 +4,27 @@
 
 #include "rclcpp/rclcpp.hpp"
 
-#include "crp_msgs/msg/ego.hpp"
-#include "autoware_control_msgs/msg/control.hpp"
-#include "autoware_planning_msgs/msg/trajectory.hpp"
+#include "controllerInterfaces/controllerInterfaces.hpp"
+#include "ctrl_vehicle_control_lat_stanley/controllerParams.hpp"
 
-#include "ctrl_vehicle_control_lat_stanley/controller_inputs.hpp"
-#include "ctrl_vehicle_control_lat_stanley/controller_outputs.hpp"
-
+#include "controller_base/ctrlLatWrapperBase.hpp"
 
 namespace crp
 {
     namespace apl
     {
-        class CtrlVehicleControlLatStanley : public rclcpp::Node
+        class CtrlVehicleControlLatStanley : public CtrlLatWrapperBase
         {
             public:
                 CtrlVehicleControlLatStanley();
 
             private:
                 // VARIABLES
-                crp::apl::ControlInput m_input;
-                crp::apl::ControlOutput m_output;
                 crp::apl::ControlParams m_params;
 
-                void trajCallback(const autoware_planning_msgs::msg::Trajectory input_msg);
-                void egoVehicleCallback(const crp_msgs::msg::Ego input_msg);
-
-                void error_calculation(double &lateral_error, double &heading_error);
-                void stanleyControl();
-                void loop();
-
-                rclcpp::TimerBase::SharedPtr m_timer_;
-                rclcpp::Publisher<autoware_control_msgs::msg::Lateral>::SharedPtr m_pub_cmd_;
-
-                rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_traj_;
-                rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr m_sub_egoVehicle_;
-                autoware_control_msgs::msg::Lateral m_ctrlCmdMsg;
+                void error_calculation(const ControlInput & input, double &lateral_error, double &heading_error);
+                void stanleyControl(const ControlInput & input, LatControlOutput & output);
+                void controlLoop(const ControlInput & input, LatControlOutput & output) override;
         }; 
     } // namespace apl
 }

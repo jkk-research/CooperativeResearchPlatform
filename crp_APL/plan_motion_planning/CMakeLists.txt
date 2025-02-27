@@ -18,7 +18,7 @@ find_package(visualization_msgs REQUIRED)
 
 include_directories(include)
 
-include_directories(../interfaces)
+include_directories(../crp_interfaces)
 
 add_executable(motion_handler src/motionHandler.cpp)
 ament_target_dependencies(motion_handler rclcpp crp_msgs autoware_planning_msgs tier4_planning_msgs tf2 tf2_geometry_msgs visualization_msgs)
