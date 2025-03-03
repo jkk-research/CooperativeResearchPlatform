@@ -20,26 +20,18 @@ def generate_launch_description():
         description='Select the GPS to use: nova or duro')
 
     # novatel gps
-    novatel_namespace_arg = DeclareLaunchArgument(
-        'novatel_namespace',
-        default_value='/lexus3/gps/nova',
-        description='Namespace for the Novatel GPS')
-    novatel_ip_arg = DeclareLaunchArgument(
-        'novatel_ip',
+    novatel_ip_arg   = DeclareLaunchArgument(
+        'oem7_ip_addr',
         default_value='192.168.10.12',
-        description='IP address of the Novatel GPS')
+        description='IP Address of Oem7 Receiver, e.g. 192.168.1.2')
     novatel_port_arg = DeclareLaunchArgument(
-        'novatel_port',
-        default_value='3002',
-        description='Port of the Novatel GPS')
-    novatel_imu_frame_id_arg = DeclareLaunchArgument(
-        'novatel_imu_frame_id',
-        default_value='/lexus3/nova/imu',
-        description='IMU frame id of the Novatel GPS')
-    novatel_frame_id_arg = DeclareLaunchArgument(
-        'novatel_frame_id',
-        default_value='/lexus3/gps/nova',
-        description='Frame id of the Novatel GPS')
+        'oem7_port',
+        default_value='3001',
+        description='TCP or UDP port, e.g. 3002')
+    novatel_if_arg   = DeclareLaunchArgument(
+        'oem7_if',
+        default_value='Oem7ReceiverUdp',
+        description='Interface Type: Oem7ReceiverTcp or Oem7ReceiverUdp')
 
     # duro gps
     duro_ip_arg = DeclareLaunchArgument(
@@ -290,11 +282,9 @@ def generate_launch_description():
         localization_source_arg,
         select_gps_arg,
 
-        novatel_namespace_arg,
         novatel_ip_arg,
         novatel_port_arg,
-        novatel_imu_frame_id_arg,
-        novatel_frame_id_arg,
+        novatel_if_arg,
         duro_ip_arg,
         duro_port_arg,
         duro_namespace_arg,

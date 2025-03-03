@@ -90,7 +90,7 @@ def generate_launch_description():
         executable='nova_oem7_to_tf',
     )
     
-    ip_arg   = arg('oem7_ip_addr', '192.168.10.12',               'IP Address of Oem7 Receiver, e.g. 192.168.1.2')
+    ip_arg   = arg('oem7_ip_addr', '192.168.10.12',    'IP Address of Oem7 Receiver, e.g. 192.168.1.2')
     port_arg = arg('oem7_port',   '3001',              'TCP or UDP port, e.g. 3002')
     if_arg   = arg('oem7_if',     'Oem7ReceiverUdp',   'Interface Type: Oem7ReceiverTcp or Oem7ReceiverUdp')
 
