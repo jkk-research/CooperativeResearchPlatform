@@ -1,10 +1,7 @@
 #include "ctrl_vehicle_control_long.hpp"
 
-using namespace std::chrono_literals;
-using std::placeholders::_1;
 
-
-crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("CtrlVehicleControlLong")
+crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("ctrl_vehicle_control_long")
 {
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLong::run, this));  
     m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 30);
@@ -12,11 +9,11 @@ crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("CtrlVehicleCo
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLong::egoCallback, this, std::placeholders::_1));
     m_sub_trajectory_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLong::trajectoryCallback, this, std::placeholders::_1));
 
-    this->declare_parameter("/ctrl/axMax", 2.0f);
-    this->declare_parameter("/ctrl/axMin", -2.0f);
-    this->declare_parameter("/ctrl/jxMax", 1.0f);
-    this->declare_parameter("/ctrl/jxMin", -1.0f);
-    this->declare_parameter("/ctrl/speedControlLookAheadTime", 0.6f);
+    this->declare_parameter("/ctrl/long/axMax", 2.0f);
+    this->declare_parameter("/ctrl/long/axMin", -2.0f);
+    this->declare_parameter("/ctrl/long/jxMax", 1.0f);
+    this->declare_parameter("/ctrl/long/jxMin", -1.0f);
+    this->declare_parameter("/ctrl/long/speedControlLookAheadTime", 0.6f);
 
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_long has been started");
 }
@@ -77,11 +74,11 @@ void crp::apl::CtrlVehicleControlLong::egoCallback(const crp_msgs::msg::Ego::Sha
 void crp::apl::CtrlVehicleControlLong::run()
 {
     // parameter read in
-    p_axMax = this->get_parameter("/ctrl/axMax").as_double();
-    p_axMin = this->get_parameter("/ctrl/axMin").as_double();
-    p_jxMax = this->get_parameter("/ctrl/jxMax").as_double();
-    p_jxMin = this->get_parameter("/ctrl/jxMin").as_double();
-    p_speedControlLookAheadTime = this->get_parameter("/ctrl/speedControlLookAheadTime").as_double();
+    p_axMax = this->get_parameter("/ctrl/long/axMax").as_double();
+    p_axMin = this->get_parameter("/ctrl/long/axMin").as_double();
+    p_jxMax = this->get_parameter("/ctrl/long/jxMax").as_double();
+    p_jxMin = this->get_parameter("/ctrl/long/jxMin").as_double();
+    p_speedControlLookAheadTime = this->get_parameter("/ctrl/long/speedControlLookAheadTime").as_double();
 
     m_pub_control_->publish(m_ctrl_msg);
 }    

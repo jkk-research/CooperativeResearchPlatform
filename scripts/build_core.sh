@@ -5,6 +5,7 @@ while [ ! -e "src/" ]; do
 done
 echo "Build location: "$(pwd)
 
+build_args=$@
 
 packages=$(colcon list --base-paths $script_dir/../crp_APL -n)
 # add non-APL packages
@@ -23,4 +24,4 @@ packages+=(
 packages_string=${packages[*]}
 
 rosdep install --from-paths $script_dir/../crp_APL --ignore-src -r -y
-colcon build --packages-select $packages_string
+colcon build --packages-select $packages_string $build_args

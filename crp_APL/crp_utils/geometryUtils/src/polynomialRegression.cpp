@@ -26,7 +26,7 @@ std::vector<float> crp::apl::PolynomialSubfunctions::fitThirdOrderPolynomial(
         const std::vector<float> x,
         const std::vector<float> y)
 {
-   calculateMmatrix(x,y);
+   calculateMmatrix(x);
    m_detM = calculateDeterminant(m_M);
    calculateBvector(x,y);
 
@@ -52,7 +52,7 @@ uint8_t crp::apl::PolynomialSubfunctions::forwardElimination(float (&gaussMatrix
       uint8_t i_max = k;
       float v_max = gaussMatrix[i_max][k];
 
-      for (uint8_t i{k + 1U}; i < 4U; i++)
+      for (uint8_t i = k + 1U; i < 4U; i++)
       {
          if (abs(gaussMatrix[i][k]) > v_max)
          {
@@ -76,10 +76,10 @@ uint8_t crp::apl::PolynomialSubfunctions::forwardElimination(float (&gaussMatrix
          }
       }
 
-      for (uint8_t i{k + 1U}; i < 4U; i++)
+      for (uint8_t i = k + 1U; i < 4U; i++)
       {
          float f = gaussMatrix[i][k] / gaussMatrix[k][k];
-         for (uint8_t j{k + 1U}; j <= 4U; j++)
+         for (uint8_t j = k + 1U; j <= 4U; j++)
          {
             gaussMatrix[i][j] -= gaussMatrix[k][j] * f;
          }
@@ -94,7 +94,7 @@ void crp::apl::PolynomialSubfunctions::backSubstitute(float (&gaussMatrix)[4][5]
    for (int8_t i{3}; i >= 0; i--)
    {
       m_gaussResult[i] = gaussMatrix[i][4U];
-      for (uint8_t j{i + 1U}; j < 4U; j++)
+      for (uint8_t j = i + 1U; j < 4U; j++)
       {
          m_gaussResult[i] -= gaussMatrix[i][j] * m_gaussResult[j];
       }
@@ -119,8 +119,7 @@ void crp::apl::PolynomialSubfunctions::calculateBvector(
 }
 
 void crp::apl::PolynomialSubfunctions::calculateMmatrix(
-    const std::vector<float> x,
-    const std::vector<float> y)
+    const std::vector<float> x)
 {
    double sum = 0.0f;
    for (uint8_t i = 0; i < 7; i++)

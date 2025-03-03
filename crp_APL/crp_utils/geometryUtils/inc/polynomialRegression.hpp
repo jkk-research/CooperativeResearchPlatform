@@ -28,8 +28,7 @@ private:
    // helper methods for polynomial fitting
    void calculateBvector(const std::vector<float> x,
         const std::vector<float> y);
-   void calculateMmatrix(const std::vector<float> x,
-        const std::vector<float> y);
+   void calculateMmatrix(const std::vector<float> x);
    double calculateDeterminant(double Mx[4][4]);
    double calculateSubDeterminant(double Mx[4][4], uint8_t);
    void calculateModifiedMMatrix(uint8_t);

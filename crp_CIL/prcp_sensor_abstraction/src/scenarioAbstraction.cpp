@@ -32,6 +32,8 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
 
     m_publishTimer_ = this->create_wall_timer(
         std::chrono::milliseconds(50), std::bind(&ScenarioAbstraction::publishCallback, this));
+    
+    RCLCPP_INFO(this->get_logger(), "scenario_abstraction has been started");
 }
 
 

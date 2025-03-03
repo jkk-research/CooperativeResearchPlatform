@@ -1,11 +1,13 @@
 #ifndef CRP_APL_MOTION_HANDLER_PLANMOTIONPLANNING_HPP
 #define CRP_APL_MOTION_HANDLER_PLANMOTIONPLANNING_HPP
 
+
 #include <rclcpp/rclcpp.hpp>
+
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 #include <tf2/LinearMath/Quaternion.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 #include <string>
 
@@ -42,7 +44,7 @@ private:
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_plan_latLaneFollow_;
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_plan_lonEmergency_;
     rclcpp::Subscription<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_sub_plan_lonIntelligentSpeedAdjust_;
-    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr m_pub_trajectory_viz_;
+    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr m_pub_trajectoryViz_;
     
     rclcpp::Publisher<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_pub_trajectory_;
 

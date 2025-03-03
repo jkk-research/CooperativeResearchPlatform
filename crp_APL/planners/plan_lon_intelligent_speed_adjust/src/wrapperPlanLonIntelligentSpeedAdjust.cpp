@@ -3,6 +3,7 @@
 
 crp::apl::WrapperPlanLonIntelligentSpeedAdjust::WrapperPlanLonIntelligentSpeedAdjust() : WrapperBase("plan_lon_intelligent_speed_adjust")
 {
+    RCLCPP_INFO(this->get_logger(), "plan_lon_intelligent_speed_adjust has been started");
 }
 
 

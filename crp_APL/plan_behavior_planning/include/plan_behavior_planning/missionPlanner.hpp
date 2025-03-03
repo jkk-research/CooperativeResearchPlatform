@@ -1,10 +1,10 @@
-#ifndef CRP_APL_MISSIONPLANNER_PLANBEHAVIORPLANNING_HPP
-#define CRP_APL_MISSIONPLANNER_PLANBEHAVIORPLANNING_HPP
+#ifndef CRP_APL_MISSION_PLANNER_PLANBEHAVIORPLANNING_HPP
+#define CRP_APL_MISSION_PLANNER_PLANBEHAVIORPLANNING_HPP
+
 
 #include <rclcpp/rclcpp.hpp>
 #include <crp_msgs/msg/world.hpp>
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
-
 
 namespace crp
 {
@@ -26,4 +26,4 @@ private:
 
 } // namespace apl
 } // namespace crp
-#endif // CRP_APL_MISSIONPLANNER_PLANBEHAVIORPLANNING_HPP
+#endif // CRP_APL_MISSION_PLANNER_PLANBEHAVIORPLANNING_HPP
