@@ -10,6 +10,12 @@ build_args=$@
 # build core
 trap 'exit' INT # trap ctrl-c
 $script_dir/build_core.sh $build_args
+if [ $? == 0 ]
+then printf "\n! Core build success !\n\n"
+else
+printf "\n! Core build failed !\n\n"
+exit 1
+fi
 trap - INT
 
 # build lexus packages

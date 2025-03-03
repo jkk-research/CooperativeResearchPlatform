@@ -209,6 +209,16 @@ def generate_launch_description():
         ),
         condition = LaunchConfigurationEquals('select_gps', 'duro')
     )
+
+    os_lidars_merged = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'drivers',
+                'os_composable_raw_merged_b_autoware.launch.py')
+        )
+    )
     
 
     ekf_wrapper = IncludeLaunchDescription(
@@ -333,6 +343,7 @@ def generate_launch_description():
         static_tf,
         novatel_gps,
         duro_gps,
+        os_lidars_merged,
         ekf_wrapper,
         vehicle_can,
         camera_mpc,
