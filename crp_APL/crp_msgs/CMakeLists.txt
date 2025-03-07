@@ -20,6 +20,7 @@ find_package(tier4_planning_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/TrafficRule.msg"
   "msg/PathWithTrafficRules.msg"
+  "msg/PathWithTrafficRulesArray.msg"
   "msg/World.msg"
   "msg/TargetSpace.msg"
   "msg/Scenario.msg"

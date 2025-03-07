@@ -28,7 +28,7 @@ private:
 
     rclcpp::Subscription<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_sub_localMovingObjects_;
     rclcpp::Subscription<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_sub_localObstacles_;
-    rclcpp::Subscription<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_sub_localPath_;
+    rclcpp::Subscription<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_sub_possiblePaths_;
     rclcpp::Subscription<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_sub_localDrivableSurface_;
 
     rclcpp::Publisher<crp_msgs::msg::Scenario>::SharedPtr m_pub_scenario_;

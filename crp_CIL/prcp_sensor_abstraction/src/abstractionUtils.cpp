@@ -63,21 +63,21 @@ void crp::cil::AbstractionUtils::filterMovingAverage(std::vector<float> & data, 
 
 
 void crp::cil::AbstractionUtils::calcPathOrientation(
-    tier4_planning_msgs::msg::PathWithLaneId & path)
+    crp_msgs::msg::PathWithTrafficRules & path)
 {
     std::vector<float> orientations;
-    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = path.points[0];
-    orientations.push_back(calcYawAngle(prevPoint, path.points[1]));
-    for (uint16_t i = 1; i < path.points.size(); i++)
-        orientations.push_back(calcYawAngle(path.points[i-1], path.points[i]));
+    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = path.path.points[0];
+    orientations.push_back(calcYawAngle(prevPoint, path.path.points[1]));
+    for (uint16_t i = 1; i < path.path.points.size(); i++)
+        orientations.push_back(calcYawAngle(path.path.points[i-1], path.path.points[i]));
     
     filterMovingAverage(orientations, 5);
     
-    for (uint16_t i = 0; i < path.points.size(); i++)
+    for (uint16_t i = 0; i < path.path.points.size(); i++)
     {
         tf2::Quaternion quat;
         quat.setRPY(0.0f, 0.0f, orientations[i]);
-        path.points[i].point.pose.orientation = tf2::toMsg(quat);
+        path.path.points[i].point.pose.orientation = tf2::toMsg(quat);
     }
 }
 

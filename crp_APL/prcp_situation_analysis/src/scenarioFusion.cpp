@@ -9,8 +9,8 @@ crp::apl::ScenarioFusion::ScenarioFusion() : Node("scenario_fusion")
     m_sub_localObstacles_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
         "/cai/local_obstacles", 10,
         std::bind(&ScenarioFusion::localObstaclesCallback, this, std::placeholders::_1));
-    m_sub_localPath_ = this->create_subscription<tier4_planning_msgs::msg::PathWithLaneId>(
-        "/cai/local_lane/path", 10,
+    m_sub_possiblePaths_ = this->create_subscription<tier4_planning_msgs::msg::PathWithLaneId>(
+        "/cai/local_lane/possible_paths", 10,
         std::bind(&ScenarioFusion::localPathCallback, this, std::placeholders::_1));
     m_sub_localDrivableSurface_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>(
         "/cai/local_drivable_surface", 10,
@@ -51,7 +51,6 @@ void crp::apl::ScenarioFusion::localPathCallback(const tier4_planning_msgs::msg:
     m_scenario.header = msg->header;
 
     crp_msgs::msg::PathWithTrafficRules pathWithTrafficRules;
-    pathWithTrafficRules.header = msg->header;
     pathWithTrafficRules.path = *msg;
 
     m_scenario.paths.push_back(pathWithTrafficRules);

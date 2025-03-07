@@ -1,4 +1,3 @@
-std_msgs/Header header
-
 tier4_planning_msgs/PathWithLaneId path
+float32 path_length
 crp_msgs/TrafficRule traffic_rules

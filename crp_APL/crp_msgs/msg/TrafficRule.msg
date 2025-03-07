@@ -1,5 +1,3 @@
-std_msgs/Header header
-
 # TODO: Define constants for lane edge type (e.g. uint8 type_name=0)
 
 geometry_msgs/PoseWithCovariance stop_pose
