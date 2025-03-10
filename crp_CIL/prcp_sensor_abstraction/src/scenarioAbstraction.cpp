@@ -69,20 +69,12 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
 void crp::cil::ScenarioAbstraction::extractPossiblePaths(
     const lanelet::ConstLanelet&                   startLanelet,
     tier4_planning_msgs::msg::PathPointWithLaneId& prevPointGlobal,
-    std::unordered_set<int64_t>&                   visitedLaneletsById,
     crp_msgs::msg::PathWithTrafficRulesArray&      outPaths,
     const float                                    currentCompletePathLength=0,
     const uint16_t                                 currentPointIdx=0
 )
 {
-    if (visitedLaneletsById.find(startLanelet.id()) != visitedLaneletsById.end())
-    {
-        // return if lanelet has already been visited
-        return;
-    }
-
     crp_msgs::msg::PathWithTrafficRules currentPath = extractLaneletToCompleteLength(startLanelet, currentCompletePathLength, prevPointGlobal, currentPointIdx);
-    visitedLaneletsById.insert(startLanelet.id());
     
     if (currentPath.path_length >= m_localPathLength)
     {
@@ -113,7 +105,7 @@ void crp::cil::ScenarioAbstraction::extractPossiblePaths(
     {
         // add points to path from consecutive possible lanelets
         crp_msgs::msg::PathWithTrafficRulesArray childPaths;
-        extractPossiblePaths(selectedPath[1], prevPointGlobal, visitedLaneletsById, childPaths, currentCompletePathLength+currentPath.path_length, 0);
+        extractPossiblePaths(selectedPath[1], prevPointGlobal, childPaths, currentCompletePathLength+currentPath.path_length, 0);
 
         for (crp_msgs::msg::PathWithTrafficRules childPath : childPaths.paths)
         {
@@ -150,12 +142,10 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     lanelet::ConstLineString2d egoCenterline = egoLanelet.centerline2d();
     tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],0);
     
-    std::unordered_set<int64_t> visitedLaneletsById;
-    
     crp_msgs::msg::PathWithTrafficRulesArray outPaths;
     outPaths.header.stamp = this->now();
 
-    extractPossiblePaths(egoLanelet, prevPoint, visitedLaneletsById, outPaths, 0, nearestPointIdx);
+    extractPossiblePaths(egoLanelet, prevPoint, outPaths, 0, nearestPointIdx);
 
     for (crp_msgs::msg::PathWithTrafficRules path : outPaths.paths)
     {

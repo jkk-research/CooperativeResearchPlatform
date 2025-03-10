@@ -1,7 +1,6 @@
 #ifndef CRP_CIL_SCENARIO_ABSTRACION_SCENARIOABSTRACTION_HPP
 #define CRP_CIL_SCENARIO_ABSTRACION_SCENARIOABSTRACTION_HPP
 
-#include <unordered_set>
 
 #include <rclcpp/rclcpp.hpp>
 #include <autoware_map_msgs/msg/lanelet_map_bin.hpp>
@@ -52,7 +51,6 @@ private:
     void extractPossiblePaths(
         const lanelet::ConstLanelet&                   startLanelet,
         tier4_planning_msgs::msg::PathPointWithLaneId& prevPoint,
-        std::unordered_set<int64_t>&                   visitedLaneletsById,
         crp_msgs::msg::PathWithTrafficRulesArray&      outPaths,
         const float                                    currentCompletePathLength,
         const uint16_t                                 currentPointIdx
