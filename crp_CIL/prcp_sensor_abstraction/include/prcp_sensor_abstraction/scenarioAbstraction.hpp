@@ -44,18 +44,18 @@ private:
     void publishCallback();
 
     crp_msgs::msg::PathWithTrafficRules extractLaneletToCompleteLength(
-        const lanelet::ConstLanelet&                         lanelet,
-        const float&                                         currentCompletePathLength,
-        const tier4_planning_msgs::msg::PathPointWithLaneId& prevPoint,
-        uint16_t                                             currentPointIdx
+        const lanelet::ConstLanelet&                   lanelet,
+        const float&                                   currentCompletePathLength,
+        tier4_planning_msgs::msg::PathPointWithLaneId& prevPoint,
+        uint16_t                                       currentPointIdx
     );
-    crp_msgs::msg::PathWithTrafficRules extractPossiblePaths(
-        const lanelet::ConstLanelet&                         startLanelet,
-        const tier4_planning_msgs::msg::PathPointWithLaneId& prevPoint,
-        std::unordered_set<int64_t>&                         visitedLaneletsById,
-        crp_msgs::msg::PathWithTrafficRulesArray&            outPaths,
-        const float                                          currentCompletePathLength,
-        const uint16_t                                       currentPointIdx
+    void extractPossiblePaths(
+        const lanelet::ConstLanelet&                   startLanelet,
+        tier4_planning_msgs::msg::PathPointWithLaneId& prevPoint,
+        std::unordered_set<int64_t>&                   visitedLaneletsById,
+        crp_msgs::msg::PathWithTrafficRulesArray&      outPaths,
+        const float                                    currentCompletePathLength,
+        const uint16_t                                 currentPointIdx
     );
 
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr         m_sub_staticMapFromFile_;

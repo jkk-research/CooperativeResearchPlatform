@@ -37,10 +37,10 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
 }
 
 crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLaneletToCompleteLength(
-    const lanelet::ConstLanelet&                         lanelet,
-    const float&                                         currentCompletePathLength,
-    const tier4_planning_msgs::msg::PathPointWithLaneId& prevPoint,
-    uint16_t                                             currentPointIdx=0
+    const lanelet::ConstLanelet&                   lanelet,
+    const float&                                   currentCompletePathLength,
+    tier4_planning_msgs::msg::PathPointWithLaneId& prevPointGlobal,
+    uint16_t                                       currentPointIdx=0
 )
 {
     crp_msgs::msg::PathWithTrafficRules lanePath;
@@ -48,7 +48,7 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
     float laneletSpeedLimit = m_trafficRules->speedLimit(lanelet).speedLimit.value();
     lanePath.path_length = 0.0f;
     lanelet::ConstLineString2d currentCenterline = lanelet.centerline2d();
-    tier4_planning_msgs::msg::PathPointWithLaneId currentPrevPoint = prevPoint;
+    tier4_planning_msgs::msg::PathPointWithLaneId currentPrevPoint = prevPointGlobal;
     while (lanePath.path_length+currentCompletePathLength < m_localPathLength && currentPointIdx < currentCenterline.size())
     {
         // add points to path from current lanelet
@@ -61,81 +61,78 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
         currentPointIdx++;
     }
 
-    // calculate path orientations
-    m_abstractionUtils.calcPathOrientation(lanePath);
+    prevPointGlobal = currentPrevPoint;
 
     return lanePath;
 }
 
-crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractPossiblePaths(
-    const lanelet::ConstLanelet&                         startLanelet,
-    const tier4_planning_msgs::msg::PathPointWithLaneId& prevPoint,
-    std::unordered_set<int64_t>&                         visitedLaneletsById,
-    crp_msgs::msg::PathWithTrafficRulesArray&            outPaths,
-    const float                                          currentCompletePathLength=0,
-    const uint16_t                                       currentPointIdx=0
+void crp::cil::ScenarioAbstraction::extractPossiblePaths(
+    const lanelet::ConstLanelet&                   startLanelet,
+    tier4_planning_msgs::msg::PathPointWithLaneId& prevPointGlobal,
+    std::unordered_set<int64_t>&                   visitedLaneletsById,
+    crp_msgs::msg::PathWithTrafficRulesArray&      outPaths,
+    const float                                    currentCompletePathLength=0,
+    const uint16_t                                 currentPointIdx=0
 )
 {
     if (visitedLaneletsById.find(startLanelet.id()) != visitedLaneletsById.end())
     {
         // return if lanelet has already been visited
-        return crp_msgs::msg::PathWithTrafficRules();
+        return;
     }
 
-    crp_msgs::msg::PathWithTrafficRules currentPath = extractLaneletToCompleteLength(startLanelet, currentCompletePathLength, prevPoint, currentPointIdx);
+    crp_msgs::msg::PathWithTrafficRules currentPath = extractLaneletToCompleteLength(startLanelet, currentCompletePathLength, prevPointGlobal, currentPointIdx);
     visitedLaneletsById.insert(startLanelet.id());
     
     if (currentPath.path_length >= m_localPathLength)
     {
         // return if current path is long enough
         // this could only happen with the first ever lanelet, because path extracton takes the whole path length into account not just the current lanelet
-        m_abstractionUtils.calcPathOrientation(currentPath);
         outPaths.paths.push_back(currentPath);
-        return crp_msgs::msg::PathWithTrafficRules();
+        return;
     }
 
     if (currentPath.path_length + currentCompletePathLength >= m_localPathLength)
     {
         // return if the complete path is long enough
-        return currentPath;
+        outPaths.paths.push_back(currentPath);
+        return;
     }
 
+    // query next possible lanelets
     lanelet::routing::LaneletPaths paths = m_routingGraph->possiblePaths(startLanelet, 1, 0, false);
 
     if (paths.empty())
     {
-        // return if no possible paths
-        if (currentCompletePathLength == 0)
-        {
-            // length not reached and no possible paths after FIRST lanelet
-            outPaths.paths.push_back(currentPath);
-            return crp_msgs::msg::PathWithTrafficRules();
-        }
         // length not reached but no possible paths after lanelet
-        return currentPath;
+        outPaths.paths.push_back(currentPath);
+        return;
     }
 
     for (lanelet::routing::LaneletPath selectedPath : paths)
     {
         // add points to path from consecutive possible lanelets
+        crp_msgs::msg::PathWithTrafficRulesArray childPaths;
+        extractPossiblePaths(selectedPath[1], prevPointGlobal, visitedLaneletsById, childPaths, currentCompletePathLength+currentPath.path_length, 0);
 
-        crp_msgs::msg::PathWithTrafficRules selectedPathExtracted = extractPossiblePaths(selectedPath.front(), currentPath.path.points.back(), visitedLaneletsById, outPaths, currentCompletePathLength+currentPath.path_length, 0);
-        if (selectedPathExtracted.path_length > 0)
+        for (crp_msgs::msg::PathWithTrafficRules childPath : childPaths.paths)
         {
-            // return if the complete path is long enough
-            currentPath.path.points.insert(currentPath.path.points.end(), selectedPathExtracted.path.points.begin(), selectedPathExtracted.path.points.end());
-            currentPath.path_length += selectedPathExtracted.path_length;
+            // add child paths to current path
+            crp_msgs::msg::PathWithTrafficRules outPath;
+            outPath.path.points = currentPath.path.points;
+            outPath.path.points.insert(outPath.path.points.end(), childPath.path.points.begin(), childPath.path.points.end());
+            outPath.path_length = currentPath.path_length + childPath.path_length;
+
+            outPaths.paths.push_back(outPath);
         }
-        
-        outPaths.paths.push_back(currentPath);
     }
     
-    return crp_msgs::msg::PathWithTrafficRules();
+    return;
 }
 
 void crp::cil::ScenarioAbstraction::publishCallback()
 {
-    if (!m_isMapLoaded)
+    if (!m_isMapLoaded || !m_isGpsTransformSet)
         return;
     
     this->get_parameter("local_path_length", m_localPathLength);
@@ -159,6 +156,11 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     outPaths.header.stamp = this->now();
 
     extractPossiblePaths(egoLanelet, prevPoint, visitedLaneletsById, outPaths, 0, nearestPointIdx);
+
+    for (crp_msgs::msg::PathWithTrafficRules path : outPaths.paths)
+    {
+        m_abstractionUtils.calcPathOrientation(path);
+    }
 
     // std::vector<lanelet::TrafficSign::Ptr> trafficSigns = egoLanelet.regulatoryElementsAs<lanelet::TrafficSign>();
     // lanelet::LineString3d stopLine = trafficSigns[0]->refLines()[0];
