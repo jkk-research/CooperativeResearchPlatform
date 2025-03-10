@@ -61,6 +61,36 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
         currentPointIdx++;
     }
 
+    std::vector<std::shared_ptr<const lanelet::TrafficSign>> trafficSigns = lanelet.regulatoryElementsAs<lanelet::TrafficSign>();
+    for (std::shared_ptr<const lanelet::TrafficSign> sign : trafficSigns)
+    {
+        if (sign->type() == "stop_sign")
+        {
+            if (sign->refLines().empty())
+                continue;
+
+            // add only the first stop line
+            // TODO: in case of multiple lines add the relevant stop line to path
+            lanelet::ConstLineString3d stopLine = sign->refLines()[0];
+
+            // average out the stop line points
+            geometry_msgs::msg::PoseWithCovariance stopPoint;
+            for (lanelet::BasicPoint3d stopLinePt : stopLine)
+            {
+                stopPoint.pose.position.x += stopLinePt.x();
+                stopPoint.pose.position.y += stopLinePt.y();
+            }
+            stopPoint.pose.position.x /= stopLine.size();
+            stopPoint.pose.position.y /= stopLine.size();
+
+            // TODO: orientation from nearest point on lane
+
+            lanePath.traffic_rules.stop_poses.push_back(
+                m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame)
+            );
+        }
+    }
+
     prevPointGlobal = currentPrevPoint;
 
     return lanePath;
@@ -75,7 +105,7 @@ void crp::cil::ScenarioAbstraction::extractPossiblePaths(
 )
 {
     crp_msgs::msg::PathWithTrafficRules currentPath = extractLaneletToCompleteLength(startLanelet, currentCompletePathLength, prevPointGlobal, currentPointIdx);
-    
+
     if (currentPath.path_length >= m_localPathLength)
     {
         // return if current path is long enough
@@ -92,7 +122,7 @@ void crp::cil::ScenarioAbstraction::extractPossiblePaths(
     }
 
     // query next possible lanelets
-    lanelet::routing::LaneletPaths paths = m_routingGraph->possiblePaths(startLanelet, 1, 0, false);
+    lanelet::routing::LaneletPaths paths = m_routingGraph->possiblePaths(startLanelet, 1, 0, true);
 
     if (paths.empty())
     {
@@ -114,6 +144,8 @@ void crp::cil::ScenarioAbstraction::extractPossiblePaths(
             outPath.path.points = currentPath.path.points;
             outPath.path.points.insert(outPath.path.points.end(), childPath.path.points.begin(), childPath.path.points.end());
             outPath.path_length = currentPath.path_length + childPath.path_length;
+            outPath.traffic_rules.stop_poses = currentPath.traffic_rules.stop_poses;
+            outPath.traffic_rules.stop_poses.insert(outPath.traffic_rules.stop_poses.end(), childPath.traffic_rules.stop_poses.begin(), childPath.traffic_rules.stop_poses.end());
 
             outPaths.paths.push_back(outPath);
         }
@@ -152,9 +184,6 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         m_abstractionUtils.calcPathOrientation(path);
     }
 
-    // std::vector<lanelet::TrafficSign::Ptr> trafficSigns = egoLanelet.regulatoryElementsAs<lanelet::TrafficSign>();
-    // lanelet::LineString3d stopLine = trafficSigns[0]->refLines()[0];
-
     m_pub_possiblePaths_->publish(outPaths);
 }
 
@@ -183,6 +212,7 @@ void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseW
         m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(5, 0));
         m_isGpsTransformSet = true;
     }
+    // TODO: sometimes this freezes the node
     // transform ego pose to map frame
     tf2::doTransform(*msg, m_egoPoseMapFrame, m_gps2mapTransform);
 }

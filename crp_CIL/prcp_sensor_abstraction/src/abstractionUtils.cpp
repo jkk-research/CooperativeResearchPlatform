@@ -120,6 +120,18 @@ tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::AbstractionUtils::transf
     return outPoint;
 }
 
+geometry_msgs::msg::PoseWithCovariance crp::cil::AbstractionUtils::transformToLocal(
+    const geometry_msgs::msg::PoseWithCovariance & pathPoint,
+    const geometry_msgs::msg::PoseWithCovarianceStamped & ego)
+{
+    tier4_planning_msgs::msg::PathPointWithLaneId inPoint;
+    inPoint.point.pose = pathPoint.pose;
+    tier4_planning_msgs::msg::PathPointWithLaneId outPoint = transformToLocal(inPoint, ego);
+    geometry_msgs::msg::PoseWithCovariance outPose;
+    outPose.pose = outPoint.point.pose;
+    return outPose;
+}
+
 
 tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::AbstractionUtils::laneletPtToPathPoint(
     const lanelet::ConstPoint2d & pt, float speedLimit)

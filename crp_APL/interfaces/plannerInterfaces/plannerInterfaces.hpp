@@ -40,7 +40,7 @@ struct PlannerInputTrafficRule
     // TODO: Define lane edge types
     uint8_t laneEdgeTypeLeft{0U};
     uint8_t laneEdgeTypeRight{0U};
-    Pose3D  stoppingPose;
+    std::vector<Pose3D> stopPoses;
 };
 
 struct PlannerInputPathPoint

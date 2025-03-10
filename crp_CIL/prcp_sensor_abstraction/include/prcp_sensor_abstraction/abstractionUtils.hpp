@@ -6,6 +6,7 @@
 #include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
 #include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <geometry_msgs/msg/pose_with_covariance.hpp>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <lanelet2_core/geometry/Lanelet.h>
 #include <crp_msgs/msg/path_with_traffic_rules.hpp>
@@ -35,6 +36,9 @@ public:
 
     tier4_planning_msgs::msg::PathPointWithLaneId transformToLocal(
         const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint,
+        const geometry_msgs::msg::PoseWithCovarianceStamped & ego);
+        geometry_msgs::msg::PoseWithCovariance transformToLocal(
+        const geometry_msgs::msg::PoseWithCovariance & pathPoint,
         const geometry_msgs::msg::PoseWithCovarianceStamped & ego);
     tier4_planning_msgs::msg::PathPointWithLaneId laneletPtToPathPoint(
         const lanelet::ConstPoint2d & pt,float speedLimit);
