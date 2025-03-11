@@ -31,7 +31,7 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     m_pub_drivableSurface_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("cai/local_drivable_surface", 10);
 
     m_publishTimer_ = this->create_wall_timer(
-        std::chrono::milliseconds(50), std::bind(&ScenarioAbstraction::publishCallback, this));
+        std::chrono::milliseconds(33), std::bind(&ScenarioAbstraction::publishCallback, this));
     
     RCLCPP_INFO(this->get_logger(), "scenario_abstraction has been started");
 }
@@ -61,6 +61,7 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
         currentPointIdx++;
     }
 
+    // extract stop signs
     std::vector<std::shared_ptr<const lanelet::TrafficSign>> trafficSigns = lanelet.regulatoryElementsAs<lanelet::TrafficSign>();
     for (std::shared_ptr<const lanelet::TrafficSign> sign : trafficSigns)
     {
@@ -74,16 +75,14 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
             lanelet::ConstLineString3d stopLine = sign->refLines()[0];
 
             // average out the stop line points
-            geometry_msgs::msg::PoseWithCovariance stopPoint;
+            geometry_msgs::msg::Pose stopPoint;
             for (lanelet::BasicPoint3d stopLinePt : stopLine)
             {
-                stopPoint.pose.position.x += stopLinePt.x();
-                stopPoint.pose.position.y += stopLinePt.y();
+                stopPoint.position.x += stopLinePt.x();
+                stopPoint.position.y += stopLinePt.y();
             }
-            stopPoint.pose.position.x /= stopLine.size();
-            stopPoint.pose.position.y /= stopLine.size();
-
-            // TODO: orientation from nearest point on lane
+            stopPoint.position.x /= stopLine.size();
+            stopPoint.position.y /= stopLine.size();
 
             lanePath.traffic_rules.stop_poses.push_back(
                 m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame)
@@ -179,7 +178,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
 
     extractPossiblePaths(egoLanelet, prevPoint, outPaths, 0, nearestPointIdx);
 
-    for (crp_msgs::msg::PathWithTrafficRules path : outPaths.paths)
+    for (crp_msgs::msg::PathWithTrafficRules& path : outPaths.paths)
     {
         m_abstractionUtils.calcPathOrientation(path);
     }

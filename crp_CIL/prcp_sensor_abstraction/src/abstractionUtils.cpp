@@ -6,12 +6,15 @@ float crp::cil::AbstractionUtils::distanceBetweenPoints(const lanelet::BasicPoin
     return sqrt(pow(b.x()-a.x(), 2)+pow(b.y()-a.y(), 2));
 }
 
-
 float crp::cil::AbstractionUtils::distanceBetweenPoints(const tier4_planning_msgs::msg::PathPointWithLaneId a, const tier4_planning_msgs::msg::PathPointWithLaneId b)
 {
     return sqrt(pow(b.point.pose.position.x-a.point.pose.position.x, 2)+pow(b.point.pose.position.y-a.point.pose.position.y, 2));
 }
 
+float crp::cil::AbstractionUtils::distanceBetweenPoints(const geometry_msgs::msg::Pose a, const geometry_msgs::msg::Pose b)
+{
+    return sqrt(pow(b.position.x-a.position.x, 2)+pow(b.position.y-a.position.y, 2));
+}
 
 uint16_t crp::cil::AbstractionUtils::getGPSNNPointIdx(const lanelet::BasicPoint2d & currentPos, const lanelet::ConstLanelet & lane)
 {
@@ -66,10 +69,29 @@ void crp::cil::AbstractionUtils::calcPathOrientation(
     crp_msgs::msg::PathWithTrafficRules & path)
 {
     std::vector<float> orientations;
-    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = path.path.points[0];
-    orientations.push_back(calcYawAngle(prevPoint, path.path.points[1]));
+    std::vector<std::pair<uint16_t, float>> stopPoseClosestPoints(path.traffic_rules.stop_poses.size(), std::make_pair(0, std::numeric_limits<float>::max()));
+    orientations.push_back(calcYawAngle(path.path.points[0], path.path.points[1]));
+
+    for (uint16_t i = 0; i < path.traffic_rules.stop_poses.size(); i++)
+    {
+        stopPoseClosestPoints[i].first = 0;
+        stopPoseClosestPoints[i].second = distanceBetweenPoints(path.path.points[0].point.pose, path.traffic_rules.stop_poses[i]);
+    }
+
     for (uint16_t i = 1; i < path.path.points.size(); i++)
+    {
         orientations.push_back(calcYawAngle(path.path.points[i-1], path.path.points[i]));
+        
+        for (uint16_t j = 0; j < path.traffic_rules.stop_poses.size(); j++)
+        {
+            float currentDist = distanceBetweenPoints(path.path.points[i].point.pose, path.traffic_rules.stop_poses[j]);
+            if (currentDist < stopPoseClosestPoints[j].second)
+            {
+                stopPoseClosestPoints[j].first = i;
+                stopPoseClosestPoints[j].second = currentDist;
+            }
+        }
+    }
     
     filterMovingAverage(orientations, 5);
     
@@ -78,6 +100,11 @@ void crp::cil::AbstractionUtils::calcPathOrientation(
         tf2::Quaternion quat;
         quat.setRPY(0.0f, 0.0f, orientations[i]);
         path.path.points[i].point.pose.orientation = tf2::toMsg(quat);
+    }
+
+    for (uint16_t i = 0; i < path.traffic_rules.stop_poses.size(); i++)
+    {
+        path.traffic_rules.stop_poses[i].orientation = path.path.points[stopPoseClosestPoints[i].first].point.pose.orientation;
     }
 }
 
@@ -120,15 +147,15 @@ tier4_planning_msgs::msg::PathPointWithLaneId crp::cil::AbstractionUtils::transf
     return outPoint;
 }
 
-geometry_msgs::msg::PoseWithCovariance crp::cil::AbstractionUtils::transformToLocal(
-    const geometry_msgs::msg::PoseWithCovariance & pathPoint,
+geometry_msgs::msg::Pose crp::cil::AbstractionUtils::transformToLocal(
+    const geometry_msgs::msg::Pose & pathPoint,
     const geometry_msgs::msg::PoseWithCovarianceStamped & ego)
 {
     tier4_planning_msgs::msg::PathPointWithLaneId inPoint;
-    inPoint.point.pose = pathPoint.pose;
+    inPoint.point.pose = pathPoint;
     tier4_planning_msgs::msg::PathPointWithLaneId outPoint = transformToLocal(inPoint, ego);
-    geometry_msgs::msg::PoseWithCovariance outPose;
-    outPose.pose = outPoint.point.pose;
+    geometry_msgs::msg::Pose outPose;
+    outPose = outPoint.point.pose;
     return outPose;
 }
 

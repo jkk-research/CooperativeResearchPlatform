@@ -34,13 +34,13 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
     m_input.freeSpace = convertMsgToOccupancyGrid(msg->free_space);
 
     // traffic rules
-    for (geometry_msgs::msg::PoseWithCovariance stopPose : msg->path.traffic_rules.stop_poses)
+    for (geometry_msgs::msg::Pose stopPose : msg->path.traffic_rules.stop_poses)
     {
         Pose3D stopPose3D;
-        stopPose3D.position.x = stopPose.pose.position.x;
-        stopPose3D.position.y = stopPose.pose.position.y;
-        stopPose3D.position.z = stopPose.pose.position.z;
-        stopPose3D.orientation = getYawFromQuaternion(stopPose.pose.orientation);
+        stopPose3D.position.x = stopPose.position.x;
+        stopPose3D.position.y = stopPose.position.y;
+        stopPose3D.position.z = stopPose.position.z;
+        stopPose3D.orientation = getYawFromQuaternion(stopPose.orientation);
         m_input.trafficRules.stopPoses.push_back(stopPose3D);
     }
     m_input.trafficRules.laneEdgeTypeLeft = msg->path.traffic_rules.lane_edge_type_left;
