@@ -36,6 +36,7 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
     crp_msgs::msg::TargetSpace targetSpaceMsg;
 
     if (msg->paths.size() > 0){
+        // select the first path
         targetSpaceMsg.path = msg->paths[0];
     }
 

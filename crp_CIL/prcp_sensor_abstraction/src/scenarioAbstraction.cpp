@@ -167,7 +167,6 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         lanelet::geometry::findNearest(m_laneletMap->laneletLayer, currentPoint, 1);
     lanelet::Lanelet egoLanelet = actuallyNearestLanelets.front().second;
 
-    lanelet::traffic_rules::SpeedLimitInformation limit = m_trafficRules->speedLimit(egoLanelet);
     uint16_t nearestPointIdx = m_abstractionUtils.getGPSNNPointIdx(currentPoint, egoLanelet); // nearest point to ego on lane
 
     lanelet::ConstLineString2d egoCenterline = egoLanelet.centerline2d();
