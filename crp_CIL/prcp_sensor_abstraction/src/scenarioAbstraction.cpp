@@ -206,12 +206,14 @@ void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseW
         return;
     if (!m_isGpsTransformSet)
     {
-        tf2_ros::Buffer tfBuffer(this->get_clock());
-        tf2_ros::TransformListener tfListener(tfBuffer);
-        m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(5, 0));
+        if (m_mapFrameId != msg->header.frame_id)
+        {
+            tf2_ros::Buffer tfBuffer(this->get_clock());
+            tf2_ros::TransformListener tfListener(tfBuffer);
+            m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(5, 0));
+        }
         m_isGpsTransformSet = true;
     }
-    // TODO: sometimes this freezes the node
     // transform ego pose to map frame
     tf2::doTransform(*msg, m_egoPoseMapFrame, m_gps2mapTransform);
 }
