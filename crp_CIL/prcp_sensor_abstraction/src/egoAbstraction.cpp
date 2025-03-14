@@ -34,7 +34,7 @@ crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
     m_pub_egoStatus_      = this->create_publisher<crp_msgs::msg::EgoStatus>("cai/ego_status", 10);
 
     m_publishTimer_ = this->create_wall_timer(
-        std::chrono::milliseconds(50), std::bind(&EgoAbstraction::publishCallback, this));
+        std::chrono::milliseconds(33), std::bind(&EgoAbstraction::publishCallback, this));
 
     RCLCPP_INFO(this->get_logger(), "ego_abstraction has been started");
 }

@@ -128,7 +128,7 @@ def generate_launch_description():
     # controllers
     ctrl_use_combined_controller_arg = DeclareLaunchArgument(
         'ctrl_use_combined_controller',
-        default_value='false',
+        default_value='true',
         description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
     ctrl_combined_method_arg = DeclareLaunchArgument(
@@ -164,8 +164,8 @@ def generate_launch_description():
         default_value=str(vehicle_params['/vehicle_params/mass']),
         description='Vehicle parameter: Mass of the vehicle [kg]')
     vehicle_param_jz_arg = DeclareLaunchArgument(
-        '/vehicle_params/jz',
-        default_value=str(vehicle_params['/vehicle_params/jz']),
+        '/vehicle_params/inertia_z',
+        default_value=str(vehicle_params['/vehicle_params/inertia_z']),
         description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
     vehicle_param_l1_arg = DeclareLaunchArgument(
         '/vehicle_params/front_axle_from_cog',

@@ -36,7 +36,7 @@ def generate_launch_description():
         default_value='180.0',
         description='Vehicle parameter: Wheelbase [m]')
     vehicle_param_jz_arg = DeclareLaunchArgument(
-        '/vehicle_params/jz',
+        '/vehicle_params/inertia_z',
         default_value='270.0',
         description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
     vehicle_param_l1_arg = DeclareLaunchArgument(

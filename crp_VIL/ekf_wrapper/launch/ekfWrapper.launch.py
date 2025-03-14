@@ -36,7 +36,7 @@ def generate_launch_description():
         default_value='180.0',
         description='Vehicle parameter: Wheelbase [m]')
     vehicle_param_jz_arg = DeclareLaunchArgument(
-        '/vehicle_params/jz',
+        '/vehicle_params/inertia_z',
         default_value='270.0',
         description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
     vehicle_param_l1_arg = DeclareLaunchArgument(
@@ -91,7 +91,7 @@ def generate_launch_description():
             'vehicle_param_c1' :  LaunchConfiguration('/vehicle_params/front_wheel_cornering_stiffness'),
             'vehicle_param_c2' :  LaunchConfiguration('/vehicle_params/rear_wheel_cornering_stiffness'),
             'vehicle_param_m' :   LaunchConfiguration('/vehicle_params/mass'),
-            'vehicle_param_jz' :  LaunchConfiguration('/vehicle_params/jz'),
+            'vehicle_param_jz' :  LaunchConfiguration('/vehicle_params/inertia_z'),
             'vehicle_param_l1' :  LaunchConfiguration('/vehicle_params/front_axle_from_cog'),
             'vehicle_param_l2' :  LaunchConfiguration('/vehicle_params/rear_axle_from_cog'),
             'vehicle_param_swr' : LaunchConfiguration('/vehicle_params/steering_ratio'),

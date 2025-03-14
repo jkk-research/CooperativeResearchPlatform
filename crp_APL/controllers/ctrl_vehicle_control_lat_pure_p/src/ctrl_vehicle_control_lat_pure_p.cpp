@@ -4,7 +4,7 @@
 crp::apl::CtrlVehicleControlLatPureP::CtrlVehicleControlLatPureP() : CtrlLatWrapperBase("ctrl_vehicle_control_lat_pure_pursuit")
 {
     this->declare_parameter("/ctrl/pure_p/lookahead_time", 1.0f);
-    this->declare_parameter("/ctrl/pure_p/wheelbase", 2.7f);
+    this->declare_parameter("/vehicle_params/wheelbase", 2.7f);
 
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_lat_pure_pursuit has been started");
 }
@@ -37,7 +37,7 @@ void crp::apl::CtrlVehicleControlLatPureP::controlLoop(const ControlInput & inpu
 {
     // parameter assignments
     m_params.lookaheadTime = this->get_parameter("/ctrl/pure_p/lookahead_time").as_double();
-    m_params.wheelbase = this->get_parameter("/ctrl/pure_p/wheelbase").as_double();
+    m_params.wheelbase = this->get_parameter("/vehicle_params/wheelbase").as_double();
 
     // control algorithm
     if(input.pathX.size() > 0 && input.pathY.size() > 0)
