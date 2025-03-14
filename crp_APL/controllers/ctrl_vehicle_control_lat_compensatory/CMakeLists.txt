@@ -8,19 +8,21 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(controller_base REQUIRED)
 find_package(autoware_control_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
 find_package(crp_msgs REQUIRED)
 
 
-include_directories(include)
+include_directories(include ${controller_base_INCLUDE_DIRS})
 
 
-add_executable(ctrl_vehicle_control_lat_compensatory src/ctrl_vehicle_control_lat_compensatory.cpp src/lib/utils.cpp
+add_executable(ctrl_vehicle_control_lat_compensatory src/ctrl_vehicle_control_lat_compensatory.cpp 
+  src/lib/utils.cpp
   src/compensatory_model/compensatory_model.cpp
-  src/lib/polynomialCalculator.cpp )
+  src/lib/polynomialCalculator.cpp)
 
-ament_target_dependencies(ctrl_vehicle_control_lat_compensatory  rclcpp autoware_control_msgs autoware_planning_msgs crp_msgs)
+ament_target_dependencies(ctrl_vehicle_control_lat_compensatory rclcpp controller_base autoware_control_msgs autoware_planning_msgs crp_msgs)
 
 install(DIRECTORY
   config

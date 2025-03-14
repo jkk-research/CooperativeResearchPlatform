@@ -316,9 +316,9 @@ class ROSController(Node):
         # delta_v: difference between current speed and target speed
         x = np.zeros((5, 1))
         x[0, 0] = e
-        x[1, 0] = #(e - self.pe) / self.dt
+        x[1, 0] = 0 #(e - self.pe) / self.dt
         x[2, 0] = th_e
-        x[3, 0] = #(th_e - self.pth_e) / self.dt
+        x[3, 0] = 0 #(th_e - self.pth_e) / self.dt
         x[4, 0] = v - tv
 
         # input vector
