@@ -56,25 +56,25 @@ void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::m
     m_ctrlCmdMsg.lateral.steering_tire_angle = std::clamp(msg->steering_tire_angle, -tireAngleLim, tireAngleLim);
     m_twistCmdMsg.angular.z = m_ctrlCmdMsg.lateral.steering_tire_angle;
 
-    float tireRotationRateLim = 10; // default: no limit
+    // float tireRotationRateLim = 10; // default: no limit
     
-    if (m_twistCmdMsg.linear.x != 0)
-    {
-        // calculate tire rotation rate limit based on jerk limit
-        // (jerk * cos^2(steering angle) * L) / v^2 - (2 * ax * tan(steering angle) * cos^2(steering angle)) / v
-        float ax = 2.0f; // calculate with constant acceleration
-        tireRotationRateLim = ((m_jerkLim*pow(cos(m_ctrlCmdMsg.lateral.steering_tire_angle), 2)*m_wheelBase) / pow(m_ctrlCmdMsg.longitudinal.velocity, 2)) - (2*ax*tan(m_ctrlCmdMsg.lateral.steering_tire_angle)*pow(cos(m_ctrlCmdMsg.lateral.steering_tire_angle), 2)) / m_ctrlCmdMsg.longitudinal.velocity;
-    }
+    // if (m_twistCmdMsg.linear.x != 0)
+    // {
+    //     // calculate tire rotation rate limit based on jerk limit
+    //     // (jerk * cos^2(steering angle) * L) / v^2 - (2 * ax * tan(steering angle) * cos^2(steering angle)) / v
+    //     float ax = 2.0f; // calculate with constant acceleration
+    //     tireRotationRateLim = ((m_jerkLim*pow(cos(m_ctrlCmdMsg.lateral.steering_tire_angle), 2)*m_wheelBase) / pow(m_ctrlCmdMsg.longitudinal.velocity, 2)) - (2*ax*tan(m_ctrlCmdMsg.lateral.steering_tire_angle)*pow(cos(m_ctrlCmdMsg.lateral.steering_tire_angle), 2)) / m_ctrlCmdMsg.longitudinal.velocity;
+    // }
 
-    m_ctrlCmdMsg.lateral.steering_tire_rotation_rate = std::clamp(msg->steering_tire_rotation_rate, -tireRotationRateLim, tireRotationRateLim);
+    // m_ctrlCmdMsg.lateral.steering_tire_rotation_rate = std::clamp(msg->steering_tire_rotation_rate, -tireRotationRateLim, tireRotationRateLim);
 
-    // limit steering angle with steering rate limit
-    m_ctrlCmdMsg.lateral.steering_tire_angle = std::clamp(
-        m_ctrlCmdMsg.lateral.steering_tire_angle, 
-        m_currentSteeringTireAngle - m_ctrlCmdMsg.lateral.steering_tire_rotation_rate * 0.033f, 
-        m_currentSteeringTireAngle + m_ctrlCmdMsg.lateral.steering_tire_rotation_rate * 0.033f
-    );
-    m_twistCmdMsg.angular.z = m_ctrlCmdMsg.lateral.steering_tire_angle;
+    // // limit steering angle with steering rate limit
+    // m_ctrlCmdMsg.lateral.steering_tire_angle = std::clamp(
+    //     m_ctrlCmdMsg.lateral.steering_tire_angle, 
+    //     m_currentSteeringTireAngle - m_ctrlCmdMsg.lateral.steering_tire_rotation_rate * 0.033f, 
+    //     m_currentSteeringTireAngle + m_ctrlCmdMsg.lateral.steering_tire_rotation_rate * 0.033f
+    // );
+    // m_twistCmdMsg.angular.z = m_ctrlCmdMsg.lateral.steering_tire_angle;
 }
 
 void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::msg::Longitudinal::SharedPtr msg)

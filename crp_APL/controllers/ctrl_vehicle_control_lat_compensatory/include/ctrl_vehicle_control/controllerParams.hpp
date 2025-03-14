@@ -11,16 +11,6 @@ namespace crp
 {
     namespace apl
     {
-        struct ControlInput{
-            std::vector<double> path_x;
-            std::vector<double> path_y;
-            std::vector<double> path_theta;
-            double targetSpeed{0.0f};
-            double egoPoseGlobal [3]{0.0f};
-            double vxEgo{0.0f};
-            double egoSteeringAngle{0.0f};
-        };
-
         struct ControlParams{
             double ffLookAheadTime{1.5f};
             double vehAxleDistance{2.9f};
