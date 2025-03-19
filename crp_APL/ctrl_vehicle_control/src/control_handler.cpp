@@ -5,11 +5,11 @@ crp::apl::ControlHandler::ControlHandler() : Node("control_handler")
 {
     this->declare_parameter<float>("lat_accel_lim", 3.0f);
     this->declare_parameter<float>("jerk_lim", 0.5f);
-    this->declare_parameter<float>("vehicle_param_L", 2.7f);
+    this->declare_parameter<float>("/vehicle_params/wheelbase", 2.7f);
 
     this->get_parameter<float>("lat_accel_lim", m_latAccelLim);
     this->get_parameter<float>("jerk_lim", m_jerkLim);
-    this->get_parameter<float>("vehicle_param_L", m_wheelBase);
+    this->get_parameter<float>("/vehicle_params/wheelbase", m_wheelBase);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&ControlHandler::run, this));  
     m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 30);

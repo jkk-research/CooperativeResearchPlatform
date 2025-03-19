@@ -1,4 +1,3 @@
 ctrl_vehicle_control_lat_stanley:
   ros__parameters:
     /ctrl/stanley/k_gain:    1.5
-    /ctrl/stanley/wheelbase: 2.7

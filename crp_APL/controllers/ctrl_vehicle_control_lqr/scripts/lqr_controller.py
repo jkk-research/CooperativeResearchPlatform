@@ -135,7 +135,7 @@ class ROSController(Node):
 
         # read in ros params from the launch file
         self.declare_parameter('/ctrl/lqr/dt', self.dt)
-        self.declare_parameter('/ctrl/lqr/wheel_base', self.L)
+        self.declare_parameter('/vehicle_params/wheelbase', self.L)
         self.declare_parameter('/ctrl/lqr/max_steer_tire_angle', self.max_steer)
         self.declare_parameter('/ctrl/lqr/Q', self.lqr_Q.diagonal().tolist())
         self.declare_parameter('/ctrl/lqr/R', self.lqr_R.diagonal().tolist())
@@ -144,7 +144,7 @@ class ROSController(Node):
         self.curvature_lookahead = 0
 
         self.dt = self.get_parameter('/ctrl/lqr/dt').value
-        self.L = self.get_parameter('/ctrl/lqr/wheel_base').value
+        self.L = self.get_parameter('/vehicle_params/wheelbase').value
         self.max_steer = self.get_parameter('/ctrl/lqr/max_steer_tire_angle').value
 
         self.control_clock = self.create_timer(0.0333, self.control_loop)
