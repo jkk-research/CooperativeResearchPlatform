@@ -18,29 +18,58 @@ def generate_launch_description():
         'jerk_lim',
         default_value='0.5',
         description='Jerk limit')
-    vehicle_param_L_arg = DeclareLaunchArgument(
-        'vehicle_param_L',
-        default_value='2.79',
-        description='Vehicle parameter: ')
 
-    ctrlUseCombinedControllerArg = DeclareLaunchArgument(
-        'ctrlUseCombinedController',
+    vehicle_param_L_arg = DeclareLaunchArgument(
+        '/vehicle_params/wheelbase',
+        default_value='2.79',
+        description='Vehicle parameter: Wheelbase [m]')
+    vehicle_param_c1_arg = DeclareLaunchArgument(
+        '/vehicle_params/front_wheel_cornering_stiffness',
+        default_value='3000.0',
+        description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
+    vehicle_param_c2_arg = DeclareLaunchArgument(
+        '/vehicle_params/rear_wheel_cornering_stiffness',
+        default_value='3000.0',
+        description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
+    vehicle_param_m_arg = DeclareLaunchArgument(
+        '/vehicle_params/mass',
+        default_value='180.0',
+        description='Vehicle parameter: Wheelbase [m]')
+    vehicle_param_jz_arg = DeclareLaunchArgument(
+        '/vehicle_params/inertia_z',
+        default_value='270.0',
+        description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
+    vehicle_param_l1_arg = DeclareLaunchArgument(
+        '/vehicle_params/front_axle_from_cog',
+        default_value='0.624',
+        description='Vehicle parameter: CoG distance from the front axle [m]' )
+    vehicle_param_l2_arg = DeclareLaunchArgument(
+        '/vehicle_params/rear_axle_from_cog',
+        default_value='0.676',
+        description='Vehicle parameter: CoG distance from the rear axle [m]')
+    vehicle_param_swr_arg = DeclareLaunchArgument(
+        '/vehicle_params/steering_ratio',
+        default_value='1.0',
+        description='Vehicle parameter: Steering wheel ratio')
+
+    ctrl_use_combined_controller_arg = DeclareLaunchArgument(
+        'ctrl_use_combined_controller',
         default_value='false',
         description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
 
-    ctrlCombinedMethodArg = DeclareLaunchArgument(
-        'ctrlCombinedMethod',
+    ctrl_combined_method_arg = DeclareLaunchArgument(
+        'ctrl_combined_method',
         default_value='lqr',
         description='Lat controller to use. Possible values: lqr'
     )
-    ctrlLatMethodArg = DeclareLaunchArgument(
-        'ctrlLatMethod',
+    ctrl_lat_method_arg = DeclareLaunchArgument(
+        'ctrl_lat_method',
         default_value='comp',
         description='Lat controller to use. Possible values: comp, purep, stanley'
     )
-    ctrlLongMethodArg = DeclareLaunchArgument(
-        'ctrlLongMethod',
+    ctrl_long_method_arg = DeclareLaunchArgument(
+        'ctrl_long_method',
         default_value='long',
         description='Controller to use. Possible values: long'
     )
@@ -173,7 +202,7 @@ def generate_launch_description():
                 'launch',
                 'ctrl_vehicle_control_lqr.launch.py')
         ),
-        condition=LaunchConfigurationEquals('ctrlCombinedMethod', 'lqr')
+        condition=LaunchConfigurationEquals('ctrl_combined_method', 'lqr')
     )
 
     # lateral controllers
@@ -184,7 +213,7 @@ def generate_launch_description():
                 'launch',
                 'ctrl_vehicle_control_lat_compensatory.launch.py')
         ),
-        condition=LaunchConfigurationEquals('ctrlLatMethod', 'comp')
+        condition=LaunchConfigurationEquals('ctrl_lat_method', 'comp')
     )
     vehicle_control_lat_pure_p = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -193,7 +222,7 @@ def generate_launch_description():
                 'launch',
                 'ctrl_vehicle_control_lat_pure_p.launch.py')
         ),
-        condition=LaunchConfigurationEquals('ctrlLatMethod', 'purep')
+        condition=LaunchConfigurationEquals('ctrl_lat_method', 'purep')
     )
     vehicle_control_lat_stanley = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -202,7 +231,7 @@ def generate_launch_description():
                 'launch',
                 'ctrl_vehicle_control_lat_stanley.launch.py')
         ),
-        condition=LaunchConfigurationEquals('ctrlLatMethod', 'stanley')
+        condition=LaunchConfigurationEquals('ctrl_lat_method', 'stanley')
     )
 
     # longitudinal controllers
@@ -213,7 +242,7 @@ def generate_launch_description():
                 'launch',
                 'ctrl_vehicle_control_long.launch.py')
         ),
-        condition=LaunchConfigurationEquals('ctrlLongMethod', 'long')
+        condition=LaunchConfigurationEquals('ctrl_long_method', 'long')
     )
 
 
@@ -222,11 +251,18 @@ def generate_launch_description():
         lat_accel_limit_arg,
         jerk_limit_arg,
         vehicle_param_L_arg,
+        vehicle_param_c1_arg,
+        vehicle_param_c2_arg,
+        vehicle_param_m_arg,
+        vehicle_param_jz_arg,
+        vehicle_param_l1_arg,
+        vehicle_param_l2_arg,
+        vehicle_param_swr_arg,
 
-        ctrlUseCombinedControllerArg,
-        ctrlCombinedMethodArg,
-        ctrlLatMethodArg,
-        ctrlLongMethodArg,
+        ctrl_use_combined_controller_arg,
+        ctrl_combined_method_arg,
+        ctrl_lat_method_arg,
+        ctrl_long_method_arg,
 
         ctrlLqrConfigFileArg,
         ctrlCompensatoryConfigFileArg,
@@ -248,7 +284,7 @@ def generate_launch_description():
             [
                 vehicle_control_lqr,
             ],
-            condition=LaunchConfigurationEquals('ctrlUseCombinedController', 'true')
+            condition=LaunchConfigurationEquals('ctrl_use_combined_controller', 'true')
         ),
         GroupAction(
             [
@@ -256,12 +292,12 @@ def generate_launch_description():
                 vehicle_control_lat_pure_p,
                 vehicle_control_lat_stanley,
             ],
-            condition=LaunchConfigurationEquals('ctrlUseCombinedController', 'false')
+            condition=LaunchConfigurationEquals('ctrl_use_combined_controller', 'false')
         ),
         GroupAction(
             [
                 vehicle_control_long
             ],
-            condition=LaunchConfigurationEquals('ctrlUseCombinedController', 'false')
+            condition=LaunchConfigurationEquals('ctrl_use_combined_controller', 'false')
         ),
     ])

@@ -4,7 +4,7 @@
 crp::apl::CtrlVehicleControlLatStanley::CtrlVehicleControlLatStanley() : CtrlLatWrapperBase("ctrl_vehicle_control_lat_stanley")
 {
     this->declare_parameter("/ctrl/stanley/k_gain", 0.5f);
-    this->declare_parameter("/ctrl/stanley/wheelbase", 2.7f);
+    this->declare_parameter("/vehicle_params/wheelbase", 2.7f);
 
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_lat_stanley has been started");
 }
@@ -65,7 +65,7 @@ void crp::apl::CtrlVehicleControlLatStanley::controlLoop(const ControlInput & in
 {
     // parameter assignments
     m_params.k_gain= this->get_parameter("/ctrl/stanley/k_gain").as_double();
-    m_params.wheelbase = this->get_parameter("/ctrl/stanley/wheelbase").as_double();
+    m_params.wheelbase = this->get_parameter("/vehicle_params/wheelbase").as_double();
 
     // control algorithm
     if(input.pathX.size() > 0 && input.pathY.size() > 0)

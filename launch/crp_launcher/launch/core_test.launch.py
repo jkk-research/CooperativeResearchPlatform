@@ -8,24 +8,24 @@ from os.path import join
 def generate_launch_description():
     # ARGUMENTS
 
-    ctrlUseCombinedControllerArg = DeclareLaunchArgument(
-        'ctrlUseCombinedController',
+    ctrl_use_combined_controllerArg = DeclareLaunchArgument(
+        'ctrl_use_combined_controller',
         default_value='false',
         description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
 
-    ctrlCombinedMethodArg = DeclareLaunchArgument(
-        'ctrlCombinedMethod',
+    ctrl_combined_methodArg = DeclareLaunchArgument(
+        'ctrl_combined_method',
         default_value='lqr',
         description='Lat controller to use. Possible values: lqr'
     )
-    ctrlLatMethodArg = DeclareLaunchArgument(
-        'ctrlLatMethod',
+    ctrl_lat_methodArg = DeclareLaunchArgument(
+        'ctrl_lat_method',
         default_value='comp',
         description='Lat controller to use. Possible values: comp, purep, stanley'
     )
-    ctrlLongMethodArg = DeclareLaunchArgument(
-        'ctrlLongMethod',
+    ctrl_long_methodArg = DeclareLaunchArgument(
+        'ctrl_long_method',
         default_value='long',
         description='Controller to use. Possible values: long'
     )
@@ -55,10 +55,10 @@ def generate_launch_description():
     return LaunchDescription([
         # arguments
 
-        ctrlUseCombinedControllerArg,
-        ctrlCombinedMethodArg,
-        ctrlLatMethodArg,
-        ctrlLongMethodArg,
+        ctrl_use_combined_controllerArg,
+        ctrl_combined_methodArg,
+        ctrl_lat_methodArg,
+        ctrl_long_methodArg,
 
         # nodes
 
