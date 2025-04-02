@@ -53,7 +53,7 @@ void PacmodExtender::twistCallback(const geometry_msgs::msg::TwistStamped::Share
     m_twistWithCovariance.header = msg->header;
     m_twistWithCovariance.twist.twist = msg->twist;
     // twist callback has tire angle in angular.z, the published message should have yaw rate
-    m_twistWithCovariance.twist.twist.angular.z = msg->twist.linear.x * tan(msg->twist.angular.z) / WHEELBASE;
+    m_twistWithCovariance.twist.twist.angular.z = msg->twist.linear.x * tan(msg->twist.angular.z/14.8) / WHEELBASE;
 
     std_msgs::msg::Float32 tireAngleMsg;
     tireAngleMsg.data = msg->twist.angular.z/14.8;
