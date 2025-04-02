@@ -66,7 +66,7 @@ def generate_launch_description():
     ctrl_lat_method_arg = DeclareLaunchArgument(
         'ctrl_lat_method',
         default_value='comp',
-        description='Lat controller to use. Possible values: comp, purep, stanley'
+        description='Lat controller to use. Possible values: comp, purep, stanley, nmpc'
     )
     ctrl_long_method_arg = DeclareLaunchArgument(
         'ctrl_long_method',
@@ -114,6 +114,16 @@ def generate_launch_description():
             'ctrlStanleyParams.yaml'
         ),
         description='Path to stanley control configuration file'
+    )
+    ctrlNmpcConfigFileArg = DeclareLaunchArgument(
+        'ctrlNmpcConfigFile',
+        default_value=join(
+            get_package_share_directory('crp_launcher'),
+            'config',
+            'control',
+            'ctrlNmpcParams.yaml'
+        ),
+        description='Path to nmpc control configuration file'
     )
     ctrlLongConfigFileArg = DeclareLaunchArgument(
         'ctrlLongConfigFile',
@@ -233,6 +243,16 @@ def generate_launch_description():
         ),
         condition=LaunchConfigurationEquals('ctrl_lat_method', 'stanley')
     )
+    vehicle_control_lat_nmpc = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('ctrl_vehicle_control_nmpc'),
+                'mpc_controller',
+                'launch',
+                'launch_mpc_controller.py')
+        ),
+        condition=LaunchConfigurationEquals('ctrl_lat_method', 'nmpc')
+    )
 
     # longitudinal controllers
     vehicle_control_long = IncludeLaunchDescription(
@@ -268,6 +288,7 @@ def generate_launch_description():
         ctrlCompensatoryConfigFileArg,
         ctrlPurePConfigFileArg,
         ctrlStanleyConfigFileArg,
+        ctrlNmpcConfigFileArg,
         ctrlLongConfigFileArg,
         
         # nodes
@@ -291,6 +312,7 @@ def generate_launch_description():
                 vehicle_control_lat_compensatory,
                 vehicle_control_lat_pure_p,
                 vehicle_control_lat_stanley,
+                vehicle_control_lat_nmpc,
             ],
             condition=LaunchConfigurationEquals('ctrl_use_combined_controller', 'false')
         ),
