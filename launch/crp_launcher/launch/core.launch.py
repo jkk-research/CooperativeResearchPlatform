@@ -249,7 +249,7 @@ def generate_launch_description():
                 get_package_share_directory('ctrl_vehicle_control_nmpc'),
                 'mpc_controller',
                 'launch',
-                'launch_mpc_controller.py')
+                'launch_mpc_controller.launch.py')
         ),
         condition=LaunchConfigurationEquals('ctrl_lat_method', 'nmpc')
     )
