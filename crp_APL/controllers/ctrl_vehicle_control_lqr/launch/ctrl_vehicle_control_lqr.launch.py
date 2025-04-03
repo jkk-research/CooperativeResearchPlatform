@@ -18,6 +18,11 @@ def generate_launch_description():
         description='Path to the lqr control configuration file'
     )
 
+    vehicle_param_L_arg = DeclareLaunchArgument(
+        '/vehicle_params/wheelbase',
+        default_value='2.79',
+        description='Vehicle parameter: Wheelbase [m]')
+
     # NODES
 
     ctrl_vehicle_control_lat_lqr = Node(
@@ -25,13 +30,17 @@ def generate_launch_description():
             executable='lqr_controller.py',
             name='ctrl_vehicle_control_lqr',
             output='screen',
-            parameters=[{
-                LaunchConfiguration('ctrlLqrConfigFile')
-            }]
+            parameters=[
+                LaunchConfiguration('ctrlLqrConfigFile'),
+                {
+                    '/vehicle_params/wheelbase': LaunchConfiguration('/vehicle_params/wheelbase')
+                }
+            ]
         )
     
     return LaunchDescription([
         ctrlLqrConfigFileArg,
+        vehicle_param_L_arg,
 
         ctrl_vehicle_control_lat_lqr
     ])

@@ -3,9 +3,10 @@
 
 #include <cmath>
 #include <stdio.h>
+#include <vector>
 
-#include "ctrl_vehicle_control/controller_inputs.hpp"
-#include "ctrl_vehicle_control/controller_outputs.hpp"
+#include "controllerInterfaces/controllerInterfaces.hpp"
+#include "ctrl_vehicle_control/controllerParams.hpp"
 #include "lib/polynomialCalculator.hpp"
 #include "lib/utils.hpp"
 #include "lib/polyfitBoost.hpp"
@@ -17,7 +18,7 @@ namespace crp
     {
         class CompensatoryModel{
             public:
-                void run (ControlInput& input, ControlOutput& output, const ControlParams& params);
+                void run (const ControlInput& input, LatControlOutput& output, const ControlParams& params);
             
             private:
                 PolynomialCalculator m_polynomialCalculator;
@@ -29,8 +30,8 @@ namespace crp
                 double m_lookAheadPose[3]{0.0f, 0.0f, 0.0f};
 
                 double* m_coefficients;
-                std::vector<double> m_localPath_x;
-                std::vector<double> m_localPath_y;
+                std::vector<double> m_localpathX;
+                std::vector<double> m_localpathY;
                 std::vector<double> m_localPathCut_x;
                 std::vector<double> m_localPathCut_y;
                 bool m_trajInvalid{false};
@@ -64,7 +65,7 @@ namespace crp
                 void calculateFeedback(const ControlInput& input, const ControlParams& params);
                 void superPoseFeedforwardAndFeedback ();
 
-                void calculateSteeringAngle(const ControlInput& input, ControlOutput& output, const ControlParams& params);
+                void calculateSteeringAngle(const ControlInput& input, LatControlOutput& output, const ControlParams& params);
 
                 void cutRelevantLocalSnippet(const ControlParams &params);
 

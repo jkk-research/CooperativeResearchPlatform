@@ -14,6 +14,7 @@
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
   <depend>rclcpp</depend>
+  <depend>controller_base</depend>
   <depend>autoware_control_msgs</depend>
   <depend>autoware_planning_msgs</depend>
   <depend>crp_msgs</depend>

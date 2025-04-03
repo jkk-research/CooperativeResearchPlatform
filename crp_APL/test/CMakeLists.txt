@@ -26,7 +26,7 @@ find_package(crp_msgs REQUIRED)
 
 include_directories(include)
 
-include_directories(../interfaces)
+include_directories(../crp_interfaces)
 
 add_executable(test_node src/testNode.cpp)
   ament_target_dependencies(test_node rclcpp 

@@ -42,3 +42,7 @@
 	path = crp_VIL/ros2_socketcan
 	url = https://github.com/autowarefoundation/ros2_socketcan.git
 	branch = humble
+[submodule "crp_VIL/ouster-ros"]
+	path = crp_VIL/ouster-ros
+	url = https://github.com/ouster-lidar/ouster-ros.git
+	branch = ros2

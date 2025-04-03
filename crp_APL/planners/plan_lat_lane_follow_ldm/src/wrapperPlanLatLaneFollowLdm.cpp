@@ -1,7 +1,7 @@
 #include "wrapperPlanLatLaneFollowLdm.hpp"
 
 
-crp::apl::PlanLatLaneFollowLdm::PlanLatLaneFollowLdm() : WrapperBase("plan_lat_lane_follow_ldm")
+crp::apl::PlanLatLaneFollowLdm::PlanLatLaneFollowLdm() : PlanWrapperBase("plan_lat_lane_follow_ldm")
 {
     this->declare_parameter<std::vector<double>>(
         "/plan_lat_lane_follow_ldm/nodePointDistances", std::vector<double>{20.0f, 60.0f, 100.0f});
@@ -24,11 +24,11 @@ crp::apl::PlanLatLaneFollowLdm::PlanLatLaneFollowLdm() : WrapperBase("plan_lat_l
 }
 
 
-void crp::apl::PlanLatLaneFollowLdm::plan(const PlannerInput & input, PlannerOutput & output)
+void crp::apl::PlanLatLaneFollowLdm::planLoop(const PlannerInput & input, PlannerOutput & output)
 {
     output.trajectory.clear(); // initialize the output at empty vector in the beginning of each cycle
     TrajectoryPoint trajectoryPoint;
-    for (int n=0; n<input.path.pathPoints.size(); n++)
+    for (unsigned int n=0; n<input.path.pathPoints.size(); n++)
         {
             trajectoryPoint.pose.position.x = input.path.pathPoints.at(n).pose.position.x;
             trajectoryPoint.pose.position.y = input.path.pathPoints.at(n).pose.position.y;

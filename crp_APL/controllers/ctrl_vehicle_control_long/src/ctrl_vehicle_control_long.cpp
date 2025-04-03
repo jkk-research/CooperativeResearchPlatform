@@ -1,14 +1,8 @@
 #include "ctrl_vehicle_control_long.hpp"
 
 
-crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("ctrl_vehicle_control_long")
+crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : CtrlLongWrapperBase("ctrl_vehicle_control_long")
 {
-    m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&CtrlVehicleControlLong::run, this));  
-    m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 30);
-
-    m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&CtrlVehicleControlLong::egoCallback, this, std::placeholders::_1));
-    m_sub_trajectory_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/plan/trajectory", 10, std::bind(&CtrlVehicleControlLong::trajectoryCallback, this, std::placeholders::_1));
-
     this->declare_parameter("/ctrl/long/axMax", 2.0f);
     this->declare_parameter("/ctrl/long/axMin", -2.0f);
     this->declare_parameter("/ctrl/long/jxMax", 1.0f);
@@ -18,69 +12,57 @@ crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : Node("ctrl_vehicle_
     RCLCPP_INFO(this->get_logger(), "ctrl_vehicle_control_long has been started");
 }
 
-void crp::apl::CtrlVehicleControlLong::trajectoryCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg)
+void crp::apl::CtrlVehicleControlLong::controlLoop(const ControlInput & input, LongControlOutput & output)
 {
-    // get the point which is in the look ahead distance
-    double lookAheadDistance = m_egoSpeed*p_speedControlLookAheadTime; // in meters
-    
-    if (msg->points.size() == 0U)
+    if (input.pathVelocity.size() == 0U)
     {
-        m_ctrl_msg.velocity = 0.0f;
+        output.velocityTarget = 0.0;
+        return;
     }
-    else{
-        m_ctrl_msg.velocity = 
-                    msg->points.at(msg->points.size()-1U).longitudinal_velocity_mps;
-        //m_ctrl_msg.longitudinal.velocity = msg->points.at(0U).longitudinal_velocity_mps;
-    }
+
+    // parameter read in
+    double p_axMax = this->get_parameter("/ctrl/long/axMax").as_double();
+    double p_axMin = this->get_parameter("/ctrl/long/axMin").as_double();
+    double p_jxMax = this->get_parameter("/ctrl/long/jxMax").as_double();
+    double p_jxMin = this->get_parameter("/ctrl/long/jxMin").as_double();
+    double p_speedControlLookAheadTime = this->get_parameter("/ctrl/long/speedControlLookAheadTime").as_double();
+    double dT = 0.033;
+
+
+    double lookAheadDistance = input.vxEgo*p_speedControlLookAheadTime; // in meters
+
+    output.velocityTarget = input.pathVelocity.at(input.pathVelocity.size()-1U);
     
-    for (long unsigned int wp=0U; wp<msg->points.size(); wp++)
+    for (long unsigned int wp=0U; wp<input.pathX.size(); wp++)
     {
-        double distance = sqrt(std::pow(msg->points.at(wp).pose.position.x, 2) +
-            std::pow(msg->points.at(wp).pose.position.y, 2));
+        double distance = sqrt(std::pow(input.pathX.at(wp), 2) +
+            std::pow(input.pathY.at(wp), 2));
         
         if(distance >= lookAheadDistance)
         {
             // filtering with acceleration
-            if(msg->points.at(wp).longitudinal_velocity_mps >= (m_egoSpeed+p_axMax*dT))
+            if(input.pathVelocity.at(wp) >= (input.vxEgo+p_axMax*dT))
             {
-                m_ctrl_msg.velocity = m_egoSpeed+p_axMax*dT;  
+                output.velocityTarget = input.vxEgo+p_axMax*dT;  
             }
-            else if(msg->points.at(wp).longitudinal_velocity_mps <= (m_egoSpeed+p_axMin*dT))
+            else if(input.pathVelocity.at(wp) <= (input.vxEgo+p_axMin*dT))
             {
-                if (m_egoSpeed+p_axMin*dT < 2.0)
+                if (input.vxEgo+p_axMin*dT < 2.0)
                 {
-                    m_ctrl_msg.velocity = 0.0;
+                    output.velocityTarget = 0.0;
                 }
                 else
                 {
-                    m_ctrl_msg.velocity = m_egoSpeed+p_axMin*dT;
+                    output.velocityTarget = input.vxEgo+p_axMin*dT;
                 }
             }
             else
             {
-                m_ctrl_msg.velocity = 
-                    msg->points.at(wp).longitudinal_velocity_mps;
+                output.velocityTarget = input.pathVelocity.at(wp);
             }
             break;
         }
     }
-}
-
-void crp::apl::CtrlVehicleControlLong::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
-{
-    m_egoSpeed = msg->twist.twist.linear.x;
-}
-
-void crp::apl::CtrlVehicleControlLong::run()
-{
-    // parameter read in
-    p_axMax = this->get_parameter("/ctrl/long/axMax").as_double();
-    p_axMin = this->get_parameter("/ctrl/long/axMin").as_double();
-    p_jxMax = this->get_parameter("/ctrl/long/jxMax").as_double();
-    p_jxMin = this->get_parameter("/ctrl/long/jxMin").as_double();
-    p_speedControlLookAheadTime = this->get_parameter("/ctrl/long/speedControlLookAheadTime").as_double();
-
-    m_pub_control_->publish(m_ctrl_msg);
 }    
 
 int main(int argc, char *argv[])

@@ -31,7 +31,7 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     m_pub_drivableSurface_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("cai/local_drivable_surface", 10);
 
     m_publishTimer_ = this->create_wall_timer(
-        std::chrono::milliseconds(50), std::bind(&ScenarioAbstraction::publishCallback, this));
+        std::chrono::milliseconds(33), std::bind(&ScenarioAbstraction::publishCallback, this));
     
     RCLCPP_INFO(this->get_logger(), "scenario_abstraction has been started");
 }

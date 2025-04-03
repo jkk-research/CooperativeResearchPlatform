@@ -1,7 +1,7 @@
 #ifndef CRP_APL_PLAN_LAT_LANE_FOLLOW_LDM_HANDLER_PLANLATLANEFOLLOWLDM_HPP
 #define CRP_APL_PLAN_LAT_LANE_FOLLOW_LDM_HANDLER_PLANLATLANEFOLLOWLDM_HPP
 
-#include "planner_base/wrapperBase.hpp"
+#include "planner_base/planWrapperBase.hpp"
 
 // functional code
 #include "../src/functionCode/inc/linearDriverModel/linearDriverModel.hpp"
@@ -16,13 +16,13 @@ namespace crp
 namespace apl
 {
 
-class PlanLatLaneFollowLdm : public WrapperBase
+class PlanLatLaneFollowLdm : public PlanWrapperBase
 {
 public:
     PlanLatLaneFollowLdm();
 
 private:
-    void plan(const PlannerInput & input, PlannerOutput & output) override;
+    void planLoop(const PlannerInput & input, PlannerOutput & output) override;
 
     //function member
     LinearDriverModel       m_linearDriverModel;

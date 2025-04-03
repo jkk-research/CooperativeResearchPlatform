@@ -1,14 +1,14 @@
 # Fdb version 3
-["bibtex LightwightSolutionToGenerateAccurateLaneletMaps"] 1733405498 "LightwightSolutionToGenerateAccurateLaneletMaps.aux" "LightwightSolutionToGenerateAccurateLaneletMaps.bbl" "LightwightSolutionToGenerateAccurateLaneletMaps" 1733405619
+["bibtex LightwightSolutionToGenerateAccurateLaneletMaps"] 1742975612 "LightwightSolutionToGenerateAccurateLaneletMaps.aux" "LightwightSolutionToGenerateAccurateLaneletMaps.bbl" "LightwightSolutionToGenerateAccurateLaneletMaps" 1742976290
   "/usr/share/texlive/texmf-dist/bibtex/bst/base/unsrt.bst" 1292289607 18030 1376b4b231b50c66211e47e42eda2875 ""
-  "LightwightSolutionToGenerateAccurateLaneletMaps.aux" 1733405618 1468 343a85c13a644a2b42a9631f436b966c "pdflatex"
-  "refs.bib" 1733404538 5496 ac6bb8e97c1674a8d3b8ba2937d35088 ""
+  "LightwightSolutionToGenerateAccurateLaneletMaps.aux" 1742976290 1468 82bddaae28182abd62c732d78fb9a3e3 "pdflatex"
+  "refs.bib" 1742968328 5496 ac6bb8e97c1674a8d3b8ba2937d35088 ""
   (generated)
   "LightwightSolutionToGenerateAccurateLaneletMaps.bbl"
   "LightwightSolutionToGenerateAccurateLaneletMaps.blg"
-["pdflatex"] 1733405618 "/home/matyko/ros2_ws/src/CooperativeResearchPlatform/doc/publication/mapPub/LightwightSolutionToGenerateAccurateLaneletMaps.tex" "LightwightSolutionToGenerateAccurateLaneletMaps.pdf" "LightwightSolutionToGenerateAccurateLaneletMaps" 1733405619
-  "/etc/texmf/web2c/texmf.cnf" 1728110805 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/matyko/ros2_ws/src/CooperativeResearchPlatform/doc/publication/mapPub/LightwightSolutionToGenerateAccurateLaneletMaps.tex" 1733405617 4812 7f40956dcf36326c7ea4ceb908cfd098 ""
+["pdflatex"] 1742976289 "/home/matyko/ros2_ws/src/CooperativeResearchPlatform/doc/publication/mapPub/LightwightSolutionToGenerateAccurateLaneletMaps.tex" "LightwightSolutionToGenerateAccurateLaneletMaps.pdf" "LightwightSolutionToGenerateAccurateLaneletMaps" 1742976290
+  "/etc/texmf/web2c/texmf.cnf" 1742202004 475 c0e671620eb5563b2130f56340a5fde8 ""
+  "/home/matyko/ros2_ws/src/CooperativeResearchPlatform/doc/publication/mapPub/LightwightSolutionToGenerateAccurateLaneletMaps.tex" 1742976288 5060 892051808d937acd8280aaa6c9708b2c ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -102,12 +102,12 @@
   "/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty" 1635798903 56029 3f7889dab51d620aa43177c391b7b190 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
-  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1728128526 4379155 98693266ff65f58d9f98aff394de12d2 ""
-  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1728128558 2800035 862254614e470d24eb91192df594035b ""
-  "LightwightSolutionToGenerateAccurateLaneletMaps.aux" 1733405618 1468 343a85c13a644a2b42a9631f436b966c "pdflatex"
-  "LightwightSolutionToGenerateAccurateLaneletMaps.bbl" 1733405498 1831 c617591bf4c11e2086c42308f6f21fc0 "bibtex LightwightSolutionToGenerateAccurateLaneletMaps"
-  "LightwightSolutionToGenerateAccurateLaneletMaps.tex" 1733405617 4812 7f40956dcf36326c7ea4ceb908cfd098 ""
-  "figures//laneDataAndVehicle.png" 1733062866 2026953 e3666e3bfca8f47caa825fc46255dca6 ""
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1742208209 4379155 98693266ff65f58d9f98aff394de12d2 ""
+  "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1742208252 2799869 22cfbc152f5c4977b16f33a48443e316 ""
+  "LightwightSolutionToGenerateAccurateLaneletMaps.aux" 1742976290 1468 82bddaae28182abd62c732d78fb9a3e3 "pdflatex"
+  "LightwightSolutionToGenerateAccurateLaneletMaps.bbl" 1742975612 1831 c617591bf4c11e2086c42308f6f21fc0 "bibtex LightwightSolutionToGenerateAccurateLaneletMaps"
+  "LightwightSolutionToGenerateAccurateLaneletMaps.tex" 1742976288 5060 892051808d937acd8280aaa6c9708b2c ""
+  "figures//laneDataAndVehicle.png" 1742968328 2026953 e3666e3bfca8f47caa825fc46255dca6 ""
   (generated)
   "LightwightSolutionToGenerateAccurateLaneletMaps.aux"
   "LightwightSolutionToGenerateAccurateLaneletMaps.log"
