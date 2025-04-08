@@ -34,17 +34,19 @@ void crp::apl::WrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace
     m_input.freeSpace = convertMsgToOccupancyGrid(msg->free_space);
 
     // traffic rules
-    for (geometry_msgs::msg::Pose stopPose : msg->path.traffic_rules.stop_poses)
+    for (crp_msgs::msg::StopPose stopPose : msg->path.traffic_rules.stop_poses)
     {
-        Pose3D stopPose3D;
-        stopPose3D.position.x = stopPose.position.x;
-        stopPose3D.position.y = stopPose.position.y;
-        stopPose3D.position.z = stopPose.position.z;
-        stopPose3D.orientation = getYawFromQuaternion(stopPose.orientation);
-        m_input.trafficRules.stopPoses.push_back(stopPose3D);
+        PlannerInputStopPose piStopPose;
+        piStopPose.pose.position.x = stopPose.pose.position.x;
+        piStopPose.pose.position.y = stopPose.pose.position.y;
+        piStopPose.pose.position.z = stopPose.pose.position.z;
+        piStopPose.pose.orientation = getYawFromQuaternion(stopPose.pose.orientation);
+        piStopPose.type = static_cast<PlannerInputStopPose::StopPoseType>(stopPose.type);
+        piStopPose.confidence = stopPose.confidence;
+        m_input.trafficRules.stopPoses.push_back(piStopPose);
+
+        m_input.trafficRules.maximumSpeed = msg->path.traffic_rules.maximum_speed;
     }
-    m_input.trafficRules.laneEdgeTypeLeft = msg->path.traffic_rules.lane_edge_type_left;
-    m_input.trafficRules.laneEdgeTypeRight = msg->path.traffic_rules.lane_edge_type_right;
     m_input.maximumSpeed = msg->path.traffic_rules.maximum_speed;
 
     // path

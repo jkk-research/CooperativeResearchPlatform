@@ -83,10 +83,11 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
             }
             stopPoint.position.x /= stopLine.size();
             stopPoint.position.y /= stopLine.size();
-
-            lanePath.traffic_rules.stop_poses.push_back(
-                m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame)
-            );
+            
+            crp_msgs::msg::StopPose stopPose;
+            stopPose.type = crp_msgs::msg::StopPose::STOP_SIGN;
+            stopPose.pose = m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame);
+            lanePath.traffic_rules.stop_poses.push_back(stopPose);
         }
     }
 

@@ -24,6 +24,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/World.msg"
   "msg/TargetSpace.msg"
   "msg/Scenario.msg"
+  "msg/StopPose.msg"
   "msg/Ego.msg"
   "msg/EgoStatus.msg"
   "msg/Behavior.msg"

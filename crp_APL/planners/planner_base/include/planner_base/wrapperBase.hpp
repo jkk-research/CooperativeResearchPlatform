@@ -5,6 +5,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <crp_msgs/msg/target_space.hpp>
 #include <crp_msgs/msg/ego.hpp>
+#include <crp_msgs/msg/stop_pose.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 #include <autoware_planning_msgs/msg/trajectory_point.hpp>
 #include <autoware_perception_msgs/msg/object_classification.hpp>

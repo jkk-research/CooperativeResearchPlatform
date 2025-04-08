@@ -75,7 +75,7 @@ void crp::cil::AbstractionUtils::calcPathOrientation(
     for (uint16_t i = 0; i < path.traffic_rules.stop_poses.size(); i++)
     {
         stopPoseClosestPoints[i].first = 0;
-        stopPoseClosestPoints[i].second = distanceBetweenPoints(path.path.points[0].point.pose, path.traffic_rules.stop_poses[i]);
+        stopPoseClosestPoints[i].second = distanceBetweenPoints(path.path.points[0].point.pose, path.traffic_rules.stop_poses[i].pose);
     }
 
     for (uint16_t i = 1; i < path.path.points.size(); i++)
@@ -84,7 +84,7 @@ void crp::cil::AbstractionUtils::calcPathOrientation(
         
         for (uint16_t j = 0; j < path.traffic_rules.stop_poses.size(); j++)
         {
-            float currentDist = distanceBetweenPoints(path.path.points[i].point.pose, path.traffic_rules.stop_poses[j]);
+            float currentDist = distanceBetweenPoints(path.path.points[i].point.pose, path.traffic_rules.stop_poses[j].pose);
             if (currentDist < stopPoseClosestPoints[j].second)
             {
                 stopPoseClosestPoints[j].first = i;
@@ -104,7 +104,7 @@ void crp::cil::AbstractionUtils::calcPathOrientation(
 
     for (uint16_t i = 0; i < path.traffic_rules.stop_poses.size(); i++)
     {
-        path.traffic_rules.stop_poses[i].orientation = path.path.points[stopPoseClosestPoints[i].first].point.pose.orientation;
+        path.traffic_rules.stop_poses[i].pose.orientation = path.path.points[stopPoseClosestPoints[i].first].point.pose.orientation;
     }
 }
 

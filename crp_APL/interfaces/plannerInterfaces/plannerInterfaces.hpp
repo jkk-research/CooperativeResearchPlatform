@@ -35,12 +35,23 @@ struct TrajectoryPoint
 typedef std::vector<TrajectoryPoint> PlannerOutputTrajectory;
 typedef std::vector<std::vector<float>> OccupancyGrid;
 
+struct PlannerInputStopPose
+{
+    enum StopPoseType : uint8_t
+    {
+        STOP_SIGN = 0,
+        CROSSWALK = 1,
+    };
+
+    Pose3D pose;
+    StopPoseType type;
+    float confidence;
+};
+
 struct PlannerInputTrafficRule
 {
-    // TODO: Define lane edge types
-    uint8_t laneEdgeTypeLeft{0U};
-    uint8_t laneEdgeTypeRight{0U};
-    std::vector<Pose3D> stopPoses;
+    std::vector<PlannerInputStopPose> stopPoses;
+    float maximumSpeed{0.0f}; // in m/s
 };
 
 struct PlannerInputPathPoint

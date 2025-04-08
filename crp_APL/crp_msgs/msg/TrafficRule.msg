@@ -1,6 +1,2 @@
-# TODO: Define constants for lane edge type (e.g. uint8 type_name=0)
-
-geometry_msgs/Pose[] stop_poses
-uint8 lane_edge_type_left
-uint8 lane_edge_type_right
+crp_msgs/StopPose[] stop_poses
 float32 maximum_speed
