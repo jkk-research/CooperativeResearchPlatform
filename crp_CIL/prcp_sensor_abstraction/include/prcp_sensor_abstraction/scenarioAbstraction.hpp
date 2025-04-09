@@ -69,6 +69,7 @@ private:
     bool  m_isMapLoaded{false};
     bool  m_isGpsTransformSet{false};
     float m_localPathLength{75.0};
+    float m_wheelbase{2.79};
 
     lanelet::LaneletMapPtr                        m_laneletMap;
     lanelet::traffic_rules::TrafficRulesPtr       m_trafficRules;

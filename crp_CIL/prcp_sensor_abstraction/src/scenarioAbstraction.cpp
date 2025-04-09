@@ -45,14 +45,17 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
 {
     crp_msgs::msg::PathWithTrafficRules lanePath;
 
+    // extract path
     float laneletSpeedLimit = m_trafficRules->speedLimit(lanelet).speedLimit.value();
     lanePath.path_length = 0.0f;
     lanelet::ConstLineString2d currentCenterline = lanelet.centerline2d();
     tier4_planning_msgs::msg::PathPointWithLaneId currentPrevPoint = prevPointGlobal;
     while (lanePath.path_length+currentCompletePathLength < m_localPathLength && currentPointIdx < currentCenterline.size())
     {
-        // add points to path from current lanelet
+        // get current point
         tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx],laneletSpeedLimit);
+        
+        // add point to lanelet
         lanePath.path_length += m_abstractionUtils.distanceBetweenPoints(currentPrevPoint, currentPoint);
         lanePath.path.points.push_back(
             m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)
@@ -70,27 +73,78 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
             if (sign->refLines().empty())
                 continue;
 
-            // add only the first stop line
-            // TODO: in case of multiple lines add the relevant stop line to path
-            lanelet::ConstLineString3d stopLine = sign->refLines()[0];
-
-            // average out the stop line points
-            geometry_msgs::msg::Pose stopPoint;
-            for (lanelet::BasicPoint3d stopLinePt : stopLine)
+            // add stop lines
+            for (lanelet::ConstLineString3d& stopLine : sign->refLines())
             {
-                stopPoint.position.x += stopLinePt.x();
-                stopPoint.position.y += stopLinePt.y();
+                crp_msgs::msg::StopPose stopPose;
+
+                // average out the stop line points
+                geometry_msgs::msg::Pose stopPoint;
+                for (lanelet::BasicPoint3d stopLinePt : stopLine)
+                {
+                    stopPose.pose.position.x += stopLinePt.x();
+                    stopPose.pose.position.y += stopLinePt.y();
+                }
+                stopPose.pose.position.x /= stopLine.size();
+                stopPose.pose.position.y /= stopLine.size();
+                
+                stopPose.type = crp_msgs::msg::StopPose::STOP_SIGN;
+                stopPose.confidence = 1.0f;
+
+                lanePath.traffic_rules.stop_poses.push_back(stopPose);
             }
-            stopPoint.position.x /= stopLine.size();
-            stopPoint.position.y /= stopLine.size();
-            
+        }
+    }
+
+    // extract crosswalks
+    lanelet::ConstLaneletOrAreas crosswalks = m_routingGraph->conflicting(lanelet);
+    for (lanelet::ConstLaneletOrArea crosswalk : crosswalks)
+    {
+        if (crosswalk.isLanelet() && crosswalk.attributes().at(lanelet::AttributeName::Subtype) == "crosswalk")
+        {
+            // if crosswalk is a lanelet get the middle of the centerline
             crp_msgs::msg::StopPose stopPose;
-            stopPose.type = crp_msgs::msg::StopPose::STOP_SIGN;
-            stopPose.pose = m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame);
+            stopPose.type = crp_msgs::msg::StopPose::CROSSWALK;
+            stopPose.confidence = 1.0f;
+
+            if (crosswalk.isLanelet())
+            {
+                lanelet::ConstLineString2d crosswalkLine = crosswalk.lanelet().value().centerline2d();
+                for (lanelet::BasicPoint2d crosswalkPt : crosswalkLine)
+                {
+                    stopPose.pose.position.x += crosswalkPt.x();
+                    stopPose.pose.position.y += crosswalkPt.y();
+                }
+                stopPose.pose.position.x /= crosswalkLine.size();
+                stopPose.pose.position.y /= crosswalkLine.size();
+            }
+            else if (crosswalk.isArea())
+            {
+                lanelet::CompoundPolygon3d crosswalkPoly = crosswalk.boundingPolygon();
+                float minX = crosswalkPoly.front().x();
+                float minY = crosswalkPoly.front().y();
+                float maxX = crosswalkPoly.front().x();
+                float maxY = crosswalkPoly.front().y();
+                for (lanelet::BasicPoint3d crosswalkPt : crosswalkPoly)
+                {
+                    if (crosswalkPt.x() < minX)
+                        minX = crosswalkPt.x();
+                    if (crosswalkPt.y() < minY)
+                        minY = crosswalkPt.y();
+                    if (crosswalkPt.x() > maxX)
+                        maxX = crosswalkPt.x();
+                    if (crosswalkPt.y() > maxY)
+                        maxY = crosswalkPt.y();
+                }
+                stopPose.pose.position.x = (minX + maxX) / 2.0;
+                stopPose.pose.position.y = (minY + maxY) / 2.0;
+            }
+
             lanePath.traffic_rules.stop_poses.push_back(stopPose);
         }
     }
 
+    // set prevPoint for next lanelet
     prevPointGlobal = currentPrevPoint;
 
     return lanePath;
@@ -178,6 +232,8 @@ void crp::cil::ScenarioAbstraction::publishCallback()
 
     extractPossiblePaths(egoLanelet, prevPoint, outPaths, 0, nearestPointIdx);
 
+    // TODO: adjust stopsign and crosswalk stop poses
+
     for (crp_msgs::msg::PathWithTrafficRules& path : outPaths.paths)
     {
         m_abstractionUtils.calcPathOrientation(path);
@@ -185,7 +241,6 @@ void crp::cil::ScenarioAbstraction::publishCallback()
 
     m_pub_possiblePaths_->publish(outPaths);
 }
-
 
 void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg)
 {
@@ -198,7 +253,6 @@ void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map
     m_isMapLoaded = true;
     RCLCPP_INFO(this->get_logger(), "Map loaded");
 }
-
 
 void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
 {
