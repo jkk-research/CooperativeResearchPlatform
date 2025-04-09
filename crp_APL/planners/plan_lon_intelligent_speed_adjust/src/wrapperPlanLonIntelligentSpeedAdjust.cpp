@@ -1,13 +1,13 @@
 #include "plan_lon_intelligent_speed_adjust/wrapperPlanLonIntelligentSpeedAdjust.hpp"
 
 
-crp::apl::WrapperPlanLonIntelligentSpeedAdjust::WrapperPlanLonIntelligentSpeedAdjust() : WrapperBase("plan_lon_intelligent_speed_adjust")
+crp::apl::WrapperPlanLonIntelligentSpeedAdjust::WrapperPlanLonIntelligentSpeedAdjust() : PlanWrapperBase("plan_lon_intelligent_speed_adjust")
 {
     RCLCPP_INFO(this->get_logger(), "plan_lon_intelligent_speed_adjust has been started");
 }
 
 
-void crp::apl::WrapperPlanLonIntelligentSpeedAdjust::plan(const PlannerInput & input, PlannerOutput & output)
+void crp::apl::WrapperPlanLonIntelligentSpeedAdjust::planLoop(const PlannerInput & input, PlannerOutput & output)
 {
     m_planLongitudinalTrajectory.run(input, output);
     return;

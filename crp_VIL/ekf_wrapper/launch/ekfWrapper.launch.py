@@ -24,33 +24,33 @@ def generate_launch_description():
         description='Name of the IMU (sensor_msgs/Imu) topic')
 
     vehicle_param_c1_arg = DeclareLaunchArgument(
-        'vehicle_param_c1',
+        '/vehicle_params/front_wheel_cornering_stiffness',
         default_value='3000.0',
-        description='Vehicle parameter c1')
+        description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_c2_arg = DeclareLaunchArgument(
-        'vehicle_param_c2',
+        '/vehicle_params/rear_wheel_cornering_stiffness',
         default_value='3000.0',
-        description='Vehicle parameter c2')
+        description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_m_arg = DeclareLaunchArgument(
-        'vehicle_param_m',
+        '/vehicle_params/mass',
         default_value='180.0',
-        description='Vehicle parameter m')
+        description='Vehicle parameter: Wheelbase [m]')
     vehicle_param_jz_arg = DeclareLaunchArgument(
-        'vehicle_param_jz',
+        '/vehicle_params/inertia_z',
         default_value='270.0',
-        description='Vehicle parameter jz')
+        description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
     vehicle_param_l1_arg = DeclareLaunchArgument(
-        'vehicle_param_l1',
+        '/vehicle_params/front_axle_from_cog',
         default_value='0.624',
-        description='Vehicle parameter l1')
+        description='Vehicle parameter: CoG distance from the front axle [m]' )
     vehicle_param_l2_arg = DeclareLaunchArgument(
-        'vehicle_param_l2',
+        '/vehicle_params/rear_axle_from_cog',
         default_value='0.676',
-        description='Vehicle parameter l2')
+        description='Vehicle parameter: CoG distance from the rear axle [m]')
     vehicle_param_swr_arg = DeclareLaunchArgument(
-        'vehicle_param_swr',
+        '/vehicle_params/steering_ratio',
         default_value='1.0',
-        description='Vehicle parameter swr')
+        description='Vehicle parameter: Steering wheel ratio')
 
     ekf_frame_arg = DeclareLaunchArgument(
         'ekf_frame',
@@ -88,13 +88,13 @@ def generate_launch_description():
             'do_not_wait_for_gnss_msgs' : True,
             'msg_timeout' : 2000.0,
 
-            'vehicle_param_c1' :  LaunchConfiguration('vehicle_param_c1'),
-            'vehicle_param_c2' :  LaunchConfiguration('vehicle_param_c2'),
-            'vehicle_param_m' :   LaunchConfiguration('vehicle_param_m'),
-            'vehicle_param_jz' :  LaunchConfiguration('vehicle_param_jz'),
-            'vehicle_param_l1' :  LaunchConfiguration('vehicle_param_l1'),
-            'vehicle_param_l2' :  LaunchConfiguration('vehicle_param_l2'),
-            'vehicle_param_swr' : LaunchConfiguration('vehicle_param_swr'),
+            'vehicle_param_c1' :  LaunchConfiguration('/vehicle_params/front_wheel_cornering_stiffness'),
+            'vehicle_param_c2' :  LaunchConfiguration('/vehicle_params/rear_wheel_cornering_stiffness'),
+            'vehicle_param_m' :   LaunchConfiguration('/vehicle_params/mass'),
+            'vehicle_param_jz' :  LaunchConfiguration('/vehicle_params/inertia_z'),
+            'vehicle_param_l1' :  LaunchConfiguration('/vehicle_params/front_axle_from_cog'),
+            'vehicle_param_l2' :  LaunchConfiguration('/vehicle_params/rear_axle_from_cog'),
+            'vehicle_param_swr' : LaunchConfiguration('/vehicle_params/steering_ratio'),
         }]
     )
 

@@ -19,6 +19,11 @@ def generate_launch_description():
         description='Path to the stanley control configuration file'
     )
 
+    vehicle_param_L_arg = DeclareLaunchArgument(
+        '/vehicle_params/wheelbase',
+        default_value='2.79',
+        description='Vehicle parameter: Wheelbase [m]')
+
     # NODES
 
     ctrl_vehicle_control_lat_stanley = Node(
@@ -26,11 +31,15 @@ def generate_launch_description():
         executable="ctrl_vehicle_control_lat_stanley",
         parameters=[
             LaunchConfiguration('ctrlStanleyConfigFile'),
+            {
+                '/vehicle_params/wheelbase': LaunchConfiguration('/vehicle_params/wheelbase')
+            }
         ]
     )
 
     return LaunchDescription([
         ctrlStanleyConfigFileArg,
+        vehicle_param_L_arg,
 
         ctrl_vehicle_control_lat_stanley
     ])

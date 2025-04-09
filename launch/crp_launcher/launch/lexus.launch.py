@@ -5,14 +5,18 @@ from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.launch_description_sources import PythonLaunchDescriptionSource, AnyLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 from os.path import join
+import yaml
 
+def load_yaml(file_path):
+    with open(file_path, 'r') as file:
+        return yaml.safe_load(file)
 
 def generate_launch_description():
     # ARGS
 
     localization_source_arg = DeclareLaunchArgument(
         'localization_source',
-        default_value='gnss',
+        default_value='ekf',
         description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
@@ -122,60 +126,67 @@ def generate_launch_description():
         description='Jerk limit')
 
     # controllers
-    ctrlUseCombinedControllerArg = DeclareLaunchArgument(
-        'ctrlUseCombinedController',
-        default_value='false',
+    ctrl_use_combined_controller_arg = DeclareLaunchArgument(
+        'ctrl_use_combined_controller',
+        default_value='true',
         description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
-    ctrlCombinedMethodArg = DeclareLaunchArgument(
-        'ctrlCombinedMethod',
+    ctrl_combined_method_arg = DeclareLaunchArgument(
+        'ctrl_combined_method',
         default_value='lqr',
         description='Lat controller to use. Possible values: lqr'
     )
-    ctrlLatMethodArg = DeclareLaunchArgument(
-        'ctrlLatMethod',
+    ctrl_lat_method_arg = DeclareLaunchArgument(
+        'ctrl_lat_method',
         default_value='comp',
         description='Lat controller to use. Possible values: comp, purep, stanley'
     )
-    ctrlLongMethodArg = DeclareLaunchArgument(
-        'ctrlLongMethod',
+    ctrl_long_method_arg = DeclareLaunchArgument(
+        'ctrl_long_method',
         default_value='long',
         description='Controller to use. Possible values: long'
     )
-    
+
     # vehicle parameters
-    vehicle_param_c1_arg = DeclareLaunchArgument(
-        'vehicle_param_c1',
-        default_value='5000.0',
-        description='Vehicle parameter: ')
-    vehicle_param_c2_arg = DeclareLaunchArgument(
-        'vehicle_param_c2',
-        default_value='5000.0',
-        description='Vehicle parameter: ')
-    vehicle_param_m_arg = DeclareLaunchArgument(
-        'vehicle_param_m',
-        default_value='2300.0',
-        description='Vehicle parameter: ')
-    vehicle_param_jz_arg = DeclareLaunchArgument(
-        'vehicle_param_jz',
-        default_value='4500.0',
-        description='Vehicle parameter: ')
-    vehicle_param_l1_arg = DeclareLaunchArgument(
-        'vehicle_param_l1',
-        default_value='1.236',
-        description='Vehicle parameter:' )
-    vehicle_param_l2_arg = DeclareLaunchArgument(
-        'vehicle_param_l2',
-        default_value='1.553',
-        description='Vehicle parameter: ')
-    vehicle_param_swr_arg = DeclareLaunchArgument(
-        'vehicle_param_swr',
-        default_value='14.8',
-        description='Vehicle parameter: ')
+    vehicle_params = load_yaml(join(
+        get_package_share_directory('crp_launcher'),
+        'config',
+        'vehicle',
+        'lexusParams.yaml'
+    ))
+
     vehicle_param_L_arg = DeclareLaunchArgument(
-        'vehicle_param_L',
-        default_value='2.79',
-        description='Vehicle parameter: ')
+        '/vehicle_params/wheelbase',
+        default_value=str(vehicle_params['/vehicle_params/wheelbase']),
+        description='Vehicle parameter: Wheelbase [m]')
+    vehicle_param_m_arg = DeclareLaunchArgument(
+        '/vehicle_params/mass',
+        default_value=str(vehicle_params['/vehicle_params/mass']),
+        description='Vehicle parameter: Mass of the vehicle [kg]')
+    vehicle_param_jz_arg = DeclareLaunchArgument(
+        '/vehicle_params/inertia_z',
+        default_value=str(vehicle_params['/vehicle_params/inertia_z']),
+        description='Vehicle parameter: Moment of inertia (z axle) [kg*m2]')
+    vehicle_param_l1_arg = DeclareLaunchArgument(
+        '/vehicle_params/front_axle_from_cog',
+        default_value=str(vehicle_params['/vehicle_params/front_axle_from_cog']),
+        description='Vehicle parameter: CoG distance from the front axle [m]' )
+    vehicle_param_l2_arg = DeclareLaunchArgument(
+        '/vehicle_params/rear_axle_from_cog',
+        default_value=str(vehicle_params['/vehicle_params/rear_axle_from_cog']),
+        description='Vehicle parameter: CoG distance from the rear axle [m]')
+    vehicle_param_c1_arg = DeclareLaunchArgument(
+        '/vehicle_params/front_wheel_cornering_stiffness',
+        default_value=str(vehicle_params['/vehicle_params/front_wheel_cornering_stiffness']),
+        description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
+    vehicle_param_c2_arg = DeclareLaunchArgument(
+        '/vehicle_params/rear_wheel_cornering_stiffness',
+        default_value=str(vehicle_params['/vehicle_params/rear_wheel_cornering_stiffness']),
+        description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
+    vehicle_param_swr_arg = DeclareLaunchArgument(
+        '/vehicle_params/steering_ratio',
+        default_value=str(vehicle_params['/vehicle_params/steering_ratio']),
+        description='Vehicle parameter: Steering wheel ratio')
 
     # CORE
 
@@ -208,6 +219,16 @@ def generate_launch_description():
                 'duro.launch.py')
         ),
         condition = LaunchConfigurationEquals('select_gps', 'duro')
+    )
+
+    os_lidars_merged = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'drivers',
+                'os_composable_raw_merged_b_autoware.launch.py')
+        )
     )
     
 
@@ -313,10 +334,10 @@ def generate_launch_description():
         local_path_length_arg,
         lat_accel_limit_arg,
         jerk_limit_arg,
-        ctrlUseCombinedControllerArg,
-        ctrlCombinedMethodArg,
-        ctrlLatMethodArg,
-        ctrlLongMethodArg,
+        ctrl_use_combined_controller_arg,
+        ctrl_combined_method_arg,
+        ctrl_lat_method_arg,
+        ctrl_long_method_arg,
         vehicle_param_c1_arg,
         vehicle_param_c2_arg,
         vehicle_param_m_arg,
@@ -333,6 +354,7 @@ def generate_launch_description():
         static_tf,
         novatel_gps,
         duro_gps,
+        os_lidars_merged,
         ekf_wrapper,
         vehicle_can,
         camera_mpc,

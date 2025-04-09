@@ -52,11 +52,11 @@ matyas.mesics@ga.sze.hu}}
 Automated Driving Systems technology, especially above level 3 automatization shift towards map-based solutions. This is a necessary step in the technical development lifecycle, as various functions (e.g., urban 
 navigation and maneuvering) are simply not implementable without maps. In these usecases the local sensing (with cameras and radars) often fail to provide real time, accurate information. Map-based solutions 
 require two main components: accurate localization of the vehicle and the map itself. Our paper is about the latter one. Various map formats (e.g., lanelets, ...) are available. The problem is, that currently 
-the number and accuracy of available maps are insufficient. In our work we propose a toolchain, that can be used to generate lanelet maps \cite{poggenhans2018lanelet2} with static information, such as lane edges and traffic signs, which 
+the number and accuracy of available maps are insufficient. While conventional HD maps provide high accuracy, and a detailed environment description ususaly these maps lack a wide area coverage, also the bandwith required to use these maps in on-road applications is very high and demanding on the network. In our work we propose a toolchain, that can be used to generate lanelet maps \cite{poggenhans2018lanelet2} with static information, such as lane edges and traffic signs, which 
 are primarily needed to accomplish the usual driving tasks (lane following and speed control). We use only an accurate GNSS system and a conventional lane detection camera to generate the maps. We have shown 
 that the position mean deviation of the maps is below 5 cm. The generated maps used to automatically drive through a lane and decelerate to speed limit change in a highway environment. The pipeline and the 
 data used for the study is available publically. By these results we lay the ground for a distributed map generation system, increasing the coverage of the maps and hence enabling the map-based technologies 
-to widely spread in the near future.
+to widely spread in the near future. 
 \end{abstract}
 
 \begin{IEEEkeywords}
