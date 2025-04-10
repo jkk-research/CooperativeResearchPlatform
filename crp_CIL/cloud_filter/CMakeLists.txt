@@ -58,7 +58,7 @@ set(ament_dependencies
 
 add_executable(cloud_filter src/cloud_filter.cpp)
 target_link_libraries(cloud_filter ${PCL_LIBRARIES})
-ament_target_dependencies(cloud_filter rclcpp  visualization_msgs tf2_ros pcl_ros pcl_conversions cv_bridge image_transport std_msgs Eigen3 OpenCV PCL Boost)
+ament_target_dependencies(cloud_filter rclcpp  visualization_msgs tf2_ros pcl_ros pcl_conversions std_msgs Eigen3 OpenCV PCL Boost)
 
 install(TARGETS
   cloud_filter
