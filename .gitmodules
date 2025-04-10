@@ -38,3 +38,6 @@
 	path = crp_VIL/ouster-ros
 	url = https://github.com/ouster-lidar/ouster-ros.git
 	branch = ros2
+[submodule "crp_CIL/RoadSegmentation-TRT"]
+	path = crp_CIL/RoadSegmentation-TRT
+	url = https://github.com/jkk-research/RoadSegmentation-TRT.git
