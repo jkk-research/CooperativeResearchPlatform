@@ -31,7 +31,7 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     m_pub_drivableSurface_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("cai/local_drivable_surface", 10);
 
     m_publishTimer_ = this->create_wall_timer(
-        std::chrono::milliseconds(33), std::bind(&ScenarioAbstraction::publishCallback, this));
+        std::chrono::milliseconds(20), std::bind(&ScenarioAbstraction::publishCallback, this));
     
     RCLCPP_INFO(this->get_logger(), "scenario_abstraction has been started");
 }
@@ -46,7 +46,7 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
     crp_msgs::msg::PathWithTrafficRules lanePath;
 
     // extract path
-    float laneletSpeedLimit = m_trafficRules->speedLimit(lanelet).speedLimit.value();
+    float laneletSpeedLimit = m_trafficRulesVehicle->speedLimit(lanelet).speedLimit.value();
     lanePath.path_length = 0.0f;
     lanelet::ConstLineString2d currentCenterline = lanelet.centerline2d();
     tier4_planning_msgs::msg::PathPointWithLaneId currentPrevPoint = prevPointGlobal;
@@ -82,12 +82,13 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
                 geometry_msgs::msg::Pose stopPoint;
                 for (lanelet::BasicPoint3d stopLinePt : stopLine)
                 {
-                    stopPose.pose.position.x += stopLinePt.x();
-                    stopPose.pose.position.y += stopLinePt.y();
+                    stopPoint.position.x += stopLinePt.x();
+                    stopPoint.position.y += stopLinePt.y();
                 }
-                stopPose.pose.position.x /= stopLine.size();
-                stopPose.pose.position.y /= stopLine.size();
+                stopPoint.position.x /= stopLine.size();
+                stopPoint.position.y /= stopLine.size();
                 
+                stopPose.pose = m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame);
                 stopPose.type = crp_msgs::msg::StopPose::STOP_SIGN;
                 stopPose.confidence = 1.0f;
 
@@ -97,51 +98,29 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
     }
 
     // extract crosswalks
-    lanelet::ConstLaneletOrAreas crosswalks = m_routingGraph->conflicting(lanelet);
-    for (lanelet::ConstLaneletOrArea crosswalk : crosswalks)
+    lanelet::routing::RoutingGraphContainer overall_graphs({m_routingGraphVehicle, m_routingGraphPedestrian});
+    lanelet::ConstLanelets crosswalks = overall_graphs.conflictingInGraph(lanelet, 1);
+
+    for (lanelet::ConstLanelet& crosswalk : crosswalks)
     {
-        if (crosswalk.isLanelet() && crosswalk.attributes().at(lanelet::AttributeName::Subtype) == "crosswalk")
+        // add crosswalk stop poses
+        geometry_msgs::msg::Pose stopPoint;
+
+        lanelet::ConstLineString2d crosswalkLine = crosswalk.centerline2d();
+        for (lanelet::BasicPoint2d crosswalkPt : crosswalkLine)
         {
-            // if crosswalk is a lanelet get the middle of the centerline
-            crp_msgs::msg::StopPose stopPose;
-            stopPose.type = crp_msgs::msg::StopPose::CROSSWALK;
-            stopPose.confidence = 1.0f;
-
-            if (crosswalk.isLanelet())
-            {
-                lanelet::ConstLineString2d crosswalkLine = crosswalk.lanelet().value().centerline2d();
-                for (lanelet::BasicPoint2d crosswalkPt : crosswalkLine)
-                {
-                    stopPose.pose.position.x += crosswalkPt.x();
-                    stopPose.pose.position.y += crosswalkPt.y();
-                }
-                stopPose.pose.position.x /= crosswalkLine.size();
-                stopPose.pose.position.y /= crosswalkLine.size();
-            }
-            else if (crosswalk.isArea())
-            {
-                lanelet::CompoundPolygon3d crosswalkPoly = crosswalk.boundingPolygon();
-                float minX = crosswalkPoly.front().x();
-                float minY = crosswalkPoly.front().y();
-                float maxX = crosswalkPoly.front().x();
-                float maxY = crosswalkPoly.front().y();
-                for (lanelet::BasicPoint3d crosswalkPt : crosswalkPoly)
-                {
-                    if (crosswalkPt.x() < minX)
-                        minX = crosswalkPt.x();
-                    if (crosswalkPt.y() < minY)
-                        minY = crosswalkPt.y();
-                    if (crosswalkPt.x() > maxX)
-                        maxX = crosswalkPt.x();
-                    if (crosswalkPt.y() > maxY)
-                        maxY = crosswalkPt.y();
-                }
-                stopPose.pose.position.x = (minX + maxX) / 2.0;
-                stopPose.pose.position.y = (minY + maxY) / 2.0;
-            }
-
-            lanePath.traffic_rules.stop_poses.push_back(stopPose);
+            stopPoint.position.x += crosswalkPt.x();
+            stopPoint.position.y += crosswalkPt.y();
         }
+        stopPoint.position.x /= crosswalkLine.size();
+        stopPoint.position.y /= crosswalkLine.size();
+
+        crp_msgs::msg::StopPose stopPose;
+        stopPose.type = crp_msgs::msg::StopPose::CROSSWALK;
+        stopPose.confidence = 1.0f;
+        stopPose.pose = stopPoint; // m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame);
+
+        lanePath.traffic_rules.stop_poses.push_back(stopPose);
     }
 
     // set prevPoint for next lanelet
@@ -176,7 +155,7 @@ void crp::cil::ScenarioAbstraction::extractPossiblePaths(
     }
 
     // query next possible lanelets
-    lanelet::routing::LaneletPaths paths = m_routingGraph->possiblePaths(startLanelet, 1, 0, true);
+    lanelet::routing::LaneletPaths paths = m_routingGraphVehicle->possiblePaths(startLanelet, 1, 0, true);
 
     if (paths.empty())
     {
@@ -246,8 +225,11 @@ void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map
 {
     RCLCPP_INFO(this->get_logger(), "Loading map from topic");
     lanelet::utils::conversion::fromBinMsg(*msg, m_laneletMap);
-    m_trafficRules = lanelet::traffic_rules::TrafficRulesFactory::create(lanelet::Locations::Germany, lanelet::Participants::Vehicle);
-    m_routingGraph = lanelet::routing::RoutingGraph::build(*m_laneletMap, *m_trafficRules);
+    m_trafficRulesVehicle = lanelet::traffic_rules::TrafficRulesFactory::create(lanelet::Locations::Germany, lanelet::Participants::Vehicle);
+    m_trafficRulesPedestrian = lanelet::traffic_rules::TrafficRulesFactory::create(lanelet::Locations::Germany, lanelet::Participants::Pedestrian);
+    m_routingGraphVehicle = lanelet::routing::RoutingGraph::build(*m_laneletMap, *m_trafficRulesVehicle);
+    m_routingGraphPedestrian = lanelet::routing::RoutingGraph::build(*m_laneletMap, *m_trafficRulesPedestrian);
+
     m_mapFrameId = msg->header.frame_id;
 
     m_isMapLoaded = true;

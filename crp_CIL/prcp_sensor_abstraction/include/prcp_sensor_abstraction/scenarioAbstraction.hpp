@@ -18,6 +18,7 @@
 #include <lanelet2_core/LaneletMap.h>
 #include <autoware_lanelet2_extension/utility/message_conversion.hpp>
 #include <lanelet2_routing/RoutingGraph.h>
+#include <lanelet2_routing/RoutingGraphContainer.h>
 #include <lanelet2_traffic_rules/TrafficRulesFactory.h>
 #include <lanelet2_core/geometry/Lanelet.h>
 #include <lanelet2_core/primitives/BasicRegulatoryElements.h>
@@ -72,8 +73,10 @@ private:
     float m_wheelbase{2.79};
 
     lanelet::LaneletMapPtr                        m_laneletMap;
-    lanelet::traffic_rules::TrafficRulesPtr       m_trafficRules;
-    lanelet::routing::RoutingGraphUPtr            m_routingGraph;
+    lanelet::traffic_rules::TrafficRulesPtr       m_trafficRulesVehicle;
+    lanelet::traffic_rules::TrafficRulesPtr       m_trafficRulesPedestrian;
+    lanelet::routing::RoutingGraphConstPtr        m_routingGraphVehicle;
+    lanelet::routing::RoutingGraphConstPtr        m_routingGraphPedestrian;
     geometry_msgs::msg::PoseWithCovarianceStamped m_egoPoseMapFrame;
     std::string                                   m_mapFrameId;
     geometry_msgs::msg::TransformStamped          m_gps2mapTransform;
