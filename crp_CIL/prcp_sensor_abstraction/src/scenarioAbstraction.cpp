@@ -118,7 +118,7 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
         crp_msgs::msg::StopPose stopPose;
         stopPose.type = crp_msgs::msg::StopPose::CROSSWALK;
         stopPose.confidence = 1.0f;
-        stopPose.pose = stopPoint; // m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame);
+        stopPose.pose = m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame);
 
         lanePath.traffic_rules.stop_poses.push_back(stopPose);
     }
@@ -210,8 +210,6 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     outPaths.header.stamp = this->now();
 
     extractPossiblePaths(egoLanelet, prevPoint, outPaths, 0, nearestPointIdx);
-
-    // TODO: adjust stopsign and crosswalk stop poses
 
     for (crp_msgs::msg::PathWithTrafficRules& path : outPaths.paths)
     {
