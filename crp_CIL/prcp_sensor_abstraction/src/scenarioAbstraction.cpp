@@ -36,6 +36,159 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     RCLCPP_INFO(this->get_logger(), "scenario_abstraction has been started");
 }
 
+
+crp_msgs::msg::StopPose crp::cil::ScenarioAbstraction::extractStopPoseFromLine(
+    const lanelet::ConstLineString3d& stopLine,
+    const uint8_t&                    stopLineType
+)
+{
+    crp_msgs::msg::StopPose stopPose;
+    // average out the stop line points
+    geometry_msgs::msg::Pose stopPoint;
+    for (lanelet::BasicPoint3d stopLinePt : stopLine)
+    {
+        stopPoint.position.x += stopLinePt.x();
+        stopPoint.position.y += stopLinePt.y();
+        stopPoint.position.z += stopLinePt.z();
+    }
+    stopPoint.position.x /= stopLine.size();
+    stopPoint.position.y /= stopLine.size();
+    stopPoint.position.z /= stopLine.size();
+    
+    stopPose.pose = stopPoint;
+    stopPose.type = stopLineType;
+    stopPose.confidence = 1.0f;
+
+    return stopPose;
+}
+
+
+std::vector<crp_msgs::msg::StopPose> crp::cil::ScenarioAbstraction::extractStopSigns(
+    const lanelet::ConstLanelet& lanelet
+)
+{
+    std::vector<crp_msgs::msg::StopPose> stopPoses;
+    std::vector<std::shared_ptr<const lanelet::TrafficSign>> trafficSigns = lanelet.regulatoryElementsAs<lanelet::TrafficSign>();
+    
+    for (std::shared_ptr<const lanelet::TrafficSign> sign : trafficSigns)
+    {
+        if (sign->type() == "stop_sign")
+        {
+            if (sign->refLines().empty())
+                continue;
+            
+            // add stop lines
+            for (lanelet::ConstLineString3d& stopLine : sign->refLines())
+            {
+                crp_msgs::msg::StopPose stopPose = extractStopPoseFromLine(stopLine, crp_msgs::msg::StopPose::STOP_SIGN);
+                
+                if (m_abstractionUtils.distanceBetweenPoints(stopPose.pose, m_egoPoseMapFrame.pose.pose) <= m_localPathLength)
+                {
+                    stopPoses.push_back(stopPose);
+                }
+            }
+        }
+    }
+
+    return stopPoses;
+}
+
+
+std::vector<crp_msgs::msg::StopPose> crp::cil::ScenarioAbstraction::extractCrosswalk(
+    const lanelet::ConstLanelet& lanelet
+)
+{
+    std::vector<crp_msgs::msg::StopPose> stopPoses;
+    lanelet::routing::RoutingGraphContainer overall_graphs({m_routingGraphVehicle, m_routingGraphPedestrian});
+    lanelet::ConstLanelets crosswalks = overall_graphs.conflictingInGraph(lanelet, 1);
+
+    for (lanelet::ConstLanelet& crosswalk : crosswalks)
+    {
+        // add crosswalk stop poses
+        lanelet::ConstLineString3d crosswalkLine = crosswalk.centerline3d();
+
+        crp_msgs::msg::StopPose stopPose = extractStopPoseFromLine(crosswalkLine, crp_msgs::msg::StopPose::CROSSWALK);
+
+        if (m_abstractionUtils.distanceBetweenPoints(stopPose.pose, m_egoPoseMapFrame.pose.pose) <= m_localPathLength)
+        {
+            stopPoses.push_back(stopPose);
+        }
+    }
+
+    return stopPoses;
+}
+
+
+std::vector<crp_msgs::msg::StopPose> crp::cil::ScenarioAbstraction::filterStopPoses(
+    const std::vector<crp_msgs::msg::StopPose>& globalStopPoses,
+    const lanelet::ConstLineString2d&           centerline,
+    const uint16_t&                             egoPointIdx
+)
+{
+    if (
+        egoPointIdx == 0 ||
+        globalStopPoses.empty()
+    )
+        return globalStopPoses;
+
+    // check if stop poses are valid (not passed yet)
+    // set index jump interval (default point distance interval: 5m)
+    uint8_t meterIdxJumpApprox = 1;
+    if (centerline.size() > 1)
+    {
+        float distance = m_abstractionUtils.distanceBetweenPoints(
+            m_abstractionUtils.laneletPtToPathPoint(centerline[0], 0),
+            m_abstractionUtils.laneletPtToPathPoint(centerline[1], 0)
+        );
+        meterIdxJumpApprox = std::max<uint8_t>(static_cast<uint8_t>(1.0f / distance), 1u);
+    }
+
+    // find closest points to stop poses
+    std::vector<std::pair<uint16_t, float>> stopPoseClosestPoints(globalStopPoses.size(), {0, std::numeric_limits<float>::max()}); // index, distance
+
+    for (uint16_t stopPoseIdx = 0; stopPoseIdx < globalStopPoses.size(); stopPoseIdx++)
+    {
+        for (uint16_t checkPointIdx = egoPointIdx; checkPointIdx < centerline.size(); )
+        {
+            geometry_msgs::msg::Pose currentPoint;
+            currentPoint.position.x = centerline[checkPointIdx].x();
+            currentPoint.position.y = centerline[checkPointIdx].y();
+
+            float currentDistance = m_abstractionUtils.distanceBetweenPoints(currentPoint, globalStopPoses[stopPoseIdx].pose);
+            if (currentDistance < stopPoseClosestPoints[stopPoseIdx].second)
+            {
+                stopPoseClosestPoints[stopPoseIdx].first = checkPointIdx;
+                stopPoseClosestPoints[stopPoseIdx].second = currentDistance;
+            }
+            checkPointIdx += std::max<uint16_t>(static_cast<uint16_t>(currentDistance / meterIdxJumpApprox), 1u);
+        }
+    }
+
+    std::vector<crp_msgs::msg::StopPose> filteredStopPoses;
+    // filter stop poses by closes point position
+    for (uint16_t stopPoseIdx = 0; stopPoseIdx < globalStopPoses.size(); stopPoseIdx++)
+    {
+        // if stop sign is close to ego [5m] then check by local x coordinate
+        // and check distance from point
+        if (
+            stopPoseClosestPoints[stopPoseIdx].first <= egoPointIdx + meterIdxJumpApprox * 5 &&
+            (
+                m_abstractionUtils.transformToLocal(globalStopPoses[stopPoseIdx].pose, m_egoPoseMapFrame).position.x < 0.0f ||
+                stopPoseClosestPoints[stopPoseIdx].second > 5.0f
+            )
+        )
+        {
+            // stop pose is passed by ego so skip it
+            continue;
+        }
+
+        filteredStopPoses.push_back(globalStopPoses[stopPoseIdx]);
+    }
+
+    return filteredStopPoses;
+}
+
+
 crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLaneletToCompleteLength(
     const lanelet::ConstLanelet&                   lanelet,
     const float&                                   currentCompletePathLength,
@@ -45,10 +198,40 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
 {
     crp_msgs::msg::PathWithTrafficRules lanePath;
 
-    // extract path
+    // extract stop poses
+    std::vector<crp_msgs::msg::StopPose> globalStopPoses;
+    {
+        // extract stop signs
+        std::vector<crp_msgs::msg::StopPose> stopSigns = extractStopSigns(lanelet);
+
+        // TODO: add crosswalks
+        // ! crosswalk extraction takes too long with large lanelets
+        // ? only extract crosswalks once and cache them
+        // // extract crosswalks
+        // std::vector<crp_msgs::msg::StopPose> crosswalks = extractCrosswalk(lanelet);
+        
+        globalStopPoses.reserve(stopSigns.size()); // + crosswalks.size());
+
+        globalStopPoses.insert(globalStopPoses.end(), stopSigns.begin(), stopSigns.end());
+        // globalStopPoses.insert(globalStopPoses.end(), crosswalks.begin(), crosswalks.end());
+    }
+
+    // extract lanelet line
     float laneletSpeedLimit = m_trafficRulesVehicle->speedLimit(lanelet).speedLimit.value();
     lanePath.path_length = 0.0f;
     lanelet::ConstLineString2d currentCenterline = lanelet.centerline2d();
+
+    // check stop poses are valid (not passed yet)
+    std::vector<crp_msgs::msg::StopPose> filteredStopPoses = filterStopPoses(globalStopPoses, currentCenterline, currentPointIdx);
+    
+    // transform stop poses to local frame and add to lanelet
+    for (crp_msgs::msg::StopPose stopPose : filteredStopPoses)
+    {
+        stopPose.pose = m_abstractionUtils.transformToLocal(stopPose.pose, m_egoPoseMapFrame);
+        lanePath.traffic_rules.stop_poses.push_back(stopPose);
+    }
+
+    // extract path
     tier4_planning_msgs::msg::PathPointWithLaneId currentPrevPoint = prevPointGlobal;
     while (lanePath.path_length+currentCompletePathLength < m_localPathLength && currentPointIdx < currentCenterline.size())
     {
@@ -64,70 +247,12 @@ crp_msgs::msg::PathWithTrafficRules crp::cil::ScenarioAbstraction::extractLanele
         currentPointIdx++;
     }
 
-    // extract stop signs
-    std::vector<std::shared_ptr<const lanelet::TrafficSign>> trafficSigns = lanelet.regulatoryElementsAs<lanelet::TrafficSign>();
-    for (std::shared_ptr<const lanelet::TrafficSign> sign : trafficSigns)
-    {
-        if (sign->type() == "stop_sign")
-        {
-            if (sign->refLines().empty())
-                continue;
-
-            // add stop lines
-            for (lanelet::ConstLineString3d& stopLine : sign->refLines())
-            {
-                crp_msgs::msg::StopPose stopPose;
-
-                // average out the stop line points
-                geometry_msgs::msg::Pose stopPoint;
-                for (lanelet::BasicPoint3d stopLinePt : stopLine)
-                {
-                    stopPoint.position.x += stopLinePt.x();
-                    stopPoint.position.y += stopLinePt.y();
-                }
-                stopPoint.position.x /= stopLine.size();
-                stopPoint.position.y /= stopLine.size();
-                
-                stopPose.pose = m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame);
-                stopPose.type = crp_msgs::msg::StopPose::STOP_SIGN;
-                stopPose.confidence = 1.0f;
-
-                lanePath.traffic_rules.stop_poses.push_back(stopPose);
-            }
-        }
-    }
-
-    // extract crosswalks
-    lanelet::routing::RoutingGraphContainer overall_graphs({m_routingGraphVehicle, m_routingGraphPedestrian});
-    lanelet::ConstLanelets crosswalks = overall_graphs.conflictingInGraph(lanelet, 1);
-
-    for (lanelet::ConstLanelet& crosswalk : crosswalks)
-    {
-        // add crosswalk stop poses
-        geometry_msgs::msg::Pose stopPoint;
-
-        lanelet::ConstLineString2d crosswalkLine = crosswalk.centerline2d();
-        for (lanelet::BasicPoint2d crosswalkPt : crosswalkLine)
-        {
-            stopPoint.position.x += crosswalkPt.x();
-            stopPoint.position.y += crosswalkPt.y();
-        }
-        stopPoint.position.x /= crosswalkLine.size();
-        stopPoint.position.y /= crosswalkLine.size();
-
-        crp_msgs::msg::StopPose stopPose;
-        stopPose.type = crp_msgs::msg::StopPose::CROSSWALK;
-        stopPose.confidence = 1.0f;
-        stopPose.pose = m_abstractionUtils.transformToLocal(stopPoint, m_egoPoseMapFrame);
-
-        lanePath.traffic_rules.stop_poses.push_back(stopPose);
-    }
-
     // set prevPoint for next lanelet
     prevPointGlobal = currentPrevPoint;
 
     return lanePath;
 }
+
 
 void crp::cil::ScenarioAbstraction::extractPossiblePaths(
     const lanelet::ConstLanelet&                   startLanelet,
@@ -187,6 +312,7 @@ void crp::cil::ScenarioAbstraction::extractPossiblePaths(
     return;
 }
 
+
 void crp::cil::ScenarioAbstraction::publishCallback()
 {
     if (!m_isMapLoaded || !m_isGpsTransformSet)
@@ -219,6 +345,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     m_pub_possiblePaths_->publish(outPaths);
 }
 
+
 void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg)
 {
     RCLCPP_INFO(this->get_logger(), "Loading map from topic");
@@ -233,6 +360,7 @@ void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map
     m_isMapLoaded = true;
     RCLCPP_INFO(this->get_logger(), "Map loaded");
 }
+
 
 void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
 {

@@ -44,7 +44,22 @@ private:
     void staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     void publishCallback();
-
+    
+    crp_msgs::msg::StopPose extractStopPoseFromLine(
+        const lanelet::ConstLineString3d& stopLine,
+        const uint8_t&                    stopLineType
+    );
+    std::vector<crp_msgs::msg::StopPose> extractStopSigns(
+        const lanelet::ConstLanelet& lanelet
+    );
+    std::vector<crp_msgs::msg::StopPose> extractCrosswalk(
+        const lanelet::ConstLanelet& lanelet
+    );
+    std::vector<crp_msgs::msg::StopPose> filterStopPoses(
+        const std::vector<crp_msgs::msg::StopPose>& globalStopPoses,
+        const lanelet::ConstLineString2d&           centerline,
+        const uint16_t&                             checkPointIdx
+    );
     crp_msgs::msg::PathWithTrafficRules extractLaneletToCompleteLength(
         const lanelet::ConstLanelet&                   lanelet,
         const float&                                   currentCompletePathLength,
@@ -69,8 +84,8 @@ private:
 
     bool  m_isMapLoaded{false};
     bool  m_isGpsTransformSet{false};
-    float m_localPathLength{75.0};
-    float m_wheelbase{2.79};
+    float m_localPathLength{75.0f};
+    float m_wheelbase{2.79f};
 
     lanelet::LaneletMapPtr                        m_laneletMap;
     lanelet::traffic_rules::TrafficRulesPtr       m_trafficRulesVehicle;
