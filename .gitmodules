@@ -41,3 +41,6 @@
 [submodule "crp_CIL/RoadSegmentation-TRT"]
 	path = crp_CIL/RoadSegmentation-TRT
 	url = https://github.com/jkk-research/RoadSegmentation-TRT.git
+[submodule "crp_CIL/prcp_grid_cam"]
+	path = crp_CIL/prcp_grid_cam
+	url = git@github.com:jkk-research/prcp_grid_cam.git
