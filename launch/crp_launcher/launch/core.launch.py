@@ -247,7 +247,6 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('ctrl_vehicle_control_nmpc'),
-                'mpc_controller',
                 'launch',
                 'launch_mpc_controller.launch.py')
         ),
