@@ -282,9 +282,9 @@ def generate_launch_description():
     vehicle_speed_control = IncludeLaunchDescription(
         AnyLaunchDescriptionSource(
             join(
-                get_package_share_directory('lexus_bringup'),
+                get_package_share_directory('actuator_control'),
                 'launch',
-                'speed_control.launch.py')
+                'actuator_control.launch.py')
         )
     )
 
