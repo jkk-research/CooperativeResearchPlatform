@@ -308,16 +308,16 @@ def generate_launch_description():
         ),
         GroupAction(
             [
-                vehicle_control_lat_compensatory,
-                vehicle_control_lat_pure_p,
-                vehicle_control_lat_stanley,
-                vehicle_control_lat_nmpc,
+                vehicle_control_long
             ],
             condition=LaunchConfigurationEquals('ctrl_use_combined_controller', 'false')
         ),
         GroupAction(
             [
-                vehicle_control_long
+                vehicle_control_lat_compensatory,
+                vehicle_control_lat_pure_p,
+                vehicle_control_lat_stanley,
+                vehicle_control_lat_nmpc,
             ],
             condition=LaunchConfigurationEquals('ctrl_use_combined_controller', 'false')
         ),
