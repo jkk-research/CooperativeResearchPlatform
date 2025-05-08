@@ -41,3 +41,6 @@
 [submodule "crp_CIL/RoadSegmentation-TRT"]
 	path = crp_CIL/RoadSegmentation-TRT
 	url = https://github.com/jkk-research/RoadSegmentation-TRT.git
+[submodule "crp_APL/pdm"]
+	path = crp_APL/pdm
+	url = https://github.com/jkk-research/pdm
