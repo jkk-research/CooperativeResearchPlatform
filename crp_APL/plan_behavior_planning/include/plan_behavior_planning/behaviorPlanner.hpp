@@ -27,13 +27,13 @@ private:
     void behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg);
     void loop();
 
-    rclcpp::Subscription<autoware_planning_msgs::msg::LaneletRoute>::SharedPtr m_sub_route;
-    rclcpp::Subscription<crp_msgs::msg::Scenario>::SharedPtr                   m_sub_scenario;
-    rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                        m_sub_ego;
+    rclcpp::Subscription<autoware_planning_msgs::msg::LaneletRoute>::SharedPtr m_sub_route_;
+    rclcpp::Subscription<crp_msgs::msg::Scenario>::SharedPtr                   m_sub_scenario_;
+    rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                        m_sub_ego_;
     rclcpp::Subscription<crp_msgs::msg::Behavior>::SharedPtr                   m_sub_behavior_;
 
-    rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy;
-    rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace;
+    rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy_;
+    rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace_;
 
     rclcpp::TimerBase::SharedPtr m_timer_;
     

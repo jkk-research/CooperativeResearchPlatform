@@ -10,6 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
 find_package(autoware_perception_msgs REQUIRED)
@@ -26,7 +27,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Ego.msg"
   "msg/EgoStatus.msg"
   "msg/Behavior.msg"
-  DEPENDENCIES std_msgs geometry_msgs nav_msgs autoware_planning_msgs autoware_perception_msgs tier4_planning_msgs
+  DEPENDENCIES std_msgs geometry_msgs nav_msgs sensor_msgs autoware_planning_msgs autoware_perception_msgs tier4_planning_msgs
 )
 
 

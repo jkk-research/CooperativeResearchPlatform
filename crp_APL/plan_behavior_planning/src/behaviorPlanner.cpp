@@ -3,19 +3,19 @@
 
 crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
 {
-    m_sub_route    = this->create_subscription<autoware_planning_msgs::msg::LaneletRoute>(
+    m_sub_route_    = this->create_subscription<autoware_planning_msgs::msg::LaneletRoute>(
         "plan/route", 10, std::bind(&BehaviorPlanner::routeCallback, this, std::placeholders::_1));
-    m_sub_scenario = this->create_subscription<crp_msgs::msg::Scenario>(
+    m_sub_scenario_ = this->create_subscription<crp_msgs::msg::Scenario>(
         "scenario", 10, std::bind(&BehaviorPlanner::scenarioCallback, this, std::placeholders::_1));
-    m_sub_ego      = this->create_subscription<crp_msgs::msg::Ego>(
+    m_sub_ego_      = this->create_subscription<crp_msgs::msg::Ego>(
         "ego", 10, std::bind(&BehaviorPlanner::egoCallback, this, std::placeholders::_1));
 
     m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
         "/ui/behavior", 10,
         std::bind(&BehaviorPlanner::behaviorCallback, this, std::placeholders::_1));
 
-    m_pub_strategy = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
-    m_pub_targetSpace = this->create_publisher<crp_msgs::msg::TargetSpace>("plan/target_space", 10);
+    m_pub_strategy_    = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
+    m_pub_targetSpace_ = this->create_publisher<crp_msgs::msg::TargetSpace>("plan/target_space", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&BehaviorPlanner::loop, this));
 
@@ -43,7 +43,7 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
 
     targetSpaceMsg.free_space = msg->free_space;
     
-    m_pub_targetSpace->publish(targetSpaceMsg);
+    m_pub_targetSpace_->publish(targetSpaceMsg);
 
 }
 
@@ -70,7 +70,7 @@ void crp::apl::BehaviorPlanner::loop()
     tier4_planning_msgs::msg::Scenario scenario_msg;
     scenario_msg.current_scenario = currentScenarioMsg;
 
-    m_pub_strategy->publish(scenario_msg);
+    m_pub_strategy_->publish(scenario_msg);
     
     return;
 }

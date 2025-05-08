@@ -9,6 +9,7 @@
 #include <nav_msgs/msg/odometry.hpp>
 #include <crp_msgs/msg/ego_status.hpp>
 #include <std_msgs/msg/float32.hpp>
+#include <sensor_msgs/msg/nav_sat_fix.hpp>
 
 
 namespace crp
@@ -22,22 +23,28 @@ public:
     EgoAbstraction();
 
 private:
+    void navSatFixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     void twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg);
     void accelCallback(const geometry_msgs::msg::AccelWithCovarianceStamped::SharedPtr msg);
     void tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg);
+    void steeringWheelRateCallback(const std_msgs::msg::Float32::SharedPtr msg);
     void publishCallback();
 
+    rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr                    m_sub_navSatFix_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr  m_sub_pose_;
     rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr m_sub_twist_;
     rclcpp::Subscription<geometry_msgs::msg::AccelWithCovarianceStamped>::SharedPtr m_sub_accel_;
     rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_tireAngle_;
+    rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_steeringWheelRate_;
 
     rclcpp::Publisher<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_pub_kinematicState_;
-    rclcpp::Publisher<crp_msgs::msg::EgoStatus>::SharedPtr m_pub_egoStatus_;
+    rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr                     m_pub_gnssFix_;
+    rclcpp::Publisher<crp_msgs::msg::EgoStatus>::SharedPtr                        m_pub_egoStatus_;
 
     autoware_localization_msgs::msg::KinematicState m_kinematicState;
-    crp_msgs::msg::EgoStatus m_egoStatus;
+    sensor_msgs::msg::NavSatFix                     m_gnssFix;
+    crp_msgs::msg::EgoStatus                        m_egoStatus;
 
     rclcpp::TimerBase::SharedPtr m_publishTimer_;
 };
