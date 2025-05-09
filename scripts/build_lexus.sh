@@ -33,6 +33,7 @@ packages=(
   kvaser_interface
   lanelet_handler
   lexus_bringup
+  actuator_control
   mcap_rec
   mpc_camera_driver
   novatel_gps_msgs

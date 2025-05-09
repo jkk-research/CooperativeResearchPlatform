@@ -304,6 +304,14 @@ class ROSController(Node):
         B = np.zeros((5, 2))
         B[3, 0] = v / self.L
         B[4, 1] = self.dt
+        
+        # Gain Scheduling 
+        
+        q_scale = 1 + np.tanh(np.linalg.norm(x) / (2 + self.state.v / 10))
+        r_scale = 1 + 0.5 * (2100 / 30)  # More damping at high speeds 2100 kg curb weight
+        
+        self.lqr_Q = q_scale * self.lqr_Q
+        self.lqr_R = r_scale * self.lqr_R
 
         K, _, _ = self.dlqr(A, B, self.lqr_Q, self.lqr_R)
 
