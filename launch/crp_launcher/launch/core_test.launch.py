@@ -21,8 +21,8 @@ def generate_launch_description():
     )
     ctrl_lat_methodArg = DeclareLaunchArgument(
         'ctrl_lat_method',
-        default_value='comp',
-        description='Lat controller to use. Possible values: comp, purep, stanley'
+        default_value='nmpc',
+        description='Lat controller to use. Possible values: comp, purep, stanley, nmpc'
     )
     ctrl_long_methodArg = DeclareLaunchArgument(
         'ctrl_long_method',
