@@ -5,7 +5,7 @@ from launch.substitutions import LaunchConfiguration, TextSubstitution
 
 def generate_launch_description():
     maximumSpeedInit_arg = DeclareLaunchArgument(
-        '/test/maximumSpeedInit', default_value=TextSubstitution(text='20.0')
+        '/test/maximumSpeedInit', default_value=TextSubstitution(text='10.0')
     )
 
     previewDistance_arg = DeclareLaunchArgument(

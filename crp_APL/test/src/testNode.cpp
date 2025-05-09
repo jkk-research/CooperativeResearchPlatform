@@ -17,7 +17,7 @@ crp::apl::TestNode::TestNode() : Node("test_node")
 
     m_pub_behavior_       = this->create_publisher<crp_msgs::msg::Behavior>("/ui/behavior", 10);
 
-    this->declare_parameter("/test/maximumSpeedInit", 20.0f); // in m/s
+    this->declare_parameter("/test/maximumSpeedInit", 10.0f); // in m/s
     this->declare_parameter("/test/previewDistance", 100.0f); // in m
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&TestNode::run, this));
