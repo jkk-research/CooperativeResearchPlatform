@@ -147,6 +147,17 @@ def generate_launch_description():
         )
     )
 
+    # ros2 run
+    
+    pdm = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('pdp_wrapper'),
+                'launch',
+                'pdpWrapper.launch.py')
+        ),
+    )
+
     ############
     # PLANNING #
     ############
@@ -293,6 +304,7 @@ def generate_launch_description():
         # nodes
 
         environmental_fusion,
+        pdm,
 
         behavior_planning,
         planner_lat_lane_follow_ldm,
