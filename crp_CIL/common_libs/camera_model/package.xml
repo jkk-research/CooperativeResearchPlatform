@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>camera_model</name>
+  <version>1.0.0</version>
+  <description>Pinhole Camera Model Class Library.</description>
+
+  <maintainer email="norbertmarko92@gmail.com">root</maintainer>
+  <license>MIT</license>
+
+  <!-- Use ament_cmake as the build tool -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <!-- Declare runtime/build dependencies -->
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>pcl_ros</depend>
+  <depend>EIGEN3</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
+
