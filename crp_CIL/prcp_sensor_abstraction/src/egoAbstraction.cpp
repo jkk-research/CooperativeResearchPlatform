@@ -38,6 +38,9 @@ crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
     m_sub_steeringWheelRate_ = this->create_subscription<std_msgs::msg::Float32>(
         steeringWheelRateTopic, 10, std::bind(&EgoAbstraction::steeringWheelRateCallback, this, std::placeholders::_1)
     );
+    m_sub_blinker_ = this->create_subscription<std_msgs::msg::Int8>(
+        "/sensing/vehicle/blinker", 10, std::bind(&EgoAbstraction::blinkerCallback, this, std::placeholders::_1)
+    );
 
     m_pub_kinematicState_ = this->create_publisher<autoware_localization_msgs::msg::KinematicState>("/cai/kinematic_state", 10);
     m_pub_egoStatus_      = this->create_publisher<crp_msgs::msg::EgoStatus>("/cai/ego_status", 10);
@@ -53,6 +56,11 @@ void crp::cil::EgoAbstraction::publishCallback()
 {
     m_pub_kinematicState_->publish(m_kinematicState);
     m_pub_egoStatus_->publish(m_egoStatus);
+}
+
+void crp::cil::EgoAbstraction::blinkerCallback(const std_msgs::msg::Int8::SharedPtr msg)
+{
+    m_egoStatus.blinker.data = msg->data;
 }
 
 void crp::cil::EgoAbstraction::steeringWheelRateCallback(const std_msgs::msg::Float32::SharedPtr msg)

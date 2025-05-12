@@ -9,6 +9,7 @@
 #include <nav_msgs/msg/odometry.hpp>
 #include <crp_msgs/msg/ego_status.hpp>
 #include <std_msgs/msg/float32.hpp>
+#include <std_msgs/msg/int8.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 
 
@@ -29,6 +30,7 @@ private:
     void accelCallback(const geometry_msgs::msg::AccelWithCovarianceStamped::SharedPtr msg);
     void tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg);
     void steeringWheelRateCallback(const std_msgs::msg::Float32::SharedPtr msg);
+    void blinkerCallback(const std_msgs::msg::Int8::SharedPtr msg);
     void publishCallback();
 
     rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr                    m_sub_navSatFix_;
@@ -37,6 +39,7 @@ private:
     rclcpp::Subscription<geometry_msgs::msg::AccelWithCovarianceStamped>::SharedPtr m_sub_accel_;
     rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_tireAngle_;
     rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_steeringWheelRate_;
+    rclcpp::Subscription<std_msgs::msg::Int8>::SharedPtr                            m_sub_blinker_;
 
     rclcpp::Publisher<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_pub_kinematicState_;
     rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr                     m_pub_gnssFix_;

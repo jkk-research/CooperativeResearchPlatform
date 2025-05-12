@@ -6,6 +6,7 @@ PacmodExtender::PacmodExtender() : Node("pacmod_extender_node")
     m_sub_can_      = this->create_subscription<can_msgs::msg::Frame>("pacmod/can_tx", 1, std::bind(&PacmodExtender::canCallback, this, std::placeholders::_1));
     m_sub_twist_    = this->create_subscription<geometry_msgs::msg::TwistStamped>("vehicle_status", 1, std::bind(&PacmodExtender::twistCallback, this, std::placeholders::_1));
     m_sub_steering_ = this->create_subscription<pacmod3_msgs::msg::SystemRptFloat>("pacmod/steering_rpt", 1, std::bind(&PacmodExtender::steeringCallback, this, std::placeholders::_1));
+    m_sub_blinker_  = this->create_subscription<pacmod3_msgs::msg::SystemRptInt>("pacmod/turn_rpt", 1, std::bind(&PacmodExtender::blinkerCallback, this, std::placeholders::_1));
 
     m_pub_vehicleTwist_      = this->create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>("/sensing/vehicle/twist", 1);
     m_pub_vehicleAccel_      = this->create_publisher<geometry_msgs::msg::AccelWithCovarianceStamped>("/sensing/vehicle/accel", 1);
@@ -13,6 +14,7 @@ PacmodExtender::PacmodExtender() : Node("pacmod_extender_node")
     m_pub_yawRate_           = this->create_publisher<pacmod3_msgs::msg::YawRateRpt>("pacmod/yaw_rate_calc_rpt", 1);
     m_pub_tireAngle_         = this->create_publisher<std_msgs::msg::Float32>("/sensing/vehicle/tire_angle", 1);
     m_pub_steeringWheelRate_ = this->create_publisher<std_msgs::msg::Float32>("/sensing/vehicle/steering_wheel_rate", 1);
+    m_pub_blinker_           = this->create_publisher<std_msgs::msg::Int8>("/sensing/vehicle/blinker", 1);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&PacmodExtender::publishMessages, this));
 
@@ -55,6 +57,28 @@ void PacmodExtender::steeringCallback(const pacmod3_msgs::msg::SystemRptFloat::S
 
     m_prevSteeringRate = m_steeringRate.data;
     m_prevSteeringRpt = *msg;
+}
+
+void PacmodExtender::blinkerCallback(const pacmod3_msgs::msg::SystemRptInt::SharedPtr msg)
+{
+    std_msgs::msg::Int8 blinkerMsg;
+
+    if (msg->command == msg->TURN_LEFT)
+    {
+        blinkerMsg.data = 1;
+    }
+    else if (msg->command == msg->TURN_RIGHT)
+    {
+        blinkerMsg.data = 2;
+    }
+    else if (msg->command == msg->TURN_HAZARDS)
+    {
+        blinkerMsg.data = 3;
+    }
+    else
+    {
+        blinkerMsg.data = 0;
+    }
 }
 
 void PacmodExtender::twistCallback(const geometry_msgs::msg::TwistStamped::SharedPtr msg)

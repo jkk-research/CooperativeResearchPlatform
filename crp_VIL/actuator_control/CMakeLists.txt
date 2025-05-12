@@ -11,12 +11,13 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(pacmod3_msgs REQUIRED)
 find_package(crp_msgs REQUIRED)
+find_package(pdp_if REQUIRED)
 find_package(autoware_control_msgs REQUIRED)
 
 include_directories(include)
 
 add_executable(actuator_control src/actuator_control.cpp)
-ament_target_dependencies(actuator_control rclcpp std_msgs pacmod3_msgs crp_msgs autoware_control_msgs)
+ament_target_dependencies(actuator_control rclcpp std_msgs pacmod3_msgs crp_msgs pdp_if autoware_control_msgs)
 
 install(TARGETS
 actuator_control

@@ -16,6 +16,7 @@
   <depend>std_msgs</depend>
   <depend>pacmod3_msgs</depend>
   <depend>crp_msgs</depend>
+  <depend>pdp_if</depend>
   <depend>autoware_control_msgs</depend>
 
   <export>

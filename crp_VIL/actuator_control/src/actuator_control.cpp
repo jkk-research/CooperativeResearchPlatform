@@ -42,8 +42,8 @@ void crp::vil::ActuatorControl::behaviorCallback(const crp_msgs::msg::Behavior m
     m_uiDecelMode = msg.deceleration_mode.data;
     m_uiJerkMode = msg.jerk_mode.data;
 
-    // TODO: remove: override vehicle speed with ui behavior target speed
-    m_vehicle_speed_reference = msg.target_speed.data;
+    m_enable_lateral_control = msg.enable_lateral_control;
+    m_enable_longitudinal_control = msg.enable_longitudinal_control;
 
     setLongitudinalDynamics();
 }
@@ -123,9 +123,6 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
         m_maximum_jerk = 1.0;
         m_minimum_jerk = -1.0;
     }
-
-    m_enable_lateral_control = msg.enable_lateral_control;
-    m_enable_longitudinal_control = msg.enable_longitudinal_control;
 }
 
 void crp::vil::ActuatorControl::autonomReinitCallback(const std_msgs::msg::Bool msg)
@@ -143,8 +140,7 @@ void crp::vil::ActuatorControl::egoCallback(const crp_msgs::msg::Ego msg)
 
 void crp::vil::ActuatorControl::controlCmdCallback(const autoware_control_msgs::msg::Control msg)
 {
-    // TODO: reinstate (temp: override vehicle speed with ui behavior target speed)
-    // m_vehicle_speed_reference = msg.longitudinal.velocity;
+    m_vehicle_speed_reference = msg.longitudinal.velocity;
     m_vehicle_steering_reference = msg.lateral.steering_tire_angle * 14.8;
 }
 
