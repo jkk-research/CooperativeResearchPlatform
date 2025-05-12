@@ -24,6 +24,9 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
         "/ui/behavior", 10,
         std::bind(&ActuatorControl::behaviorCallback, this, std::placeholders::_1));
+    m_sub_pdp_ = this->create_subscription<pdp_if::msg::PdpPersonalizedParamsActive>(
+        "/PdpPersonalizedParamsActive", 10,
+        std::bind(&ActuatorControl::pdpCallback, this, std::placeholders::_1));
 
     m_accel_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/accel_cmd", 10);
     m_brake_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/brake_cmd", 10);
@@ -35,56 +38,90 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
 
 void crp::vil::ActuatorControl::behaviorCallback(const crp_msgs::msg::Behavior msg)
 {
-    if (msg.acceleration_mode.data == 1)
+    m_uiAccelMode = msg.acceleration_mode.data;
+    m_uiDecelMode = msg.deceleration_mode.data;
+    m_uiJerkMode = msg.jerk_mode.data;
+
+    // TODO: remove: override vehicle speed with ui behavior target speed
+    m_vehicle_speed_reference = msg.target_speed.data;
+
+    setLongitudinalDynamics();
+}
+
+void crp::vil::ActuatorControl::pdpCallback(const pdp_if::msg::PdpPersonalizedParamsActive msg)
+{
+    m_pdpAccelMode = msg.pdpout_accelerationstartup_mode;
+    m_pdpDecelMode = msg.pdpout_decceleration_mode;
+
+    setLongitudinalDynamics();
+}
+
+void crp::vil::ActuatorControl::setLongitudinalDynamics()
+{
+    uint8_t accelMode;
+    uint8_t decelMode;
+
+    if (m_pdpAccelMode != 0)
+        accelMode = m_pdpAccelMode;
+    else
+        accelMode = m_uiAccelMode;
+    
+    if (m_pdpDecelMode != 0)
+        decelMode = m_pdpDecelMode;
+    else
+        decelMode = m_uiDecelMode;
+
+
+    if (accelMode == 1)
     {
-      m_maximum_acceleration = 2.0;
+        m_maximum_acceleration = 2.0;
     }
-    else if(msg.acceleration_mode.data == 2)
+    else if(accelMode == 2)
     {
-      m_maximum_acceleration = 3.5;
+        m_maximum_acceleration = 3.5;
     }
-    else if(msg.acceleration_mode.data == 3)
+    else if(accelMode == 3)
     {
-      m_maximum_acceleration = 5.0;
+        m_maximum_acceleration = 5.0;
     }
     else{
-      m_maximum_acceleration = 1.0;
+        m_maximum_acceleration = 1.0;
     }
 
-    if (msg.deceleration_mode.data == 1)
+    if (decelMode == 1)
     {
-      m_maximum_deceleration = -2.0;
+        m_maximum_deceleration = -2.0;
     }
-    else if(msg.deceleration_mode.data == 2)
+    else if(decelMode == 2)
     {
-      m_maximum_deceleration = -3.5;
+        m_maximum_deceleration = -3.5;
     }
-    else if(msg.deceleration_mode.data == 3)
+    else if(decelMode == 3)
     {
-      m_maximum_deceleration = -5.0;
+        m_maximum_deceleration = -5.0;
     }
     else{
-      m_maximum_deceleration = -1.0;
+        m_maximum_deceleration = -1.0;
     }
 
-    if (msg.jerk_mode.data == 1)
+    if (m_uiJerkMode == 1)
     {
-      m_maximum_jerk = 0.75;
-      m_minimum_jerk = -0.75;
+        m_maximum_jerk = 0.75;
+        m_minimum_jerk = -0.75;
     }
-    else if(msg.jerk_mode.data == 2)
+    else if(m_uiJerkMode == 2)
     {
-      m_maximum_jerk = 1.5;
-      m_minimum_jerk = -1.5;
+        m_maximum_jerk = 1.5;
+        m_minimum_jerk = -1.5;
     }
-    else if(msg.jerk_mode.data == 3)
+    else if(m_uiJerkMode == 3)
     {
-      m_maximum_jerk = 3.0;
-      m_minimum_jerk = -3.0;
+        m_maximum_jerk = 3.0;
+        m_minimum_jerk = -3.0;
     }
     else{
-      m_maximum_jerk = 1.0;
-      m_minimum_jerk = -1.0;
+        m_maximum_jerk = 1.0;
+        m_minimum_jerk = -1.0;
     }
 }
 
@@ -103,7 +140,8 @@ void crp::vil::ActuatorControl::egoCallback(const crp_msgs::msg::Ego msg)
 
 void crp::vil::ActuatorControl::controlCmdCallback(const autoware_control_msgs::msg::Control msg)
 {
-    m_vehicle_speed_reference = msg.longitudinal.velocity;
+    // TODO: reinstate (temp: override vehicle speed with ui behavior target speed)
+    // m_vehicle_speed_reference = msg.longitudinal.velocity;
     m_vehicle_steering_reference = msg.lateral.steering_tire_angle * 14.8;
 }
 
@@ -119,105 +157,104 @@ void crp::vil::ActuatorControl::run()
     //  in this if statement control_state is in acceleration
     if ((speed_diff > -0.9 && m_control_state) || (speed_diff > 0.9))
     {
-      m_control_state = true;
-      m_statusStringMsg.data = "accel"; 
-      // RCLCPP_INFO_STREAM(this->get_logger(), "accelerate");
-      m_p_out_accel = speed_diff * m_p_gain_accel;
-      if ((m_t_integ_accel + speed_diff * dt) <= m_max_i_accel)
-      {
-        m_t_integ_accel = m_t_integ_accel + speed_diff * dt;
-      }
-      m_i_out_accel = m_t_integ_accel * m_i_gain_accel;
-      double t_derivative_accel = (speed_diff - m_speed_diff_prev) / dt;
-      m_d_out_accel = m_d_gain_accel * t_derivative_accel;
-      double accel_command_raw = m_p_out_accel + m_i_out_accel + m_d_out_accel; // P+I+D
+        m_control_state = true;
+        m_statusStringMsg.data = "accel"; 
+        // RCLCPP_INFO_STREAM(this->get_logger(), "accelerate");
+        m_p_out_accel = speed_diff * m_p_gain_accel;
+        if ((m_t_integ_accel + speed_diff * dt) <= m_max_i_accel)
+        {
+            m_t_integ_accel = m_t_integ_accel + speed_diff * dt;
+        }
+        m_i_out_accel = m_t_integ_accel * m_i_gain_accel;
+        double t_derivative_accel = (speed_diff - m_speed_diff_prev) / dt;
+        m_d_out_accel = m_d_gain_accel * t_derivative_accel;
+        double accel_command_raw = m_p_out_accel + m_i_out_accel + m_d_out_accel; // P+I+D
 
-      m_accelCommandMsg.command = accel_command_raw;
-      m_brakeCommandMsg.command = 0.0;
-      // acceleration upper limit
-      m_accelCommandMsg.command = std::min(m_accelCommandMsg.command, m_maximum_acceleration);
+        m_accelCommandMsg.command = accel_command_raw;
+        m_brakeCommandMsg.command = 0.0;
+        // acceleration upper limit
+        m_accelCommandMsg.command = std::min(m_accelCommandMsg.command, m_maximum_acceleration);
 
-      // gradient limit
-      if ((m_accelCommandMsg.command - m_accel_command_prev) / dt > m_maximum_jerk && dt > 0.0)
-      {
-        m_accelCommandMsg.command = m_accel_command_prev + m_maximum_jerk * dt;
-      }
-      else if ((m_accelCommandMsg.command - m_accel_command_prev) / dt < m_minimum_jerk && dt > 0.0)
-      {
-        m_accelCommandMsg.command = m_accel_command_prev + m_minimum_jerk * dt;
-      }
+        // gradient limit
+        if ((m_accelCommandMsg.command - m_accel_command_prev) / dt > m_maximum_jerk && dt > 0.0)
+        {
+            m_accelCommandMsg.command = m_accel_command_prev + m_maximum_jerk * dt;
+        }
+        else if ((m_accelCommandMsg.command - m_accel_command_prev) / dt < m_minimum_jerk && dt > 0.0)
+        {
+            m_accelCommandMsg.command = m_accel_command_prev + m_minimum_jerk * dt;
+        }
     }
     // hysteresis to avoid fluctuating behaviour at constant speeds
     // in this if statement control_state is in deceleration (brake)
     else if ((speed_diff < 0.9 && !m_control_state) || (speed_diff < -0.9))
     {
-      m_control_state = false; // brake state
-      m_statusStringMsg.data = "brake"; 
-      // RCLCPP_INFO_STREAM(this->get_logger(), "brake");
-      m_p_out_brake = speed_diff * m_p_gain_brake;
-      // Standstill 1.38 m/s ~= 5.0 km/h
-      if (m_vehicle_speed_reference < 1.38 && m_vehicle_speed_actual < 1.38){
-        m_statusStringMsg.data = "standstill";  
-        m_p_out_brake = m_p_out_brake * 1.2;
-      }
-      if ((m_t_integ_brake + speed_diff * dt) >= m_max_i_brake){
-        m_t_integ_brake = m_t_integ_brake + speed_diff * dt;
-      }   
-      m_i_out_brake = m_t_integ_brake * m_i_gain_brake;
-      m_t_derivative_brake = (speed_diff - m_speed_diff_prev) / dt;
-      m_d_out_brake = m_d_gain_brake * m_t_derivative_brake;
-      brake_command_raw = m_p_out_brake + m_i_out_brake + m_d_out_brake; // P+I+D
+        m_control_state = false; // brake state
+        m_statusStringMsg.data = "brake"; 
+        // RCLCPP_INFO_STREAM(this->get_logger(), "brake");
+        m_p_out_brake = speed_diff * m_p_gain_brake;
+        // Standstill 1.38 m/s ~= 5.0 km/h
+        if (m_vehicle_speed_reference < 1.38 && m_vehicle_speed_actual < 1.38){
+            m_statusStringMsg.data = "standstill";  
+            m_p_out_brake = m_p_out_brake * 1.2;
+        }
+        if ((m_t_integ_brake + speed_diff * dt) >= m_max_i_brake){
+            m_t_integ_brake = m_t_integ_brake + speed_diff * dt;
+        }   
+        m_i_out_brake = m_t_integ_brake * m_i_gain_brake;
+        m_t_derivative_brake = (speed_diff - m_speed_diff_prev) / dt;
+        m_d_out_brake = m_d_gain_brake * m_t_derivative_brake;
+        brake_command_raw = m_p_out_brake + m_i_out_brake + m_d_out_brake; // P+I+D
 
-      // deceleration lower limit
-      brake_command_raw= std::max(brake_command_raw, m_maximum_deceleration);
+        // deceleration lower limit
+        brake_command_raw= std::max(brake_command_raw, m_maximum_deceleration);
 
-      // gradient limit
-      if ((brake_command_raw - m_brake_command_prev) / dt < m_minimum_jerk && dt > 0.0)
-      {
-        brake_command_raw = m_brake_command_prev + m_minimum_jerk * dt;
-      }
+        // gradient limit
+        if ((brake_command_raw - m_brake_command_prev) / dt < m_minimum_jerk && dt > 0.0)
+        {
+            brake_command_raw = m_brake_command_prev + m_minimum_jerk * dt;
+        }
 
-      // multiple -1.0 for positive number of brake command (sim. to pedal position)
-      m_brakeCommandMsg.command = -1.0 * brake_command_raw;
-      m_accelCommandMsg.command = 0.0;
-      
-      // Standstill 0.27 m/s ~= 1.0 km/h
-      if (m_vehicle_speed_reference < 0.01 && m_vehicle_speed_actual < 0.27){
-        m_statusStringMsg.data = "standstill1";  
-        m_brakeCommandMsg.command = 0.3;
-      }
-
+        // multiple -1.0 for positive number of brake command (sim. to pedal position)
+        m_brakeCommandMsg.command = -1.0 * brake_command_raw;
+        m_accelCommandMsg.command = 0.0;
+        
+        // Standstill 0.27 m/s ~= 1.0 km/h
+        if (m_vehicle_speed_reference < 0.01 && m_vehicle_speed_actual < 0.27){
+            m_statusStringMsg.data = "standstill1";  
+            m_brakeCommandMsg.command = 0.3;
+        }
     }
     m_steerCommandMsg.rotation_rate = 3.3;
     m_accelCommandMsg.header.frame_id = "pacmod";
     m_accelCommandMsg.enable = true;
     m_brakeCommandMsg.enable = true;
-    m_steerCommandMsg.enable = true;
+    m_steerCommandMsg.enable = false;
     if (m_autonom_status_changed)
     {
-      m_accelCommandMsg.clear_override = true;
-      m_brakeCommandMsg.clear_override = true;
-      m_steerCommandMsg.clear_override = true;
-      m_autonom_status_changed = false; // just once
+        m_accelCommandMsg.clear_override = true;
+        m_brakeCommandMsg.clear_override = true;
+        m_steerCommandMsg.clear_override = true;
+        m_autonom_status_changed = false; // just once
     }
     else
     {
-      m_accelCommandMsg.clear_override = false;
-      m_brakeCommandMsg.clear_override = false;
-      m_steerCommandMsg.clear_override = false;
+        m_accelCommandMsg.clear_override = false;
+        m_brakeCommandMsg.clear_override = false;
+        m_steerCommandMsg.clear_override = false;
     }
 
     if (!m_first_run)
     {
-      dt = current_time - m_prev_time;
+        dt = current_time - m_prev_time;
     }
     {
-      dt = 0.033333;
+        dt = 0.033333;
     }
     if (m_first_run)
     {
-      m_first_run = false;
-      m_statusStringMsg.data = "longitudinal_control_started";
+        m_first_run = false;
+        m_statusStringMsg.data = "longitudinal_control_started";
     }
     m_enableMsg.data = true;
     m_accel_pub_->publish(m_accelCommandMsg);
@@ -226,7 +263,7 @@ void crp::vil::ActuatorControl::run()
     m_enable_pub_->publish(m_enableMsg);
     //status_string_msg.data = control_state ? "accel" : "brake";
     if (m_statusStringMsg.data.compare(""))
-      m_status_string_pub_->publish(m_statusStringMsg);
+        m_status_string_pub_->publish(m_statusStringMsg);
     m_statusStringMsg.data = "";
     m_prev_time = current_time;
     m_accel_command_prev = m_accelCommandMsg.command;

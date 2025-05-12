@@ -18,8 +18,6 @@ void crp::apl::CtrlVehicleControlLong::controlLoop(const ControlInput & input, L
 
     // parameter read in
     double p_speedControlLookAheadTime = this->get_parameter("/ctrl/long/speedControlLookAheadTime").as_double();
-    double dT = 0.033;
-
 
     double lookAheadDistance = input.vxEgo*p_speedControlLookAheadTime; // in meters
 
