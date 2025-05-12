@@ -22,6 +22,11 @@ void crp::apl::PlanWrapperBase::strategyCallback(const tier4_planning_msgs::msg:
     m_input.currentScenario = msg->current_scenario;
 }
 
+void crp::apl::PlanWrapperBase::behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg)
+{
+    m_input.behaviorInputs.curveSpeedMode = msg->curve_speed_mode.data;
+}
+
 
 void crp::apl::PlanWrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetSpace::SharedPtr msg)
 {

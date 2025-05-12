@@ -15,6 +15,10 @@ namespace crp
                 void run (const PlannerInput& input, PlannerOutput& output);
             
             private:
+
+                void curveSpeedControl(const PlannerInput& input);
+
+                float m_vxCurveSpeed{0.0};
                 
         };
     }

@@ -82,6 +82,20 @@ struct Shape
     std::vector<Point3D> polygon;
 };
 
+struct UserInputs
+{
+    uint8_t blinker{0u};
+    float targetSpeed {0.0f};
+};
+
+struct BehaviorInputs
+{
+    uint8_t accelerationMode{0u};
+    uint8_t decelerationMode{0u};
+    uint8_t curveSpeedMode{0u};
+    uint8_t corneringSpeedMode{0u};
+};
+
 struct PlannerInputObject
 {
     uint32_t                  objectID{0U}; // 0 means no object
@@ -118,11 +132,20 @@ struct PlannerInput
     Pose3D egoPose;
     // ego velocity
     PlannerInputKinematics3D egoKinematics;
+
+    // behavior inputs
+    BehaviorInputs behaviorInputs;
 };
 
 struct PlannerOutput
 {
     PlannerOutputTrajectory trajectory;
+};
+
+struct BehaviorPlannerInput
+{
+    UserInputs m_userInputs;
+    BehaviorInputs m_behaviorInputs;
 };
 
 } // namespace apl

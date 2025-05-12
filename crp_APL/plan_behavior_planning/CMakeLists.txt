@@ -15,6 +15,8 @@ find_package(tier4_planning_msgs REQUIRED)
 
 include_directories(include)
 
+include_directories(../crp_interfaces)
+
 add_executable(mission_planner src/missionPlanner.cpp)
 ament_target_dependencies(mission_planner rclcpp crp_msgs autoware_planning_msgs)
 

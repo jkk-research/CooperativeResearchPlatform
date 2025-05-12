@@ -123,6 +123,9 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
         m_maximum_jerk = 1.0;
         m_minimum_jerk = -1.0;
     }
+
+    m_enable_lateral_control = msg.enable_lateral_control;
+    m_enable_longitudinal_control = msg.enable_longitudinal_control;
 }
 
 void crp::vil::ActuatorControl::autonomReinitCallback(const std_msgs::msg::Bool msg)
@@ -155,7 +158,7 @@ void crp::vil::ActuatorControl::run()
     //  here a hysteresis is applied to avoid fluctuating behaviour at constant speed
     //  the bandwith of the hysteresis: e.g. 0.9 m/s (3.24 km/h)
     //  in this if statement control_state is in acceleration
-    if ((speed_diff > -0.9 && m_control_state) || (speed_diff > 0.9))
+    if ((speed_diff > -0.4 && m_control_state) || (speed_diff > 0.4))
     {
         m_control_state = true;
         m_statusStringMsg.data = "accel"; 
@@ -187,7 +190,7 @@ void crp::vil::ActuatorControl::run()
     }
     // hysteresis to avoid fluctuating behaviour at constant speeds
     // in this if statement control_state is in deceleration (brake)
-    else if ((speed_diff < 0.9 && !m_control_state) || (speed_diff < -0.9))
+    else if ((speed_diff < 0.4 && !m_control_state) || (speed_diff < -0.4))
     {
         m_control_state = false; // brake state
         m_statusStringMsg.data = "brake"; 
@@ -227,9 +230,9 @@ void crp::vil::ActuatorControl::run()
     }
     m_steerCommandMsg.rotation_rate = 3.3;
     m_accelCommandMsg.header.frame_id = "pacmod";
-    m_accelCommandMsg.enable = true;
-    m_brakeCommandMsg.enable = true;
-    m_steerCommandMsg.enable = false;
+    m_accelCommandMsg.enable = m_enable_longitudinal_control;
+    m_brakeCommandMsg.enable = m_enable_longitudinal_control;
+    m_steerCommandMsg.enable = m_enable_lateral_control;
     if (m_autonom_status_changed)
     {
         m_accelCommandMsg.clear_override = true;

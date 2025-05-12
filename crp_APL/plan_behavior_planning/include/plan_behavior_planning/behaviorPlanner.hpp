@@ -10,6 +10,8 @@
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 
+#include "plannerInterfaces/plannerInterfaces.hpp"
+
 namespace crp
 {
 namespace apl
@@ -36,8 +38,10 @@ private:
     rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace_;
 
     rclcpp::TimerBase::SharedPtr m_timer_;
-    
-    float m_maximum_speed;
+
+    BehaviorPlannerInput m_behaviorPlannerInput;
+
+    float m_corneringSpeed{0.0f};
 };
 
 } // namespace apl

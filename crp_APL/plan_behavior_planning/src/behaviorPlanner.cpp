@@ -39,26 +39,50 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
         targetSpaceMsg.path = msg->paths[0];
     }
 
-    targetSpaceMsg.path.traffic_rules.maximum_speed = m_maximum_speed;
+    if (m_behaviorPlannerInput.m_userInputs.blinker > 0)
+    {
+        targetSpaceMsg.path.traffic_rules.maximum_speed = std::min(m_corneringSpeed, 
+            m_behaviorPlannerInput.m_userInputs.targetSpeed);
+    }
+    else{
+        targetSpaceMsg.path.traffic_rules.maximum_speed = 
+            m_behaviorPlannerInput.m_userInputs.targetSpeed;
+    }
 
     targetSpaceMsg.free_space = msg->free_space;
     
     m_pub_targetSpace_->publish(targetSpaceMsg);
-
 }
 
 
 void crp::apl::BehaviorPlanner::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 {
-    // TODO
-    (void)msg;
+    m_behaviorPlannerInput.m_userInputs.blinker = msg->blinker.data;
+
     return;
 }
 
 
 void crp::apl::BehaviorPlanner::behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg)
 {
-    m_maximum_speed = msg->target_speed.data;
+    m_behaviorPlannerInput.m_userInputs.targetSpeed = msg->target_speed.data;
+    if (msg->cornering_speed_mode.data == 1U)
+    {
+        m_corneringSpeed = 5.0f;
+    }
+    else if(msg->cornering_speed_mode.data == 2U)
+    {
+        m_corneringSpeed = 7.5f;
+    }
+    else if(msg->cornering_speed_mode.data == 0U)
+    {
+        m_corneringSpeed = 10.0f;
+    }
+    else
+    {
+        m_corneringSpeed = 5.0f;
+    }
+
 }
 
 

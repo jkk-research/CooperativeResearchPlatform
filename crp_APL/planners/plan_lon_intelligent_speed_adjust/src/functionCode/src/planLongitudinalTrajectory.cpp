@@ -27,11 +27,42 @@ namespace crp
                 outputTrajectoryPoint.pose = pathPointPose;
 
                 // assign the minimum speed to the output
-                outputTrajectoryPoint.velocity = std::min(input.maximumSpeed, input.path.targetSpeed.at(i));
+                outputTrajectoryPoint.velocity = std::min(input.maximumSpeed, m_vxCurveSpeed);
 
                 output.trajectory.push_back(outputTrajectoryPoint);
             }
         }
 
+        void PlanLongitudinalTrajectory::curveSpeedControl (const PlannerInput& input)
+        {
+            double lateralAccelerationMax = 0.0f;
+            // this method calculates a maximum speed when driving in a curve, considering the lateral maximum acceleration
+            if (input.behaviorInputs.curveSpeedMode == 1U)
+            {
+                lateralAccelerationMax = 1.5f;
+            }
+            else if (input.behaviorInputs.curveSpeedMode == 2U)
+            {
+                lateralAccelerationMax = 2.5f;
+            }
+            else if (input.behaviorInputs.curveSpeedMode == 2U)
+            {
+                lateralAccelerationMax = 3.5f;
+            }
+            else{
+                lateralAccelerationMax = 1.5f;
+            }
+
+            // predict curve radius
+            if (std::abs(input.egoKinematics.yawRate) > 0.05f)
+            {
+                double R = std::abs(input.egoKinematics.vX / input.egoKinematics.yawRate);
+                m_vxCurveSpeed = std::sqrt(lateralAccelerationMax*R);
+            }
+            else{
+                // no limitation
+                m_vxCurveSpeed = 100.0f;
+            }
+        }
     }
 }

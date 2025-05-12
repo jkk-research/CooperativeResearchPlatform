@@ -44,6 +44,7 @@ void crp::apl::EgoFusion::egoStatusCallback(const crp_msgs::msg::EgoStatus::Shar
     m_ego.header = msg->header;
     m_ego.tire_angle_front = msg->tire_angle_front;
     m_ego.steering_wheel_rate = msg->steering_wheel_rate;
+    m_ego.blinker = msg->blinker;
 }
 
 int main(int argc, char *argv[])

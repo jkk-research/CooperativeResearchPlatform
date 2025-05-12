@@ -100,6 +100,9 @@ private:
     uint8_t m_uiJerkMode   = 0;
     uint8_t m_pdpAccelMode = 0;
     uint8_t m_pdpDecelMode = 0;
+
+    bool m_enable_lateral_control = false;
+    bool m_enable_longitudinal_control = false;
     
     bool m_first_run = true;
 
