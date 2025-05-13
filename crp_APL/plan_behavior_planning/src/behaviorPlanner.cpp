@@ -65,6 +65,7 @@ void crp::apl::BehaviorPlanner::egoCallback(const crp_msgs::msg::Ego::SharedPtr 
 
 void crp::apl::BehaviorPlanner::behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg)
 {
+    RCLCPP_INFO(this->get_logger(), "Behavior: %d", msg->target_speed.data);
     m_behaviorPlannerInput.m_userInputs.targetSpeed = msg->target_speed.data;
     if (msg->cornering_speed_mode.data == 1U)
     {

@@ -19,7 +19,7 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&ActuatorControl::run, this));  
 
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&ActuatorControl::egoCallback, this, std::placeholders::_1));
-    m_sub_controlCommand_ = this->create_subscription<autoware_control_msgs::msg::Control>("/control/command/ctrlCmd", 10, std::bind(&ActuatorControl::controlCmdCallback, this, std::placeholders::_1));
+    m_sub_controlCommand_ = this->create_subscription<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 10, std::bind(&ActuatorControl::controlCmdCallback, this, std::placeholders::_1));
     m_sub_autonom_reinit_ = this->create_subscription<std_msgs::msg::Bool>("control_reinit", 10, std::bind(&ActuatorControl::autonomReinitCallback, this, std::placeholders::_1));
     m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
         "/ui/behavior", 10,
