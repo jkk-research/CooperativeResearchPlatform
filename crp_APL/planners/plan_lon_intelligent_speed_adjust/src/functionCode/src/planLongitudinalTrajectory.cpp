@@ -16,6 +16,8 @@ namespace crp
             
             // loop through all the path points from the input and write the speed data to the output
             output.trajectory.clear();
+
+            curveSpeedControl();
             
             for (unsigned long int i=0; i<input.path.pathPoints.size(); i++)
             {
