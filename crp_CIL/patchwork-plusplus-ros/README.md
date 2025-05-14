@@ -8,15 +8,15 @@ This is ROS package of Patchwork++ (@ IROS'22), which is a fast and robust groun
 
 > If you follow the [repository][patchwork++link], you can run Patchwork++ in Python and C++ easily.
 
-[patchwork++link]: https://github.com/url-kaist/patchwork-plusplus
+[patchwork++link]: git@github.com:url-kaist/patchwork-plusplus
 
 ## :open_file_folder: What's in this repository
 
 * ROS based Patchwork source code ([patchworkpp.hpp][codelink])
 * Demo launch file ([demo.launch][launchlink]) with sample rosbag file. You can execute Patchwork++ simply!
 
-[codelink]: https://github.com/url-kaist/patchwork-plusplus-ros/blob/master/include/patchworkpp/patchworkpp.hpp
-[launchlink]: https://github.com/url-kaist/patchwork-plusplus-ros/blob/ROS2/launch/demo.launch.py
+[codelink]: git@github.com:url-kaist/patchwork-plusplus-ros/blob/master/include/patchworkpp/patchworkpp.hpp
+[launchlink]: git@github.com:url-kaist/patchwork-plusplus-ros/blob/ROS2/launch/demo.launch.py
 
 ## :package: Prerequisite packages
 You may need to install ROS, PCL, Eigen, ...
@@ -26,7 +26,7 @@ To build Patchwork++, you can follow below codes.
 
 ```bash
 $ mkdir -p ~/ros2_ws/src
-$ git clone https://github.com/url-kaist/patchwork-plusplus-ros
+$ git clone git@github.com:url-kaist/patchwork-plusplus-ros
 $ cd ~/ros2_ws
 $ colcon build --packages-select patchworkpp --symlink-install
 ```
@@ -96,6 +96,6 @@ If you have any question, don't be hesitate let us know!
 * [Seungjae Lee][sjlink] :envelope: (sj98lee at kaist.ac.kr)
 * [Hyungtae Lim][htlink] :envelope: (shapelim at kaist.ac.kr)
 
-[sjlink]: https://github.com/seungjae24
-[htlink]: https://github.com/LimHyungTae
+[sjlink]: git@github.com:seungjae24
+[htlink]: git@github.com:LimHyungTae
 

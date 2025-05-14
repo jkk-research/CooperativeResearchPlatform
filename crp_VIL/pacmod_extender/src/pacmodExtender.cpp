@@ -40,6 +40,7 @@ void PacmodExtender::publishMessages()
     m_pub_vehicleTwist_->publish(m_twistWithCovariance);
     m_pub_vehicleAccel_->publish(accelWithCovariance);
     m_pub_steeringWheelRate_->publish(m_steeringRate);
+
 }
 
 void PacmodExtender::canCallback(const can_msgs::msg::Frame::SharedPtr msg)
@@ -63,15 +64,15 @@ void PacmodExtender::blinkerCallback(const pacmod3_msgs::msg::SystemRptInt::Shar
 {
     std_msgs::msg::Int8 blinkerMsg;
 
-    if (msg->command == msg->TURN_LEFT)
+    if (msg->output == msg->TURN_LEFT)
     {
         blinkerMsg.data = 1;
     }
-    else if (msg->command == msg->TURN_RIGHT)
+    else if (msg->output == msg->TURN_RIGHT)
     {
         blinkerMsg.data = 2;
     }
-    else if (msg->command == msg->TURN_HAZARDS)
+    else if (msg->output == msg->TURN_HAZARDS)
     {
         blinkerMsg.data = 3;
     }
@@ -79,6 +80,8 @@ void PacmodExtender::blinkerCallback(const pacmod3_msgs::msg::SystemRptInt::Shar
     {
         blinkerMsg.data = 0;
     }
+
+    m_pub_blinker_->publish(blinkerMsg);
 }
 
 void PacmodExtender::twistCallback(const geometry_msgs::msg::TwistStamped::SharedPtr msg)

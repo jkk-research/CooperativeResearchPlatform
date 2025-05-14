@@ -48,20 +48,20 @@ void crp::vil::ActuatorControl::behaviorCallback(const crp_msgs::msg::Behavior m
     setLongitudinalDynamics();
 }
 
-void crp::vil::ActuatorControl::pdpCallback(const pdp_if::msg::PdpPersonalizedParamsActive msg)
+void crp::vil::ActuatorControl::pdpCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg)
 {
-    m_pdpAccelMode = msg.pdpout_accelerationstartup_mode;
-    m_pdpDecelMode = msg.pdpout_decceleration_mode;
+    m_pdpAccelMode = msg->pdpout_accmap_pos_mode;
+    m_pdpDecelMode = msg->pdpout_accmap_neg_mode;
 
     setLongitudinalDynamics();
 }
 
 void crp::vil::ActuatorControl::setLongitudinalDynamics()
 {
-    uint8_t accelMode;
-    uint8_t decelMode;
+    uint8_t accelMode = m_pdpAccelMode;
+    uint8_t decelMode = m_pdpDecelMode;
 
-    if (m_pdpAccelMode != 0)
+    /*if (m_pdpAccelMode != 0)
         accelMode = m_pdpAccelMode;
     else
         accelMode = m_uiAccelMode;
@@ -69,59 +69,71 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
     if (m_pdpDecelMode != 0)
         decelMode = m_pdpDecelMode;
     else
-        decelMode = m_uiDecelMode;
+        decelMode = m_uiDecelMode;*/
 
 
     if (accelMode == 1)
     {
-        m_maximum_acceleration = 2.0;
+        m_maximum_acceleration = 0.15;
     }
     else if(accelMode == 2)
     {
-        m_maximum_acceleration = 3.5;
+        m_maximum_acceleration = 0.425;
     }
     else if(accelMode == 3)
     {
-        m_maximum_acceleration = 5.0;
+        m_maximum_acceleration = 0.7;
     }
     else{
-        m_maximum_acceleration = 1.0;
+        m_maximum_acceleration = 0.15;
     }
 
     if (decelMode == 1)
     {
-        m_maximum_deceleration = -2.0;
+        m_maximum_deceleration = -0.25;
     }
     else if(decelMode == 2)
     {
-        m_maximum_deceleration = -3.5;
+        m_maximum_deceleration = -0.25;
     }
     else if(decelMode == 3)
     {
-        m_maximum_deceleration = -5.0;
+        m_maximum_deceleration = -0.85;
     }
     else{
-        m_maximum_deceleration = -1.0;
+        m_maximum_deceleration = -0.25;
     }
 
-    if (m_uiJerkMode == 1)
+    if (decelMode == 1)
     {
-        m_maximum_jerk = 0.75;
-        m_minimum_jerk = -0.75;
+        m_minimum_jerk = -0.05;
     }
-    else if(m_uiJerkMode == 2)
+    else if(decelMode == 2)
     {
-        m_maximum_jerk = 1.5;
-        m_minimum_jerk = -1.5;
+        m_minimum_jerk = -0.1;
     }
-    else if(m_uiJerkMode == 3)
+    else if(decelMode == 3)
     {
-        m_maximum_jerk = 3.0;
-        m_minimum_jerk = -3.0;
+        m_minimum_jerk = -0.5;
     }
     else{
-        m_maximum_jerk = 1.0;
-        m_minimum_jerk = -1.0;
+        m_minimum_jerk = -0.05;
+    }
+
+    if (accelMode == 1)
+    {
+        m_maximum_jerk = 0.05;
+    }
+    else if(accelMode == 2)
+    {
+        m_maximum_jerk = 0.25;
+    }
+    else if(accelMode == 3)
+    {
+        m_maximum_jerk = 0.5;
+    }
+    else{
+        m_maximum_jerk = 0.05;
     }
 }
 
@@ -219,7 +231,7 @@ void crp::vil::ActuatorControl::run()
         m_accelCommandMsg.command = 0.0;
         
         // Standstill 0.27 m/s ~= 1.0 km/h
-        if (m_vehicle_speed_reference < 0.01 && m_vehicle_speed_actual < 0.27){
+        if (m_vehicle_speed_reference < 0.01 && m_vehicle_speed_actual < 1.0){
             m_statusStringMsg.data = "standstill1";  
             m_brakeCommandMsg.command = 0.3;
         }

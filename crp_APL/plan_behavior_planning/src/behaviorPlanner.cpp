@@ -14,6 +14,10 @@ crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
         "/ui/behavior", 10,
         std::bind(&BehaviorPlanner::behaviorCallback, this, std::placeholders::_1));
 
+    m_pdp_subscriber_ = this->create_subscription<pdp_if::msg::PdpPersonalizedParamsActive>(
+        "/PdpPersonalizedParamsActive", 10, std::bind(&BehaviorPlanner::PdpPersonalizedParamsActiveCallback, this, std::placeholders::_1));
+
+
     m_pub_strategy_    = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
     m_pub_targetSpace_ = this->create_publisher<crp_msgs::msg::TargetSpace>("plan/target_space", 10);
 
@@ -30,6 +34,25 @@ void crp::apl::BehaviorPlanner::routeCallback(const autoware_planning_msgs::msg:
     return;
 }
 
+void crp::apl::BehaviorPlanner::PdpPersonalizedParamsActiveCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg)
+{
+    if (msg->pdpout_accmap_lat_mode == 1U)
+    {
+        m_corneringSpeed = 3.0f;
+    }
+    else if(msg->pdpout_accmap_lat_mode == 2U)
+    {
+        m_corneringSpeed = 4.0f;
+    }
+    else if(msg->pdpout_accmap_lat_mode == 3U)
+    {
+        m_corneringSpeed = 6.0f;
+    }
+    else
+    {
+        m_corneringSpeed = 3.0f;
+    }
+}
 
 void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::SharedPtr msg)
 {
@@ -67,23 +90,6 @@ void crp::apl::BehaviorPlanner::behaviorCallback(const crp_msgs::msg::Behavior::
 {
     RCLCPP_INFO(this->get_logger(), "Behavior: %d", msg->target_speed.data);
     m_behaviorPlannerInput.m_userInputs.targetSpeed = msg->target_speed.data;
-    if (msg->cornering_speed_mode.data == 1U)
-    {
-        m_corneringSpeed = 5.0f;
-    }
-    else if(msg->cornering_speed_mode.data == 2U)
-    {
-        m_corneringSpeed = 7.5f;
-    }
-    else if(msg->cornering_speed_mode.data == 0U)
-    {
-        m_corneringSpeed = 10.0f;
-    }
-    else
-    {
-        m_corneringSpeed = 5.0f;
-    }
-
 }
 
 

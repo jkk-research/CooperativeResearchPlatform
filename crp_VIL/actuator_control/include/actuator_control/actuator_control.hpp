@@ -34,7 +34,7 @@ private:
     void controlCmdCallback(const autoware_control_msgs::msg::Control msg);
     void autonomReinitCallback(const std_msgs::msg::Bool msg);
     void behaviorCallback(const crp_msgs::msg::Behavior msg);
-    void pdpCallback(const pdp_if::msg::PdpPersonalizedParamsActive msg);
+    void pdpCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg);
     void setLongitudinalDynamics();
 
     void run();
