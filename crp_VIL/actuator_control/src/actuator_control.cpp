@@ -19,16 +19,16 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&ActuatorControl::run, this));  
 
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&ActuatorControl::egoCallback, this, std::placeholders::_1));
-    m_sub_controlCommand_ = this->create_subscription<autoware_control_msgs::msg::Control>("/control/command/ctrlCmd", 10, std::bind(&ActuatorControl::controlCmdCallback, this, std::placeholders::_1));
+    m_sub_controlCommand_ = this->create_subscription<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 10, std::bind(&ActuatorControl::controlCmdCallback, this, std::placeholders::_1));
     m_sub_autonom_reinit_ = this->create_subscription<std_msgs::msg::Bool>("control_reinit", 10, std::bind(&ActuatorControl::autonomReinitCallback, this, std::placeholders::_1));
     m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
         "/ui/behavior", 10,
         std::bind(&ActuatorControl::behaviorCallback, this, std::placeholders::_1));
 
-    m_accel_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/accel_cmd", 10);
-    m_brake_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/brake_cmd", 10);
-    m_steer_pub_ = this->create_publisher<pacmod3_msgs::msg::SteeringCmd>("pacmod/steering_cmd", 10);
-    m_enable_pub_ = this->create_publisher<std_msgs::msg::Bool>("pacmod/enable", 10);
+    m_accel_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("lexus3/pacmod/accel_cmd", 10);
+    m_brake_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("lexus3/pacmod/brake_cmd", 10);
+    m_steer_pub_ = this->create_publisher<pacmod3_msgs::msg::SteeringCmd>("lexus3/pacmod/steering_cmd", 10);
+    m_enable_pub_ = this->create_publisher<std_msgs::msg::Bool>("lexus3/pacmod/enable", 10);
     m_status_string_pub_ = this->create_publisher<std_msgs::msg::String>("control_status", 10);
     RCLCPP_INFO(this->get_logger(), "actuator_control has been started");
 }
@@ -37,54 +37,54 @@ void crp::vil::ActuatorControl::behaviorCallback(const crp_msgs::msg::Behavior m
 {
     if (msg.acceleration_mode.data == 1)
     {
-      m_maximum_acceleration = 2.0;
+      m_maximum_acceleration = 0.15;
     }
     else if(msg.acceleration_mode.data == 2)
     {
-      m_maximum_acceleration = 3.5;
+      m_maximum_acceleration = 0.425;
     }
     else if(msg.acceleration_mode.data == 3)
     {
-      m_maximum_acceleration = 5.0;
+      m_maximum_acceleration = 0.7;
     }
     else{
-      m_maximum_acceleration = 1.0;
+      m_maximum_acceleration = 0.15;
     }
 
     if (msg.deceleration_mode.data == 1)
     {
-      m_maximum_deceleration = -2.0;
+      m_maximum_deceleration = -0.15;
     }
     else if(msg.deceleration_mode.data == 2)
     {
-      m_maximum_deceleration = -3.5;
+      m_maximum_deceleration = -0.25;
     }
     else if(msg.deceleration_mode.data == 3)
     {
-      m_maximum_deceleration = -5.0;
+      m_maximum_deceleration = -0.5;
     }
     else{
-      m_maximum_deceleration = -1.0;
+      m_maximum_deceleration = -0.15;
     }
 
     if (msg.jerk_mode.data == 1)
     {
-      m_maximum_jerk = 0.75;
-      m_minimum_jerk = -0.75;
+      m_maximum_jerk = 0.05;
+      m_minimum_jerk = -0.05;
     }
     else if(msg.jerk_mode.data == 2)
     {
-      m_maximum_jerk = 1.5;
-      m_minimum_jerk = -1.5;
+      m_maximum_jerk = 0.25;
+      m_minimum_jerk = -0.1;
     }
     else if(msg.jerk_mode.data == 3)
     {
-      m_maximum_jerk = 3.0;
-      m_minimum_jerk = -3.0;
+      m_maximum_jerk = 0.5;
+      m_minimum_jerk = -0.15;
     }
     else{
-      m_maximum_jerk = 1.0;
-      m_minimum_jerk = -1.0;
+      m_maximum_jerk = 0.05;
+      m_minimum_jerk = -0.05;
     }
 }
 
@@ -132,20 +132,28 @@ void crp::vil::ActuatorControl::run()
       m_d_out_accel = m_d_gain_accel * t_derivative_accel;
       double accel_command_raw = m_p_out_accel + m_i_out_accel + m_d_out_accel; // P+I+D
 
-      m_accelCommandMsg.command = accel_command_raw;
-      m_brakeCommandMsg.command = 0.0;
-      // acceleration upper limit
-      m_accelCommandMsg.command = std::min(m_accelCommandMsg.command, m_maximum_acceleration);
+      if (m_vehicle_speed_actual < 1.0)
+      {
+        m_accelCommandMsg.command = 0.25;
+        m_brakeCommandMsg.command = 0.0;
+      }
+      else
+      {
+        m_accelCommandMsg.command = accel_command_raw;
+        m_brakeCommandMsg.command = 0.0;
+        // acceleration upper limit
+      }
 
-      // gradient limit
-      if ((m_accelCommandMsg.command - m_accel_command_prev) / dt > m_maximum_jerk && dt > 0.0)
-      {
-        m_accelCommandMsg.command = m_accel_command_prev + m_maximum_jerk * dt;
-      }
-      else if ((m_accelCommandMsg.command - m_accel_command_prev) / dt < m_minimum_jerk && dt > 0.0)
-      {
-        m_accelCommandMsg.command = m_accel_command_prev + m_minimum_jerk * dt;
-      }
+        // gradient limit
+        if ((m_accelCommandMsg.command - m_accel_command_prev) / dt > m_maximum_jerk && dt > 0.0)
+        {
+          m_accelCommandMsg.command = m_accel_command_prev + m_maximum_jerk * dt;
+        }
+        else if ((m_accelCommandMsg.command - m_accel_command_prev) / dt < m_minimum_jerk && dt > 0.0)
+        {
+          m_accelCommandMsg.command = m_accel_command_prev + m_minimum_jerk * dt;
+        }
+        m_accelCommandMsg.command = std::min(m_accelCommandMsg.command, m_maximum_acceleration);
     }
     // hysteresis to avoid fluctuating behaviour at constant speeds
     // in this if statement control_state is in deceleration (brake)

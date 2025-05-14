@@ -1,6 +1,6 @@
 # Lanelet handler
 
-A package for handling lanelet2 maps. Based on the autoware [map_loader](https://github.com/autowarefoundation/autoware.universe/tree/main/map/map_loader) package.
+A package for handling lanelet2 maps. Based on the autoware [map_loader](git@github.com:autowarefoundation/autoware.universe/tree/main/map/map_loader) package.
 
 ## Lanelet file handling
 

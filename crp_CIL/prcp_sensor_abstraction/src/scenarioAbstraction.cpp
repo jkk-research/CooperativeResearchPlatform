@@ -60,7 +60,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     outPath.header.stamp = this->now();
 
     float currentPathLength = 0;
-    float egoLaneletSpeedLimit = limit.speedLimit.value();
+    float egoLaneletSpeedLimit = 200; // limit.speedLimit.value();
     lanelet::ConstLineString2d egoCenterline = egoLanelet.centerline2d();
     tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],egoLaneletSpeedLimit); 
     outPath.points.push_back(
@@ -94,7 +94,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
         currentPointIdx = 0;
         while (currentPathLength < localPathLength)
         {
-            float currentLaneletSpeedLimit = m_trafficRules->speedLimit(currentLanelet).speedLimit.value();
+            float currentLaneletSpeedLimit = 200; // m_trafficRules->speedLimit(currentLanelet).speedLimit.value();
 
             lanelet::ConstLineString2d currentCenterline = currentLanelet.centerline2d();
 

@@ -16,7 +16,7 @@ def generate_launch_description():
 
     localization_source_arg = DeclareLaunchArgument(
         'localization_source',
-        default_value='ekf',
+        default_value='gnss',
         description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
@@ -90,7 +90,7 @@ def generate_launch_description():
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
         'map_file_path',
-        default_value='/home/dev/lanelet2_maps/ZalaZone/ZalaZone_Handling.osm',
+        default_value='/home/dev/maps/lightweight_lanelet.osm',
         description='Length of the scenario in meters')
     lanelet_map_frame_id_arg = DeclareLaunchArgument(
         'map_frame_id',
@@ -128,7 +128,7 @@ def generate_launch_description():
     # controllers
     ctrl_use_combined_controller_arg = DeclareLaunchArgument(
         'ctrl_use_combined_controller',
-        default_value='true',
+        default_value='false',
         description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
     ctrl_combined_method_arg = DeclareLaunchArgument(
@@ -138,8 +138,8 @@ def generate_launch_description():
     )
     ctrl_lat_method_arg = DeclareLaunchArgument(
         'ctrl_lat_method',
-        default_value='comp',
-        description='Lat controller to use. Possible values: comp, purep, stanley'
+        default_value='nmpc',
+        description='Lat controller to use. Possible values: comp, purep, stanley, nmpc'
     )
     ctrl_long_method_arg = DeclareLaunchArgument(
         'ctrl_long_method',

@@ -1,5 +1,5 @@
 # Cooperative Research Platform
-[![Build test](https://github.com/jkk-research/CooperativeResearchPlatform/actions/workflows/build_test.yml/badge.svg)](https://github.com/jkk-research/CooperativeResearchPlatform/actions/workflows/build_test.yml)
+[![Build test](git@github.com:jkk-research/CooperativeResearchPlatform/actions/workflows/build_test.yml/badge.svg)](git@github.com:jkk-research/CooperativeResearchPlatform/actions/workflows/build_test.yml)
 ## Overview
 This platform is developed and maintained by University of Győr - Vehicle Research Center in cooperation with ZalaZONE Innovation Park. The project is supported by Robert Bosch Engineering Center Budapest.\
 <br />

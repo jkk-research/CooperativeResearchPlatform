@@ -306,12 +306,6 @@ class ROSController(Node):
         B[4, 1] = self.dt
         
         # Gain Scheduling 
-        
-        q_scale = 1 + np.tanh(np.linalg.norm(x) / (2 + self.state.v / 10))
-        r_scale = 1 + 0.5 * (2100 / 30)  # More damping at high speeds 2100 kg curb weight
-        
-        self.lqr_Q = q_scale * self.lqr_Q
-        self.lqr_R = r_scale * self.lqr_R
 
         K, _, _ = self.dlqr(A, B, self.lqr_Q, self.lqr_R)
 
@@ -334,6 +328,12 @@ class ROSController(Node):
         # delta: steering angle
         # accel: acceleration
         ustar = -K @ x
+
+        # q_scale = 1 + np.tanh(np.linalg.norm(x) / (2 + self.state.v / 10))
+        # r_scale = 1 + 0.5 * (2100 / 30)  # More damping at high speeds 2100 kg curb weight
+        
+        # self.lqr_Q = q_scale * self.lqr_Q
+        # self.lqr_R = r_scale * self.lqr_R
 
         # calc steering input
         ff = math.atan2(self.L * k, 1) # feedforward steering angle
@@ -361,7 +361,10 @@ class ROSController(Node):
 
 
         ctrl_cmd_lateral.steering_tire_angle = delta*-1
-        ctrl_cmd_longitudinal.velocity = self.state.v + (accel * self.dt)
+        ctrl_cmd_longitudinal.velocity = 10.0
+
+
+
 
         self.ctrl_lat_publisher.publish(ctrl_cmd_lateral)
         self.ctrl_long_publisher.publish(ctrl_cmd_longitudinal)

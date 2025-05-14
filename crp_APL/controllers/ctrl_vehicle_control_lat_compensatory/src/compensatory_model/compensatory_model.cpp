@@ -68,7 +68,7 @@ namespace crp
                 m_k_superPosition = 1.0;
             }
             else{
-                m_k_superPosition = 0.5;
+                m_k_superPosition = 0.8;
             }
         }
 
@@ -120,7 +120,7 @@ namespace crp
             m_posDerivativeError = (m_posErr - m_posErrPrev) / params.dT;
             m_posDerivativeError = m_posDerivativeFilter.lowPassFilter(m_posDerivativeError, m_posDerivativeError_prev, 0.99f);
 
-            m_posErr = k*m_posErr;  
+            //m_posErr = k*m_posErr;  
 
             double targetFbAccelerationUnfiltered = params.fbPGain * m_posErr +
                                     params.fbDGain * m_posDerivativeError +
@@ -226,7 +226,7 @@ namespace crp
 
             // calculate steering angle from the acceleration based on target curvature
             double targetCurvature = output.accelerationTarget / std::pow(vxLim, 2);
-            output.steeringAngleTarget = std::atan(targetCurvature * params.vehAxleDistance);
+            output.steeringAngleTarget = output.accelerationTarget/50.0 - 0.0005; //std::atan(targetCurvature * params.vehAxleDistance);
         }
     }
 }

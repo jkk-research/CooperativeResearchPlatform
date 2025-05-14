@@ -10,6 +10,9 @@ crp::apl::CtrlVehicleControlLong::CtrlVehicleControlLong() : CtrlLongWrapperBase
 
 void crp::apl::CtrlVehicleControlLong::controlLoop(const ControlInput & input, LongControlOutput & output)
 {
+    // TEMP
+    output.velocityTarget = 10.0;
+    return;
     if (input.pathVelocity.size() == 0U)
     {
         output.velocityTarget = 0.0;
