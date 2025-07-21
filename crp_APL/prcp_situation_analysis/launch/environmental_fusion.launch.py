@@ -20,5 +20,5 @@ def generate_launch_description():
     
     return LaunchDescription([
         ego_fusion,
-        # scenario_fusion
+        scenario_fusion
     ])

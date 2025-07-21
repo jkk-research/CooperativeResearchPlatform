@@ -22,6 +22,13 @@ crp::apl::EgoFusion::EgoFusion() : Node("ego_fusion")
 
 void crp::apl::EgoFusion::publishCallback()
 {
+    // correct the orientation
+    double orientationQuaternion[4];
+    orientationQuaternion[0] = m_ego.pose.pose.orientation.x;
+    orientationQuaternion[1] = m_ego.pose.pose.orientation.y;
+    orientationQuaternion[2] = m_ego.pose.pose.orientation.z;
+    orientationQuaternion[3] = m_ego.pose.pose.orientation.w;
+    double orientationEuler = m_poseCorrector.run(orientationQuaternion);
     m_pub_ego_->publish(m_ego);
 }
 

@@ -16,7 +16,7 @@ find_package(tier4_planning_msgs REQUIRED)
 
 include_directories(include)
 
-add_executable(ego_fusion src/egoFusion.cpp)
+add_executable(ego_fusion src/egoFusion.cpp src/subfunctions/poseCorrection.cpp)
 ament_target_dependencies(ego_fusion rclcpp crp_msgs sensor_msgs autoware_localization_msgs)
 
 add_executable(scenario_fusion src/scenarioFusion.cpp)
