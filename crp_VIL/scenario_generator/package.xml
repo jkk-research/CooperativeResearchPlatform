@@ -1,22 +1,16 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>planner_base</name>
+  <name>scenario_generator</name>
   <version>0.0.0</version>
-  <description>Base package for planners.</description>
-  <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
-  <license>Apache License 2.0</license>
+  <description>TODO: Package description</description>
+  <maintainer email="jodavid512@gmail.com">david</maintainer>
+  <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
   <depend>crp_msgs</depend>
-  <depend>autoware_planning_msgs</depend>
-  <depend>autoware_perception_msgs</depend>
-  <depend>tf2</depend>
-  <depend>tf2_geometry_msgs</depend>
-  <depend>nav_msgs</depend>
-  <depend>pdp_if</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

@@ -9,6 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 find_package(autoware_perception_msgs REQUIRED)
 find_package(autoware_localization_msgs REQUIRED)
 find_package(autoware_map_msgs REQUIRED)
@@ -31,7 +32,7 @@ add_executable(scenario_abstraction src/scenarioAbstraction.cpp src/abstractionU
 ament_target_dependencies(scenario_abstraction rclcpp nav_msgs autoware_map_msgs autoware_perception_msgs tier4_planning_msgs geometry_msgs lanelet2_core autoware_lanelet2_extension tf2 tf2_ros tf2_geometry_msgs)
 
 add_executable(ego_abstraction src/egoAbstraction.cpp)
-ament_target_dependencies(ego_abstraction rclcpp crp_msgs geometry_msgs nav_msgs autoware_localization_msgs std_msgs)
+ament_target_dependencies(ego_abstraction rclcpp crp_msgs geometry_msgs nav_msgs sensor_msgs autoware_localization_msgs std_msgs)
 
 install(TARGETS
   world_abstraction

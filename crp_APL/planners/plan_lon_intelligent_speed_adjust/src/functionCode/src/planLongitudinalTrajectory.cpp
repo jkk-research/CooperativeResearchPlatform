@@ -16,6 +16,8 @@ namespace crp
             
             // loop through all the path points from the input and write the speed data to the output
             output.trajectory.clear();
+
+            curveSpeedControl(input);
             
             for (unsigned long int i=0; i<input.path.pathPoints.size(); i++)
             {
@@ -27,11 +29,47 @@ namespace crp
                 outputTrajectoryPoint.pose = pathPointPose;
 
                 // assign the minimum speed to the output
-                outputTrajectoryPoint.velocity = std::min(input.maximumSpeed, input.path.targetSpeed.at(i));
+                outputTrajectoryPoint.velocity = std::min(input.maximumSpeed, m_vxCurveSpeed);
 
                 output.trajectory.push_back(outputTrajectoryPoint);
             }
         }
 
+        void PlanLongitudinalTrajectory::curveSpeedControl (const PlannerInput& input)
+        {
+            double lateralAccelerationMax = 0.0f;
+            // this method calculates a maximum speed when driving in a curve, considering the lateral maximum acceleration
+            if (input.behaviorInputs.curveSpeedMode == 1U)
+            {
+                lateralAccelerationMax = 2.0f;
+            }
+            else if (input.behaviorInputs.curveSpeedMode == 2U)
+            {
+                lateralAccelerationMax = 3.0f;
+            }
+            else if (input.behaviorInputs.curveSpeedMode == 3U)
+            {
+                lateralAccelerationMax = 3.5f;
+            }
+            else{
+                lateralAccelerationMax = 2.0f;
+            }
+
+            
+            // predict curve radius
+            if (std::abs(input.egoKinematics.aY) > 0.5f)
+            {
+                double R = std::abs(input.egoKinematics.vX*input.egoKinematics.vX/input.egoKinematics.aY);
+                m_R_filtered = 0.9*m_R_filtered_prev + 0.1*R;   
+                m_vxCurveSpeed = std::sqrt(lateralAccelerationMax*m_R_filtered);
+            }
+            else{
+                // no limitation
+                m_vxCurveSpeed = 100.0f;
+                m_R_filtered = 0.0f;
+            }
+
+            m_R_filtered_prev = m_R_filtered;
+        }
     }
 }

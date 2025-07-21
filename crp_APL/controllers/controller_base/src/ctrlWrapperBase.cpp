@@ -15,6 +15,7 @@ void crp::apl::CtrlWrapperBase::trajectoryCallback(const autoware_planning_msgs:
     m_input.pathX.clear();
     m_input.pathY.clear();
     m_input.pathTheta.clear();
+    m_input.pathVelocity.clear();
 
     // this callback maps the input trajectory to the internal interface
     for (long unsigned int i=0; i<input_msg.points.size(); i++)

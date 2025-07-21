@@ -10,6 +10,8 @@ crp::apl::PlanWrapperBase::PlanWrapperBase(const std::string & node_name, const 
         "plan/target_space", 10, std::bind(&PlanWrapperBase::targetSpaceCallback, this, std::placeholders::_1));
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>(
         "ego", 10, std::bind(&PlanWrapperBase::egoCallback, this, std::placeholders::_1));
+    m_pdp_subscriber_ = this->create_subscription<pdp_if::msg::PdpPersonalizedParamsActive>(
+        "/PdpPersonalizedParamsActive", 10, std::bind(&PlanWrapperBase::PdpPersonalizedParamsActiveCallback, this, std::placeholders::_1));
 
     std::string plannerName = node_name.substr(5, node_name.size()-5);
     m_pub_trajectory_ = this->create_publisher<autoware_planning_msgs::msg::Trajectory>("plan/"+plannerName+"/trajectory", 10);
@@ -17,9 +19,20 @@ crp::apl::PlanWrapperBase::PlanWrapperBase(const std::string & node_name, const 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&PlanWrapperBase::run, this));
 }
 
+void crp::apl::PlanWrapperBase::PdpPersonalizedParamsActiveCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg)
+{
+    m_input.behaviorInputs.curveSpeedMode = msg->pdpout_accmap_lat_mode;
+}
+
 void crp::apl::PlanWrapperBase::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
 {
     m_input.currentScenario = msg->current_scenario;
+}
+
+void crp::apl::PlanWrapperBase::behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg)
+{
+    (void)*msg;
+    return;
 }
 
 

@@ -5,6 +5,7 @@
 #include <crp_msgs/msg/ego.hpp>
 #include <crp_msgs/msg/ego_status.hpp>
 #include <autoware_localization_msgs/msg/kinematic_state.hpp>
+#include <sensor_msgs/msg/nav_sat_fix.hpp>
 
 
 namespace crp
@@ -19,10 +20,12 @@ public:
 
 private:
     void egoKinematicStateCallback(const autoware_localization_msgs::msg::KinematicState::SharedPtr msg);
+    void gnssFixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg);
     void egoStatusCallback(const crp_msgs::msg::EgoStatus::SharedPtr msg);
     void publishCallback();
 
     rclcpp::Subscription<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_sub_egoKinematicState_;
+    rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr                     m_sub_gnssFix_;
     rclcpp::Subscription<crp_msgs::msg::EgoStatus>::SharedPtr                        m_sub_egoStatus_;
 
     rclcpp::Publisher<crp_msgs::msg::Ego>::SharedPtr m_pub_ego_;

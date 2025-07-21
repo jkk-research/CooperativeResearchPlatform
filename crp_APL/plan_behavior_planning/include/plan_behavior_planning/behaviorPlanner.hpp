@@ -9,6 +9,9 @@
 #include <crp_msgs/msg/behavior.hpp>
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
+#include <pdp_if/msg/pdp_personalized_params_active.hpp>
+
+#include "plannerInterfaces/plannerInterfaces.hpp"
 
 namespace crp
 {
@@ -25,19 +28,23 @@ private:
     void scenarioCallback(const crp_msgs::msg::Scenario::SharedPtr msg);
     void egoCallback(const crp_msgs::msg::Ego::SharedPtr msg);
     void behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg);
+    void PdpPersonalizedParamsActiveCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg);
     void loop();
 
-    rclcpp::Subscription<autoware_planning_msgs::msg::LaneletRoute>::SharedPtr m_sub_route;
-    rclcpp::Subscription<crp_msgs::msg::Scenario>::SharedPtr                   m_sub_scenario;
-    rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                        m_sub_ego;
+    rclcpp::Subscription<autoware_planning_msgs::msg::LaneletRoute>::SharedPtr m_sub_route_;
+    rclcpp::Subscription<crp_msgs::msg::Scenario>::SharedPtr                   m_sub_scenario_;
+    rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                        m_sub_ego_;
     rclcpp::Subscription<crp_msgs::msg::Behavior>::SharedPtr                   m_sub_behavior_;
+    rclcpp::Subscription<pdp_if::msg::PdpPersonalizedParamsActive>::SharedPtr m_pdp_subscriber_;
 
-    rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy;
-    rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace;
+    rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy_;
+    rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace_;
 
     rclcpp::TimerBase::SharedPtr m_timer_;
-    
-    float m_maximum_speed;
+
+    BehaviorPlannerInput m_behaviorPlannerInput;
+
+    float m_corneringSpeed{0.0f};
 };
 
 } // namespace apl

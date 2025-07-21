@@ -11,15 +11,18 @@ find_package(rclcpp REQUIRED)
 find_package(crp_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
 find_package(tier4_planning_msgs REQUIRED)
+find_package(pdp_if REQUIRED)
 
 
 include_directories(include)
+
+include_directories(../crp_interfaces)
 
 add_executable(mission_planner src/missionPlanner.cpp)
 ament_target_dependencies(mission_planner rclcpp crp_msgs autoware_planning_msgs)
 
 add_executable(behavior_planner src/behaviorPlanner.cpp)
-ament_target_dependencies(behavior_planner rclcpp crp_msgs autoware_planning_msgs tier4_planning_msgs)
+ament_target_dependencies(behavior_planner rclcpp crp_msgs autoware_planning_msgs tier4_planning_msgs pdp_if)
 
 install(DIRECTORY launch
   DESTINATION share/${PROJECT_NAME})

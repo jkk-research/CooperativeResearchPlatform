@@ -6,4 +6,8 @@ std_msgs/UInt8   curve_driving_style
 std_msgs/UInt8   acceleration_mode
 std_msgs/UInt8   deceleration_mode
 std_msgs/UInt8   jerk_mode
-std_msgs/UInt8   lateral_driving_mode
+std_msgs/UInt8   curve_speed_mode
+std_msgs/UInt8   cornering_speed_mode
+
+bool             enable_lateral_control
+bool             enable_longitudinal_control

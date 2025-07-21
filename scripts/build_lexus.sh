@@ -45,6 +45,7 @@ packages=(
   prcp_sensor_abstraction
   ouster_sensor_msgs
   ouster_ros
+  scenario_generator
 )
 
 packages_string=${packages[*]}

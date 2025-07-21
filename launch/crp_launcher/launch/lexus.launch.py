@@ -16,7 +16,7 @@ def generate_launch_description():
 
     localization_source_arg = DeclareLaunchArgument(
         'localization_source',
-        default_value='ekf',
+        default_value='gnss',
         description='Localization source [ekf or gnss]')
     select_gps_arg = DeclareLaunchArgument(
         'select_gps',
@@ -128,7 +128,7 @@ def generate_launch_description():
     # controllers
     ctrl_use_combined_controller_arg = DeclareLaunchArgument(
         'ctrl_use_combined_controller',
-        default_value='true',
+        default_value='false',
         description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
     )
     ctrl_combined_method_arg = DeclareLaunchArgument(
@@ -306,6 +306,7 @@ def generate_launch_description():
         )
     )
 
+
     return LaunchDescription([
         # args
         localization_source_arg,
@@ -362,6 +363,14 @@ def generate_launch_description():
         sensor_abstraction,
         vehicle_speed_control,
 
-        # nodes
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                join(
+                    get_package_share_directory('scenario_generator'),
+                    'launch',
+                    'scenario_gen.launch.py')
+            )
+        ),
+
         lanelet_file_loader,
     ])
