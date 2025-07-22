@@ -20,7 +20,8 @@ namespace crp
             m_orientationInAngle = std::atan2(siny_cosp, cosy_cosp);
 
             // error calculation and filter
-            m_orientationError = 0.01*(m_estimatedOrientationRaw + m_orientationInAngle) + 0.99*m_orientationError;
+            m_orientationError = 0.01*(m_estimatedOrientationRaw - m_orientationInAngle) + 0.99*m_orientationError;
+            m_orientationError = std::min(std::max(-0.1, m_orientationError), 0.1);
 
             // error compensation
             m_estimatedOrientation = m_orientationInAngle+m_orientationError;
