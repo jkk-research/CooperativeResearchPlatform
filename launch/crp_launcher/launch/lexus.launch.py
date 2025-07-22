@@ -230,6 +230,76 @@ def generate_launch_description():
                 'os_composable_raw_merged_b_autoware.launch.py')
         )
     )
+
+    radar_fc = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','fcRadarParams.yaml'),
+            'radar_interface'   : 'can0',
+            'radar_namespace'   : 'radar/fc'
+        }.items()
+    )
+
+    radar_fl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','flRadarParams.yaml'),
+            'radar_interface'   : 'can1',
+            'radar_namespace'   : 'radar/fl'
+        }.items()
+    )
+
+    radar_fr = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','frRadarParams.yaml'),
+            'radar_interface'   : 'can2',
+            'radar_namespace'   : 'radar/fr'
+        }.items()
+    )
+
+    radar_rl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rlRadarParams.yaml'),
+            'radar_interface'   : 'can3',
+            'radar_namespace'   : 'radar/rl'
+        }.items()
+    )
+
+    radar_rr = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rrRadarParams.yaml'),
+            'radar_interface'   : 'can4',
+            'radar_namespace'   : 'radar/rr'
+        }.items()
+    )
     
 
     ekf_wrapper = IncludeLaunchDescription(
@@ -356,6 +426,11 @@ def generate_launch_description():
         novatel_gps,
         duro_gps,
         os_lidars_merged,
+        radar_fc,
+        radar_fl,
+        radar_fr,
+        radar_rl,
+        radar_rr,
         ekf_wrapper,
         vehicle_can,
         camera_mpc,

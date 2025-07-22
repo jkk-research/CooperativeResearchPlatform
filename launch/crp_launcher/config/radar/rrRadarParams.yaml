@@ -1,0 +1,36 @@
+/**:
+  ros__parameters:
+    config/config_data: 5               # Provide the information with regards of the VehicleConfiging position
+                                        #   SIGNAL_NOT_AVAILABLE = 0x0,
+                                        #   FRONT_CENTER         = 0x1,
+                                        #   FRONT_LEFT           = 0x2,
+                                        #   FRONT_RIGHT          = 0x3,
+                                        #   REAR_LEFT            = 0x4,
+                                        #   REAR_RIGHT           = 0x5,
+                                        #   RESERVED6            = 0x6,
+                                        #   RESERVED7            = 0x7,
+    config/pos_x : 0.0                  # Nominal VehicleConfiging position in the lateral direction in vehicle road-level coordinate system (meters)
+    config/pos_y : 0.0                  # Nominal VehicleConfiging position in the longitudinal direction in vehicle road-level coordinate system (meters)
+    config/pos_z : 0.0                  # Nominal VehicleConfiging position in the vertical direction in vehicle road-level coordinate system (meters)
+    config/orient_yaw : 0.0             # Nominal Sensor VehicleConfiging azimuth angle (radians)
+    config/orient_pitch : 0.0           # Nominal Sensor VehicleConfiging elevation (pitch) angle (radians)
+    config/dxv_front_bumper : 0.0       # Longitudinal distance to the front bumper in the vehicle coordinate system with origin at center of the rear axle (meters)
+    config/dxv_rear_bumper : 0.0        # Longitudinal distance to the rear bumper in the vehicle coordinate system with origin at center of the rear axle (meters)
+    config/acc_long_sens_pos : 0.0      # Longitudinal mounting position of the longitudinal acceleration sensor in vehicle coordinate system with origin middle of the rear axis (meters)
+    config/wheel_base : 0.0             # Longitudinal distance between front and rear axles (meters)
+    config/sns_time_offset : 0.0        # Time offset between overall start of the current cycle and start of modulation for the sensor (milliseconds)
+    config/sensor_orientation: 0        # Orientation of the sensor
+                                        #   NORMAL  = 0x0,
+                                        #   FLIPPED = 0x1
+
+    #! hardcoded for test
+    # /config/vehicle_width_min : 0.0   # Minimum width of the vehicle (meters)
+    # /config/vehicle_width_max : 0.0   # Maximum width of the vehicle (meters)
+    # /config/wheel_track : 0.0         # Distance between the centerline of two wheels on the same axle (meters)
+    # /config/v_ch : 0.0                # Vehicle characteristic velocity: velocity at which the steering sensitivity of the vehicle is at maximum (meters/second)
+    # /config/grad_side_slip_ang: 0.0   # Ego Gradient Side Slip angle (radians*s^2/meters)
+    # /config/str_rack_ratio: 0.0       # Steering Rack Ratio
+    # /config/wheel_circ_fl: 0.0        # Front Left Wheel Circumference (meters)
+    # /config/wheel_circ_fr: 0.0        # Front Right Wheel Circumference (meters)
+    # /config/wheel_circ_rl: 0.0        # Rear Left Wheel Circumference (meters)
+    # /config/wheel_circ_rr: 0.0        # Rear Right Wheel Circumference (meters)
