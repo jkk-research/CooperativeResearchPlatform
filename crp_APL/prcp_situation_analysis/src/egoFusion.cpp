@@ -28,7 +28,13 @@ void crp::apl::EgoFusion::publishCallback()
     orientationQuaternion[1] = m_ego.pose.pose.orientation.y;
     orientationQuaternion[2] = m_ego.pose.pose.orientation.z;
     orientationQuaternion[3] = m_ego.pose.pose.orientation.w;
-    double orientationEuler = m_poseCorrector.run(orientationQuaternion);
+    double positionVector[2];
+    positionVector[0] = m_ego.pose.pose.position.x;
+    positionVector[1] = m_ego.pose.pose.position.y;
+
+    m_poseCorrector.run(orientationQuaternion, positionVector, m_ego.twist.twist.linear.x);
+    m_ego.orientation = m_poseCorrector.getMeasuredOrientation();
+    m_ego.estimated_orientation = m_poseCorrector.getEstimatedOrientation();
     m_pub_ego_->publish(m_ego);
 }
 

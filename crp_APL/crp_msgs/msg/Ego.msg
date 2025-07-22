@@ -9,5 +9,6 @@ float32 tire_angle_front
 float32 steering_wheel_rate
 
 float32 orientation
+float32 estimated_orientation
 
 std_msgs/UInt8 blinker
