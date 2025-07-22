@@ -17,6 +17,8 @@ namespace crp
                 double m_orientationInAngle{0.0f};
                 double m_position_prev[2]{0.0f};
                 double m_estimatedOrientationRaw{0.0f};
+                double m_orientationError{0.0f};
+                double m_estimatedOrientation{0.0f};
         };
     }
 }

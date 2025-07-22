@@ -19,13 +19,20 @@ namespace crp
             double cosy_cosp = 1 - 2 * (orientation[1] * orientation[1] + orientation[2] * orientation[2]);
             m_orientationInAngle = std::atan2(siny_cosp, cosy_cosp);
 
+            // error calculation and filter
+            m_orientationError = 0.01*(m_estimatedOrientationRaw + m_orientationInAngle) + 0.99*m_orientationError;
+
+            // error compensation
+            m_estimatedOrientation = m_orientationInAngle+m_orientationError;
+
+            // save previous values
             m_position_prev[0] = position[0];
             m_position_prev[1] = position[1];
         }
 
         double PoseCorrection::getEstimatedOrientation()
         {
-            return m_estimatedOrientationRaw;
+            return m_estimatedOrientation;
         }
 
         double PoseCorrection::getMeasuredOrientation()
