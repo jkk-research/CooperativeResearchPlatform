@@ -176,12 +176,12 @@ def generate_launch_description():
         default_value=str(vehicle_params['/vehicle_params/rear_axle_from_cog']),
         description='Vehicle parameter: CoG distance from the rear axle [m]')
     vehicle_param_c1_arg = DeclareLaunchArgument(
-        '/vehicle_params/front_wheel_cornering_stiffness',
-        default_value=str(vehicle_params['/vehicle_params/front_wheel_cornering_stiffness']),
+        '/vehicle_params/front_whl_corn_stiff',
+        default_value=str(vehicle_params['/vehicle_params/front_whl_corn_stiff']),
         description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_c2_arg = DeclareLaunchArgument(
-        '/vehicle_params/rear_wheel_cornering_stiffness',
-        default_value=str(vehicle_params['/vehicle_params/rear_wheel_cornering_stiffness']),
+        '/vehicle_params/rear_whl_corn_stiff',
+        default_value=str(vehicle_params['/vehicle_params/rear_whl_corn_stiff']),
         description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_swr_arg = DeclareLaunchArgument(
         '/vehicle_params/steering_ratio',

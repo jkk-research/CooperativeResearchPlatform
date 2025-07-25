@@ -42,7 +42,7 @@
 	path = crp_APL/controllers/ctrl_vehicle_control_nmpc/jkk_controllers
 	url = git@github.com:jkk-research/jkk_controllers.git
 [submodule "crp_CIL/RoadSegmentation-TRT"]
-	path = crp_CIL/RoadSegmentation-TRT
+	path = crp_CIL/roadSegmentation-TRT
 	url = git@github.com:jkk-research/RoadSegmentation-TRT.git
 [submodule "crp_CIL/prcp_grid_cam"]
 	path = crp_CIL/prcp_grid_cam
