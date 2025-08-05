@@ -1,7 +1,7 @@
 /**:
   ros__parameters:
 
-    // TODO: Fill params
+    # TODO: Fill params
     
     config/config_data: 1               # Provide the information with regards of the VehicleConfiging position
                                         #   SIGNAL_NOT_AVAILABLE = 0x0,
