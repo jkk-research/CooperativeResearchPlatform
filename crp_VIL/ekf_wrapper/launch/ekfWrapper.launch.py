@@ -24,11 +24,11 @@ def generate_launch_description():
         description='Name of the IMU (sensor_msgs/Imu) topic')
 
     vehicle_param_c1_arg = DeclareLaunchArgument(
-        '/vehicle_params/front_wheel_cornering_stiffness',
+        '/vehicle_params/front_whl_corn_stiff',
         default_value='3000.0',
         description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_c2_arg = DeclareLaunchArgument(
-        '/vehicle_params/rear_wheel_cornering_stiffness',
+        '/vehicle_params/rear_whl_corn_stiff',
         default_value='3000.0',
         description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_m_arg = DeclareLaunchArgument(
@@ -88,8 +88,8 @@ def generate_launch_description():
             'do_not_wait_for_gnss_msgs' : True,
             'msg_timeout' : 2000.0,
 
-            'vehicle_param_c1' :  LaunchConfiguration('/vehicle_params/front_wheel_cornering_stiffness'),
-            'vehicle_param_c2' :  LaunchConfiguration('/vehicle_params/rear_wheel_cornering_stiffness'),
+            'vehicle_param_c1' :  LaunchConfiguration('/vehicle_params/front_whl_corn_stiff'),
+            'vehicle_param_c2' :  LaunchConfiguration('/vehicle_params/rear_whl_corn_stiff'),
             'vehicle_param_m' :   LaunchConfiguration('/vehicle_params/mass'),
             'vehicle_param_jz' :  LaunchConfiguration('/vehicle_params/inertia_z'),
             'vehicle_param_l1' :  LaunchConfiguration('/vehicle_params/front_axle_from_cog'),

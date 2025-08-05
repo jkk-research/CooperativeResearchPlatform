@@ -42,15 +42,11 @@
 	path = crp_APL/controllers/ctrl_vehicle_control_nmpc/jkk_controllers
 	url = git@github.com:jkk-research/jkk_controllers.git
 [submodule "crp_CIL/RoadSegmentation-TRT"]
-	path = crp_CIL/RoadSegmentation-TRT
+	path = crp_CIL/roadSegmentation-TRT
 	url = git@github.com:jkk-research/RoadSegmentation-TRT.git
 [submodule "crp_CIL/prcp_grid_cam"]
 	path = crp_CIL/prcp_grid_cam
 	url = git@github.com:jkk-research/prcp_grid_cam.git
-[submodule "crp_CIL/OccupancyMapping"]
-	path = crp_CIL/OccupancyMapping
-	url = git@github.com:jkk-research/OccupancyMapping.git
-	url = git@github.com:jkk-research/RoadSegmentation-TRT.git
 [submodule "crp_APL/pdm"]
 	path = crp_APL/pdm
 	url = git@github.com:jkk-research/pdm
@@ -58,3 +54,6 @@
 	path = crp_VIL/radar_driver
 	url = git@github.com:jkk-research/radar_driver.git
 	branch = ros2-humble
+[submodule "crp_CIL/occupancyMapping"]
+	path = crp_CIL/occupancyMapping
+	url = git@github.com:jkk-research/OccupancyMapping.git
