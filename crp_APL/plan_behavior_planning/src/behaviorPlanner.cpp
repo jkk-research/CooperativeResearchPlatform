@@ -66,7 +66,7 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
         {
             tier4_planning_msgs::msg::PathPointWithLaneId point;
             point.point.pose.position.x = targetSpaceMsg.path.path.points.at(i).point.pose.position.x*std::cos(m_orientationError) - targetSpaceMsg.path.path.points.at(i).point.pose.position.y*std::sin(m_orientationError);
-            point.point.pose.position.y = targetSpaceMsg.path.path.points.at(i).point.pose.position.x*std::sin(m_orientationError) - targetSpaceMsg.path.path.points.at(i).point.pose.position.y*std::cos(m_orientationError);  
+            point.point.pose.position.y = targetSpaceMsg.path.path.points.at(i).point.pose.position.x*std::sin(m_orientationError) + targetSpaceMsg.path.path.points.at(i).point.pose.position.y*std::cos(m_orientationError);  
             fixedPathWithTrafficRules.path.points.push_back(point);
         }
     }
@@ -94,7 +94,7 @@ void crp::apl::BehaviorPlanner::egoCallback(const crp_msgs::msg::Ego::SharedPtr 
     m_behaviorPlannerInput.m_userInputs.blinker = msg->blinker.data;
     
     // TODO: this should be relocated into CIL!!!
-    m_orientationError = (msg->estimated_orientation - msg->orientation);
+    m_orientationError = -(msg->estimated_orientation - msg->orientation);
 
     return;
 }
