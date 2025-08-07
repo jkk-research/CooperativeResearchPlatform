@@ -47,10 +47,6 @@
 [submodule "crp_CIL/prcp_grid_cam"]
 	path = crp_CIL/prcp_grid_cam
 	url = git@github.com:jkk-research/prcp_grid_cam.git
-[submodule "crp_CIL/OccupancyMapping"]
-	path = crp_CIL/OccupancyMapping
-	url = git@github.com:jkk-research/OccupancyMapping.git
-	url = git@github.com:jkk-research/RoadSegmentation-TRT.git
 [submodule "crp_APL/pdm"]
 	path = crp_APL/pdm
 	url = git@github.com:jkk-research/pdm
