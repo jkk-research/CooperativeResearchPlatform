@@ -1,8 +1,25 @@
-/vehicle_params/wheelbase:            2.79   # m
-/vehicle_params/mass:                 2300.0 # kg
-/vehicle_params/inertia_z:            4500.0 # kg*m2
-/vehicle_params/front_axle_from_cog:  1.24   # m
-/vehicle_params/rear_axle_from_cog:   1.55   # m
-/vehicle_params/steering_ratio:       14.8   
-/vehicle_params/front_wheel_cornering_stiffness: 5000.0 # N/rad
-/vehicle_params/rear_wheel_cornering_stiffness:  5000.0 # N/rad
+/vehicle_params/wheelbase             : 2.79    # [m]           Longitudinal distance between front and rear axles
+/vehicle_params/mass                  : 2300.0  # [kg]          Mass of the vehicle
+/vehicle_params/inertia_z             : 4500.0  # [kg*m2]       Inertia of the vehicle around the vertical axis
+/vehicle_params/front_axle_from_cog   : 1.24    # [m]           Longitudinal distance from the center of gravity to the front axle in the vehicle coordinate system
+/vehicle_params/rear_axle_from_cog    : 1.55    # [m]           Longitudinal distance from the center of gravity to the rear axle in the vehicle coordinate system
+/vehicle_params/steering_ratio        : 14.7    # [1]           Steering rack ratio
+
+# TODO: Fill params
+
+/vehicle_params/vehicle_length        : 4.890     # [m]           Length of the vehicle
+/vehicle_params/vehicle_width         : 1.8     # [m]           Width of the vehicle
+/vehicle_params/vehicle_height        : 1.685     # [m]           Height of the vehicle
+/vehicle_params/front_bumper          : 3.780     # [m]           Longitudinal distance to the front bumper in the vehicle coordinate system with origin at center of the rear axle
+/vehicle_params/rear_bumper           : 1.02     # [m]           Longitudinal distance to the rear bumper in the vehicle coordinate system with origin at center of the rear axle
+/vehicle_params/acc_long_sens_pos     : 0.0     # [m]           Longitudinal mounting position of the longitudinal acceleration sensor in vehicle coordinate system with origin middle of the rear axis
+/vehicle_params/wheel_base            : 2.79    # [m]           Longitudinal distance between front and rear axles
+/vehicle_params/wheel_track           : 1.630     # [m]           Distance between the centerline of two wheels on the same axle
+/vehicle_params/v_characteristic      : 0.0     # [m/s]         Vehicle characteristic velocity: velocity at which the steering sensitivity of the vehicle is at maximum
+/vehicle_params/grad_side_slip_ang    : 0.0     # [rad*s^2/m]   Ego Gradient Side Slip angle
+/vehicle_params/wheel_circ_fl         : 2.41     # [m]           Front Left Wheel Circumference
+/vehicle_params/wheel_circ_fr         : 2.41     # [m]           Front Right Wheel Circumference
+/vehicle_params/wheel_circ_rl         : 2.41     # [m]           Rear Left Wheel Circumference
+/vehicle_params/wheel_circ_rr         : 2.41     # [m]           Rear Right Wheel Circumference
+/vehicle_params/front_whl_corn_stiff  : 10000000.0     # [N/rad]       Front wheel cornering stiffness
+/vehicle_params/rear_whl_corn_stiff   : 10000000.0     # [N/rad]       Rear wheel cornering stiffness

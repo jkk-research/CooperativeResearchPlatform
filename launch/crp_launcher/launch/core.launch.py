@@ -24,11 +24,11 @@ def generate_launch_description():
         default_value='2.79',
         description='Vehicle parameter: Wheelbase [m]')
     vehicle_param_c1_arg = DeclareLaunchArgument(
-        '/vehicle_params/front_wheel_cornering_stiffness',
+        '/vehicle_params/front_whl_corn_stiff',
         default_value='3000.0',
         description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_c2_arg = DeclareLaunchArgument(
-        '/vehicle_params/rear_wheel_cornering_stiffness',
+        '/vehicle_params/rear_whl_corn_stiff',
         default_value='3000.0',
         description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_m_arg = DeclareLaunchArgument(

@@ -176,12 +176,12 @@ def generate_launch_description():
         default_value=str(vehicle_params['/vehicle_params/rear_axle_from_cog']),
         description='Vehicle parameter: CoG distance from the rear axle [m]')
     vehicle_param_c1_arg = DeclareLaunchArgument(
-        '/vehicle_params/front_wheel_cornering_stiffness',
-        default_value=str(vehicle_params['/vehicle_params/front_wheel_cornering_stiffness']),
+        '/vehicle_params/front_whl_corn_stiff',
+        default_value=str(vehicle_params['/vehicle_params/front_whl_corn_stiff']),
         description='Vehicle parameter: Front wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_c2_arg = DeclareLaunchArgument(
-        '/vehicle_params/rear_wheel_cornering_stiffness',
-        default_value=str(vehicle_params['/vehicle_params/rear_wheel_cornering_stiffness']),
+        '/vehicle_params/rear_whl_corn_stiff',
+        default_value=str(vehicle_params['/vehicle_params/rear_whl_corn_stiff']),
         description='Vehicle parameter: Rear wheel cornering stiffness (for single track model) [N/rad]')
     vehicle_param_swr_arg = DeclareLaunchArgument(
         '/vehicle_params/steering_ratio',
@@ -229,6 +229,76 @@ def generate_launch_description():
                 'drivers',
                 'os_composable_raw_merged_b_autoware.launch.py')
         )
+    )
+
+    radar_fc = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','fcRadarParams.yaml'),
+            'radar_interface'   : 'can0',
+            'radar_namespace'   : 'radar/fc'
+        }.items()
+    )
+
+    radar_fl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','flRadarParams.yaml'),
+            'radar_interface'   : 'can1',
+            'radar_namespace'   : 'radar/fl'
+        }.items()
+    )
+
+    radar_fr = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','frRadarParams.yaml'),
+            'radar_interface'   : 'can2',
+            'radar_namespace'   : 'radar/fr'
+        }.items()
+    )
+
+    radar_rl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rlRadarParams.yaml'),
+            'radar_interface'   : 'can3',
+            'radar_namespace'   : 'radar/rl'
+        }.items()
+    )
+
+    radar_rr = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('rd6_driver'),
+                'launch',
+                'rd6.launch.py')
+        ),
+        launch_arguments={
+            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rrRadarParams.yaml'),
+            'radar_interface'   : 'can4',
+            'radar_namespace'   : 'radar/rr'
+        }.items()
     )
     
 
@@ -356,6 +426,11 @@ def generate_launch_description():
         novatel_gps,
         duro_gps,
         os_lidars_merged,
+        radar_fc,
+        radar_fl,
+        radar_fr,
+        radar_rl,
+        radar_rr,
         ekf_wrapper,
         vehicle_can,
         camera_mpc,
