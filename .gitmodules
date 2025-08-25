@@ -48,3 +48,7 @@
 	path = crp_VIL/radar_driver
 	url = git@github.com:jkk-research/radar_driver.git
 	branch = ros2-humble
+[submodule "crp_VIL/novatel_oem7_driver"]
+	path = crp_VIL/novatel_oem7_driver
+	url = git@github.com:jkk-research/novatel_oem7_driver.git
+	branch = humble
