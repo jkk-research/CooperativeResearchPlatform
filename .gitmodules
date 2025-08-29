@@ -51,3 +51,6 @@
 [submodule "crp_VIL/usb_cam"]
 	path = crp_VIL/usb_cam
 	url = git@github.com:jkk-research/usb_cam.git
+[submodule "crp_VIL/ouster_ros"]
+	path = crp_VIL/ouster_ros
+	url = git@github.com:jkk-research/ouster-ros.git
