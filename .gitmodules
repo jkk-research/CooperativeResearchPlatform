@@ -52,3 +52,6 @@
 	path = crp_VIL/novatel_oem7_driver
 	url = git@github.com:jkk-research/novatel_oem7_driver.git
 	branch = humble
+[submodule "crp_VIL/usb_cam"]
+	path = crp_VIL/usb_cam
+	url = git@github.com:jkk-research/usb_cam.git
