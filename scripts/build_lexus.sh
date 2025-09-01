@@ -46,6 +46,8 @@ packages=(
   ouster_sensor_msgs
   ouster_ros
   scenario_generator
+  ros2_socketcan
+  rd6_driver
 )
 
 packages_string=${packages[*]}
