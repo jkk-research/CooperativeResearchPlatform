@@ -73,7 +73,7 @@ void crp::apl::TestNode::calculateRoute()
     float xGlobal[1001];
     float yGlobal[1001];
     float thetaGlobal[1001];
-    float c0 = 0.0; float c1 = 0.2; float c2 = 0.005; float c3 = -0.00002;
+    float c0 = 0.0; float c1 = 0.05; float c2 = 0.005; float c3 = -0.00002;
     for (int i=0; i<1001; i++)
     {
         xGlobal[i] = i*dx;
