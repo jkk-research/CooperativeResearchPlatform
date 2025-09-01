@@ -65,7 +65,7 @@ def generate_launch_description():
     )
     ctrl_lat_method_arg = DeclareLaunchArgument(
         'ctrl_lat_method',
-        default_value='comp',
+        default_value='nmpc',
         description='Lat controller to use. Possible values: comp, purep, stanley, nmpc'
     )
     ctrl_long_method_arg = DeclareLaunchArgument(
@@ -73,8 +73,11 @@ def generate_launch_description():
         default_value='long',
         description='Controller to use. Possible values: long'
     )
-
-
+    pdm_use_pdm_arg = DeclareLaunchArgument(
+        'pdm_use_pdm',
+        default_value='false',
+        description='Weather to use pdm or not.'
+    )
     ctrlLqrConfigFileArg = DeclareLaunchArgument(
         'ctrlLqrConfigFile',
         default_value=join(
@@ -300,11 +303,19 @@ def generate_launch_description():
         ctrlStanleyConfigFileArg,
         ctrlNmpcConfigFileArg,
         ctrlLongConfigFileArg,
+
+        pdm_use_pdm_arg,
         
         # nodes
 
         environmental_fusion,
-        #pdm,
+        
+        # GroupAction(
+        #     [
+        #         pdm,
+        #     ],
+        #     condition=LaunchConfigurationEquals('pdm_use_pdm', 'true')
+        # ),
 
         behavior_planning,
         planner_lat_lane_follow_ldm,

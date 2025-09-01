@@ -8,6 +8,7 @@
 #include <crp_msgs/msg/target_space.hpp>
 #include <crp_msgs/msg/behavior.hpp>
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
+#include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
 #include <pdp_if/msg/pdp_personalized_params_active.hpp>
 
@@ -45,6 +46,7 @@ private:
     BehaviorPlannerInput m_behaviorPlannerInput;
 
     float m_corneringSpeed{0.0f};
+    double m_orientationError{0.0f};
 };
 
 } // namespace apl

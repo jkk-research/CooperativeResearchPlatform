@@ -54,6 +54,7 @@ void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::m
     }
 
     m_ctrlCmdMsg.lateral.steering_tire_angle = std::clamp(msg->steering_tire_angle, -tireAngleLim, tireAngleLim);
+    m_ctrlCmdMsg.lateral.steering_tire_rotation_rate = msg->steering_tire_rotation_rate;
     m_twistCmdMsg.angular.z = m_ctrlCmdMsg.lateral.steering_tire_angle;
 
     // float tireRotationRateLim = 10; // default: no limit

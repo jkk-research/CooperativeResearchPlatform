@@ -90,7 +90,7 @@ def generate_launch_description():
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
         'map_file_path',
-        default_value='/home/dev/lanelet2_maps/ZalaZone/ZalaZone_Handling.osm',
+        default_value='/home/dev/crp_ws/src/lanelet2_maps/ZalaZone/ZalaZone_Motorway_local.osm',
         description='Length of the scenario in meters')
     lanelet_map_frame_id_arg = DeclareLaunchArgument(
         'map_frame_id',
@@ -112,7 +112,7 @@ def generate_launch_description():
         description='Length of the scenario in meters')
     local_path_length_arg = DeclareLaunchArgument(
         'local_path_length',
-        default_value='70.0',
+        default_value='100.0',
         description='Length of the scenario in meters')
     
     # vehicle control
@@ -138,8 +138,8 @@ def generate_launch_description():
     )
     ctrl_lat_method_arg = DeclareLaunchArgument(
         'ctrl_lat_method',
-        default_value='comp',
-        description='Lat controller to use. Possible values: comp, purep, stanley'
+        default_value='nmpc',
+        description='Lat controller to use. Possible values: comp, purep, stanley, nmpc'
     )
     ctrl_long_method_arg = DeclareLaunchArgument(
         'ctrl_long_method',
@@ -207,6 +207,17 @@ def generate_launch_description():
                 get_package_share_directory('novatel_gps_wrapper'),
                 'launch',
                 'novatel.launch.py')
+        ),
+        condition = LaunchConfigurationEquals('select_gps', 'nova')
+    )
+
+    novatel_gps_swri_driver = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('lexus_bringup'),
+                'launch',
+                'drivers',
+                'gps_nova_b.launch.py')
         ),
         condition = LaunchConfigurationEquals('select_gps', 'nova')
     )
@@ -424,6 +435,7 @@ def generate_launch_description():
         # vehicle nodes
         static_tf,
         novatel_gps,
+        novatel_gps_swri_driver,
         duro_gps,
         os_lidars_merged,
         radar_fc,
@@ -437,15 +449,6 @@ def generate_launch_description():
         pacmod_extender,
         sensor_abstraction,
         vehicle_speed_control,
-
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                join(
-                    get_package_share_directory('scenario_generator'),
-                    'launch',
-                    'scenario_gen.launch.py')
-            )
-        ),
 
         lanelet_file_loader,
     ])

@@ -66,6 +66,7 @@ private:
     double m_vehicle_speed_actual = 0.0;
     double m_vehicle_speed_reference = 0.0; 
     double m_vehicle_steering_reference = 0.0;
+    double m_vehicle_steering_rate_reference = 0.0;
     double m_currentSteeringTireAngle = 0.0;
 
     bool m_control_state = true; // control_state: acceleration(true) / deceleration(false) state (necessary for hysteresis to avoid fluctuating speed)
