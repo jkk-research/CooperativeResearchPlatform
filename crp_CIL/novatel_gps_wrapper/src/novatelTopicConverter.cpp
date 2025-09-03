@@ -11,6 +11,24 @@ crp::vil::NovatelTopicConverter::NovatelTopicConverter() : Node("novatel_topic_c
     m_pub_odometry_ = this->create_publisher<nav_msgs::msg::Odometry>("/odometry/kinematic_state/odometry", 10);
 
     RCLCPP_INFO(this->get_logger(), "novatel_topic_converter has been started");
+
+    m_tf_broadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(*this);
+
+}
+
+// write a GPS tf publisher
+void crp::vil::NovatelTopicConverter::publishGPSTransform(const nav_msgs::msg::Odometry::SharedPtr msg)
+{
+    geometry_msgs::msg::TransformStamped transform;
+    transform.header.frame_id = "map";
+    transform.child_frame_id = "gps";
+
+    transform.transform.translation.x = msg->pose.pose.position.x;
+    transform.transform.translation.y = msg->pose.pose.position.y;
+    transform.transform.translation.z = msg->pose.pose.position.z;
+    transform.transform.rotation = msg->pose.pose.orientation;
+
+    m_tf_broadcaster->sendTransform(transform);
 }
 
 void crp::vil::NovatelTopicConverter::currentPoseCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
@@ -18,6 +36,8 @@ void crp::vil::NovatelTopicConverter::currentPoseCallback(const nav_msgs::msg::O
     geometry_msgs::msg::PoseWithCovarianceStamped poseWithCovariance;
     poseWithCovariance.header = msg->header;
     poseWithCovariance.pose.pose = msg->pose.pose;
+
+    publishGPSTransform(msg);
 
     m_pub_currentPoseWithCovariance_->publish(poseWithCovariance);
 
