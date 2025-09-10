@@ -1,0 +1,7 @@
+/cai/ego_status
+/cai/gnss_fix
+/cai/kinematic_state
+/cai/local_drivable_surface
+/cai/local_lane/path
+/cai/local_moving_objects
+/cai/local_obstacles
