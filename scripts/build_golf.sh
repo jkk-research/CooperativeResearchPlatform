@@ -35,6 +35,7 @@ packages=(
   ros2_socketcan_msgs
   ros2_socketcan
   crp_if
+  can_if
   can_driver
 )
 
