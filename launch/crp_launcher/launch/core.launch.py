@@ -152,14 +152,14 @@ def generate_launch_description():
 
     # ros2 run
     
-    # pdm = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         join(
-    #             get_package_share_directory('pdp_wrapper'),
-    #             'launch',
-    #             'pdpWrapper.launch.py')
-    #     ),
-    # )
+    pdm = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('pdp_wrapper'),
+                'launch',
+                'pdpWrapper.launch.py')
+        ),
+    )
 
     ############
     # PLANNING #
@@ -310,12 +310,12 @@ def generate_launch_description():
 
         environmental_fusion,
         
-        # GroupAction(
-        #     [
-        #         pdm,
-        #     ],
-        #     condition=LaunchConfigurationEquals('pdm_use_pdm', 'true')
-        # ),
+        GroupAction(
+            [
+                pdm,
+            ],
+            condition=LaunchConfigurationEquals('pdm_use_pdm', 'true')
+        ),
 
         behavior_planning,
         planner_lat_lane_follow_ldm,

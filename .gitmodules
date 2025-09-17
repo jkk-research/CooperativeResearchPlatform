@@ -48,3 +48,6 @@
 	path = crp_VIL/radar_driver
 	url = git@github.com:jkk-research/radar_driver.git
 	branch = ros2-humble
+[submodule "crp_VIL/net_srs_golf"]
+	path = crp_VIL/net_srs_golf
+	url = https://github.boschdevcloud.com/FSE2BP/pdp-net.git
