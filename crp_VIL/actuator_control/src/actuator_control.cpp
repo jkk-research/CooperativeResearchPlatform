@@ -61,7 +61,7 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
     uint8_t accelMode = m_pdpAccelMode;
     uint8_t decelMode = m_pdpDecelMode;
 
-    /*if (m_pdpAccelMode != 0)
+    if (m_pdpAccelMode != 0)
         accelMode = m_pdpAccelMode;
     else
         accelMode = m_uiAccelMode;
@@ -69,7 +69,7 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
     if (m_pdpDecelMode != 0)
         decelMode = m_pdpDecelMode;
     else
-        decelMode = m_uiDecelMode;*/
+        decelMode = m_uiDecelMode;
 
 
     if (accelMode == 1)
@@ -153,7 +153,8 @@ void crp::vil::ActuatorControl::egoCallback(const crp_msgs::msg::Ego msg)
 void crp::vil::ActuatorControl::controlCmdCallback(const autoware_control_msgs::msg::Control msg)
 {
     m_vehicle_speed_reference = msg.longitudinal.velocity;
-    m_vehicle_steering_reference = msg.lateral.steering_tire_angle * 14.8;
+    m_vehicle_steering_reference = msg.lateral.steering_tire_angle * 14.7;
+    m_vehicle_steering_rate_reference = msg.lateral.steering_tire_rotation_rate;
 }
 
 void crp::vil::ActuatorControl::run()
@@ -236,7 +237,7 @@ void crp::vil::ActuatorControl::run()
             m_brakeCommandMsg.command = 0.3;
         }
     }
-    m_steerCommandMsg.rotation_rate = 3.3;
+    m_steerCommandMsg.rotation_rate = m_vehicle_steering_rate_reference;
     m_accelCommandMsg.header.frame_id = "pacmod";
     m_accelCommandMsg.enable = m_enable_longitudinal_control;
     m_brakeCommandMsg.enable = m_enable_longitudinal_control;

@@ -102,10 +102,14 @@ void crp::cil::ScenarioAbstraction::publishCallback()
             {
                 // add points to path from current lanelet
                 tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx],currentLaneletSpeedLimit);
-                currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
-                outPath.points.push_back(
-                    m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)
-                );
+                float distanceBetweenPoints = m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
+                if (distanceBetweenPoints > 0.01f)
+                {
+                    currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
+                    outPath.points.push_back(
+                        m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)
+                    );
+                }
                 prevPoint = currentPoint;
                 currentPointIdx++;
             }

@@ -211,6 +211,7 @@ def generate_launch_description():
         condition = LaunchConfigurationEquals('select_gps', 'nova')
     )
 
+
     novatel_gps_oem7_driver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
@@ -218,6 +219,7 @@ def generate_launch_description():
                 'launch',
                 'drivers',
                 'oem7_net.launch.py')
+
         ),
         condition = LaunchConfigurationEquals('select_gps', 'nova')
     )

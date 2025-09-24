@@ -57,10 +57,21 @@ void crp::apl::BehaviorPlanner::PdpPersonalizedParamsActiveCallback(const pdp_if
 void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::SharedPtr msg)
 {
     crp_msgs::msg::TargetSpace targetSpaceMsg;
+    crp_msgs::msg::PathWithTrafficRules fixedPathWithTrafficRules;
 
     if (msg->paths.size() > 0){
         targetSpaceMsg.path = msg->paths[0];
+        // compensate the orientation error
+        for (int i=0; i<targetSpaceMsg.path.path.points.size(); i++)
+        {
+            tier4_planning_msgs::msg::PathPointWithLaneId point;
+            point.point.pose.position.x = targetSpaceMsg.path.path.points.at(i).point.pose.position.x*std::cos(m_orientationError) - targetSpaceMsg.path.path.points.at(i).point.pose.position.y*std::sin(m_orientationError);
+            point.point.pose.position.y = targetSpaceMsg.path.path.points.at(i).point.pose.position.x*std::sin(m_orientationError) + targetSpaceMsg.path.path.points.at(i).point.pose.position.y*std::cos(m_orientationError);  
+            fixedPathWithTrafficRules.path.points.push_back(point);
+        }
     }
+
+    targetSpaceMsg.path = fixedPathWithTrafficRules;
 
     if (m_behaviorPlannerInput.m_userInputs.blinker > 0)
     {
@@ -81,6 +92,9 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
 void crp::apl::BehaviorPlanner::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 {
     m_behaviorPlannerInput.m_userInputs.blinker = msg->blinker.data;
+    
+    // TODO: this should be relocated into CIL!!!
+    m_orientationError = -(msg->estimated_orientation - msg->orientation);
 
     return;
 }

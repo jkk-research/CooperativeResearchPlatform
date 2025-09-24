@@ -1,11 +1,11 @@
 ctrl_vehicle_control_lat_compensatory:
   ros__parameters:
     /ctrl/compensatory/ffLookAheadTime:                    1.5
-    /ctrl/compensatory/steeringAngleLPFilter:              0.2
+    /ctrl/compensatory/steeringAngleLPFilter:              0.5
     /ctrl/compensatory/fbLookAheadTime:                    0.2
-    /ctrl/compensatory/fbPGain:                            0.2
-    /ctrl/compensatory/fbDGain:                            1.0
-    /ctrl/compensatory/fbIGain:                            0.1
+    /ctrl/compensatory/fbPGain:                            0.8
+    /ctrl/compensatory/fbDGain:                            1.5
+    /ctrl/compensatory/fbIGain:                            0.0
     /ctrl/compensatory/fbIntegralLimit:                    3.0
     /ctrl/compensatory/trajectory_distance:                50.0
     /ctrl/compensatory/sigma_thetaFP:                      0.05

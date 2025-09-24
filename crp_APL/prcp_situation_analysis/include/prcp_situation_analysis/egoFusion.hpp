@@ -6,7 +6,7 @@
 #include <crp_msgs/msg/ego_status.hpp>
 #include <autoware_localization_msgs/msg/kinematic_state.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
-
+#include "subfunctions/poseCorrection.hpp"
 
 namespace crp
 {
@@ -33,6 +33,8 @@ private:
     rclcpp::TimerBase::SharedPtr m_publishTimer_;
 
     crp_msgs::msg::Ego m_ego;
+    
+    PoseCorrection m_poseCorrector;
 };
 
 } // namespace apl
