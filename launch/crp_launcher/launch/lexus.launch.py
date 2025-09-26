@@ -211,13 +211,15 @@ def generate_launch_description():
         condition = LaunchConfigurationEquals('select_gps', 'nova')
     )
 
-    novatel_gps_swri_driver = IncludeLaunchDescription(
+
+    novatel_gps_oem7_driver = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
-                get_package_share_directory('lexus_bringup'),
+                get_package_share_directory('novatel_oem7_driver'),
                 'launch',
                 'drivers',
-                'gps_nova_b.launch.py')
+                'oem7_net.launch.py')
+
         ),
         condition = LaunchConfigurationEquals('select_gps', 'nova')
     )
@@ -435,7 +437,7 @@ def generate_launch_description():
         # vehicle nodes
         static_tf,
         novatel_gps,
-        novatel_gps_swri_driver,
+        novatel_gps_oem7_driver,
         duro_gps,
         os_lidars_merged,
         radar_fc,

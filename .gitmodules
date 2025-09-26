@@ -34,10 +34,6 @@
 	path = crp_CIL/kalman_pos
 	url = git@github.com:jkk-research/kalman_pos.git
 	branch = ros2
-[submodule "crp_VIL/ouster-ros"]
-	path = crp_VIL/ouster-ros
-	url = git@github.com:ouster-lidar/ouster-ros.git
-	branch = ros2
 [submodule "crp_APL/controllers/ctrl_vehicle_control_nmpc/jkk_controllers"]
 	path = crp_APL/controllers/ctrl_vehicle_control_nmpc/jkk_controllers
 	url = git@github.com:jkk-research/jkk_controllers.git
@@ -51,3 +47,13 @@
 [submodule "crp_VIL/net_srs_golf"]
 	path = crp_VIL/net_srs_golf
 	url = https://github.boschdevcloud.com/FSE2BP/pdp-net.git
+[submodule "crp_VIL/novatel_oem7_driver"]
+	path = crp_VIL/novatel_oem7_driver
+	url = git@github.com:jkk-research/novatel_oem7_driver.git
+	branch = humble
+[submodule "crp_VIL/usb_cam"]
+	path = crp_VIL/usb_cam
+	url = git@github.com:jkk-research/usb_cam.git
+[submodule "crp_VIL/ouster_ros"]
+	path = crp_VIL/ouster_ros
+	url = git@github.com:jkk-research/ouster-ros.git
