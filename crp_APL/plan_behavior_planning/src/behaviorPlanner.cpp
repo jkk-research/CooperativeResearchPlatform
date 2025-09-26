@@ -10,7 +10,7 @@ crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
     m_sub_ego_      = this->create_subscription<crp_msgs::msg::Ego>(
         "ego", 10, std::bind(&BehaviorPlanner::egoCallback, this, std::placeholders::_1));
 
-    m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
+        m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
         "/ui/behavior", 10,
         std::bind(&BehaviorPlanner::behaviorCallback, this, std::placeholders::_1));
 
@@ -20,6 +20,8 @@ crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
 
     m_pub_strategy_    = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
     m_pub_targetSpace_ = this->create_publisher<crp_msgs::msg::TargetSpace>("plan/target_space", 10);
+    m_pub_laneVisualization_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/laneVisualization", 10);
+    m_pub_targetSpeedVisualization_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/targetSpeedVisualization", 10);
 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(33), std::bind(&BehaviorPlanner::loop, this));
 
@@ -86,6 +88,61 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
     targetSpaceMsg.free_space = msg->free_space;
     
     m_pub_targetSpace_->publish(targetSpaceMsg);
+
+    // visualization
+    visualization_msgs::msg::Marker lane;
+    lane.header.frame_id = "base_link";
+    lane.header.stamp = this->get_clock()->now();
+    lane.ns = "lanes";
+    lane.id = 1;
+    lane.type = visualization_msgs::msg::Marker::SPHERE_LIST;
+    lane.action = visualization_msgs::msg::Marker::ADD;
+    lane.scale.x = 0.2; // line width
+    lane.scale.y = 0.2;
+    lane.scale.z = 0.2;
+    lane.color.r = 1.0f;
+    lane.color.g = 1.0f;
+    lane.color.b = 0.0f;
+    lane.color.a = 1.0f;
+
+    // speed in each waypoint
+    std::vector<visualization_msgs::msg::Marker> labels;
+
+    if (msg->paths.size() > 0){
+        // compensate the orientation error
+        for (int i=0; i<fixedPathWithTrafficRules.path.points.size(); i++)
+        {
+            geometry_msgs::msg::Point p;
+            p.x = fixedPathWithTrafficRules.path.points.at(i).point.pose.position.x;
+            p.y = fixedPathWithTrafficRules.path.points.at(i).point.pose.position.y;  
+            lane.points.push_back(p);
+
+            // speed points
+            visualization_msgs::msg::Marker label;
+            label.header.frame_id = "base_link";
+            label.ns = "labels";
+            label.id = i + 1;
+            label.type = visualization_msgs::msg::Marker::TEXT_VIEW_FACING;
+            label.action = visualization_msgs::msg::Marker::ADD;
+            label.scale.z = 0.2;  // text height
+            label.color.r = 0.0;
+            label.color.g = 0.0;
+            label.color.b = 0.0;
+            label.color.a = 1.0;
+            label.pose.position = p;
+            label.pose.position.z = 1.0;
+            std::stringstream ss;
+            ss << std::fixed << std::setprecision(2) << fixedPathWithTrafficRules.path.points.at(i).point.longitudinal_velocity_mps*3.6;
+            label.text = ss.str() + " km/h";
+            labels.push_back(label);
+        }
+        m_pub_laneVisualization_->publish(lane);
+
+        for (auto &label : labels) {
+            label.header.stamp = this->get_clock()->now();
+            m_pub_targetSpeedVisualization_->publish(label);
+        }
+    }    
 }
 
 

@@ -7,6 +7,7 @@
 #include <autoware_localization_msgs/msg/kinematic_state.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 #include "subfunctions/poseCorrection.hpp"
+#include "foxglove_msgs/msg/scene_update.hpp"
 
 namespace crp
 {
@@ -29,6 +30,8 @@ private:
     rclcpp::Subscription<crp_msgs::msg::EgoStatus>::SharedPtr                        m_sub_egoStatus_;
 
     rclcpp::Publisher<crp_msgs::msg::Ego>::SharedPtr m_pub_ego_;
+
+    rclcpp::Publisher<foxglove_msgs::msg::SceneUpdate>::SharedPtr m_pub_egoVisualization_;
 
     rclcpp::TimerBase::SharedPtr m_publishTimer_;
 

@@ -15,9 +15,15 @@ crp::apl::ControlHandler::ControlHandler() : Node("control_handler")
     m_pub_control_ = this->create_publisher<autoware_control_msgs::msg::Control>("/control/command/control_cmd", 30);
     m_pub_twist_ = this->create_publisher<geometry_msgs::msg::Twist>("lexus3/cmd_vel", 30);
 
+    // for visualization publish predictive path (if any)
+    m_pub_predictivePathVisualization_ = this->create_publisher<visualization_msgs::msg::Marker>("/control/predictivePathVisualization", 10);
+
     m_sub_controlLat_ = this->create_subscription<autoware_control_msgs::msg::Lateral>("/control/command/control_cmdLat", 10, std::bind(&ControlHandler::controlLatCallback, this, std::placeholders::_1));
     m_sub_controlLong_ = this->create_subscription<autoware_control_msgs::msg::Longitudinal>("/control/command/control_cmdLong", 10, std::bind(&ControlHandler::controlLongCallback, this, std::placeholders::_1));
     m_sub_ego_ = this->create_subscription<crp_msgs::msg::Ego>("/ego", 10, std::bind(&ControlHandler::egoCallback, this, std::placeholders::_1));
+
+    // for visualization subscribe to predictive planner output
+    m_sub_predictiveControl_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>("/control/predicted_path", 10, std::bind(&ControlHandler::predictivePathCallback, this, std::placeholders::_1));
 
     RCLCPP_INFO(this->get_logger(), "control_handler has been started");
 
@@ -94,6 +100,35 @@ void crp::apl::ControlHandler::controlLongCallback(const autoware_control_msgs::
 void crp::apl::ControlHandler::egoCallback(const crp_msgs::msg::Ego::SharedPtr msg)
 {
     m_currentSteeringTireAngle = msg->tire_angle_front;
+}
+
+void crp::apl::ControlHandler::predictivePathCallback(const autoware_planning_msgs::msg::Trajectory::SharedPtr msg)
+{
+    // visualization
+    visualization_msgs::msg::Marker lane;
+    lane.header.frame_id = "base_link";
+    lane.header.stamp = this->get_clock()->now();
+    lane.ns = "lanes";
+    lane.id = 1;
+    lane.type = visualization_msgs::msg::Marker::LINE_STRIP;
+    lane.action = visualization_msgs::msg::Marker::ADD;
+    lane.scale.x = 0.15; // line width
+    lane.color.r = 0.0f;
+    lane.color.g = 0.0f;
+    lane.color.b = 1.0f;
+    lane.color.a = 0.8f;
+
+    if (msg->points.size() > 0){
+        // compensate the orientation error
+        for (int i=0; i<msg->points.size(); i++)
+        {
+            geometry_msgs::msg::Point p;
+            p.x = msg->points.at(i).pose.position.x;
+            p.y = msg->points.at(i).pose.position.y;  
+            lane.points.push_back(p);
+        }
+        m_pub_predictivePathVisualization_->publish(lane);
+    }    
 }
 
 void crp::apl::ControlHandler::run()

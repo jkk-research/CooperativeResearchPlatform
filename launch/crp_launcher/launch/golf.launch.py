@@ -131,19 +131,9 @@ def generate_launch_description():
     static_tf = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
-                get_package_share_directory('lexus_bringup'),
+                get_package_share_directory('tf_crp'),
                 'launch',
                 'tf_static.launch.py')
-        )
-    )
-
-    vehicle_can = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('lexus_bringup'),
-                'launch',
-                'drivers',
-                'can_and_status.launch.py')
         )
     )
 
@@ -177,23 +167,6 @@ def generate_launch_description():
 
     return LaunchDescription([
         # args
-        localization_source_arg,
-        select_gps_arg,
-
-        novatel_namespace_arg,
-        novatel_ip_arg,
-        novatel_port_arg,
-        novatel_imu_frame_id_arg,
-        novatel_frame_id_arg,
-        duro_ip_arg,
-        duro_port_arg,
-        duro_namespace_arg,
-        ekf_current_pose_topic_arg,
-        ekf_vehicle_status_topic_arg,
-        ekf_navsatfix_name,
-        ekf_nav_sat_fix_topic_arg,
-        ekf_imu_topic_arg,
-        ekf_frame_arg,
         lanelet_file_path_arg,
         lanelet_map_frame_id_arg,
         lanelet_output_topic_arg,
@@ -221,21 +194,7 @@ def generate_launch_description():
 
         # vehicle nodes
         static_tf,
-        novatel_gps,
-        novatel_gps_swri_driver,
-        duro_gps,
-        os_lidars_merged,
-        radar_fc,
-        radar_fl,
-        radar_fr,
-        radar_rl,
-        radar_rr,
-        ekf_wrapper,
-        vehicle_can,
-        camera_mpc,
-        pacmod_extender,
         sensor_abstraction,
-        vehicle_speed_control,
 
         lanelet_file_loader,
     ])

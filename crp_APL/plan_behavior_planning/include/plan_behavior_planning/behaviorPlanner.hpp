@@ -10,6 +10,7 @@
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
 #include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
 #include <tier4_planning_msgs/msg/scenario.hpp>
+#include <visualization_msgs/msg/marker.hpp>
 #include <pdp_if/msg/pdp_personalized_params_active.hpp>
 
 #include "plannerInterfaces/plannerInterfaces.hpp"
@@ -40,6 +41,8 @@ private:
 
     rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy_;
     rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace_;
+    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr    m_pub_laneVisualization_;
+    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr    m_pub_targetSpeedVisualization_;
 
     rclcpp::TimerBase::SharedPtr m_timer_;
 

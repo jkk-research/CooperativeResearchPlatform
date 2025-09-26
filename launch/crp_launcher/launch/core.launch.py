@@ -75,7 +75,7 @@ def generate_launch_description():
     )
     pdm_use_pdm_arg = DeclareLaunchArgument(
         'pdm_use_pdm',
-        default_value='false',
+        default_value='true',
         description='Weather to use pdm or not.'
     )
     ctrlLqrConfigFileArg = DeclareLaunchArgument(
@@ -158,6 +158,15 @@ def generate_launch_description():
                 get_package_share_directory('pdp_wrapper'),
                 'launch',
                 'pdpWrapper.launch.py')
+        ),
+    )
+
+    pdp_core = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('pdp_cpp'),
+                'launch',
+                'pdp_core.launch.py')
         ),
     )
 
@@ -313,6 +322,7 @@ def generate_launch_description():
         GroupAction(
             [
                 pdm,
+                pdp_core,
             ],
             condition=LaunchConfigurationEquals('pdm_use_pdm', 'true')
         ),
