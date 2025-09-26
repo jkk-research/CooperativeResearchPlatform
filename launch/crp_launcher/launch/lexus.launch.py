@@ -58,6 +58,13 @@ def generate_launch_description():
         'duro_namespace',
         default_value='/lexus3/gps/duro',
         description='Namespace for the Duro GPS')
+    
+    # radar
+    radar_publish_debug_arg = DeclareLaunchArgument(
+        'radar/settings/publish_debug',
+        default_value='false',
+        description='Enable or disable debug publishing'
+    )
 
     # ekf
     ekf_current_pose_topic_arg = DeclareLaunchArgument(
@@ -241,7 +248,8 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','fcRadarParams.yaml'),
             'radar_interface'   : 'can0',
-            'radar_namespace'   : 'radar/fc'
+            'radar_namespace'   : 'radar/fc',
+            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -255,7 +263,8 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','flRadarParams.yaml'),
             'radar_interface'   : 'can1',
-            'radar_namespace'   : 'radar/fl'
+            'radar_namespace'   : 'radar/fl',
+            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -269,7 +278,8 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','frRadarParams.yaml'),
             'radar_interface'   : 'can2',
-            'radar_namespace'   : 'radar/fr'
+            'radar_namespace'   : 'radar/fr',
+            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -283,7 +293,8 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rlRadarParams.yaml'),
             'radar_interface'   : 'can3',
-            'radar_namespace'   : 'radar/rl'
+            'radar_namespace'   : 'radar/rl',
+            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -297,7 +308,8 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rrRadarParams.yaml'),
             'radar_interface'   : 'can4',
-            'radar_namespace'   : 'radar/rr'
+            'radar_namespace'   : 'radar/rr',
+            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
     
@@ -390,6 +402,7 @@ def generate_launch_description():
         duro_ip_arg,
         duro_port_arg,
         duro_namespace_arg,
+        radar_publish_debug_arg,
         ekf_current_pose_topic_arg,
         ekf_vehicle_status_topic_arg,
         ekf_navsatfix_name,
