@@ -152,6 +152,23 @@ def generate_launch_description():
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
+            name='radar_front_center_tf_publisher',
+            output='screen',
+            arguments=[
+                '--x',     '-3.8',
+                '--y',     '0.0',
+                '--z',     '0.0',
+                '--yaw',   '0.0',
+                '--pitch', '0.0',
+                '--roll',  '0.0',
+
+                '--frame-id',       '/rd6_frame',
+                '--child-frame-id', '/base_link'
+            ],
+        ),
+        Node(
+            package='tf2_ros',
+            executable='static_transform_publisher',
             name='right1_os_front_tf_publisher',
             output='screen',
             arguments=[
