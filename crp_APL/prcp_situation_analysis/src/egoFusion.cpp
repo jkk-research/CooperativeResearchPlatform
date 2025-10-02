@@ -64,8 +64,8 @@ void crp::apl::EgoFusion::egoKinematicStateCallback(const autoware_localization_
     cube.pose.position.y = 0.0;
     cube.pose.position.z = 0.75;      // half height to sit on ground
     // mimic roll and pitch angle based on acceleration values
-    float mimicPitchAngle = -m_ego.accel.accel.linear.x/180.0*3.14159/9.81*40.0;
-    float mimicRollAngle = m_ego.accel.accel.linear.y/180.0*3.14159/9.81*60.0;
+    float mimicPitchAngle = -m_ego.accel.accel.linear.x/180.0*3.14159/9.81*20.0;
+    float mimicRollAngle = m_ego.accel.accel.linear.y/180.0*3.14159/9.81*20.0;
     float cr = cos(mimicRollAngle * 0.5);
     float sr = sin(mimicRollAngle * 0.5);
     float cp = cos(mimicPitchAngle * 0.5);
