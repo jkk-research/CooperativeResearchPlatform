@@ -1,2 +1,19 @@
 ctrl_vehicle_control_nmpc:
   ros__parameters:
+    /mpc/vehicle_param/Calfa_f: 147183.0
+    /mpc/vehicle_param/Calfa_r: 182000.0
+    /mpc/vehicle_param/Lr: 1.59
+    /mpc/vehicle_param/Lf: 1.2
+    /mpc/vehicle_param/m: 2500.0
+    /mpc/vehicle_param/Iz: 3950.0
+    /mpc/controller_param/pred_horizon: 20
+    /mpc/controller_param/time_step: 0.2
+    /mpc/cost_param/alfa_mterm: [6.0, 0.0, 0.0, 10.0]
+    /mpc/cost_param/beta_lterm: 5.0
+    /mpc/cost_param/rterm: 50.0
+    /mpc/solver: "mumps"
+    /mpc/log_time: True
+    /mpc/log_state_signals: True
+    /mpc/local_frame_setup: True
+    /mpc/calc_yr_from_sa: True
+    /mpc/controller_param/dsteer_limit: 0.2
