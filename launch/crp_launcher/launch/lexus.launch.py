@@ -249,6 +249,7 @@ def generate_launch_description():
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','fcRadarParams.yaml'),
             'radar_interface'   : 'can0',
             'radar_namespace'   : 'radar/fc',
+            'radar_locations_frame_id' : 'radar_front_center',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
@@ -264,6 +265,7 @@ def generate_launch_description():
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','flRadarParams.yaml'),
             'radar_interface'   : 'can1',
             'radar_namespace'   : 'radar/fl',
+            'radar_locations_frame_id' : 'radar_front_left',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
@@ -279,6 +281,7 @@ def generate_launch_description():
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','frRadarParams.yaml'),
             'radar_interface'   : 'can2',
             'radar_namespace'   : 'radar/fr',
+            'radar_locations_frame_id' : 'radar_front_right',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
@@ -294,6 +297,7 @@ def generate_launch_description():
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rlRadarParams.yaml'),
             'radar_interface'   : 'can3',
             'radar_namespace'   : 'radar/rl',
+            'radar_locations_frame_id' : 'radar_rear_left',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
@@ -309,6 +313,7 @@ def generate_launch_description():
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rrRadarParams.yaml'),
             'radar_interface'   : 'can4',
             'radar_namespace'   : 'radar/rr',
+            'radar_locations_frame_id' : 'radar_rear_right',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
