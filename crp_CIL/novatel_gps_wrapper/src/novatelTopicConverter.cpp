@@ -3,7 +3,7 @@
 
 crp::vil::NovatelTopicConverter::NovatelTopicConverter() : Node("novatel_topic_converter")
 {
-    m_sub_currentPose_ = this->create_subscription<nav_msgs::msg::Odometry>("/novatel/oem7/odometry", 10, std::bind(&NovatelTopicConverter::currentPoseCallback, this, std::placeholders::_1));
+    m_sub_currentPose_ = this->create_subscription<nav_msgs::msg::Odometry>("/novatel/oem7/odom", 10, std::bind(&NovatelTopicConverter::currentPoseCallback, this, std::placeholders::_1));
     m_sub_navSatFix_   = this->create_subscription<sensor_msgs::msg::NavSatFix>("/novatel/oem7/fix", 10, std::bind(&NovatelTopicConverter::navSatFixCallback, this, std::placeholders::_1));
 
     m_pub_currentPoseWithCovariance_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/sensing/gnss/pose_with_covariance", 10);
@@ -35,6 +35,7 @@ void crp::vil::NovatelTopicConverter::currentPoseCallback(const nav_msgs::msg::O
 {
     geometry_msgs::msg::PoseWithCovarianceStamped poseWithCovariance;
     poseWithCovariance.header = msg->header;
+    poseWithCovariance.header.frame_id = "map";
     poseWithCovariance.pose.pose = msg->pose.pose;
 
     publishGPSTransform(msg);

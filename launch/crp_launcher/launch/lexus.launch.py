@@ -62,7 +62,7 @@ def generate_launch_description():
     # radar
     radar_publish_debug_arg = DeclareLaunchArgument(
         'radar/settings/publish_debug',
-        default_value='false',
+        default_value='true',
         description='Enable or disable debug publishing'
     )
 
@@ -97,7 +97,7 @@ def generate_launch_description():
     # lanelet handler
     lanelet_file_path_arg = DeclareLaunchArgument(
         'map_file_path',
-        default_value='/home/dev/crp_ws/src/lanelet2_maps/ZalaZone/ZalaZone_Motorway_local.osm',
+        default_value='/home/dev/crp_ws/src/lanelet2_maps/ZalaZone/ZalaZone.osm',
         description='Length of the scenario in meters')
     lanelet_map_frame_id_arg = DeclareLaunchArgument(
         'map_frame_id',
@@ -224,7 +224,6 @@ def generate_launch_description():
             join(
                 get_package_share_directory('novatel_oem7_driver'),
                 'launch',
-                'drivers',
                 'oem7_net.launch.py')
 
         ),
@@ -260,7 +259,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','fcRadarParams.yaml'),
-            'radar_interface'   : 'can0',
+            'radar_interface'   : 'can4',
             'radar_namespace'   : 'radar/fc',
             'radar_locations_frame_id' : 'radar_front_center',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
@@ -276,7 +275,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','flRadarParams.yaml'),
-            'radar_interface'   : 'can1',
+            'radar_interface'   : 'can2',
             'radar_namespace'   : 'radar/fl',
             'radar_locations_frame_id' : 'radar_front_left',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
@@ -292,7 +291,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','frRadarParams.yaml'),
-            'radar_interface'   : 'can2',
+            'radar_interface'   : 'can3',
             'radar_namespace'   : 'radar/fr',
             'radar_locations_frame_id' : 'radar_front_right',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
@@ -308,7 +307,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rlRadarParams.yaml'),
-            'radar_interface'   : 'can3',
+            'radar_interface'   : 'can0',
             'radar_namespace'   : 'radar/rl',
             'radar_locations_frame_id' : 'radar_rear_left',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
@@ -324,7 +323,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rrRadarParams.yaml'),
-            'radar_interface'   : 'can4',
+            'radar_interface'   : 'can1',
             'radar_namespace'   : 'radar/rr',
             'radar_locations_frame_id' : 'radar_rear_right',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')

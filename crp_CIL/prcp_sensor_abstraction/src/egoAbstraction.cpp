@@ -29,6 +29,9 @@ crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
     m_sub_twist_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
         "/sensing/vehicle/twist", 10, std::bind(&EgoAbstraction::twistCallback, this, std::placeholders::_1)
     );
+    m_sub_odometry_ = this->create_subscription<nav_msgs::msg::Odometry>(
+        "/odometry/kinematic_state/odometry", 10, std::bind(&EgoAbstraction::odometryCallback, this, std::placeholders::_1)
+    );
     m_sub_accel_ = this->create_subscription<geometry_msgs::msg::AccelWithCovarianceStamped>(
         "/sensing/vehicle/accel", 10, std::bind(&EgoAbstraction::accelCallback, this, std::placeholders::_1)
     );
@@ -82,8 +85,15 @@ void crp::cil::EgoAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCo
 
 void crp::cil::EgoAbstraction::twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg)
 {
+    // m_kinematicState.header = msg->header;
+    m_kinematicState.twist_with_covariance.twist.linear = msg->twist.twist.linear;
+    // m_kinematicState.twist_with_covariance.covariance = msg->twist.covariance;
+}
+
+void crp::cil::EgoAbstraction::odometryCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
+{
     m_kinematicState.header = msg->header;
-    m_kinematicState.twist_with_covariance.twist = msg->twist.twist;
+    m_kinematicState.twist_with_covariance.twist.angular = msg->twist.twist.angular;
     m_kinematicState.twist_with_covariance.covariance = msg->twist.covariance;
 }
 

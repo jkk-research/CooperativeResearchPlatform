@@ -27,6 +27,7 @@ private:
     void navSatFixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     void twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg);
+    void odometryCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
     void accelCallback(const geometry_msgs::msg::AccelWithCovarianceStamped::SharedPtr msg);
     void tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg);
     void steeringWheelRateCallback(const std_msgs::msg::Float32::SharedPtr msg);
@@ -36,6 +37,7 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr                    m_sub_navSatFix_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr  m_sub_pose_;
     rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr m_sub_twist_;
+    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr m_sub_odometry_;
     rclcpp::Subscription<geometry_msgs::msg::AccelWithCovarianceStamped>::SharedPtr m_sub_accel_;
     rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_tireAngle_;
     rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_steeringWheelRate_;
