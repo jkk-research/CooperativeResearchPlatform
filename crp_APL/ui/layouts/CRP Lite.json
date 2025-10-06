@@ -1,0 +1,608 @@
+{
+  "configById": {
+    "Plot!3jr24jx": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/PdpHmiOutput.accelerationmap_plot_actual_y[:]",
+          "enabled": true,
+          "color": "#4e98e2",
+          "xValuePath": "/PdpHmiOutput.accelerationmap_plot_actual_x[:]",
+          "lineSize": 5,
+          "label": "Actual Acceleration",
+          "showLine": false
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/PdpHmiOutput.accelerationmap_plot_major_y[:]",
+          "enabled": true,
+          "color": "#f5774d",
+          "xValuePath": "/PdpHmiOutput.accelerationmap_plot_major_x[:]",
+          "lineSize": 4,
+          "label": "Acceleration major",
+          "showLine": false
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/PdpHmiOutput.accelerationmap_plot_threshold_y[:]",
+          "enabled": true,
+          "color": "#f7df71",
+          "xValuePath": "/PdpHmiOutput.accelerationmap_plot_threshold_x[:]",
+          "label": "Plausibility Range"
+        }
+      ],
+      "minYValue": -3,
+      "maxYValue": 3,
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": false,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "currentCustom",
+      "sidebarDimension": 240,
+      "timeRange": "latest",
+      "minXValue": -3,
+      "maxXValue": 3
+    },
+    "Indicator!mwvyek": {
+      "path": "/PdpPersonalizedParamsActive.pdpout_accmap_pos_mode",
+      "style": "background",
+      "fontSize": 24,
+      "fallbackColor": "#ff0000",
+      "fallbackLabel": "ERROR",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "0",
+          "color": "#a0a0a0",
+          "label": "unknown"
+        },
+        {
+          "operator": "=",
+          "rawValue": "1",
+          "color": "#00ff00",
+          "label": "comfort"
+        },
+        {
+          "operator": "=",
+          "rawValue": "2",
+          "color": "#ffff00",
+          "label": "normal"
+        },
+        {
+          "operator": "=",
+          "rawValue": "3",
+          "color": "#ff8800",
+          "label": "dynamic"
+        }
+      ],
+      "foxglovePanelTitle": "Acceleration"
+    },
+    "Indicator!6ldal9": {
+      "path": "/PdpPersonalizedParamsActive.pdpout_accmap_neg_mode",
+      "style": "background",
+      "fontSize": 24,
+      "fallbackColor": "#ff0000",
+      "fallbackLabel": "ERROR",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "0",
+          "color": "#a0a0a0",
+          "label": "unknown"
+        },
+        {
+          "operator": "=",
+          "rawValue": "1",
+          "color": "#00ff00",
+          "label": "comfort"
+        },
+        {
+          "operator": "=",
+          "rawValue": "2",
+          "color": "#ffff00",
+          "label": "normal"
+        },
+        {
+          "operator": "=",
+          "rawValue": "3",
+          "color": "#ff8800",
+          "label": "dynamic"
+        }
+      ],
+      "foxglovePanelTitle": "Deceleration"
+    },
+    "Indicator!46dl0t5": {
+      "path": "/PdpPersonalizedParamsActive.pdpout_accmap_lat_mode",
+      "style": "background",
+      "fontSize": 24,
+      "fallbackColor": "#ff0000",
+      "fallbackLabel": "ERROR",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "0",
+          "color": "#a0a0a0",
+          "label": "unknown"
+        },
+        {
+          "operator": "=",
+          "rawValue": "1",
+          "color": "#00ff00",
+          "label": "comfort"
+        },
+        {
+          "operator": "=",
+          "rawValue": "2",
+          "color": "#ffff00",
+          "label": "normal"
+        },
+        {
+          "operator": "=",
+          "rawValue": "3",
+          "color": "#ff8800",
+          "label": "dynamic"
+        }
+      ],
+      "foxglovePanelTitle": "Cornering"
+    },
+    "Indicator!q93yds": {
+      "path": "/PdpPersonalizedParamsLearnt.pdpout_learningstatemachinestate_accelerationmap",
+      "style": "background",
+      "fallbackColor": "#ff0000",
+      "fallbackLabel": "ERROR",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "0",
+          "color": "#b4bd11",
+          "label": "Standby"
+        },
+        {
+          "operator": "=",
+          "rawValue": "1",
+          "color": "#0bff00",
+          "label": "LearningOngoing"
+        },
+        {
+          "operator": "=",
+          "rawValue": "2",
+          "color": "#93f5f3",
+          "label": "LearningFinished"
+        },
+        {
+          "operator": "=",
+          "rawValue": "3",
+          "color": "#dd7a12",
+          "label": "StoreLearning"
+        },
+        {
+          "operator": "=",
+          "rawValue": "4",
+          "color": "#ff0000",
+          "label": "LearningTerminated"
+        },
+        {
+          "operator": "=",
+          "rawValue": "5",
+          "color": "#a0a0a0",
+          "label": "LearningPaused"
+        }
+      ],
+      "foxglovePanelTitle": "LearningState [amap]",
+      "fontSize": 24
+    },
+    "Indicator!c48hep": {
+      "path": "/PdpHmiOutput.enabled_0general",
+      "style": "background",
+      "fallbackColor": "#877c7c",
+      "fallbackLabel": "PDP Off",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "true",
+          "color": "#13bd11",
+          "label": "PDP On"
+        }
+      ],
+      "foxglovePanelTitle": "LearningState [amap]",
+      "fontSize": 24
+    },
+    "Publish!3n8oyfv": {
+      "buttonText": "Enable PDP",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"enable_0pdp\": true,\n  \"enable_accelerationmap\": true,\n  \"enable_accelerationspeedup_observed\": true,\n  \"enable_accelerationstartup_observed\": true,\n  \"enable_decceleration_observed\": true,\n  \"enable_lanechange_observed\": true,\n  \"enable_laneoffset_observed\": true,\n  \"enable_timegap_interaction\": true,\n  \"enable_timegap_observed\": true,\n  \"zzz_header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"zzz_sequence\": 0,\n  \"zzz_timestamp_s\": 0\n}",
+      "topicName": "/PdpDriverFeedbackEnable",
+      "datatype": "pdp_if/msg/PdpDriverFeedbackEnable",
+      "foxglovePanelTitle": "Enable PDP",
+      "buttonColor": "#54f233"
+    },
+    "Publish!2qmdw5n": {
+      "buttonText": "Start Learning",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"learning_start\": true\n}",
+      "topicName": "/PdpLearningStart",
+      "datatype": "pdp_if/msg/PdpLearningStart",
+      "foxglovePanelTitle": "Start Learning",
+      "buttonColor": "#54f233"
+    },
+    "Publish!2fckxb4": {
+      "buttonText": "Set Driver ID",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"driver_id\": 1,\n  \"zzz_header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"zzz_sequence\": 0,\n  \"zzz_timestamp_s\": 0\n}",
+      "topicName": "/PdpDriverIdentification",
+      "datatype": "pdp_if/msg/PdpDriverIdentification",
+      "foxglovePanelTitle": "Set Driver ID",
+      "buttonColor": "#54f233"
+    },
+    "Publish!1ueu6re": {
+      "buttonText": "Stop Learning",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"learning_stop\": true\n}",
+      "topicName": "/PdpLearningStop",
+      "datatype": "pdp_if/msg/PdpLearningStop",
+      "foxglovePanelTitle": "Stop Learning",
+      "buttonColor": "#f2a133"
+    },
+    "RawMessages!3aiomm1": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/plan/trajectory.points[0].pose.position.y",
+      "fontSize": 30
+    },
+    "RawMessages!3707e01": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/control/command/control_cmdLat.steering_tire_angle",
+      "fontSize": 30
+    },
+    "Plot!46pw6gf": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/plan/trajectory.points[0].pose.position.y",
+          "enabled": true,
+          "color": "#4e98e2"
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": false,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240
+    },
+    "Plot!edr304": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/control/command/control_cmd.lateral.steering_tire_angle",
+          "enabled": true,
+          "color": "#4e98e2"
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": false,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240
+    },
+    "Plot!kf8wgc": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/novatel/oem7/imu/data.angular_velocity.z",
+          "enabled": true,
+          "color": "#4e98e2"
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/odometry/kinematic_state/odometry.twist.twist.angular.z",
+          "enabled": false,
+          "color": "#f5774d"
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/ego.twist.twist.angular.z",
+          "enabled": true,
+          "color": "#f7df71"
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/sensing/vehicle/twist.twist.twist.angular.z",
+          "enabled": true,
+          "color": "#5cd6a9"
+        }
+      ],
+      "minYValue": -0.5,
+      "maxYValue": 0.5,
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": true,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240
+    },
+    "Tab!1trthbm": {
+      "activeTabIdx": 1,
+      "tabs": [
+        {
+          "title": "PDP",
+          "layout": {
+            "first": {
+              "first": "Plot!3jr24jx",
+              "second": {
+                "first": {
+                  "first": "Indicator!mwvyek",
+                  "second": {
+                    "first": "Indicator!6ldal9",
+                    "second": "Indicator!46dl0t5",
+                    "direction": "column",
+                    "splitPercentage": 47.785320865889595
+                  },
+                  "direction": "column",
+                  "splitPercentage": 31.27962085308057
+                },
+                "second": {
+                  "first": "Indicator!q93yds",
+                  "second": "Indicator!c48hep",
+                  "direction": "column"
+                },
+                "direction": "row"
+              },
+              "direction": "row",
+              "splitPercentage": 26.558265582655828
+            },
+            "second": {
+              "first": {
+                "first": "Publish!3n8oyfv",
+                "second": "Publish!2qmdw5n",
+                "direction": "row"
+              },
+              "second": {
+                "first": "Publish!2fckxb4",
+                "second": "Publish!1ueu6re",
+                "direction": "row"
+              },
+              "direction": "column"
+            },
+            "direction": "row"
+          }
+        },
+        {
+          "title": "Control Debug",
+          "layout": {
+            "first": {
+              "first": "RawMessages!3aiomm1",
+              "second": "RawMessages!3707e01",
+              "direction": "row"
+            },
+            "second": {
+              "first": "Plot!46pw6gf",
+              "second": "Plot!edr304",
+              "direction": "row"
+            },
+            "direction": "column"
+          }
+        },
+        {
+          "title": "",
+          "layout": "Plot!kf8wgc"
+        }
+      ]
+    },
+    "3D!1o1zlh1": {
+      "cameraState": {
+        "perspective": true,
+        "distance": 50.35065220613003,
+        "phi": 42.3198065273509,
+        "thetaOffset": 78.7815444375502,
+        "targetOffset": [
+          17.39663618279192,
+          0.1667801134155429,
+          1.719602897667242e-15
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000,
+        "logDepth": false
+      },
+      "followMode": "follow-pose",
+      "scene": {
+        "backgroundColor": "#858585",
+        "ignoreColladaUpAxis": false,
+        "syncCamera": false,
+        "meshUpAxis": "y_up",
+        "enableStats": false
+      },
+      "transforms": {
+        "frame:radar_rear_right": {
+          "visible": true
+        }
+      },
+      "topics": {
+        "/plan/trajectoryVisualization": {
+          "visible": false,
+          "showOutlines": true
+        },
+        "/cai/local_drivable_surface": {
+          "visible": false
+        },
+        "/lexus3/gps/nova/current_pose": {
+          "visible": false
+        },
+        "/plan/laneVisualization": {
+          "visible": false
+        },
+        "/egoVisualization": {
+          "visible": false,
+          "showOutlines": false,
+          "computeVertexNormals": true
+        },
+        "/map/global_static_map_from_file/lanelet2_map_visualization": {
+          "visible": false
+        },
+        "/control/predictivePathVisualization": {
+          "visible": true
+        },
+        "/plan/targetSpeedVisualization": {
+          "visible": false
+        },
+        "/move_base_simple/goal": {
+          "visible": false
+        },
+        "/initialpose": {
+          "visible": false
+        },
+        "/radar/fc/rd6_pointcloud": {
+          "visible": true,
+          "colorField": "z",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 5
+        },
+        "/radar/fl/rd6_pointcloud": {
+          "visible": true,
+          "colorField": "z",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 5
+        },
+        "/radar/fr/rd6_pointcloud": {
+          "visible": true,
+          "colorField": "z",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "decayTime": 0,
+          "pointSize": 5
+        },
+        "/radar/rl/rd6_pointcloud": {
+          "visible": false,
+          "colorField": "z",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 5
+        },
+        "/radar/rr/rd6_pointcloud": {
+          "visible": false,
+          "colorField": "z",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 5
+        },
+        "/luminar_pcl": {
+          "visible": false,
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "turbo"
+        },
+        "/pcl_combined_layer": {
+          "visible": false,
+          "colorField": "reflectance",
+          "colorMode": "colormap",
+          "colorMap": "turbo"
+        }
+      },
+      "layers": {
+        "grid": {
+          "visible": true,
+          "drawBehind": false,
+          "frameLocked": true,
+          "label": "Grid",
+          "instanceId": "9b3a1d57-8e52-4210-aef4-67bfec9d4f32",
+          "layerId": "foxglove.Grid",
+          "size": 100,
+          "divisions": 100,
+          "lineWidth": 1,
+          "color": "#919396ff",
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "frameId": "base_link"
+        }
+      },
+      "publish": {
+        "type": "point",
+        "poseTopic": "/move_base_simple/goal",
+        "pointTopic": "/clicked_point",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      },
+      "imageMode": {},
+      "followTf": "base_link",
+      "enuFrameId": "base_link"
+    },
+    "Publish!25nw41y": {
+      "buttonText": "Publish",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"data\": true\n}",
+      "topicName": "/lexus3/control_reinit",
+      "datatype": "std_msgs/msg/Bool"
+    },
+    "Publish!tbvg8o": {
+      "buttonText": "Publish",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"target_speed\": {\n    \"data\": 15\n  },\n  \"curve_driving_style\": {\n    \"data\": 1\n  },\n  \"acceleration_mode\": {\n    \"data\": 1\n  },\n  \"deceleration_mode\": {\n    \"data\": 1\n  },\n  \"jerk_mode\": {\n    \"data\": 1\n  },\n  \"curve_speed_mode\": {\n    \"data\": 1\n  },\n  \"cornering_speed_mode\": {\n    \"data\": 1\n  },\n  \"enable_lateral_control\": true,\n  \"enable_longitudinal_control\": true\n}",
+      "topicName": "/ui/behavior",
+      "datatype": "crp_msgs/msg/Behavior"
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": {
+    "first": "Tab!1trthbm",
+    "second": {
+      "first": "3D!1o1zlh1",
+      "second": {
+        "first": "Publish!25nw41y",
+        "second": "Publish!tbvg8o",
+        "direction": "row"
+      },
+      "direction": "column",
+      "splitPercentage": 83.85481852315395
+    },
+    "direction": "column",
+    "splitPercentage": 20.969337289812067
+  }
+}

@@ -37,22 +37,25 @@ packages=(
   mcap_rec
   mpc_camera_driver
   novatel_gps_msgs
-  novatel_gps_driver
+  novatel_oem7_driver
   novatel_gps_wrapper
   pacmod_extender
   kalman_pos
   ekf_wrapper
+  autoware_lanelet2_extension
   prcp_sensor_abstraction
   ouster_sensor_msgs
   ouster_ros
   scenario_generator
+  ros2_socketcan_msgs
   ros2_socketcan
+  rd6_msgs
   rd6_driver
 )
 
 packages_string=${packages[*]}
 
-packages_paths=$(colcon list --packages-up-to $packages_string -p)
+packages_paths=$(colcon list --packages-select $packages_string -p)
 
 rosdep install --from-paths $packages_paths --ignore-src -r -y
 

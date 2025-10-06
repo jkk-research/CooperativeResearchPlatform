@@ -37,6 +37,7 @@ packages=(
   crp_if
   can_if
   can_driver
+  tf_crp
 )
 
 packages_string=${packages[*]}

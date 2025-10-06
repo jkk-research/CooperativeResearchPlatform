@@ -53,15 +53,16 @@ void crp::apl::ControlHandler::controlLatCallback(const autoware_control_msgs::m
 
     float tireAngleLim = 20; // default: no limit
 
-    if (m_twistCmdMsg.linear.x != 0)
-    {
-        // calculate tire angle limit based on lateral acceleration limit
-        tireAngleLim = atan((m_latAccelLim * m_wheelBase) / pow(m_twistCmdMsg.linear.x, 2));
-    }
+    // if (m_twistCmdMsg.linear.x != 0)
+    // {
+    //     // calculate tire angle limit based on lateral acceleration limit
+    //     tireAngleLim = atan((m_latAccelLim * m_wheelBase) / pow(m_twistCmdMsg.linear.x, 2));
+    // }
 
-    m_ctrlCmdMsg.lateral.steering_tire_angle = std::clamp(msg->steering_tire_angle, -tireAngleLim, tireAngleLim);
+    m_ctrlCmdMsg.lateral.steering_tire_angle = msg->steering_tire_angle;
+    //m_ctrlCmdMsg.lateral.steering_tire_angle = std::clamp(msg->steering_tire_angle, -tireAngleLim, tireAngleLim);
     m_ctrlCmdMsg.lateral.steering_tire_rotation_rate = msg->steering_tire_rotation_rate;
-    m_twistCmdMsg.angular.z = m_ctrlCmdMsg.lateral.steering_tire_angle;
+    //m_twistCmdMsg.angular.z = m_ctrlCmdMsg.lateral.steering_tire_angle;
 
     // float tireRotationRateLim = 10; // default: no limit
     
@@ -135,7 +136,7 @@ void crp::apl::ControlHandler::run()
 {
     m_ctrlCmdMsg.stamp = this->now();
 
-    m_pub_twist_->publish(m_twistCmdMsg);
+    //m_pub_twist_->publish(m_twistCmdMsg);
     m_pub_control_->publish(m_ctrlCmdMsg);
 }    
 
