@@ -33,7 +33,7 @@ void PacmodExtender::publishMessages()
     yawRateMsg.header.stamp = this->now();
     yawRateMsg.header.frame_id = "pacmod";
 
-    yawRateMsg.yaw_rate = m_twistWithCovariance.twist.twist.linear.x * tan(m_twistWithCovariance.twist.twist.angular.z / 14.8) / WHEELBASE;
+    yawRateMsg.yaw_rate = m_twistWithCovariance.twist.twist.angular.z;
 
     m_pub_linAccel_->publish(m_linAccel);
     m_pub_yawRate_->publish(yawRateMsg);
