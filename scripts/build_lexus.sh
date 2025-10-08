@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 script_dir=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
 cd $script_dir
 while [ ! -e "src/" ]; do
@@ -20,12 +22,6 @@ trap - INT
 
 # build lexus packages
 packages=(
-  tier4_debug_msgs
-  tier4_external_api_msgs
-  tier4_control_msgs
-  tier4_system_msgs
-  tier4_api_msgs
-  tier4_vehicle_msgs
   tier4_map_msgs
   map_loader
   duro_gps_driver
@@ -37,6 +33,7 @@ packages=(
   mcap_rec
   mpc_camera_driver
   novatel_gps_msgs
+  novatel_oem7_msgs
   novatel_oem7_driver
   novatel_gps_wrapper
   pacmod_extender
