@@ -18,11 +18,14 @@ jobs:
       - name: Install SSH and Git tools
         run: apt update && apt install -y openssh-client git
 
-      # 🔑 Set up SSH agent
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.9.0
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_KEY }}
+          name: id_rsa # optional
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+          config: ${{ secrets.CONFIG }} # ssh_config; optional
+          if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
 
       # 🧱 Add GitHub to known hosts — inside container root
       - name: Add GitHub to known hosts
