@@ -14,61 +14,38 @@ jobs:
     container: ros:humble-ros-base-jammy
 
     steps:
-      # ✅ Set up SSH for private submodules
+      # 🧰 Install ssh-agent and git if missing inside the container
+      - name: Install SSH and Git tools
+        run: apt update && apt install -y openssh-client git
+
+      # 🔑 Set up SSH authentication for private submodules
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # ✅ Add GitHub to known hosts to avoid verification errors
+      # 🧱 Add GitHub to known hosts (avoid host key verification errors)
       - name: Add GitHub to known hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
-      # ✅ Checkout the repository (without submodules yet)
+      # 📦 Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ Create workspace
+      # 📁 Create a ROS2 workspace
       - name: Create a ROS2 workspace
         run: mkdir -p ros2_ws/src
 
-      # ✅ Allow git commands in the container environment
+      # 🧩 Allow git commands in container
       - name: Configure git safe directory
         run: git config --global --add safe.directory '*'
 
-      # ✅ Pull selected submodules via SSH
+      # 🚀 Pull selected submodules
       - name: Pull selected submodules
-        run: |
-          git submodule update --init --recursive external/autoware_msgs/ external/tier4_autoware_msgs/
+        run: git submodule update --init --recursive external/autoware_msgs/ external/tier4_autoware_msgs/
 
-      # ✅ Copy source packages into workspace
+      # 📂 Copy packages to workspace
       - name: Copy packages to workspace
-        run: cp -r crp_APL crp_CIL/ crp_VIL/ doc/ external/ scripts/ ros2_ws/src
-
-      # ✅ Install pacmod3 dependencies
-      - name: Install pacmod3
-        run: |
-          apt update
-          apt install -y apt-transport-https lsb-release sudo
-          sudo sh -c 'echo "deb [trusted=yes] https://s3.amazonaws.com/autonomoustuff-repo/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/autonomoustuff-public.list'
-          apt update
-          apt install -y ros-humble-pacmod3
-
-      # ✅ Install ROS 2 package dependencies
-      - name: Install dependencies
-        shell: bash
-        run: |
-          cd ros2_ws
-          source /opt/ros/humble/setup.bash
-          rosdep update
-          rosdep install --from-paths src --ignore-src -r -y
-
-      # ✅ Build the ROS 2 workspace
-      - name: Build the workspace
-        shell: bash
-        run: |
-          cd ros2_ws
-          source /opt/ros/humble/setup.bash
-          colcon build
+        run: cp -r crp
