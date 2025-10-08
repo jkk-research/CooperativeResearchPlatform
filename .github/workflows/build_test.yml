@@ -36,6 +36,9 @@ jobs:
       # ✅ Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
 
       # 🧩 Allow git commands in container
