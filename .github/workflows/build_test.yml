@@ -14,29 +14,29 @@ jobs:
     container: ros:humble-ros-base-jammy
 
     steps:
-      # 🧰 Install ssh-agent and git if missing inside the container
+      # 🧰 Install SSH and Git tools
       - name: Install SSH and Git tools
         run: apt update && apt install -y openssh-client git
 
-      # 🔑 Set up SSH authentication for private submodules
+      # 🔑 Set up SSH agent
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # 🧱 Add GitHub to known hosts (avoid host key verification errors)
+      # 🧱 Add GitHub to known hosts — inside container root
       - name: Add GitHub to known hosts
         run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          mkdir -p /root/.ssh
+          ssh-keyscan github.com >> /root/.ssh/known_hosts
+          chmod 600 /root/.ssh/known_hosts
+          echo "Verified known_hosts content:"
+          cat /root/.ssh/known_hosts
 
-      # 📦 Checkout the repository
+      # ✅ Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 📁 Create a ROS2 workspace
-      - name: Create a ROS2 workspace
-        run: mkdir -p ros2_ws/src
 
       # 🧩 Allow git commands in container
       - name: Configure git safe directory
