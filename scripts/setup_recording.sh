@@ -3,7 +3,8 @@
 
 read -p "Please specify the bag folder path: " bag_folder
 
-bag_folder="$(realpath -m "$bag_folder")"
+bag_folder="$(realpath -m "${bag_folder/#\~/$HOME}")"
+echo $bag_folder
 
 if [ ! -d "$bag_folder" ]; then
     read -p "Folder does not exist. Do you want to create it? (y/n): " create_folder
