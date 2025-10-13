@@ -128,14 +128,14 @@ def generate_launch_description():
 
     # NODES
 
-    static_tf = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('tf_crp'),
-                'launch',
-                'tf_static.launch.py')
-        )
-    )
+    # static_tf = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         join(
+    #             get_package_share_directory('tf_crp'),
+    #             'launch',
+    #             'tf_static.launch.py')
+    #     )
+    # )
 
     # vehicle_speed_control = IncludeLaunchDescription(
     #     AnyLaunchDescriptionSource(
@@ -161,6 +161,24 @@ def generate_launch_description():
                 get_package_share_directory('prcp_sensor_abstraction'),
                 'launch',
                 'sensor_abstraction.launch.py')
+        )
+    )
+
+    can_driver = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('can_driver'),
+                'launch',
+                'can_driver.launch.py')
+        )
+    )
+
+    mpc_25_wrapper = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('mpc_25_wrapper'),
+                'launch',
+                'mpc_25_wrapper.launch.py')
         )
     )
 
@@ -193,8 +211,9 @@ def generate_launch_description():
         crp_core,
 
         # vehicle nodes
-        static_tf,
         sensor_abstraction,
 
         lanelet_file_loader,
+        can_driver,
+        mpc_25_wrapper,
     ])

@@ -15,6 +15,7 @@
   <depend>plan_motion_planning</depend>
   <depend>ctrl_vehicle_control</depend>
   <depend>pdp_cpp</depend>
+  <depend>can_driver</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

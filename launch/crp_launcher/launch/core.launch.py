@@ -152,15 +152,6 @@ def generate_launch_description():
 
     # ros2 run
     
-    pdm = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('pdp_wrapper'),
-                'launch',
-                'pdpWrapper.launch.py')
-        ),
-    )
-
     pdp_core = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
@@ -321,7 +312,6 @@ def generate_launch_description():
         
         GroupAction(
             [
-                pdm,
                 pdp_core,
             ],
             condition=LaunchConfigurationEquals('pdm_use_pdm', 'true')

@@ -111,6 +111,16 @@ def generate_launch_description():
         'map_visualization_topic',
         default_value="/map/global_static_map_from_file/lanelet2_map_visualization",
         description='Output topic for the lanelet2 map binary')
+    
+    # pdp
+    pdm = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('pdp_wrapper'),
+                'launch',
+                'pdpWrapper.launch.py')
+        ),
+    )
 
     # sensor abstraction
     vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
@@ -447,6 +457,9 @@ def generate_launch_description():
         vehicle_param_l2_arg,
         vehicle_param_swr_arg,
         vehicle_param_L_arg,
+
+        # pdp
+        pdm,
 
         # core
         crp_core,
