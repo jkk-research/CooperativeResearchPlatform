@@ -265,6 +265,14 @@
       "topicPath": "/control/command/control_cmdLat.steering_tire_angle",
       "fontSize": 30
     },
+    "RawMessages!4kpcpad": {
+      "diffEnabled": false,
+      "diffMethod": "custom",
+      "diffTopicPath": "",
+      "showFullMessageForDiff": false,
+      "topicPath": "/lexus3/pacmod/steering_rpt.output",
+      "fontSize": 30
+    },
     "Plot!46pw6gf": {
       "paths": [
         {
@@ -290,6 +298,24 @@
           "value": "/control/command/control_cmd.lateral.steering_tire_angle",
           "enabled": true,
           "color": "#4e98e2"
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": false,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240
+    },
+    "Plot!439ro3s": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/lexus3/pacmod/steering_cmd.command",
+          "enabled": true,
+          "color": "#f5774d"
         }
       ],
       "showXAxisLabels": true,
@@ -340,7 +366,7 @@
       "sidebarDimension": 240
     },
     "Tab!1trthbm": {
-      "activeTabIdx": 1,
+      "activeTabIdx": 0,
       "tabs": [
         {
           "title": "PDP",
@@ -390,15 +416,24 @@
           "layout": {
             "first": {
               "first": "RawMessages!3aiomm1",
-              "second": "RawMessages!3707e01",
+              "second": {
+                "first": "RawMessages!3707e01",
+                "second": "RawMessages!4kpcpad",
+                "direction": "row"
+              },
               "direction": "row"
             },
             "second": {
               "first": "Plot!46pw6gf",
-              "second": "Plot!edr304",
+              "second": {
+                "first": "Plot!edr304",
+                "second": "Plot!439ro3s",
+                "direction": "column"
+              },
               "direction": "row"
             },
-            "direction": "column"
+            "direction": "column",
+            "splitPercentage": 51.06382978723404
           }
         },
         {
@@ -410,13 +445,13 @@
     "3D!1o1zlh1": {
       "cameraState": {
         "perspective": true,
-        "distance": 50.35065220613003,
-        "phi": 42.3198065273509,
-        "thetaOffset": 78.7815444375502,
+        "distance": 35.161738318151606,
+        "phi": 45.9310919525729,
+        "thetaOffset": 53.632748107759554,
         "targetOffset": [
-          17.39663618279192,
-          0.1667801134155429,
-          1.719602897667242e-15
+          15.515329221960906,
+          -4.9738436002700395,
+          9.2056314810763e-16
         ],
         "target": [
           0,
@@ -440,7 +475,10 @@
         "ignoreColladaUpAxis": false,
         "syncCamera": false,
         "meshUpAxis": "y_up",
-        "enableStats": false
+        "enableStats": false,
+        "transforms": {
+          "visible": false
+        }
       },
       "transforms": {
         "frame:radar_rear_right": {
@@ -449,7 +487,7 @@
       },
       "topics": {
         "/plan/trajectoryVisualization": {
-          "visible": false,
+          "visible": true,
           "showOutlines": true
         },
         "/cai/local_drivable_surface": {
@@ -462,7 +500,7 @@
           "visible": false
         },
         "/egoVisualization": {
-          "visible": false,
+          "visible": true,
           "showOutlines": false,
           "computeVertexNormals": true
         },
@@ -470,7 +508,7 @@
           "visible": false
         },
         "/control/predictivePathVisualization": {
-          "visible": true
+          "visible": false
         },
         "/plan/targetSpeedVisualization": {
           "visible": false
@@ -518,14 +556,59 @@
           "pointSize": 5
         },
         "/luminar_pcl": {
+          "visible": true,
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "rainbow"
+        },
+        "/pcl_combined_layer": {
+          "visible": false,
+          "colorField": "reflectance",
+          "colorMode": "colormap",
+          "colorMap": "turbo"
+        },
+        "/lexus3/sensing/lidar/concatenated/pointcloud": {
           "visible": false,
           "colorField": "intensity",
           "colorMode": "colormap",
           "colorMap": "turbo"
         },
-        "/pcl_combined_layer": {
+        "/os_left/points": {
           "visible": false,
-          "colorField": "reflectance",
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 3
+        },
+        "/os_center/points": {
+          "visible": false,
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 3
+        },
+        "/os_right/points": {
+          "visible": false,
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 3
+        },
+        "/os_right/scan": {
+          "visible": false,
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "turbo"
+        },
+        "/os_left/scan": {
+          "visible": false,
+          "colorField": "intensity",
+          "colorMode": "colormap",
+          "colorMap": "turbo"
+        },
+        "/os_center/scan": {
+          "visible": false,
+          "colorField": "intensity",
           "colorMode": "colormap",
           "colorMap": "turbo"
         }
@@ -577,12 +660,30 @@
       "datatype": "std_msgs/msg/Bool"
     },
     "Publish!tbvg8o": {
-      "buttonText": "Publish",
+      "buttonText": "8.5kph",
       "buttonTooltip": "",
       "advancedView": false,
-      "value": "{\n  \"header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"target_speed\": {\n    \"data\": 15\n  },\n  \"curve_driving_style\": {\n    \"data\": 1\n  },\n  \"acceleration_mode\": {\n    \"data\": 1\n  },\n  \"deceleration_mode\": {\n    \"data\": 1\n  },\n  \"jerk_mode\": {\n    \"data\": 1\n  },\n  \"curve_speed_mode\": {\n    \"data\": 1\n  },\n  \"cornering_speed_mode\": {\n    \"data\": 1\n  },\n  \"enable_lateral_control\": true,\n  \"enable_longitudinal_control\": true\n}",
+      "value": "{\n  \"header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"target_speed\": {\n    \"data\": 8.5\n  },\n  \"curve_driving_style\": {\n    \"data\": 1\n  },\n  \"acceleration_mode\": {\n    \"data\": 1\n  },\n  \"deceleration_mode\": {\n    \"data\": 1\n  },\n  \"jerk_mode\": {\n    \"data\": 1\n  },\n  \"curve_speed_mode\": {\n    \"data\": 1\n  },\n  \"cornering_speed_mode\": {\n    \"data\": 1\n  },\n  \"enable_lateral_control\": false,\n  \"enable_longitudinal_control\": true\n}",
       "topicName": "/ui/behavior",
       "datatype": "crp_msgs/msg/Behavior"
+    },
+    "Publish!j123t3": {
+      "buttonText": "17mps",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"target_speed\": {\n    \"data\": 17.0\n  },\n  \"curve_driving_style\": {\n    \"data\": 1\n  },\n  \"acceleration_mode\": {\n    \"data\": 1\n  },\n  \"deceleration_mode\": {\n    \"data\": 1\n  },\n  \"jerk_mode\": {\n    \"data\": 1\n  },\n  \"curve_speed_mode\": {\n    \"data\": 1\n  },\n  \"cornering_speed_mode\": {\n    \"data\": 1\n  },\n  \"enable_lateral_control\": false,\n  \"enable_longitudinal_control\": true\n}",
+      "topicName": "/ui/behavior",
+      "datatype": "crp_msgs/msg/Behavior",
+      "buttonColor": "#f2333a"
+    },
+    "Publish!2tdbhhf": {
+      "buttonText": "0kph",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"target_speed\": {\n    \"data\": 0.0\n  },\n  \"curve_driving_style\": {\n    \"data\": 1\n  },\n  \"acceleration_mode\": {\n    \"data\": 1\n  },\n  \"deceleration_mode\": {\n    \"data\": 1\n  },\n  \"jerk_mode\": {\n    \"data\": 1\n  },\n  \"curve_speed_mode\": {\n    \"data\": 1\n  },\n  \"cornering_speed_mode\": {\n    \"data\": 1\n  },\n  \"enable_lateral_control\": false,\n  \"enable_longitudinal_control\": true\n}",
+      "topicName": "/ui/behavior",
+      "datatype": "crp_msgs/msg/Behavior",
+      "buttonColor": "#f2df33"
     }
   },
   "globalVariables": {},
@@ -596,13 +697,21 @@
       "first": "3D!1o1zlh1",
       "second": {
         "first": "Publish!25nw41y",
-        "second": "Publish!tbvg8o",
+        "second": {
+          "first": {
+            "first": "Publish!tbvg8o",
+            "second": "Publish!j123t3",
+            "direction": "row"
+          },
+          "second": "Publish!2tdbhhf",
+          "direction": "column"
+        },
         "direction": "row"
       },
       "direction": "column",
-      "splitPercentage": 83.85481852315395
+      "splitPercentage": 76.68918918918918
     },
     "direction": "column",
-    "splitPercentage": 20.969337289812067
+    "splitPercentage": 21.068249258160236
   }
 }
