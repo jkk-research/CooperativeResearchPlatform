@@ -448,14 +448,14 @@ def generate_launch_description():
         vehicle_param_swr_arg,
         vehicle_param_L_arg,
 
-        # core
+        #core
         crp_core,
 
         # vehicle nodes
         static_tf,
         novatel_gps,
         novatel_gps_oem7_driver,
-        duro_gps,
+        # duro_gps,
         os_lidars_merged,
         radar_fc,
         radar_fl,
