@@ -145,7 +145,7 @@ def generate_launch_description():
     )
     ctrl_lat_method_arg = DeclareLaunchArgument(
         'ctrl_lat_method',
-        default_value='nmpc',
+        default_value='comp',
         description='Lat controller to use. Possible values: comp, purep, stanley, nmpc'
     )
     ctrl_long_method_arg = DeclareLaunchArgument(
@@ -246,7 +246,7 @@ def generate_launch_description():
                 get_package_share_directory('lexus_bringup'),
                 'launch',
                 'drivers',
-                'os_composable_raw_merged_b_autoware.launch.py')
+                'os_composable_raw_merged_b.launch.py')
         )
     )
 
