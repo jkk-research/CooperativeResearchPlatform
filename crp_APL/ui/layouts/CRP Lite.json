@@ -289,25 +289,9 @@
       "showPlotValuesInLegend": false,
       "isSynced": true,
       "xAxisVal": "timestamp",
-      "sidebarDimension": 240
-    },
-    "Plot!edr304": {
-      "paths": [
-        {
-          "timestampMethod": "receiveTime",
-          "value": "/control/command/control_cmd.lateral.steering_tire_angle",
-          "enabled": true,
-          "color": "#4e98e2"
-        }
-      ],
-      "showXAxisLabels": true,
-      "showYAxisLabels": true,
-      "showLegend": false,
-      "legendDisplay": "floating",
-      "showPlotValuesInLegend": false,
-      "isSynced": true,
-      "xAxisVal": "timestamp",
-      "sidebarDimension": 240
+      "sidebarDimension": 240,
+      "minYValue": -0.7,
+      "maxYValue": 0.7
     },
     "Plot!439ro3s": {
       "paths": [
@@ -325,7 +309,9 @@
       "showPlotValuesInLegend": false,
       "isSynced": true,
       "xAxisVal": "timestamp",
-      "sidebarDimension": 240
+      "sidebarDimension": 240,
+      "minYValue": -2,
+      "maxYValue": 2
     },
     "Plot!kf8wgc": {
       "paths": [
@@ -393,7 +379,7 @@
                 "direction": "row"
               },
               "direction": "row",
-              "splitPercentage": 26.558265582655828
+              "splitPercentage": 30.385015608740893
             },
             "second": {
               "first": {
@@ -425,15 +411,11 @@
             },
             "second": {
               "first": "Plot!46pw6gf",
-              "second": {
-                "first": "Plot!edr304",
-                "second": "Plot!439ro3s",
-                "direction": "column"
-              },
+              "second": "Plot!439ro3s",
               "direction": "row"
             },
             "direction": "column",
-            "splitPercentage": 51.06382978723404
+            "splitPercentage": 39.27125506072874
           }
         },
         {
@@ -445,13 +427,13 @@
     "3D!1o1zlh1": {
       "cameraState": {
         "perspective": true,
-        "distance": 35.161738318151606,
-        "phi": 45.9310919525729,
-        "thetaOffset": 53.632748107759554,
+        "distance": 163.81821098944198,
+        "phi": 42.391361652517766,
+        "thetaOffset": 91.03805880509913,
         "targetOffset": [
-          15.515329221960906,
-          -4.9738436002700395,
-          9.2056314810763e-16
+          1.47648548712401,
+          -1.7371746324091746,
+          1.2696768432720039e-15
         ],
         "target": [
           0,
@@ -497,7 +479,7 @@
           "visible": false
         },
         "/plan/laneVisualization": {
-          "visible": false
+          "visible": true
         },
         "/egoVisualization": {
           "visible": true,
@@ -505,7 +487,7 @@
           "computeVertexNormals": true
         },
         "/map/global_static_map_from_file/lanelet2_map_visualization": {
-          "visible": false
+          "visible": true
         },
         "/control/predictivePathVisualization": {
           "visible": false
@@ -542,21 +524,21 @@
           "pointSize": 5
         },
         "/radar/rl/rd6_pointcloud": {
-          "visible": false,
+          "visible": true,
           "colorField": "z",
           "colorMode": "colormap",
           "colorMap": "turbo",
           "pointSize": 5
         },
         "/radar/rr/rd6_pointcloud": {
-          "visible": false,
+          "visible": true,
           "colorField": "z",
           "colorMode": "colormap",
           "colorMap": "turbo",
           "pointSize": 5
         },
         "/luminar_pcl": {
-          "visible": true,
+          "visible": false,
           "colorField": "intensity",
           "colorMode": "colormap",
           "colorMap": "rainbow"
@@ -660,7 +642,16 @@
       "datatype": "std_msgs/msg/Bool"
     },
     "Publish!tbvg8o": {
-      "buttonText": "8.5kph",
+      "buttonText": "30kph and steering",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"target_speed\": {\n    \"data\": 8.5\n  },\n  \"curve_driving_style\": {\n    \"data\": 1\n  },\n  \"acceleration_mode\": {\n    \"data\": 1\n  },\n  \"deceleration_mode\": {\n    \"data\": 1\n  },\n  \"jerk_mode\": {\n    \"data\": 1\n  },\n  \"curve_speed_mode\": {\n    \"data\": 1\n  },\n  \"cornering_speed_mode\": {\n    \"data\": 1\n  },\n  \"enable_lateral_control\": true,\n  \"enable_longitudinal_control\": true\n}",
+      "topicName": "/ui/behavior",
+      "datatype": "crp_msgs/msg/Behavior",
+      "buttonColor": "#edf233"
+    },
+    "Publish!49wxbra": {
+      "buttonText": "8.5mps",
       "buttonTooltip": "",
       "advancedView": false,
       "value": "{\n  \"header\": {\n    \"stamp\": {\n      \"sec\": 0,\n      \"nanosec\": 0\n    },\n    \"frame_id\": \"\"\n  },\n  \"target_speed\": {\n    \"data\": 8.5\n  },\n  \"curve_driving_style\": {\n    \"data\": 1\n  },\n  \"acceleration_mode\": {\n    \"data\": 1\n  },\n  \"deceleration_mode\": {\n    \"data\": 1\n  },\n  \"jerk_mode\": {\n    \"data\": 1\n  },\n  \"curve_speed_mode\": {\n    \"data\": 1\n  },\n  \"cornering_speed_mode\": {\n    \"data\": 1\n  },\n  \"enable_lateral_control\": false,\n  \"enable_longitudinal_control\": true\n}",
@@ -699,19 +690,25 @@
         "first": "Publish!25nw41y",
         "second": {
           "first": {
-            "first": "Publish!tbvg8o",
+            "first": {
+              "first": "Publish!tbvg8o",
+              "second": "Publish!49wxbra",
+              "direction": "row"
+            },
             "second": "Publish!j123t3",
-            "direction": "row"
+            "direction": "row",
+            "splitPercentage": 63.853727144866376
           },
           "second": "Publish!2tdbhhf",
           "direction": "column"
         },
-        "direction": "row"
+        "direction": "row",
+        "splitPercentage": 27.848101265822784
       },
       "direction": "column",
-      "splitPercentage": 76.68918918918918
+      "splitPercentage": 71.67325428194992
     },
     "direction": "column",
-    "splitPercentage": 21.068249258160236
+    "splitPercentage": 29.376854599406528
   }
 }

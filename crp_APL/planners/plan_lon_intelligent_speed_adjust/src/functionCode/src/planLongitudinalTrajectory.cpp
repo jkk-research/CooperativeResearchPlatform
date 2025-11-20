@@ -41,7 +41,7 @@ namespace crp
             // this method calculates a maximum speed when driving in a curve, considering the lateral maximum acceleration
             if (input.behaviorInputs.curveSpeedMode == 1U)
             {
-                lateralAccelerationMax = 2.0f;
+                lateralAccelerationMax = 1.2f;
             }
             else if (input.behaviorInputs.curveSpeedMode == 2U)
             {
@@ -60,7 +60,7 @@ namespace crp
             if (std::abs(input.egoKinematics.aY) > 0.5f)
             {
                 double R = std::abs(input.egoKinematics.vX*input.egoKinematics.vX/input.egoKinematics.aY);
-                m_R_filtered = 0.9*m_R_filtered_prev + 0.1*R;   
+                m_R_filtered = 0.99*m_R_filtered_prev + 0.01*R;   
                 m_vxCurveSpeed = std::sqrt(lateralAccelerationMax*m_R_filtered);
             }
             else{

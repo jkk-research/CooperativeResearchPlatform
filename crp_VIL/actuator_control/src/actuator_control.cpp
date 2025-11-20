@@ -74,7 +74,7 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
 
     if (accelMode == 1)
     {
-        m_maximum_acceleration = 0.15;
+        m_maximum_acceleration = 0.3;
     }
     else if(accelMode == 2)
     {
@@ -106,7 +106,7 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
 
     if (decelMode == 1)
     {
-        m_minimum_jerk = -0.05;
+        m_minimum_jerk = -0.1;
     }
     else if(decelMode == 2)
     {
@@ -122,7 +122,7 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
 
     if (accelMode == 1)
     {
-        m_maximum_jerk = 0.05;
+        m_maximum_jerk = 0.15;
     }
     else if(accelMode == 2)
     {
