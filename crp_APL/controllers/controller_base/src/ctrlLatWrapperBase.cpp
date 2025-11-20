@@ -17,7 +17,7 @@ void crp::apl::CtrlLatWrapperBase::publishControlCmd(const LatControlOutput & ou
 {
     m_ctrlCmdMsg.stamp = this->now();
     m_ctrlCmdMsg.steering_tire_angle = output.steeringAngleTarget;
-    m_ctrlCmdMsg.steering_tire_rotation_rate = output.accelerationTarget;
+    m_ctrlCmdMsg.steering_tire_rotation_rate = 3.3f;
 
     m_pub_cmd->publish(m_ctrlCmdMsg);
 }
