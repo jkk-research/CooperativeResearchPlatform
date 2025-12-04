@@ -3,11 +3,6 @@ from launch_ros.actions import Node, PushRosNamespace
 from launch.actions import DeclareLaunchArgument, GroupAction
 from launch.substitutions import LaunchConfiguration
 
-from launch.launch_description_sources import AnyLaunchDescriptionSource
-from launch.actions import IncludeLaunchDescription
-from os.path import join
-from ament_index_python.packages import get_package_share_directory
-
 
 def generate_launch_description():
     
@@ -28,7 +23,7 @@ def generate_launch_description():
     output_pcd_topic_arg = DeclareLaunchArgument(
         'pcdagg/output_pcd_topic',
         default_value='aggregated_points',
-        description='Input PointCloud2 topic for the aggregator.'
+        description='Output PointCloud2 topic for the aggregator.'
     )
 
     pose_topic_arg = DeclareLaunchArgument(
@@ -43,7 +38,7 @@ def generate_launch_description():
         description='Time window for the aggregation.'
     )
 
-    coppler_compensator_node = Node(
+    pointcloud_aggregator_node = Node(
         package='radar_pointcloud_processor',
         executable='pointcloud_aggregator',
         name='pointcloud_aggregator',
@@ -68,7 +63,7 @@ def generate_launch_description():
             actions=[
                 PushRosNamespace(LaunchConfiguration('pcdagg/namespace')),
 
-                coppler_compensator_node
+                pointcloud_aggregator_node
             ]
         )
     ])
