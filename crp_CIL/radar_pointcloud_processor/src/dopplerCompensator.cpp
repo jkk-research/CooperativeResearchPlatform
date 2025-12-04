@@ -3,15 +3,15 @@
 
 crp::cil::DopplerCompensator::DopplerCompensator() : Node("doppler_compensator")
 {
-    this->declare_parameter<std::string>("doppcomp/input_pcl_topic",          "points");
+    this->declare_parameter<std::string>("doppcomp/input_pcd_topic",          "points");
     this->declare_parameter<std::string>("doppcomp/twist_topic",              "/sensing/vehicle/twist");
-    this->declare_parameter<std::string>("doppcomp/output_pcl_topic",         "compensated_points");
+    this->declare_parameter<std::string>("doppcomp/output_pcd_topic",         "compensated_points");
     this->declare_parameter<std::string>("doppcomp/override_ego_twist_frame", "");
 
     std::string inputPclTopic, twistTopic, outputPclTopic;
-    this->get_parameter<std::string>("doppcomp/input_pcl_topic",          inputPclTopic);
+    this->get_parameter<std::string>("doppcomp/input_pcd_topic",          inputPclTopic);
     this->get_parameter<std::string>("doppcomp/twist_topic",              twistTopic);
-    this->get_parameter<std::string>("doppcomp/output_pcl_topic",         outputPclTopic);
+    this->get_parameter<std::string>("doppcomp/output_pcd_topic",         outputPclTopic);
     this->get_parameter<std::string>("doppcomp/override_ego_twist_frame", frameIdEgo);
 
     m_isEgo2radTransformSet = frameIdEgo!="";

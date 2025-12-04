@@ -19,8 +19,8 @@ def generate_launch_description():
         description='Namespace for the doppler compensator node.'
     )
 
-    input_pcl_topic_arg = DeclareLaunchArgument(
-        'doppcomp/input_pcl_topic',
+    input_pcd_topic_arg = DeclareLaunchArgument(
+        'doppcomp/input_pcd_topic',
         default_value='points',
         description='Input PointCloud2 topic for the doppler compensator.'
     )
@@ -31,8 +31,8 @@ def generate_launch_description():
         description='Input TesitWithCovarianceStamped topic for the doppler compensator.'
     )
 
-    output_pcl_topic_arg = DeclareLaunchArgument(
-        'doppcomp/output_pcl_topic',
+    output_pcd_topic_arg = DeclareLaunchArgument(
+        'doppcomp/output_pcd_topic',
         default_value='compensated_points',
         description='Input PointCloud2 topic for the doppler compensator.'
     )
@@ -43,15 +43,15 @@ def generate_launch_description():
         description='Override the frame of the radar for the transformation of the points. Leave empty to use the frameid defined in the input point cloud message.'
     )
 
-    coppler_compensator_node = Node(
+    doppler_compensator_node = Node(
         package='radar_pointcloud_processor',
         executable='doppler_compensator',
         name='doppler_compensator',
         output='screen',
         parameters=[{
-            'doppcomp/input_pcl_topic'         : LaunchConfiguration('doppcomp/input_pcl_topic'),
+            'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
             'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
-            'doppcomp/output_pcl_topic'        : LaunchConfiguration('doppcomp/output_pcl_topic'),
+            'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
             'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
         }]
     )
@@ -59,16 +59,16 @@ def generate_launch_description():
 
     return LaunchDescription([
         doppler_compensator_namespace_arg,
-        input_pcl_topic_arg,
+        input_pcd_topic_arg,
         twist_topic_arg,
-        output_pcl_topic_arg,
+        output_pcd_topic_arg,
         override_ego_twist_frame_arg,
         
         GroupAction(
             actions=[
                 PushRosNamespace(LaunchConfiguration('doppcomp/namespace')),
 
-                coppler_compensator_node
+                doppler_compensator_node
             ]
         )
     ])

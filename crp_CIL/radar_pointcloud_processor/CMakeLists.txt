@@ -10,9 +10,17 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
+find_package(tf2_sensor_msgs REQUIRED)
+find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(pcl_ros REQUIRED)
+find_package(pcl_conversions REQUIRED)
 
 include_directories(include)
+
+add_executable(pointcloud_aggregator src/pointcloudAggregator.cpp)
+ament_target_dependencies(pointcloud_aggregator rclcpp sensor_msgs geometry_msgs tf2_geometry_msgs tf2_sensor_msgs tf2 tf2_ros pcl_ros pcl_conversions)
 
 add_executable(doppler_compensator src/dopplerCompensator.cpp)
 ament_target_dependencies(doppler_compensator rclcpp sensor_msgs geometry_msgs tf2_ros)
@@ -22,6 +30,7 @@ ament_target_dependencies(pointcloud_merger rclcpp sensor_msgs)
 
 
 install(TARGETS
+  pointcloud_aggregator
   doppler_compensator
   pointcloud_merger
   DESTINATION lib/${PROJECT_NAME}
