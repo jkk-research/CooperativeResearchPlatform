@@ -1,4 +1,4 @@
-#include <radar_pointcloud_processor/pointcloudMerger.hpp>
+#include <radar_pointcloud_preprocessor/pointcloudMerger.hpp>
 
 crp::cil::PointcloudMerger::PointcloudMerger() : Node("pointcloud_merger")
 {

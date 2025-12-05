@@ -66,6 +66,84 @@ def generate_launch_description():
         description='Enable or disable debug publishing'
     )
 
+    doppcomp_input_pcd_topic_arg = DeclareLaunchArgument(
+        'doppcomp/input_pcd_topic',
+        default_value='points',
+        description='Input PointCloud2 topic for the doppler compensator.'
+    )
+
+    doppcomp_output_pcd_topic_arg = DeclareLaunchArgument(
+        'doppcomp/output_pcd_topic',
+        default_value='dvcompensated_points',
+        description='Input PointCloud2 topic for the doppler compensator.'
+    )
+
+    doppcomp_twist_topic_arg = DeclareLaunchArgument(
+        'doppcomp/twist_topic',
+        default_value='/sensing/vehicle/twist',
+        description='Input TesitWithCovarianceStamped topic for the doppler compensator.'
+    )
+
+    doppcomp_override_ego_twist_frame_arg = DeclareLaunchArgument(
+        'doppcomp/override_ego_twist_frame',
+        default_value='base_link', # TODO add frame_id to twist topic then remove this
+        description='Override the frame of the radar for the transformation of the points. Leave empty to use the frameid defined in the input point cloud message.'
+    )
+
+    pcdagg_input_pcd_topic_arg = DeclareLaunchArgument(
+        'pcdagg/input_pcd_topic',
+        default_value='dvcompensated_points',
+        description='Input PointCloud2 topic for the aggregator.'
+    )
+
+    pcdagg_output_pcd_topic_arg = DeclareLaunchArgument(
+        'pcdagg/output_pcd_topic',
+        default_value='aggregated_points',
+        description='Output PointCloud2 topic for the aggregator.'
+    )
+
+    pcdagg_pose_topic_arg = DeclareLaunchArgument(
+        'pcdagg/localization_topic',
+        default_value='/sensing/gnss/pose_with_covariance',
+        description='Input localization (PoseWithCovarianceStamped) topic for the aggregator.'
+    )
+
+    pcdagg_aggregation_time_window_arg = DeclareLaunchArgument(
+        'pcdagg/aggregation_time_window_sec',
+        default_value='0.5',
+        description='Time window for the aggregation.'
+    )
+
+    radar_pointcloud_merger_in_pcd_topics_arg = DeclareLaunchArgument(
+        'pcdmerger/in_pcd_topics',
+        default_value='''[
+            /sensing/radar/fc/aggregated_points, 
+            /sensing/radar/fl/aggregated_points, 
+            /sensing/radar/fr/aggregated_points, 
+            /sensing/radar/rl/aggregated_points, 
+            /sensing/radar/rr/aggregated_points
+        ]''',
+        description='PointCloud2 topics to be merged. The first one will be the trigger for merging.'
+    )
+
+    radar_pointcloud_merger_out_topic_arg = DeclareLaunchArgument(
+        'pcdmerger/out_topic',
+        default_value='merged_points',
+        description='Output PointCloud2 topic for the merger.'
+    )
+
+    radar_pointcloud_merger_ego_frame_arg = DeclareLaunchArgument(
+        'pcdmerger/ego_frame',
+        default_value='base_link',
+        description='Input localization (PoseWithCovarianceStamped) topic for the aggregator.'
+    )
+
+    radar_pointcloud_merger_merge_trigger_timeout_arg = DeclareLaunchArgument(
+        'pcdmerger/merge_trigger_timeout_sec',
+        default_value='0.1',
+        description='Timeout for the trigger topic. The trigger is changed if the current trigger times out.'
+    )
+
     # ekf
     ekf_current_pose_topic_arg = DeclareLaunchArgument(
         'ekf_current_pose_topic',
@@ -250,7 +328,7 @@ def generate_launch_description():
         )
     )
 
-    radar_fc = IncludeLaunchDescription(
+    radar_driver_fc = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('rd6_driver'),
@@ -260,13 +338,47 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','fcRadarParams.yaml'),
             'radar_interface'   : 'can4',
-            'radar_namespace'   : 'radar/fc',
+            'radar_namespace'   : '/sensing/radar/fc',
             'radar_locations_frame_id' : 'radar_front_center',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
-    radar_fl = IncludeLaunchDescription(
+    radar_doppler_compensator_fc = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'dopplerCompensator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'doppcomp/namespace'               : '/sensing/radar/fc',
+            'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
+            'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
+        }.items()
+    )
+
+    radar_pointcloud_aggregator_fc = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'pointcloudAggregator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'pcdagg/namespace'                  : '/sensing/radar/fc',
+            'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
+            'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
+            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+        }.items()
+    )
+
+    radar_driver_fl = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('rd6_driver'),
@@ -276,13 +388,47 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','flRadarParams.yaml'),
             'radar_interface'   : 'can2',
-            'radar_namespace'   : 'radar/fl',
+            'radar_namespace'   : '/sensing/radar/fl',
             'radar_locations_frame_id' : 'radar_front_left',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
-    radar_fr = IncludeLaunchDescription(
+    radar_doppler_compensator_fl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'dopplerCompensator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'doppcomp/namespace'               : '/sensing/radar/fl',
+            'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
+            'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
+        }.items()
+    )
+
+    radar_pointcloud_aggregator_fl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'pointcloudAggregator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'pcdagg/namespace'                  : '/sensing/radar/fl',
+            'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
+            'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
+            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+        }.items()
+    )
+
+    radar_driver_fr = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('rd6_driver'),
@@ -292,13 +438,47 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','frRadarParams.yaml'),
             'radar_interface'   : 'can3',
-            'radar_namespace'   : 'radar/fr',
+            'radar_namespace'   : '/sensing/radar/fr',
             'radar_locations_frame_id' : 'radar_front_right',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
-    radar_rl = IncludeLaunchDescription(
+    radar_doppler_compensator_fr = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'dopplerCompensator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'doppcomp/namespace'               : '/sensing/radar/fr',
+            'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
+            'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
+        }.items()
+    )
+
+    radar_pointcloud_aggregator_fr = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'pointcloudAggregator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'pcdagg/namespace'                  : '/sensing/radar/fr',
+            'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
+            'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
+            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+        }.items()
+    )
+
+    radar_driver_rl = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('rd6_driver'),
@@ -308,13 +488,47 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rlRadarParams.yaml'),
             'radar_interface'   : 'can0',
-            'radar_namespace'   : 'radar/rl',
+            'radar_namespace'   : '/sensing/radar/rl',
             'radar_locations_frame_id' : 'radar_rear_left',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
-    radar_rr = IncludeLaunchDescription(
+    radar_doppler_compensator_rl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'dopplerCompensator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'doppcomp/namespace'               : '/sensing/radar/rl',
+            'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
+            'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
+        }.items()
+    )
+
+    radar_pointcloud_aggregator_rl = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'pointcloudAggregator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'pcdagg/namespace'                  : '/sensing/radar/rl',
+            'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
+            'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
+            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+        }.items()
+    )
+
+    radar_driver_rr = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('rd6_driver'),
@@ -324,9 +538,60 @@ def generate_launch_description():
         launch_arguments={
             'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rrRadarParams.yaml'),
             'radar_interface'   : 'can1',
-            'radar_namespace'   : 'radar/rr',
+            'radar_namespace'   : '/sensing/radar/rr',
             'radar_locations_frame_id' : 'radar_rear_right',
             'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
+        }.items()
+    )
+
+    radar_doppler_compensator_rr = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'dopplerCompensator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'doppcomp/namespace'               : '/sensing/radar/rr',
+            'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
+            'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
+        }.items()
+    )
+
+    radar_pointcloud_aggregator_rr = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'pointcloudAggregator.launch.py'
+            )
+        ),
+        launch_arguments={
+            'pcdagg/namespace'                  : '/sensing/radar/rr',
+            'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
+            'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
+            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+        }.items()
+    )
+
+    radar_pointcloud_merger = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('radar_pointcloud_preprocessor'),
+                'launch',
+                'pointcloudMerger.launch.py'
+            )
+        ),
+        launch_arguments={
+            'pcdmerger/namespace'                : '/sensing/radar',
+            'pcdmerger/in_pcd_topics'            : LaunchConfiguration('pcdmerger/in_pcd_topics'),
+            'pcdmerger/out_topic'                : LaunchConfiguration('pcdmerger/out_topic'),
+            'pcdmerger/ego_frame'                : LaunchConfiguration('pcdmerger/ego_frame'),
+            'pcdmerger/merge_trigger_timeout_sec': LaunchConfiguration('pcdmerger/merge_trigger_timeout_sec'),
         }.items()
     )
     
@@ -416,29 +681,47 @@ def generate_launch_description():
         novatel_port_arg,
         novatel_imu_frame_id_arg,
         novatel_frame_id_arg,
+
         duro_ip_arg,
         duro_port_arg,
         duro_namespace_arg,
+
         radar_publish_debug_arg,
+        doppcomp_input_pcd_topic_arg,
+        doppcomp_output_pcd_topic_arg,
+        doppcomp_twist_topic_arg,
+        doppcomp_override_ego_twist_frame_arg,
+        pcdagg_input_pcd_topic_arg,
+        pcdagg_output_pcd_topic_arg,
+        pcdagg_pose_topic_arg,
+        pcdagg_aggregation_time_window_arg,
+        radar_pointcloud_merger_in_pcd_topics_arg,
+        radar_pointcloud_merger_out_topic_arg,
+        radar_pointcloud_merger_ego_frame_arg,
+        radar_pointcloud_merger_merge_trigger_timeout_arg,
+        
         ekf_current_pose_topic_arg,
         ekf_vehicle_status_topic_arg,
         ekf_navsatfix_name,
         ekf_nav_sat_fix_topic_arg,
         ekf_imu_topic_arg,
         ekf_frame_arg,
+
         lanelet_file_path_arg,
         lanelet_map_frame_id_arg,
         lanelet_output_topic_arg,
-        vehicle_tire_angle_topic_arg,
         lanelet_visualization_topic_arg,
+
         vehicle_tire_angle_topic_arg,
         local_path_length_arg,
         lat_accel_limit_arg,
         jerk_limit_arg,
+
         ctrl_use_combined_controller_arg,
         ctrl_combined_method_arg,
         ctrl_lat_method_arg,
         ctrl_long_method_arg,
+
         vehicle_param_c1_arg,
         vehicle_param_c2_arg,
         vehicle_param_m_arg,
@@ -449,7 +732,7 @@ def generate_launch_description():
         vehicle_param_L_arg,
 
         # core
-        crp_core,
+        # crp_core,
 
         # vehicle nodes
         static_tf,
@@ -457,11 +740,22 @@ def generate_launch_description():
         novatel_gps_oem7_driver,
         duro_gps,
         os_lidars_merged,
-        radar_fc,
-        radar_fl,
-        radar_fr,
-        radar_rl,
-        radar_rr,
+        radar_driver_fc,
+        radar_doppler_compensator_fc,
+        radar_pointcloud_aggregator_fc,
+        radar_driver_fl,
+        radar_doppler_compensator_fl,
+        radar_pointcloud_aggregator_fl,
+        radar_driver_fr,
+        radar_doppler_compensator_fr,
+        radar_pointcloud_aggregator_fr,
+        radar_driver_rl,
+        radar_doppler_compensator_rl,
+        radar_pointcloud_aggregator_rl,
+        radar_driver_rr,
+        radar_doppler_compensator_rr,
+        radar_pointcloud_aggregator_rr,
+        radar_pointcloud_merger,
         ekf_wrapper,
         vehicle_can,
         camera_mpc,
@@ -469,5 +763,5 @@ def generate_launch_description():
         sensor_abstraction,
         vehicle_speed_control,
 
-        lanelet_file_loader,
+        # lanelet_file_loader,
     ])

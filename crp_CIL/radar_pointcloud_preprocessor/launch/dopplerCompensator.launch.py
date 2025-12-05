@@ -20,16 +20,16 @@ def generate_launch_description():
         description='Input PointCloud2 topic for the doppler compensator.'
     )
 
+    output_pcd_topic_arg = DeclareLaunchArgument(
+        'doppcomp/output_pcd_topic',
+        default_value='dvcompensated_points',
+        description='Input PointCloud2 topic for the doppler compensator.'
+    )
+
     twist_topic_arg = DeclareLaunchArgument(
         'doppcomp/twist_topic',
         default_value='/sensing/vehicle/twist',
         description='Input TesitWithCovarianceStamped topic for the doppler compensator.'
-    )
-
-    output_pcd_topic_arg = DeclareLaunchArgument(
-        'doppcomp/output_pcd_topic',
-        default_value='compensated_points',
-        description='Input PointCloud2 topic for the doppler compensator.'
     )
 
     override_ego_twist_frame_arg = DeclareLaunchArgument(
@@ -39,14 +39,14 @@ def generate_launch_description():
     )
 
     doppler_compensator_node = Node(
-        package='radar_pointcloud_processor',
+        package='radar_pointcloud_preprocessor',
         executable='doppler_compensator',
         name='doppler_compensator',
         output='screen',
         parameters=[{
             'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
-            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
             'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
             'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
         }]
     )

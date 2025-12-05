@@ -39,7 +39,7 @@ def generate_launch_description():
     )
 
     pointcloud_merger_node = Node(
-        package='radar_pointcloud_processor',
+        package='radar_pointcloud_preprocessor',
         executable='pointcloud_merger',
         name='pointcloud_merger',
         output='screen',
