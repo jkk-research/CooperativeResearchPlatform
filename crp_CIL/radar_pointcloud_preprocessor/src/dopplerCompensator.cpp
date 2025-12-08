@@ -12,9 +12,7 @@ crp::cil::DopplerCompensator::DopplerCompensator() : Node("doppler_compensator")
     this->get_parameter<std::string>("doppcomp/input_pcd_topic",          inputPclTopic);
     this->get_parameter<std::string>("doppcomp/output_pcd_topic",         outputPclTopic);
     this->get_parameter<std::string>("doppcomp/twist_topic",              twistTopic);
-    this->get_parameter<std::string>("doppcomp/override_ego_twist_frame", frameIdEgo);
-
-    m_isEgo2radTransformSet = frameIdEgo!="";
+    this->get_parameter<std::string>("doppcomp/override_ego_twist_frame", m_frameIdEgo);
 
     m_sub_pcl_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
         inputPclTopic,
@@ -35,36 +33,30 @@ crp::cil::DopplerCompensator::DopplerCompensator() : Node("doppler_compensator")
     );
 }
 
-float getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion)
-{
-    tf2::Quaternion q(
-        quaternion.x,
-        quaternion.y,
-        quaternion.z,
-        quaternion.w);
-    tf2::Matrix3x3 m(q);
-    double roll, pitch, yaw;
-    m.getRPY(roll, pitch, yaw);
-
-    return yaw;
-}
-
 void crp::cil::DopplerCompensator::pclCallback(const sensor_msgs::msg::PointCloud2::SharedPtr msg)
 {
     if (!m_isEgo2radTransformSet)
     {
-        if (frameIdEgo == "")
+        if (m_frameIdEgo == "")
             return;
         
         tf2_ros::Buffer tfBuffer(this->get_clock());
         tf2_ros::TransformListener tfListener(tfBuffer);
-        RCLCPP_INFO(this->get_logger(), "Waiting for transform: %s -> %s", frameIdEgo, msg->header.frame_id);
-        geometry_msgs::msg::TransformStamped ego2radTransform = tfBuffer.lookupTransform(msg->header.frame_id, frameIdEgo, rclcpp::Time(0), rclcpp::Duration(5, 0));
+        RCLCPP_INFO(this->get_logger(), "Waiting for transform: %s -> %s", m_frameIdEgo.c_str(), msg->header.frame_id.c_str());
+        geometry_msgs::msg::TransformStamped ego2radTransform = tfBuffer.lookupTransform(m_frameIdEgo, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(5, 0));
         
-        ego2radTranslation[0] = ego2radTransform.transform.translation.x;
-        ego2radTranslation[1] = ego2radTransform.transform.translation.z;
-        ego2radTranslation[2] = ego2radTransform.transform.translation.x;
-        ego2radRotation = getYawFromQuaternion(ego2radTransform.transform.rotation);
+        m_ego2radTranslation[0] = ego2radTransform.transform.translation.x;
+        m_ego2radTranslation[1] = ego2radTransform.transform.translation.y;
+        m_ego2radTranslation[2] = ego2radTransform.transform.translation.z;
+
+        tf2::Quaternion q(
+            ego2radTransform.transform.rotation.x,
+            ego2radTransform.transform.rotation.y,
+            ego2radTransform.transform.rotation.z,
+            ego2radTransform.transform.rotation.w);
+        tf2::Matrix3x3 m(q);
+        
+        m_ego2radRotation = -atan2(-m[1][0], m[0][0]);
 
         m_isEgo2radTransformSet = true;
         RCLCPP_INFO(this->get_logger(), "Transform acquired");
@@ -130,16 +122,16 @@ void crp::cil::DopplerCompensator::pclCallback(const sensor_msgs::msg::PointClou
             *comp_iter_measStatus = *raw_iter_measStatus;
             *comp_iter_rcs        = *raw_iter_rcs;
             *comp_iter_dv_raw     = *raw_iter_dv_raw;
-            
+
             float vEgoShift[2] = {
-                vEgo[0] - yawRateEgo * ego2radTranslation[1],
-                vEgo[1] - yawRateEgo * ego2radTranslation[0]
+                m_vEgo[0] - m_yawRateEgo * m_ego2radTranslation[1],
+                m_vEgo[1] - m_yawRateEgo * m_ego2radTranslation[0]
                 // assume z is 0
             };
 
             float vEgoAtRadar[2] = {
-                cos(ego2radRotation) * vEgoShift[0]  + sin(ego2radRotation) * vEgoShift[1],
-                -sin(ego2radRotation) * vEgoShift[0] + cos(ego2radRotation) * vEgoShift[1]
+                cos(m_ego2radRotation)  * vEgoShift[0] + sin(m_ego2radRotation) * vEgoShift[1],
+                -sin(m_ego2radRotation) * vEgoShift[0] + cos(m_ego2radRotation) * vEgoShift[1]
             };
 
             *comp_iter_dv_comp = (*raw_iter_dv_raw) + (vEgoAtRadar[0] * cos(*raw_iter_azi)) + (vEgoAtRadar[1] * sin(*raw_iter_azi));
@@ -151,10 +143,11 @@ void crp::cil::DopplerCompensator::pclCallback(const sensor_msgs::msg::PointClou
 
 void crp::cil::DopplerCompensator::twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg)
 {
-    frameIdEgo = msg->header.frame_id;
-    vEgo[0] = msg->twist.twist.linear.x;
-    vEgo[1] = msg->twist.twist.linear.y;
-    yawRateEgo = msg->twist.twist.angular.z;
+    if (m_frameIdEgo == "")
+        m_frameIdEgo = msg->header.frame_id;
+    m_vEgo[0] = msg->twist.twist.linear.x;
+    m_vEgo[1] = msg->twist.twist.linear.y;
+    m_yawRateEgo = msg->twist.twist.angular.z;
 }
 
 

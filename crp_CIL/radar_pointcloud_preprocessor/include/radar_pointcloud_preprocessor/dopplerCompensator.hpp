@@ -30,11 +30,11 @@ namespace cil
         rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr m_pub_compPcl_;
 
         bool m_isEgo2radTransformSet = false;
-        float vEgo[2] = {0.0f, 0.0f};
-        float yawRateEgo = 0.0f;
-        std::string frameIdEgo = "";
-        float ego2radTranslation[3] = {0.0f, 0.0f, 0.0f};
-        float ego2radRotation = 0.0f;
+        float m_vEgo[2] = {0.0f, 0.0f};
+        float m_yawRateEgo = 0.0f;
+        std::string m_frameIdEgo = "";
+        float m_ego2radTranslation[3] = {0.0f, 0.0f, 0.0f};
+        float m_ego2radRotation = 0.0f;
     };
 
 } // namespace cil
