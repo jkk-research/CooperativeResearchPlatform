@@ -48,6 +48,7 @@ packages=(
   ros2_socketcan
   rd6_msgs
   rd6_driver
+  radar_pointcloud_preprocessor
 )
 
 packages_string=${packages[*]}

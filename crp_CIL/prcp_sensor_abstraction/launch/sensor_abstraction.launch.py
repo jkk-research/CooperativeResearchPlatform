@@ -8,7 +8,13 @@ def generate_launch_description():
     vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
         'vehicle_tire_angle_topic',
         default_value='/sensing/vehicle/tire_angle',
-        description='Length of the scenario in meters'
+        description='Vehicle tire angle topic.'
+    )
+
+    vehicle_steering_wheel_rate_topic_arg = DeclareLaunchArgument(
+        'vehicle_steering_wheel_rate_topic',
+        default_value='/sensing/vehicle/steering_wheel_rate',
+        description='Steering wheel rate'
     )
     
     local_path_length_arg = DeclareLaunchArgument(
@@ -21,6 +27,18 @@ def generate_launch_description():
         'localization_source',
         default_value='ekf',
         description='Localization source [ekf or gnss]'
+    )
+
+    twist_topic_arg = DeclareLaunchArgument(
+        'twist_topic',
+        default_value='/sensing/vehicle/twist',
+        description='Name of the twist topic.'
+    )
+
+    accel_topic_arg = DeclareLaunchArgument(
+        'accel_topic',
+        default_value='/sensing/vehicle/accel',
+        description='Name of the accel topic.'
     )
     
     scenario_abstraction = Node(
@@ -41,14 +59,20 @@ def generate_launch_description():
         output='screen',
         parameters=[{
             'vehicle_tire_angle_topic': LaunchConfiguration('vehicle_tire_angle_topic'),
-            'localization_source': LaunchConfiguration('localization_source')
+            'vehicle_steering_wheel_rate_topic': LaunchConfiguration('vehicle_steering_wheel_rate_topic'),
+            'localization_source': LaunchConfiguration('localization_source'),
+            'twist_topic': LaunchConfiguration('twist_topic'),
+            'accel_topic': LaunchConfiguration('accel_topic')
         }]
     )
 
     return LaunchDescription([
         vehicle_tire_angle_topic_arg,
+        vehicle_steering_wheel_rate_topic_arg,
         local_path_length_arg,
         localization_source_arg,
+        twist_topic_arg,
+        accel_topic_arg,
 
         scenario_abstraction,
         ego_abstraction

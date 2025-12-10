@@ -6,12 +6,15 @@ crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
     this->declare_parameter<std::string>("vehicle_tire_angle_topic", "/sensing/vehicle/tire_angle");
     this->declare_parameter<std::string>("vehicle_steering_wheel_rate_topic", "/sensing/vehicle/steering_wheel_rate");
     this->declare_parameter<std::string>("localization_source", "ekf");
-    std::string tireAngleTopic;
-    std::string localizationSource;
-    std::string steeringWheelRateTopic;
-    this->get_parameter("vehicle_tire_angle_topic", tireAngleTopic);
-    this->get_parameter("vehicle_steering_wheel_rate_topic", steeringWheelRateTopic);
-    this->get_parameter("localization_source", localizationSource);
+    this->declare_parameter<std::string>("twist_topic", "/sensing/vehicle/twist");
+    this->declare_parameter<std::string>("accel_topic", "/sensing/vehicle/accel");
+
+    std::string tireAngleTopic, localizationSource, steeringWheelRateTopic, twistTopic, accelTopic;
+    this->get_parameter<std::string>("vehicle_tire_angle_topic", tireAngleTopic);
+    this->get_parameter<std::string>("vehicle_steering_wheel_rate_topic", steeringWheelRateTopic);
+    this->get_parameter<std::string>("localization_source", localizationSource);
+    this->get_parameter<std::string>("twist_topic", twistTopic);
+    this->get_parameter<std::string>("accel_topic", accelTopic);
     std::string localizationTopic = "";
     if (localizationSource == "ekf")
         localizationTopic = "/sensing/ekf/estimated_pose";
@@ -27,13 +30,13 @@ crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
         localizationTopic, 10, std::bind(&EgoAbstraction::poseCallback, this, std::placeholders::_1)
     );
     m_sub_twist_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
-        "/sensing/vehicle/twist", 10, std::bind(&EgoAbstraction::twistCallback, this, std::placeholders::_1)
+        twistTopic, 10, std::bind(&EgoAbstraction::twistCallback, this, std::placeholders::_1)
     );
     m_sub_odometry_ = this->create_subscription<nav_msgs::msg::Odometry>(
         "/odometry/kinematic_state/odometry", 10, std::bind(&EgoAbstraction::odometryCallback, this, std::placeholders::_1)
     );
     m_sub_accel_ = this->create_subscription<geometry_msgs::msg::AccelWithCovarianceStamped>(
-        "/sensing/vehicle/accel", 10, std::bind(&EgoAbstraction::accelCallback, this, std::placeholders::_1)
+        accelTopic, 10, std::bind(&EgoAbstraction::accelCallback, this, std::placeholders::_1)
     );
     m_sub_tireAngle_ = this->create_subscription<std_msgs::msg::Float32>(
         tireAngleTopic, 10, std::bind(&EgoAbstraction::tireAngleCallback, this, std::placeholders::_1)

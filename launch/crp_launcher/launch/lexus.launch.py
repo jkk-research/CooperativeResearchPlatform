@@ -14,6 +14,24 @@ def load_yaml(file_path):
 def generate_launch_description():
     # ARGS
 
+    # kinematic state
+    kinematic_state_source_arg = DeclareLaunchArgument(
+        'kinematic_state_source',
+        default_value='gnss',
+        description='Kinematic state (twist+accel) source. Possible values: [gnss, vehicle].'
+    )
+    twist_topic_arg = DeclareLaunchArgument(
+        'twist_topic',
+        default_value=['/sensing/', LaunchConfiguration('kinematic_state_source'), '/twist'],
+        description='Name of the twist topic. Default: derived from kinemtaic_state_source arg.'
+    )
+    accel_topic_arg = DeclareLaunchArgument(
+        'accel_topic',
+        default_value=['/sensing/', LaunchConfiguration('kinematic_state_source'), '/accel'],
+        description='Name of the accel topic. Default: derived from kinemtaic_state_source arg.'
+    )
+
+    # localization
     localization_source_arg = DeclareLaunchArgument(
         'localization_source',
         default_value='gnss',
@@ -66,54 +84,51 @@ def generate_launch_description():
         description='Enable or disable debug publishing'
     )
 
+    # radar doppler compensation
     doppcomp_input_pcd_topic_arg = DeclareLaunchArgument(
         'doppcomp/input_pcd_topic',
         default_value='points',
         description='Input PointCloud2 topic for the doppler compensator.'
     )
-
     doppcomp_output_pcd_topic_arg = DeclareLaunchArgument(
         'doppcomp/output_pcd_topic',
         default_value='dvcompensated_points',
         description='Input PointCloud2 topic for the doppler compensator.'
     )
-
     doppcomp_twist_topic_arg = DeclareLaunchArgument(
         'doppcomp/twist_topic',
-        default_value='/sensing/vehicle/twist',
+        default_value=LaunchConfiguration('twist_topic'),
         description='Input TesitWithCovarianceStamped topic for the doppler compensator.'
     )
-
     doppcomp_override_ego_twist_frame_arg = DeclareLaunchArgument(
         'doppcomp/override_ego_twist_frame',
         default_value='base_link', # TODO add frame_id to twist topic then remove this
         description='Override the frame of the radar for the transformation of the points. Leave empty to use the frameid defined in the input point cloud message.'
     )
 
+    # radar pointcloud aggregation
     pcdagg_input_pcd_topic_arg = DeclareLaunchArgument(
         'pcdagg/input_pcd_topic',
         default_value='dvcompensated_points',
         description='Input PointCloud2 topic for the aggregator.'
     )
-
     pcdagg_output_pcd_topic_arg = DeclareLaunchArgument(
         'pcdagg/output_pcd_topic',
         default_value='aggregated_points',
         description='Output PointCloud2 topic for the aggregator.'
     )
-
     pcdagg_pose_topic_arg = DeclareLaunchArgument(
         'pcdagg/localization_topic',
         default_value='/sensing/gnss/pose_with_covariance',
         description='Input localization (PoseWithCovarianceStamped) topic for the aggregator.'
     )
-
     pcdagg_aggregation_time_window_arg = DeclareLaunchArgument(
         'pcdagg/aggregation_time_window_sec',
         default_value='0.5',
         description='Time window for the aggregation.'
     )
 
+    # radar pointcloud merger
     radar_pointcloud_merger_in_pcd_topics_arg = DeclareLaunchArgument(
         'pcdmerger/in_pcd_topics',
         default_value='''[
@@ -125,19 +140,16 @@ def generate_launch_description():
         ]''',
         description='PointCloud2 topics to be merged. The first one will be the trigger for merging.'
     )
-
     radar_pointcloud_merger_out_topic_arg = DeclareLaunchArgument(
         'pcdmerger/out_topic',
         default_value='merged_points',
         description='Output PointCloud2 topic for the merger.'
     )
-
     radar_pointcloud_merger_ego_frame_arg = DeclareLaunchArgument(
         'pcdmerger/ego_frame',
         default_value='base_link',
         description='Input localization (PoseWithCovarianceStamped) topic for the aggregator.'
     )
-
     radar_pointcloud_merger_merge_trigger_timeout_arg = DeclareLaunchArgument(
         'pcdmerger/merge_trigger_timeout_sec',
         default_value='0.1',
@@ -286,7 +298,7 @@ def generate_launch_description():
 
     # NODES
 
-    novatel_gps = IncludeLaunchDescription(
+    novatel_gps_wrapper = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('novatel_gps_wrapper'),
@@ -673,6 +685,11 @@ def generate_launch_description():
 
     return LaunchDescription([
         # args
+
+        kinematic_state_source_arg,
+        twist_topic_arg,
+        accel_topic_arg,
+
         localization_source_arg,
         select_gps_arg,
 
@@ -732,11 +749,11 @@ def generate_launch_description():
         vehicle_param_L_arg,
 
         # core
-        # crp_core,
+        crp_core,
 
         # vehicle nodes
         static_tf,
-        novatel_gps,
+        novatel_gps_wrapper,
         novatel_gps_oem7_driver,
         duro_gps,
         os_lidars_merged,
@@ -763,5 +780,5 @@ def generate_launch_description():
         sensor_abstraction,
         vehicle_speed_control,
 
-        # lanelet_file_loader,
+        lanelet_file_loader,
     ])
