@@ -58,6 +58,10 @@ void crp::cil::DopplerCompensator::pclCallback(const sensor_msgs::msg::PointClou
         
         m_ego2radRotation = -atan2(-m[1][0], m[0][0]);
 
+        const double roll = std::atan2(m[2][1], m[2][2]);
+        
+        m_isRadarRollFlipped = (std::abs(std::abs(roll) - M_PI) < 0.35);
+
         m_isEgo2radTransformSet = true;
         RCLCPP_INFO(this->get_logger(), "Transform acquired");
     }
@@ -106,6 +110,8 @@ void crp::cil::DopplerCompensator::pclCallback(const sensor_msgs::msg::PointClou
         sensor_msgs::PointCloud2Iterator<float> comp_iter_rcs        (compPcl, "rcs");
         sensor_msgs::PointCloud2Iterator<float> comp_iter_dv_raw     (compPcl, "dv_raw");
         sensor_msgs::PointCloud2Iterator<float> comp_iter_dv_comp    (compPcl, "dv_comp"); // new field
+        
+        int8_t aziFlipMultiplier = (m_isRadarRollFlipped)? -1 : 1;
 
         for (
             ; 
@@ -133,8 +139,10 @@ void crp::cil::DopplerCompensator::pclCallback(const sensor_msgs::msg::PointClou
                 cos(m_ego2radRotation)  * vEgoShift[0] + sin(m_ego2radRotation) * vEgoShift[1],
                 -sin(m_ego2radRotation) * vEgoShift[0] + cos(m_ego2radRotation) * vEgoShift[1]
             };
-
-            *comp_iter_dv_comp = (*raw_iter_dv_raw) + (vEgoAtRadar[0] * cos(*raw_iter_azi)) + (vEgoAtRadar[1] * sin(*raw_iter_azi));
+            
+            float correctedAzimuth = aziFlipMultiplier * (*raw_iter_azi);
+            
+            *comp_iter_dv_comp = (*raw_iter_dv_raw) + (vEgoAtRadar[0] * cos(correctedAzimuth)) + (vEgoAtRadar[1] * sin(correctedAzimuth));
         }
 
         m_pub_compPcl_->publish(compPcl);

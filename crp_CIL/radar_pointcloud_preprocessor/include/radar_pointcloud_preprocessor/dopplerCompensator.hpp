@@ -35,6 +35,7 @@ namespace cil
         std::string m_frameIdEgo = "";
         float m_ego2radTranslation[3] = {0.0f, 0.0f, 0.0f};
         float m_ego2radRotation = 0.0f;
+        bool m_isRadarRollFlipped = false;
     };
 
 } // namespace cil
