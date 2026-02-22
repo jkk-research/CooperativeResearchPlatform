@@ -95,11 +95,6 @@ def generate_launch_description():
         default_value='dvcompensated_points',
         description='Input PointCloud2 topic for the doppler compensator.'
     )
-    doppcomp_twist_topic_arg = DeclareLaunchArgument(
-        'doppcomp/twist_topic',
-        default_value=LaunchConfiguration('twist_topic'),
-        description='Input TesitWithCovarianceStamped topic for the doppler compensator.'
-    )
     doppcomp_override_ego_twist_frame_arg = DeclareLaunchArgument(
         'doppcomp/override_ego_twist_frame',
         default_value='base_link', # TODO add frame_id to twist topic then remove this
@@ -117,15 +112,15 @@ def generate_launch_description():
         default_value='aggregated_points',
         description='Output PointCloud2 topic for the aggregator.'
     )
-    pcdagg_pose_topic_arg = DeclareLaunchArgument(
-        'pcdagg/localization_topic',
-        default_value='/sensing/gnss/pose_with_covariance',
-        description='Input localization (PoseWithCovarianceStamped) topic for the aggregator.'
-    )
     pcdagg_aggregation_time_window_arg = DeclareLaunchArgument(
         'pcdagg/aggregation_time_window_sec',
         default_value='0.5',
         description='Time window for the aggregation.'
+    )
+    pcdagg_ego_twist_frame_arg = DeclareLaunchArgument(
+        'pcdagg/override_ego_twist_frame',
+        default_value='', # TODO add frame_id to twist topic then remove this
+        description='Override the frame of the radar for the transformation of the points. Leave empty to use the frameid defined in the input point cloud message.'
     )
 
     # radar pointcloud merger
@@ -368,7 +363,7 @@ def generate_launch_description():
             'doppcomp/namespace'               : '/sensing/radar/fc',
             'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
             'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
-            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('twist_topic'),
             'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
         }.items()
     )
@@ -385,8 +380,9 @@ def generate_launch_description():
             'pcdagg/namespace'                  : '/sensing/radar/fc',
             'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
             'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
-            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
-            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+            'pcdagg/twist_topic'                : LaunchConfiguration('twist_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec'),
+            'pcdagg/override_ego_twist_frame'   : LaunchConfiguration('pcdagg/override_ego_twist_frame')
         }.items()
     )
 
@@ -418,7 +414,7 @@ def generate_launch_description():
             'doppcomp/namespace'               : '/sensing/radar/fl',
             'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
             'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
-            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('twist_topic'),
             'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
         }.items()
     )
@@ -435,8 +431,9 @@ def generate_launch_description():
             'pcdagg/namespace'                  : '/sensing/radar/fl',
             'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
             'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
-            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
-            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+            'pcdagg/twist_topic'                : LaunchConfiguration('twist_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec'),
+            'pcdagg/override_ego_twist_frame'   : LaunchConfiguration('pcdagg/override_ego_twist_frame')
         }.items()
     )
 
@@ -468,7 +465,7 @@ def generate_launch_description():
             'doppcomp/namespace'               : '/sensing/radar/fr',
             'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
             'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
-            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('twist_topic'),
             'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
         }.items()
     )
@@ -485,8 +482,9 @@ def generate_launch_description():
             'pcdagg/namespace'                  : '/sensing/radar/fr',
             'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
             'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
-            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
-            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+            'pcdagg/twist_topic'                : LaunchConfiguration('twist_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec'),
+            'pcdagg/override_ego_twist_frame'   : LaunchConfiguration('pcdagg/override_ego_twist_frame')
         }.items()
     )
 
@@ -518,7 +516,7 @@ def generate_launch_description():
             'doppcomp/namespace'               : '/sensing/radar/rl',
             'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
             'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
-            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('twist_topic'),
             'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
         }.items()
     )
@@ -535,8 +533,9 @@ def generate_launch_description():
             'pcdagg/namespace'                  : '/sensing/radar/rl',
             'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
             'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
-            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
-            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+            'pcdagg/twist_topic'                : LaunchConfiguration('twist_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec'),
+            'pcdagg/override_ego_twist_frame'   : LaunchConfiguration('pcdagg/override_ego_twist_frame')
         }.items()
     )
 
@@ -568,7 +567,7 @@ def generate_launch_description():
             'doppcomp/namespace'               : '/sensing/radar/rr',
             'doppcomp/input_pcd_topic'         : LaunchConfiguration('doppcomp/input_pcd_topic'),
             'doppcomp/output_pcd_topic'        : LaunchConfiguration('doppcomp/output_pcd_topic'),
-            'doppcomp/twist_topic'             : LaunchConfiguration('doppcomp/twist_topic'),
+            'doppcomp/twist_topic'             : LaunchConfiguration('twist_topic'),
             'doppcomp/override_ego_twist_frame': LaunchConfiguration('doppcomp/override_ego_twist_frame')
         }.items()
     )
@@ -585,8 +584,9 @@ def generate_launch_description():
             'pcdagg/namespace'                  : '/sensing/radar/rr',
             'pcdagg/input_pcd_topic'            : LaunchConfiguration('pcdagg/input_pcd_topic'),
             'pcdagg/output_pcd_topic'           : LaunchConfiguration('pcdagg/output_pcd_topic'),
-            'pcdagg/localization_topic'         : LaunchConfiguration('pcdagg/localization_topic'),
-            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec')
+            'pcdagg/twist_topic'                : LaunchConfiguration('twist_topic'),
+            'pcdagg/aggregation_time_window_sec': LaunchConfiguration('pcdagg/aggregation_time_window_sec'),
+            'pcdagg/override_ego_twist_frame'   : LaunchConfiguration('pcdagg/override_ego_twist_frame')
         }.items()
     )
 
@@ -706,12 +706,11 @@ def generate_launch_description():
         radar_publish_debug_arg,
         doppcomp_input_pcd_topic_arg,
         doppcomp_output_pcd_topic_arg,
-        doppcomp_twist_topic_arg,
         doppcomp_override_ego_twist_frame_arg,
         pcdagg_input_pcd_topic_arg,
         pcdagg_output_pcd_topic_arg,
-        pcdagg_pose_topic_arg,
         pcdagg_aggregation_time_window_arg,
+        pcdagg_ego_twist_frame_arg,
         radar_pointcloud_merger_in_pcd_topics_arg,
         radar_pointcloud_merger_out_topic_arg,
         radar_pointcloud_merger_ego_frame_arg,
