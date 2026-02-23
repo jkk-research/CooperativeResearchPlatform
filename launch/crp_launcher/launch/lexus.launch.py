@@ -119,7 +119,7 @@ def generate_launch_description():
     )
     pcdagg_ego_twist_frame_arg = DeclareLaunchArgument(
         'pcdagg/override_ego_twist_frame',
-        default_value='', # TODO add frame_id to twist topic then remove this
+        default_value='base_link', # TODO add frame_id to twist topic then remove this
         description='Override the frame of the radar for the transformation of the points. Leave empty to use the frameid defined in the input point cloud message.'
     )
 
