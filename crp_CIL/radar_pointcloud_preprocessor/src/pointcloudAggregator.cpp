@@ -20,18 +20,21 @@ crp::cil::PointcloudAggregator::PointcloudAggregator() : Node("pointcloud_aggreg
 
     m_sub_inPcl_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
         inputTopic,
-        rclcpp::SensorDataQoS().keep_last(1),
+        rclcpp::SensorDataQoS().keep_last(3),
         std::bind(&PointcloudAggregator::pclCallback, this, std::placeholders::_1)
     );
 
     m_sub_twist_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
         twistTopic,
-        rclcpp::SensorDataQoS().keep_last(5),
+        rclcpp::SensorDataQoS().keep_last(3),
         std::bind(&PointcloudAggregator::twistCallback, this, std::placeholders::_1)
     );
+    
+    rclcpp::PublisherOptions pubOptions;
+    pubOptions.qos_overriding_options = rclcpp::QosOverridingOptions::with_default_policies();
 
     m_pub_outPcl_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(
-        outputTopic, 1
+        outputTopic, rclcpp::SensorDataQoS().keep_last(3), pubOptions
     );
 }
 

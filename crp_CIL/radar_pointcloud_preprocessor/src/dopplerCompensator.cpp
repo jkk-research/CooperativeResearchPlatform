@@ -16,12 +16,12 @@ crp::cil::DopplerCompensator::DopplerCompensator() : Node("doppler_compensator")
 
     m_sub_pcl_ = this->create_subscription<sensor_msgs::msg::PointCloud2>(
         inputPclTopic,
-        rclcpp::SensorDataQoS().keep_last(5),
+        rclcpp::SensorDataQoS().keep_last(3),
         std::bind(&DopplerCompensator::pclCallback, this, std::placeholders::_1)
     );
     m_sub_twist_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
         twistTopic,
-        rclcpp::SensorDataQoS().keep_last(5),
+        rclcpp::SensorDataQoS().keep_last(3),
         std::bind(&DopplerCompensator::twistCallback, this, std::placeholders::_1)
     );
 
@@ -29,7 +29,7 @@ crp::cil::DopplerCompensator::DopplerCompensator() : Node("doppler_compensator")
     pubOptions.qos_overriding_options = rclcpp::QosOverridingOptions::with_default_policies();
 
     m_pub_compPcl_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(
-        outputPclTopic, rclcpp::SensorDataQoS().keep_last(5), pubOptions
+        outputPclTopic, rclcpp::SensorDataQoS().keep_last(3), pubOptions
     );
 }
 

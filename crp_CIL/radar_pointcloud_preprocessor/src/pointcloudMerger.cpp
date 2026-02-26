@@ -29,7 +29,7 @@ crp::cil::PointcloudMerger::PointcloudMerger() : Node("pointcloud_merger")
     for (uint8_t i = 0; i < pclTopics.size(); i++) {
         auto sub = this->create_subscription<sensor_msgs::msg::PointCloud2>(
             pclTopics[i],
-            1,
+            rclcpp::SensorDataQoS().keep_last(3),
             [this, i](sensor_msgs::msg::PointCloud2::SharedPtr msg) {
                 this->pclCallback(msg, i);
             }
@@ -38,8 +38,11 @@ crp::cil::PointcloudMerger::PointcloudMerger() : Node("pointcloud_merger")
         RCLCPP_INFO(this->get_logger(), "Subscribed to: %s", pclTopics[i].c_str());
     }
 
+    rclcpp::PublisherOptions pubOptions;
+    pubOptions.qos_overriding_options = rclcpp::QosOverridingOptions::with_default_policies();
+
     m_pub_mergedPcd_ = this->create_publisher<sensor_msgs::msg::PointCloud2>(
-        outTopic, 1
+        outTopic, rclcpp::SensorDataQoS().keep_last(3), pubOptions
     );
 
     m_pointclouds.resize(m_subs_pcdSubscriptions.size());
