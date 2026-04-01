@@ -57,3 +57,6 @@
 [submodule "crp_VIL/ouster_ros"]
 	path = crp_VIL/ouster_ros
 	url = git@github.com:jkk-research/ouster-ros.git
+[submodule "crp_APL/crp_msgs"]
+	path = crp_APL/crp_msgs
+	url = https://github.com/jkk-research/crp_msgs.git
