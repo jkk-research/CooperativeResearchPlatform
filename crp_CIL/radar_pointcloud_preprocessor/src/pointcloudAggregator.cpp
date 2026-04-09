@@ -115,7 +115,7 @@ void crp::cil::PointcloudAggregator::pclCallback(const sensor_msgs::msg::PointCl
     while (
         m_aggregationPool.size() > 0
         && (
-            (rclcpp::Time(msg->header.stamp) - rclcpp::Time(m_aggregationPool.front().cloud.header.stamp)).seconds() > m_aggregationTimeWindow_sec
+            (   rclcpp::Time(msg->header.stamp) - rclcpp::Time(m_aggregationPool.front().cloud.header.stamp)).seconds() > m_aggregationTimeWindow_sec
             || (rclcpp::Time(msg->header.stamp) - rclcpp::Time(m_aggregationPool.front().cloud.header.stamp)).seconds() < 0
         )
     )

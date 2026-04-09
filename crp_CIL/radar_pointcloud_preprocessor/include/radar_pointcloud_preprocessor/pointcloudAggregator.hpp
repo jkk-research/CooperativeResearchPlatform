@@ -36,13 +36,13 @@ namespace cil
         };
 
         void pclCallback(const sensor_msgs::msg::PointCloud2::SharedPtr msg);
-    void twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg);
+        void twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg);
 
-    void integrateTwist(const builtin_interfaces::msg::Time & stamp);
+        void integrateTwist(const builtin_interfaces::msg::Time & stamp);
 
 
         rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr m_sub_inPcl_;
-    rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr m_sub_twist_;
+        rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr m_sub_twist_;
 
         rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr m_pub_outPcl_;
 

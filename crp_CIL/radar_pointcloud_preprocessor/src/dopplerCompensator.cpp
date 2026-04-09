@@ -76,48 +76,51 @@ void crp::cil::DopplerCompensator::pclCallback(const sensor_msgs::msg::PointClou
 
         sensor_msgs::PointCloud2Modifier modifier(compPcl);
         modifier.setPointCloud2Fields(
-            10,
+            11,
             "x",          1, sensor_msgs::msg::PointField::FLOAT32,
             "y",          1, sensor_msgs::msg::PointField::FLOAT32,
             "z",          1, sensor_msgs::msg::PointField::FLOAT32,
             "dist",       1, sensor_msgs::msg::PointField::FLOAT32,
             "azi",        1, sensor_msgs::msg::PointField::FLOAT32,
             "ele",        1, sensor_msgs::msg::PointField::FLOAT32,
-            "measStatus", 1, sensor_msgs::msg::PointField::UINT8,
+            "measStatus", 1, sensor_msgs::msg::PointField::UINT32,
             "rcs",        1, sensor_msgs::msg::PointField::FLOAT32,
+            "snr",        1, sensor_msgs::msg::PointField::FLOAT32,
             "dv_raw",     1, sensor_msgs::msg::PointField::FLOAT32,
             "dv_comp",    1, sensor_msgs::msg::PointField::FLOAT32 // new field
         );
         modifier.resize(msg->width);
 
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_x           (*msg, "x");
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_y           (*msg, "y");
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_z           (*msg, "z");
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_dist        (*msg, "dist");
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_azi         (*msg, "azi");
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_ele         (*msg, "ele");
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_measStatus  (*msg, "measStatus");
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_rcs         (*msg, "rcs");
-        sensor_msgs::PointCloud2Iterator<float> raw_iter_dv_raw      (*msg, "dv_raw");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_x             (*msg, "x");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_y             (*msg, "y");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_z             (*msg, "z");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_dist          (*msg, "dist");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_azi           (*msg, "azi");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_ele           (*msg, "ele");
+        sensor_msgs::PointCloud2Iterator<uint32_t> raw_iter_measStatus  (*msg, "measStatus");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_rcs           (*msg, "rcs");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_snr           (*msg, "snr");
+        sensor_msgs::PointCloud2Iterator<float> raw_iter_dv_raw        (*msg, "dv_raw");
 
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_x          (compPcl, "x");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_y          (compPcl, "y");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_z          (compPcl, "z");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_dist       (compPcl, "dist");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_azi        (compPcl, "azi");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_ele        (compPcl, "ele");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_measStatus (compPcl, "measStatus");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_rcs        (compPcl, "rcs");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_dv_raw     (compPcl, "dv_raw");
-        sensor_msgs::PointCloud2Iterator<float> comp_iter_dv_comp    (compPcl, "dv_comp"); // new field
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_x            (compPcl, "x");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_y            (compPcl, "y");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_z            (compPcl, "z");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_dist         (compPcl, "dist");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_azi          (compPcl, "azi");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_ele          (compPcl, "ele");
+        sensor_msgs::PointCloud2Iterator<uint32_t> comp_iter_measStatus (compPcl, "measStatus");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_rcs          (compPcl, "rcs");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_snr          (compPcl, "snr");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_dv_raw       (compPcl, "dv_raw");
+        sensor_msgs::PointCloud2Iterator<float> comp_iter_dv_comp      (compPcl, "dv_comp"); // new field
         
         int8_t aziFlipMultiplier = (m_isRadarRollFlipped)? -1 : 1;
 
         for (
             ; 
             raw_iter_x != raw_iter_x.end();
-            ++raw_iter_x,  ++raw_iter_y,  ++raw_iter_z,  ++raw_iter_dist,  ++raw_iter_azi,  ++raw_iter_ele,  ++raw_iter_measStatus,  ++raw_iter_rcs,  ++raw_iter_dv_raw,
-            ++comp_iter_x, ++comp_iter_y, ++comp_iter_z, ++comp_iter_dist, ++comp_iter_azi, ++comp_iter_ele, ++comp_iter_measStatus, ++comp_iter_rcs, ++comp_iter_dv_raw, ++comp_iter_dv_comp
+            ++raw_iter_x,  ++raw_iter_y,  ++raw_iter_z,  ++raw_iter_dist,  ++raw_iter_azi,  ++raw_iter_ele,  ++raw_iter_measStatus,  ++raw_iter_rcs,  ++raw_iter_snr,  ++raw_iter_dv_raw,
+            ++comp_iter_x, ++comp_iter_y, ++comp_iter_z, ++comp_iter_dist, ++comp_iter_azi, ++comp_iter_ele, ++comp_iter_measStatus, ++comp_iter_rcs, ++comp_iter_snr, ++comp_iter_dv_raw, ++comp_iter_dv_comp
         ) {
             *comp_iter_x          = *raw_iter_x;
             *comp_iter_y          = *raw_iter_y;
@@ -127,6 +130,7 @@ void crp::cil::DopplerCompensator::pclCallback(const sensor_msgs::msg::PointClou
             *comp_iter_ele        = *raw_iter_ele;
             *comp_iter_measStatus = *raw_iter_measStatus;
             *comp_iter_rcs        = *raw_iter_rcs;
+            *comp_iter_snr        = *raw_iter_snr;
             *comp_iter_dv_raw     = *raw_iter_dv_raw;
 
             float vEgoShift[2] = {
