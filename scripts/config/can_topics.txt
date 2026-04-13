@@ -2,6 +2,8 @@
 /lexus3/mpc_cam/can_tx
 /lexus3/pacmod/can_rx
 /lexus3/pacmod/can_tx
+/lexus3/pacmod/from_can_bus
+/lexus3/pacmod/to_can_bus
 /sensing/radar/fc/canfd_from_radar
 /sensing/radar/fc/canfd_to_radar
 /sensing/radar/fc/socket_can_receiver/transition_event
