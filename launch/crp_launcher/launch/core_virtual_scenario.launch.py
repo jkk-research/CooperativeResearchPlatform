@@ -63,6 +63,15 @@ def generate_launch_description():
         )
     )
 
+    ego_fusion = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('prcp_situation_analysis'),
+                'launch',
+                'ego_fusion.launch.py')
+        )
+    )
+
     ############
     # PLANNING #
     ############
@@ -90,5 +99,6 @@ def generate_launch_description():
         vehicle_param_swr_arg,
         
         # nodes
-        scenario_generator        
+        scenario_generator,
+        ego_fusion        
     ])
