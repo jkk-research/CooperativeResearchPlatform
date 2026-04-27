@@ -33,6 +33,8 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     m_steer_pub_ = this->create_publisher<pacmod3_msgs::msg::SteeringCmd>("pacmod/steering_cmd", 10);
     m_enable_pub_ = this->create_publisher<std_msgs::msg::Bool>("pacmod/enable", 10);
     m_status_string_pub_ = this->create_publisher<std_msgs::msg::String>("control_status", 10);
+    m_autonom_reinit_pub_ = this->create_publisher<std_msgs::msg::Bool>("control_reinit", 10);
+
     RCLCPP_INFO(this->get_logger(), "actuator_control has been started");
 }
 
@@ -48,15 +50,53 @@ void crp::vil::ActuatorControl::behaviorCallback(const crp_msgs::msg::Behavior m
     setLongitudinalDynamics();
 }
 
-void crp::vil::ActuatorControl::pdpCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg)
+void crp::vil::ActuatorControl::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
 {
-    m_pdpAccelMode = msg->pdpout_accmap_pos_mode;
-    m_pdpDecelMode = msg->pdpout_accmap_neg_mode;
+    if(msg->current_scenario == "laneFollowWithSpeedAdjust"){
+        m_currentStrategy = "laneFollowWithSpeedAdjust";
+        setLongitudinalComfortDynamics();
+    }
+    else if(msg->current_scenario == "laneFollowWithDefaultSpeed"){
+        m_currentStrategy = "laneFollowWithDefaultSpeed";
+        setLongitudinalComfortDynamics();
+    }
+    else if (msg->current_scneario == "LONG_EMERGENCY_AVOID" || msg->current_scneario == "LONG_EMERGENCY_IMPACT")
+    {
+        m_currentStrategy = "longEmergency";
+        setLongitudinalEmergencyDynamics();
+        m_enable_lateral_control = false;
+        m_enable_longitudinal_control = true;
+        /* In the case of emergency actuation the chain is activated automatically --> therefore logic for disabling the override after the strategy changed is needed*/
+        if (m_previousStrategy == m_currentStrategy)
+        {
+            m_autonom_status_changed = false;
+        }
+        else
+        {
+            m_autonomReinitMsg.data = true;
+            m_autonom_reinit_pub_ -> publish(m_autonomReinitMsg);
+            m_autonom_status_changed = true;
+        }
+    }
+    else{
+        m_autonom_status_changed = false;
+        m_currentStrategy = "off";
+    }    
 
-    setLongitudinalDynamics();
+    return; 
 }
 
-void crp::vil::ActuatorControl::setLongitudinalDynamics()
+void crp::vil::ActuatorControl::setLongitudinalEmergencyDynamics()
+{
+    // longitudinal dynamics when strategy is long emergency
+    /* LONG_EMERGENCY_AVOID or LONG_EMERGENCY_IMPACT */
+    m_maximum_acceleration = 0.0;    
+    m_maximum_deceleration = -5.0;
+    m_maximum_jerk = 1.5;
+    m_minimum_jerk = -1.5;
+}
+
+void crp::vil::ActuatorControl::setLongitudinalComfortDynamics()
 {
     uint8_t accelMode = m_pdpAccelMode;
     uint8_t decelMode = m_pdpDecelMode;
@@ -281,6 +321,7 @@ void crp::vil::ActuatorControl::run()
     m_accel_command_prev = m_accelCommandMsg.command;
     m_brake_command_prev = brake_command_raw;
     m_speed_diff_prev = speed_diff;
+    m_previousStrategy = m_currentStrategy;
 }
 
 
