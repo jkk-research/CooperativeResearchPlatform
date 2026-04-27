@@ -24,9 +24,6 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
         "/ui/behavior", 10,
         std::bind(&ActuatorControl::behaviorCallback, this, std::placeholders::_1));
-    m_sub_pdp_ = this->create_subscription<pdp_if::msg::PdpPersonalizedParamsActive>(
-        "/PdpPersonalizedParamsActive", 10,
-        std::bind(&ActuatorControl::pdpCallback, this, std::placeholders::_1));
 
     m_accel_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/accel_cmd", 10);
     m_brake_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/brake_cmd", 10);
