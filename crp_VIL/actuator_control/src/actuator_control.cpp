@@ -47,7 +47,7 @@ void crp::vil::ActuatorControl::behaviorCallback(const crp_msgs::msg::Behavior m
     m_enable_lateral_control = msg.enable_lateral_control;
     m_enable_longitudinal_control = msg.enable_longitudinal_control;
 
-    setLongitudinalDynamics();
+    setLongitudinalComfortDynamics();
 }
 
 void crp::vil::ActuatorControl::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
@@ -60,7 +60,7 @@ void crp::vil::ActuatorControl::strategyCallback(const tier4_planning_msgs::msg:
         m_currentStrategy = "laneFollowWithDefaultSpeed";
         setLongitudinalComfortDynamics();
     }
-    else if (msg->current_scneario == "LONG_EMERGENCY_AVOID" || msg->current_scneario == "LONG_EMERGENCY_IMPACT")
+    else if (msg->current_scenario == "LONG_EMERGENCY_AVOID" || msg->current_scenario == "LONG_EMERGENCY_IMPACT")
     {
         m_currentStrategy = "longEmergency";
         setLongitudinalEmergencyDynamics();
