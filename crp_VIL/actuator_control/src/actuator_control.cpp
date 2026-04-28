@@ -5,8 +5,12 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     this->declare_parameter<float>("p_gain_accel", 0.29);
     this->declare_parameter<float>("i_gain_accel", 0.035);
     this->declare_parameter<float>("d_gain_accel", 0.0);
-    this->declare_parameter<float>("p_gain_brake", 0.15);
+    /*this->declare_parameter<float>("p_gain_brake", 0.15);
     this->declare_parameter<float>("i_gain_brake", 0.038);
+    this->declare_parameter<float>("d_gain_brake", 0.0);*/
+
+    this->declare_parameter<float>("p_gain_brake", 1.0);
+    this->declare_parameter<float>("i_gain_brake", 0.0);
     this->declare_parameter<float>("d_gain_brake", 0.0);
     
     this->get_parameter("p_gain_accel", m_p_gain_accel);
@@ -24,6 +28,10 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
         "/ui/behavior", 10,
         std::bind(&ActuatorControl::behaviorCallback, this, std::placeholders::_1));
+
+    m_sub_strategy_ = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
+        "/plan/strategy", 10,
+        std::bind(&ActuatorControl::strategyCallback, this, std::placeholders::_1));
 
     m_accel_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/accel_cmd", 10);
     m_brake_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/brake_cmd", 10);
@@ -88,9 +96,9 @@ void crp::vil::ActuatorControl::setLongitudinalEmergencyDynamics()
     // longitudinal dynamics when strategy is long emergency
     /* LONG_EMERGENCY_AVOID or LONG_EMERGENCY_IMPACT */
     m_maximum_acceleration = 0.0;    
-    m_maximum_deceleration = -5.0;
-    m_maximum_jerk = 1.5;
-    m_minimum_jerk = -1.5;
+    m_maximum_deceleration = -20.0;
+    m_maximum_jerk = 3.0;
+    m_minimum_jerk = -3.0;
 }
 
 void crp::vil::ActuatorControl::setLongitudinalComfortDynamics()
@@ -176,9 +184,9 @@ void crp::vil::ActuatorControl::setLongitudinalComfortDynamics()
 
 void crp::vil::ActuatorControl::autonomReinitCallback(const std_msgs::msg::Bool msg)
 {
-    m_autonom_status_changed = msg.data;
+    /*m_autonom_status_changed = msg.data;
     std::string a_status = msg.data ? "true" : "false";
-    RCLCPP_INFO_STREAM(this->get_logger(), lx_namespace << "/control_reinit: " << a_status);
+    RCLCPP_INFO_STREAM(this->get_logger(), lx_namespace << "/control_reinit: " << a_status);*/
 }
 
 void crp::vil::ActuatorControl::egoCallback(const crp_msgs::msg::Ego msg)
@@ -204,7 +212,7 @@ void crp::vil::ActuatorControl::run()
     //  here a hysteresis is applied to avoid fluctuating behaviour at constant speed
     //  the bandwith of the hysteresis: e.g. 0.9 m/s (3.24 km/h)
     //  in this if statement control_state is in acceleration
-    if ((speed_diff > -0.4 && m_control_state) || (speed_diff > 0.4))
+    if ((speed_diff > -0.05 && m_control_state) || (speed_diff > 0.05))
     {
         m_control_state = true;
         m_statusStringMsg.data = "accel"; 
@@ -236,7 +244,7 @@ void crp::vil::ActuatorControl::run()
     }
     // hysteresis to avoid fluctuating behaviour at constant speeds
     // in this if statement control_state is in deceleration (brake)
-    else if ((speed_diff < 0.4 && !m_control_state) || (speed_diff < -0.4))
+    else if ((speed_diff < 0.05 && !m_control_state) || (speed_diff < -0.05))
     {
         m_control_state = false; // brake state
         m_statusStringMsg.data = "brake"; 
