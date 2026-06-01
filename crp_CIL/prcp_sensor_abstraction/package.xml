@@ -20,6 +20,7 @@
   <depend>lanelet2_core</depend>
   <depend>autoware_lanelet2_extension</depend>
   <depend>crp_msgs</depend>
+  <depend>crp_srs_if</depend>
   <depend>std_msgs</depend>
   <depend>tf2</depend>
   <depend>tf2_ros</depend>

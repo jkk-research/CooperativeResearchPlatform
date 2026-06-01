@@ -173,16 +173,6 @@ def generate_launch_description():
         )
     )
 
-    mpc_25_wrapper = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('mpc_25_wrapper'),
-                'launch',
-                'mpc_25_wrapper.launch.py')
-        )
-    )
-
-
     return LaunchDescription([
         # args
         lanelet_file_path_arg,
@@ -215,5 +205,4 @@ def generate_launch_description():
 
         lanelet_file_loader,
         can_driver,
-        mpc_25_wrapper,
     ])

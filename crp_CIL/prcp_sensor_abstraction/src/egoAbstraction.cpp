@@ -117,29 +117,29 @@ void crp::cil::EgoAbstraction::srs_vehicle_callback(const crp_srs_if::msg::Vehic
     m_kinematicState.header = msg->zzz_header;
     m_gnssFix.header = msg->zzz_header;
 
-    //---Gyorsulások---
+    //--- Accelerations ---
     m_kinematicState.accel_with_covariance.accel.linear.x = msg->ax_ego_mps2;
     m_kinematicState.accel_with_covariance.accel.linear.y = msg->ay_ego_mps2;
     m_kinematicState.accel_with_covariance.accel.linear.z = msg->az_ego_mps2;
 
-    //---Sebességek---
+    //--- Speeds ---
     m_kinematicState.twist_with_covariance.twist.linear.x = msg->vx_ego_mps;
     m_kinematicState.twist_with_covariance.twist.angular.x = msg->roll_rate_radps;
     m_kinematicState.twist_with_covariance.twist.angular.y = msg->pitch_rate_radps;
     m_kinematicState.twist_with_covariance.twist.angular.z = msg->yaw_rate_radps;   
 
-    //---Pozíció---
+    //--- Positions ---
     m_kinematicState.pose_with_covariance.pose.position.x = msg->global_position_x;
     m_kinematicState.pose_with_covariance.pose.position.y = msg->global_position_y;
     m_kinematicState.pose_with_covariance.pose.position.z = msg->global_position_z;
 
-    //---Ego Status---
+    //--- Orientations ---
     m_egoStatus.blinker.data = msg->blinker;
     m_egoStatus.steering_wheel_rate = msg->steering_wheel_gradient;
     m_egoStatus.tire_angle_front = msg->road_wheel_angle_front_rad;
 
     //---Gnss---
-    m_gnssFix.status.status = msg->gnss_status
+    m_gnssFix.status.status = msg->gnss_status;
 }
 
 int main(int argc, char *argv[])
