@@ -37,6 +37,7 @@ private:
     void staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     void publishCallback();
+    tier4_planning_msgs::msg::PathWithLaneId calculateLocalPathFromMap();
 
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr         m_sub_staticMapFromFile_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr m_sub_pose_;
@@ -58,6 +59,7 @@ private:
     std::string                                   m_mapFrameId;
     geometry_msgs::msg::TransformStamped          m_gps2mapTransform;
     rclcpp::TimerBase::SharedPtr                  m_publishTimer_;
+    autoware_perception_msgs::msg::PredictedObjects m_msg_movingObjects;
 
     AbstractionUtils m_abstractionUtils;
 };
