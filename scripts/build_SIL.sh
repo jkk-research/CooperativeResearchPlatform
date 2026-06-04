@@ -9,13 +9,13 @@ echo "Build location: "$(pwd)
 
 build_args=$@
 
-packages=$(colcon list --base-paths $script_dir/../crp_APL -n)
+packages=$(colcon list --base-paths $script_dir/../crp_SIL -n)
 # add non-APL packages
 packages+=(
-  apl_launcher
+  sil_launcher
 )
 
 packages_string=${packages[*]}
 
-rosdep install --from-paths $script_dir/../crp_APL --ignore-src -r -y
+rosdep install --from-paths $script_dir/../crp_SIL --ignore-src -r -y
 colcon build --packages-up-to $packages_string $build_args
