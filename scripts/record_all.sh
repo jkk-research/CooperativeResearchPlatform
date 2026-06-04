@@ -6,6 +6,17 @@ script_dir=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
 # Parse command line arguments
 topics=()
 exclude_topics=()
+default_exclude_topics=()
+
+# Always exclude topics listed in config/can_topics.txt.
+can_topics_file="$script_dir/config/can_topics.txt"
+if [[ -f "$can_topics_file" ]]; then
+    while IFS= read -r topic; do
+        [[ -z "$topic" || "$topic" =~ ^# ]] && continue
+        default_exclude_topics+=("$topic")
+    done < "$can_topics_file"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -p|-path|--path)
@@ -71,10 +82,27 @@ bag_output="${full_path}_$(date +%Y%m%d_%H%M%S)"
 
 echo "Writing to file: $bag_output"
 
-if [ ${#exclude_topics[@]} -gt 0 ]; then
-    ros2 bag record -s mcap -o $bag_output --max-cache-size 1048576000 --storage-config-file $script_dir/config/mcap_writer_options.yaml --all -x "${exclude_topics[@]}"
-elif [ ${#topics[@]} -gt 0 ]; then
+all_exclude_topics=("${default_exclude_topics[@]}" "${exclude_topics[@]}")
+
+# Convert topic list for ros2 bag -x.
+exclude_regex=""
+if [ ${#all_exclude_topics[@]} -gt 0 ]; then
+    escaped_topics=()
+    for topic in "${all_exclude_topics[@]}"; do
+        escaped_topics+=("$(printf '%s' "$topic" | sed -E 's|[][(){}.^$*+?|\\-]|\\\\&|g')")
+    done
+    exclude_regex="^(${escaped_topics[0]})$"
+    for ((i = 1; i < ${#escaped_topics[@]}; i++)); do
+        exclude_regex="${exclude_regex}|^(${escaped_topics[i]})$"
+    done
+fi
+
+echo $exclude_regex
+
+if [ ${#topics[@]} -gt 0 ]; then
     ros2 bag record -s mcap -o $bag_output --max-cache-size 1048576000 --storage-config-file $script_dir/config/mcap_writer_options.yaml "${topics[@]}"
+elif [ -n "$exclude_regex" ]; then
+    ros2 bag record -s mcap -o $bag_output --max-cache-size 1048576000 --storage-config-file $script_dir/config/mcap_writer_options.yaml --all -x "$exclude_regex"
 else
     ros2 bag record -s mcap -o $bag_output --max-cache-size 1048576000 --storage-config-file $script_dir/config/mcap_writer_options.yaml --all
 fi
