@@ -3,7 +3,7 @@ from launch_ros.actions import Node
 import os
 
 def generate_launch_description():
-    ns_vehicle = ""
+    ns_vehicle = "golf_srs"
 
     return LaunchDescription([
         Node(

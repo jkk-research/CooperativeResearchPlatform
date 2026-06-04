@@ -1,4 +1,5 @@
 #include "prcp_sensor_abstraction/scenarioAbstraction.hpp"
+#include "crp_srs_if/msg/radar_gen_four_input.hpp"
 
 
 crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstraction")
@@ -25,6 +26,9 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     m_sub_pose_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
         localizationTopic, 10, std::bind(&ScenarioAbstraction::poseCallback, this, std::placeholders::_1));
 
+    m_sub_radarInput_ = this->create_subscription<crp_srs_if::msg::RadarGenFourInput>(
+    "/crp/radar_gen4_input", 10, std::bind(&ScenarioAbstraction::radarInputCallback, this, std::placeholders::_1));   
+
     m_pub_movingObjects_   = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_moving_objects", 10);
     m_pub_obstacles_       = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_obstacles", 10);
     m_pub_lanePath_        = this->create_publisher<tier4_planning_msgs::msg::PathWithLaneId>("cai/local_lane/path", 10);
@@ -36,11 +40,13 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     RCLCPP_INFO(this->get_logger(), "scenario_abstraction has been started");
 }
 
-
-void crp::cil::ScenarioAbstraction::publishCallback()
+tier4_planning_msgs::msg::PathWithLaneId crp::cil::ScenarioAbstraction::calculateLocalPathFromMap()
 {
+    tier4_planning_msgs::msg::PathWithLaneId outPath;
+    outPath.header.stamp = this->now();
+
     if (!m_isMapLoaded)
-        return;
+        return outPath;
 
     float localPathLength;
     this->get_parameter("local_path_length", localPathLength);
@@ -56,8 +62,7 @@ void crp::cil::ScenarioAbstraction::publishCallback()
 
     uint16_t nearestPointIdx = m_abstractionUtils.getGPSNNPointIdx(currentPoint, egoLanelet); // nearest point to ego on lane
 
-    tier4_planning_msgs::msg::PathWithLaneId outPath;
-    outPath.header.stamp = this->now();
+    
 
     float currentPathLength = 0;
     float egoLaneletSpeedLimit = limit.speedLimit.value();
@@ -126,7 +131,17 @@ void crp::cil::ScenarioAbstraction::publishCallback()
     // calculate path orientations
     m_abstractionUtils.calcPathOrientation(outPath);
 
+    return outPath;
+}
+
+
+void crp::cil::ScenarioAbstraction::publishCallback()
+{
+    tier4_planning_msgs::msg::PathWithLaneId outPath=calculateLocalPathFromMap();
+    
+
     m_pub_lanePath_->publish(outPath);
+    m_pub_movingObjects_->publish(m_msg_movingObjects);
 }
 
 
@@ -157,7 +172,54 @@ void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseW
     // transform ego pose to map frame
     tf2::doTransform(*msg, m_egoPoseMapFrame, m_gps2mapTransform);
 }
+void crp::cil::ScenarioAbstraction::radarInputCallback(const crp_srs_if::msg::RadarGenFourInput::SharedPtr msg)
+{
+    
+    m_msg_movingObjects.header = msg->zzz_header;
+    m_msg_movingObjects.header.frame_id = "base_link";
+    m_msg_movingObjects.objects.clear();
 
+    // 1. Ego lane
+    if (msg->object_distance_ego_lane_m > 0) {
+        autoware_perception_msgs::msg::PredictedObject obj;
+        
+        obj.kinematics.initial_pose_with_covariance.pose.position.x = msg->object_distance_ego_lane_m;
+        obj.kinematics.initial_pose_with_covariance.pose.position.y = 0.0;
+           
+        obj.kinematics.initial_twist_with_covariance.twist.linear.x = msg->object_velocity_ego_lane_mps;
+        obj.kinematics.initial_acceleration_with_covariance.accel.linear.x = msg->object_acceleration_ego_lane;
+        
+        m_msg_movingObjects.objects.push_back(obj);
+    }
+
+    // 2. Left lane
+    if (msg->object_distance_left_neighbouring_lane_m > 0) {
+        autoware_perception_msgs::msg::PredictedObject obj;
+       
+        obj.kinematics.initial_pose_with_covariance.pose.position.x = msg->object_distance_left_neighbouring_lane_m;
+        obj.kinematics.initial_pose_with_covariance.pose.position.y = 0;
+        
+        obj.kinematics.initial_twist_with_covariance.twist.linear.x = msg->object_velocity_left_neighbouring_lane_mps;
+        obj.kinematics.initial_acceleration_with_covariance.accel.linear.x = msg->object_acceleration_left_neighbouring_lane;
+        
+        m_msg_movingObjects.objects.push_back(obj);
+    }
+
+    // 3. right lane
+    if (msg->object_distance_right_neighbouring_lane_m > 0) {
+        autoware_perception_msgs::msg::PredictedObject obj;
+        
+        obj.kinematics.initial_pose_with_covariance.pose.position.x = msg->object_distance_right_neighbouring_lane_m;
+        obj.kinematics.initial_pose_with_covariance.pose.position.y = 0;
+        
+        obj.kinematics.initial_twist_with_covariance.twist.linear.x = msg->object_velocity_right_neighbouring_lane_mps;
+        obj.kinematics.initial_acceleration_with_covariance.accel.linear.x = msg->object_acceleration_right_neighbouring_lane;
+        
+        m_msg_movingObjects.objects.push_back(obj);
+    }
+
+    
+}
 
 int main(int argc, char *argv[])
 {

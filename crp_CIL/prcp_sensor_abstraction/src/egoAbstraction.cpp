@@ -47,6 +47,9 @@ crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
     m_sub_blinker_ = this->create_subscription<std_msgs::msg::Int8>(
         "/sensing/vehicle/blinker", 10, std::bind(&EgoAbstraction::blinkerCallback, this, std::placeholders::_1)
     );
+    m_sub_srsVehicle_ = this->create_subscription<crp_srs_if::msg::VehicleKinematics>(
+    "/crp/srs_vehicle_kinematics", 10, std::bind(&EgoAbstraction::srs_vehicle_callback, this, std::placeholders::_1)
+    );
 
     m_pub_kinematicState_ = this->create_publisher<autoware_localization_msgs::msg::KinematicState>("/cai/kinematic_state", 10);
     m_pub_egoStatus_      = this->create_publisher<crp_msgs::msg::EgoStatus>("/cai/ego_status", 10);
@@ -110,6 +113,36 @@ void crp::cil::EgoAbstraction::accelCallback(const geometry_msgs::msg::AccelWith
 void crp::cil::EgoAbstraction::tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg)
 {
     m_egoStatus.tire_angle_front = msg->data;
+}
+
+void crp::cil::EgoAbstraction::srs_vehicle_callback(const crp_srs_if::msg::VehicleKinematics::SharedPtr msg)
+{
+    m_kinematicState.header = msg->zzz_header;
+    m_gnssFix.header = msg->zzz_header;
+
+    //---Gyorsulások---
+    m_kinematicState.accel_with_covariance.accel.linear.x = msg->ax_ego_mps2;
+    m_kinematicState.accel_with_covariance.accel.linear.y = msg->ay_ego_mps2;
+    m_kinematicState.accel_with_covariance.accel.linear.z = msg->az_ego_mps2;
+
+    //---Sebességek---
+    m_kinematicState.twist_with_covariance.twist.linear.x = msg->vx_ego_mps;
+    m_kinematicState.twist_with_covariance.twist.angular.x = msg->roll_rate_radps;
+    m_kinematicState.twist_with_covariance.twist.angular.y = msg->pitch_rate_radps;
+    m_kinematicState.twist_with_covariance.twist.angular.z = msg->yaw_rate_radps;   
+
+    //---Pozíció---
+    m_kinematicState.pose_with_covariance.pose.position.x = msg->global_position_x;
+    m_kinematicState.pose_with_covariance.pose.position.y = msg->global_position_y;
+    m_kinematicState.pose_with_covariance.pose.position.z = msg->global_position_z;
+
+    //---Ego Status---
+    m_egoStatus.blinker.data = msg->blinker;
+    m_egoStatus.steering_wheel_rate = msg->steering_wheel_gradient;
+    m_egoStatus.tire_angle_front = msg->road_wheel_angle_front_rad;
+
+    //---Gnss---
+    m_gnssFix.status.status = msg->gnss_status
 }
 
 int main(int argc, char *argv[])

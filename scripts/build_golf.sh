@@ -38,6 +38,7 @@ packages=(
   can_if
   can_driver
   tf_crp
+  mpc_25_wrapper
 )
 
 packages_string=${packages[*]}
