@@ -1,6 +1,8 @@
-#include "prcp_sensor_abstraction/scenarioAbstraction.hpp"
-#include "crp_srs_if/msg/radar_gen_four_input.hpp"
 
+
+#include "prcp_sensor_abstraction/scenarioAbstraction.hpp"
+#include <cmath>      
+#include <algorithm>  
 
 crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstraction")
 {
@@ -27,12 +29,16 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
         localizationTopic, 10, std::bind(&ScenarioAbstraction::poseCallback, this, std::placeholders::_1));
 
     m_sub_radarInput_ = this->create_subscription<crp_srs_if::msg::RadarGenFourInput>(
-    "/crp/radar_gen4_input", 10, std::bind(&ScenarioAbstraction::radarInputCallback, this, std::placeholders::_1));   
+    "/crp/radar_gen4_input", 10, std::bind(&ScenarioAbstraction::radarInputCallback, this, std::placeholders::_1));
+
+    m_sub_cameraInput_ = this->create_subscription<crp_srs_if::msg::MpcCameraInput>(
+    "/crp/mpc_camera_input", 10, std::bind(&ScenarioAbstraction::cameraInputCallback, this, std::placeholders::_1));
 
     m_pub_movingObjects_   = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_moving_objects", 10);
     m_pub_obstacles_       = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_obstacles", 10);
     m_pub_lanePath_        = this->create_publisher<tier4_planning_msgs::msg::PathWithLaneId>("cai/local_lane/path", 10);
     m_pub_drivableSurface_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("cai/local_drivable_surface", 10);
+    m_pub_cameraLanePath_ = this->create_publisher<tier4_planning_msgs::msg::PathWithLaneId>("cai/camera_lane/path", 10);
 
     m_publishTimer_ = this->create_wall_timer(
         std::chrono::milliseconds(33), std::bind(&ScenarioAbstraction::publishCallback, this));
@@ -134,6 +140,77 @@ tier4_planning_msgs::msg::PathWithLaneId crp::cil::ScenarioAbstraction::calculat
     return outPath;
 }
 
+float crp::cil::ScenarioAbstraction::evaluatePrecipLUT(float dy)
+{
+    float x = std::abs(dy); 
+    
+    if (x <= 0.0f) return 0.001f;
+    if (x <= 10.0f) {
+        float m = (0.100f - 0.001f) / (10.0f - 0.0f);
+        return m * (x - 0.0f) + 0.001f;
+    }
+    if (x <= 50.0f) {
+        float m = (0.400f - 0.100f) / (50.0f - 10.0f);
+        return m * (x - 10.0f) + 0.100f;
+    }
+    if (x <= 85.0f) {
+        float m = (1.000f - 0.400f) / (85.0f - 50.0f);
+        return m * (x - 50.0f) + 0.400f;
+    }
+    return 1.000f;
+}
+void crp::cil::ScenarioAbstraction::cameraInputCallback(const crp_srs_if::msg::MpcCameraInput::SharedPtr msg)
+{
+    tier4_planning_msgs::msg::PathWithLaneId outPath;
+    outPath.header = msg->zzz_header;
+    outPath.header.frame_id = "base_link"; 
+
+    const float curve_norm_const = 0.00001525878906f;
+    const float deg_to_rad = M_PI / 180.0f;
+
+    auto line1 = msg->road_line_1;
+    auto line2 = msg->road_line_2;
+
+    // 1. Compute interpolation weights from distance LUT
+    float lut_c1_dx = evaluatePrecipLUT(line1.dy);
+    float lut_c2_dx = evaluatePrecipLUT(line2.dy);
+    float lut_sum = lut_c1_dx + lut_c2_dx;
+
+    if (lut_sum < 0.0001f) lut_sum = 1.0f; 
+
+    // 2. Sensor fusion of polynomial parameters (c0, c1, c2)
+    float c0 = (line1.dy + line2.dy) / 2.0f;
+    
+    // 3. Determine target lookahead distance
+    float c1_rad_line1 = line1.gierw_diff * deg_to_rad;
+    float c1_rad_line2 = line2.gierw_diff * deg_to_rad;
+    float c1 = (c1_rad_line1 * lut_c1_dx + c1_rad_line2 * lut_c2_dx) / lut_sum;
+
+    // 4. Memory optimization for real-time path generation
+    float c2_norm_line1 = curve_norm_const * line1.hor_curvature;
+    float c2_norm_line2 = curve_norm_const * line2.hor_curvature;
+    float c2 = (c2_norm_line1 * lut_c1_dx + c2_norm_line2 * lut_c2_dx) / lut_sum;
+
+    // 5. Generate local path points using 2nd-degree polynomial model
+    float max_lookahead = std::max(line1.line_lookahead, line2.line_lookahead);
+    if (max_lookahead >= 1.0f)
+{
+    for (float x = 0.0f; x <= max_lookahead; x += 0.5f)
+    {
+        float y = c0 + (c1 * x) + (c2 * x * x);
+
+        tier4_planning_msgs::msg::PathPointWithLaneId pathPoint;
+        pathPoint.point.pose.position.x = x;
+        pathPoint.point.pose.position.y = y;
+        pathPoint.point.pose.position.z = 0.0;
+
+        outPath.points.push_back(pathPoint);
+    }
+}
+
+    m_abstractionUtils.calcPathOrientation(outPath);
+
+}
 
 void crp::cil::ScenarioAbstraction::publishCallback()
 {
@@ -184,7 +261,7 @@ void crp::cil::ScenarioAbstraction::radarInputCallback(const crp_srs_if::msg::Ra
         autoware_perception_msgs::msg::PredictedObject obj;
         
         obj.kinematics.initial_pose_with_covariance.pose.position.x = msg->object_distance_ego_lane_m;
-        obj.kinematics.initial_pose_with_covariance.pose.position.y = 0.0;
+        obj.kinematics.initial_pose_with_covariance.pose.position.y = 0;
            
         obj.kinematics.initial_twist_with_covariance.twist.linear.x = msg->object_velocity_ego_lane_mps;
         obj.kinematics.initial_acceleration_with_covariance.accel.linear.x = msg->object_acceleration_ego_lane;
@@ -218,7 +295,6 @@ void crp::cil::ScenarioAbstraction::radarInputCallback(const crp_srs_if::msg::Ra
         m_msg_movingObjects.objects.push_back(obj);
     }
 
-    
 }
 
 int main(int argc, char *argv[])

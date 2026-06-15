@@ -20,6 +20,8 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tf2/LinearMath/Quaternion.h>
 
+#include "crp_srs_if/msg/mpc_camera_input.hpp"
+
 #include "prcp_sensor_abstraction/abstractionUtils.hpp"
 #include "crp_srs_if/msg/radar_gen_four_input.hpp"
 
@@ -38,12 +40,16 @@ private:
     void staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     void radarInputCallback(const crp_srs_if::msg::RadarGenFourInput::SharedPtr msg);
+    void cameraInputCallback(const crp_srs_if::msg::MpcCameraInput::SharedPtr msg);
+    float evaluatePrecipLUT(float dy);
     void publishCallback();
+
     tier4_planning_msgs::msg::PathWithLaneId calculateLocalPathFromMap();
 
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr         m_sub_staticMapFromFile_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr m_sub_pose_;
     rclcpp::Subscription<crp_srs_if::msg::RadarGenFourInput>::SharedPtr            m_sub_radarInput_;
+    rclcpp::Subscription<crp_srs_if::msg::MpcCameraInput>::SharedPtr               m_sub_cameraInput_;
 
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_movingObjects_;
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_obstacles_;
@@ -51,6 +57,7 @@ private:
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivable_surface_;
     rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lanePath_;
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivableSurface_;
+    rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_cameraLanePath_;
 
     bool m_isMapLoaded{false};
     bool m_isGpsTransformSet{false};
