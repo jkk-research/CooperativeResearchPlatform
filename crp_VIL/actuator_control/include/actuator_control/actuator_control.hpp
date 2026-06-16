@@ -10,6 +10,7 @@
 #include <crp_msgs/msg/ego.hpp>
 #include "autoware_control_msgs/msg/control.hpp"
 #include <crp_msgs/msg/behavior.hpp>
+#include <tier4_planning_msgs/msg/scenario.hpp>
 
 #include "std_msgs/msg/string.hpp"
 #include "std_msgs/msg/bool.hpp"
@@ -17,7 +18,6 @@
 #include <pacmod3_msgs/msg/system_cmd_float.hpp>
 #include <pacmod3_msgs/msg/system_rpt_float.hpp>
 #include <pacmod3_msgs/msg/steering_cmd.hpp>
-#include <pdp_if/msg/pdp_personalized_params_active.hpp>
 
 namespace crp
 {
@@ -34,8 +34,9 @@ private:
     void controlCmdCallback(const autoware_control_msgs::msg::Control msg);
     void autonomReinitCallback(const std_msgs::msg::Bool msg);
     void behaviorCallback(const crp_msgs::msg::Behavior msg);
-    void pdpCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg);
-    void setLongitudinalDynamics();
+    void strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg);
+    void setLongitudinalComfortDynamics();
+    void setLongitudinalEmergencyDynamics();
 
     void run();
 
@@ -43,13 +44,14 @@ private:
     rclcpp::Subscription<autoware_control_msgs::msg::Control>::SharedPtr m_sub_controlCommand_;
     rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr m_sub_autonom_reinit_;
     rclcpp::Subscription<crp_msgs::msg::Behavior>::SharedPtr m_sub_behavior_;
-    rclcpp::Subscription<pdp_if::msg::PdpPersonalizedParamsActive>::SharedPtr m_sub_pdp_;
+    rclcpp::Subscription<tier4_planning_msgs::msg::Scenario>::SharedPtr m_sub_strategy_;
 
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr m_status_string_pub_;
     rclcpp::Publisher<pacmod3_msgs::msg::SystemCmdFloat>::SharedPtr m_accel_pub_;
     rclcpp::Publisher<pacmod3_msgs::msg::SystemCmdFloat>::SharedPtr m_brake_pub_;
     rclcpp::Publisher<pacmod3_msgs::msg::SteeringCmd>::SharedPtr m_steer_pub_;
     rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr m_enable_pub_;
+    rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr m_autonom_reinit_pub_;
 
     rclcpp::TimerBase::SharedPtr m_timer_; 
 
@@ -58,6 +60,7 @@ private:
     pacmod3_msgs::msg::SteeringCmd m_steerCommandMsg;
     std_msgs::msg::String m_statusStringMsg;
     std_msgs::msg::Bool m_enableMsg;
+    std_msgs::msg::Bool m_autonomReinitMsg;
 
     float m_p_gain_accel, m_i_gain_accel, m_d_gain_accel;
     float m_p_gain_brake, m_i_gain_brake, m_d_gain_brake;
@@ -99,6 +102,10 @@ private:
     uint8_t m_uiAccelMode  = 0;
     uint8_t m_uiDecelMode  = 0;
     uint8_t m_uiJerkMode   = 0;
+    
+    std::string m_currentStrategy{"off"};
+    std::string m_previousStrategy{"off"};
+
     uint8_t m_pdpAccelMode = 0;
     uint8_t m_pdpDecelMode = 0;
 

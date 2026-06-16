@@ -5,8 +5,12 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     this->declare_parameter<float>("p_gain_accel", 0.29);
     this->declare_parameter<float>("i_gain_accel", 0.035);
     this->declare_parameter<float>("d_gain_accel", 0.0);
-    this->declare_parameter<float>("p_gain_brake", 0.15);
+    /*this->declare_parameter<float>("p_gain_brake", 0.15);
     this->declare_parameter<float>("i_gain_brake", 0.038);
+    this->declare_parameter<float>("d_gain_brake", 0.0);*/
+
+    this->declare_parameter<float>("p_gain_brake", 1.0);
+    this->declare_parameter<float>("i_gain_brake", 0.0);
     this->declare_parameter<float>("d_gain_brake", 0.0);
     
     this->get_parameter("p_gain_accel", m_p_gain_accel);
@@ -24,15 +28,18 @@ crp::vil::ActuatorControl::ActuatorControl() : Node("actuator_control")
     m_sub_behavior_ = this->create_subscription<crp_msgs::msg::Behavior>(
         "/ui/behavior", 10,
         std::bind(&ActuatorControl::behaviorCallback, this, std::placeholders::_1));
-    m_sub_pdp_ = this->create_subscription<pdp_if::msg::PdpPersonalizedParamsActive>(
-        "/PdpPersonalizedParamsActive", 10,
-        std::bind(&ActuatorControl::pdpCallback, this, std::placeholders::_1));
+
+    m_sub_strategy_ = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
+        "/plan/strategy", 10,
+        std::bind(&ActuatorControl::strategyCallback, this, std::placeholders::_1));
 
     m_accel_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/accel_cmd", 10);
     m_brake_pub_ = this->create_publisher<pacmod3_msgs::msg::SystemCmdFloat>("pacmod/brake_cmd", 10);
     m_steer_pub_ = this->create_publisher<pacmod3_msgs::msg::SteeringCmd>("pacmod/steering_cmd", 10);
     m_enable_pub_ = this->create_publisher<std_msgs::msg::Bool>("pacmod/enable", 10);
     m_status_string_pub_ = this->create_publisher<std_msgs::msg::String>("control_status", 10);
+    m_autonom_reinit_pub_ = this->create_publisher<std_msgs::msg::Bool>("control_reinit", 10);
+
     RCLCPP_INFO(this->get_logger(), "actuator_control has been started");
 }
 
@@ -45,18 +52,56 @@ void crp::vil::ActuatorControl::behaviorCallback(const crp_msgs::msg::Behavior m
     m_enable_lateral_control = msg.enable_lateral_control;
     m_enable_longitudinal_control = msg.enable_longitudinal_control;
 
-    setLongitudinalDynamics();
+    setLongitudinalComfortDynamics();
 }
 
-void crp::vil::ActuatorControl::pdpCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg)
+void crp::vil::ActuatorControl::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
 {
-    m_pdpAccelMode = msg->pdpout_accmap_pos_mode;
-    m_pdpDecelMode = msg->pdpout_accmap_neg_mode;
+    if(msg->current_scenario == "laneFollowWithSpeedAdjust"){
+        m_currentStrategy = "laneFollowWithSpeedAdjust";
+        setLongitudinalComfortDynamics();
+    }
+    else if(msg->current_scenario == "laneFollowWithDefaultSpeed"){
+        m_currentStrategy = "laneFollowWithDefaultSpeed";
+        setLongitudinalComfortDynamics();
+    }
+    else if (msg->current_scenario == "LONG_EMERGENCY_AVOID" || msg->current_scenario == "LONG_EMERGENCY_IMPACT")
+    {
+        m_currentStrategy = "longEmergency";
+        setLongitudinalEmergencyDynamics();
+        m_enable_lateral_control = false;
+        m_enable_longitudinal_control = true;
+        /* In the case of emergency actuation the chain is activated automatically --> therefore logic for disabling the override after the strategy changed is needed*/
+        if (m_previousStrategy == m_currentStrategy)
+        {
+            m_autonom_status_changed = false;
+        }
+        else
+        {
+            m_autonomReinitMsg.data = true;
+            m_autonom_reinit_pub_ -> publish(m_autonomReinitMsg);
+            m_autonom_status_changed = true;
+        }
+    }
+    else{
+        m_autonom_status_changed = false;
+        m_currentStrategy = "off";
+    }    
 
-    setLongitudinalDynamics();
+    return; 
 }
 
-void crp::vil::ActuatorControl::setLongitudinalDynamics()
+void crp::vil::ActuatorControl::setLongitudinalEmergencyDynamics()
+{
+    // longitudinal dynamics when strategy is long emergency
+    /* LONG_EMERGENCY_AVOID or LONG_EMERGENCY_IMPACT */
+    m_maximum_acceleration = 0.0;    
+    m_maximum_deceleration = -20.0;
+    m_maximum_jerk = 3.0;
+    m_minimum_jerk = -3.0;
+}
+
+void crp::vil::ActuatorControl::setLongitudinalComfortDynamics()
 {
     uint8_t accelMode = m_pdpAccelMode;
     uint8_t decelMode = m_pdpDecelMode;
@@ -139,9 +184,9 @@ void crp::vil::ActuatorControl::setLongitudinalDynamics()
 
 void crp::vil::ActuatorControl::autonomReinitCallback(const std_msgs::msg::Bool msg)
 {
-    m_autonom_status_changed = msg.data;
+    /*m_autonom_status_changed = msg.data;
     std::string a_status = msg.data ? "true" : "false";
-    RCLCPP_INFO_STREAM(this->get_logger(), lx_namespace << "/control_reinit: " << a_status);
+    RCLCPP_INFO_STREAM(this->get_logger(), lx_namespace << "/control_reinit: " << a_status);*/
 }
 
 void crp::vil::ActuatorControl::egoCallback(const crp_msgs::msg::Ego msg)
@@ -167,7 +212,7 @@ void crp::vil::ActuatorControl::run()
     //  here a hysteresis is applied to avoid fluctuating behaviour at constant speed
     //  the bandwith of the hysteresis: e.g. 0.9 m/s (3.24 km/h)
     //  in this if statement control_state is in acceleration
-    if ((speed_diff > -0.4 && m_control_state) || (speed_diff > 0.4))
+    if ((speed_diff > -0.05 && m_control_state) || (speed_diff > 0.05))
     {
         m_control_state = true;
         m_statusStringMsg.data = "accel"; 
@@ -199,7 +244,7 @@ void crp::vil::ActuatorControl::run()
     }
     // hysteresis to avoid fluctuating behaviour at constant speeds
     // in this if statement control_state is in deceleration (brake)
-    else if ((speed_diff < 0.4 && !m_control_state) || (speed_diff < -0.4))
+    else if ((speed_diff < 0.05 && !m_control_state) || (speed_diff < -0.05))
     {
         m_control_state = false; // brake state
         m_statusStringMsg.data = "brake"; 
@@ -281,6 +326,7 @@ void crp::vil::ActuatorControl::run()
     m_accel_command_prev = m_accelCommandMsg.command;
     m_brake_command_prev = brake_command_raw;
     m_speed_diff_prev = speed_diff;
+    m_previousStrategy = m_currentStrategy;
 }
 
 
