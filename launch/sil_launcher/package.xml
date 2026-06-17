@@ -11,9 +11,7 @@
 
   <depend>tf2_ros</depend>
   <depend>prcp_situation_analysis</depend>
-  <depend>plan_behavior_planning</depend>
-  <depend>plan_motion_planning</depend>
-  <depend>ctrl_vehicle_control</depend>
+  <depend>prcp_late_fusion</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

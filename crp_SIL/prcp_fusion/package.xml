@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>prcp_situation_analysis</name>
+  <name>prcp_late_fusion</name>
   <version>0.0.0</version>
   <description>Compresses input into 3 messages for the planners.</description>
   <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
