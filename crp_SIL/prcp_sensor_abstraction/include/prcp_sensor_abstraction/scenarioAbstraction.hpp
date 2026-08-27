@@ -26,7 +26,7 @@
 
 namespace crp
 {
-namespace cil
+namespace sil
 {
 
 class ScenarioAbstraction : public rclcpp::Node
@@ -38,12 +38,16 @@ private:
     void staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     void radarInputCallback(const crp_srs_if::msg::RadarGenFourInput::SharedPtr msg);
+    void movingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg);
+    void cameraPathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg);
     void publishCallback();
     tier4_planning_msgs::msg::PathWithLaneId calculateLocalPathFromMap();
 
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr         m_sub_staticMapFromFile_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr m_sub_pose_;
-    rclcpp::Subscription<crp_srs_if::msg::RadarGenFourInput>::SharedPtr            m_sub_radarInput_;
+    //rclcpp::Subscription<crp_srs_if::msg::RadarGenFourInput>::SharedPtr            m_sub_radarInput_;
+    rclcpp::Subscription<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_sub_movingObjects_;
+    rclcpp::Subscription<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr      m_sub_cameraPath_;
 
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_movingObjects_;
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_obstacles_;
@@ -63,6 +67,8 @@ private:
     geometry_msgs::msg::TransformStamped          m_gps2mapTransform;
     rclcpp::TimerBase::SharedPtr                  m_publishTimer_;
     autoware_perception_msgs::msg::PredictedObjects m_msg_movingObjects;
+    tier4_planning_msgs::msg::PathWithLaneId      m_cameraPath;
+    tier4_planning_msgs::msg::PathWithLaneId      m_mapPath;
 
     AbstractionUtils m_abstractionUtils;
 };

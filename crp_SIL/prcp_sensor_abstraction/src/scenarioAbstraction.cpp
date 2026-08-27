@@ -2,21 +2,9 @@
 #include "crp_srs_if/msg/radar_gen_four_input.hpp"
 
 
-crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstraction")
+crp::sil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstraction")
 {
     this->declare_parameter<float>("local_path_length", 75.0);
-    this->declare_parameter<std::string>("localization_source", "ekf");
-
-    std::string localizationSource;
-    this->get_parameter("localization_source", localizationSource);
-
-    std::string localizationTopic = "";
-    if (localizationSource == "ekf")
-        localizationTopic = "/sensing/ekf/estimated_pose";
-    else if (localizationSource == "gnss")
-        localizationTopic = "/sensing/gnss/pose_with_covariance";
-    else
-        throw std::runtime_error("Unknown localization source: " + localizationSource);
 
     m_laneletMap = std::make_shared<lanelet::LaneletMap>();
 
@@ -24,10 +12,16 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
         "map/global_static_map_from_file/lanelet2_map", rclcpp::QoS{1}.transient_local(), std::bind(&ScenarioAbstraction::staticMapFromFileCallback, this, std::placeholders::_1));
 
     m_sub_pose_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
-        localizationTopic, 10, std::bind(&ScenarioAbstraction::poseCallback, this, std::placeholders::_1));
+        "/sensing/gnss/pose_with_covariance", 10, std::bind(&ScenarioAbstraction::poseCallback, this, std::placeholders::_1));
 
-    m_sub_radarInput_ = this->create_subscription<crp_srs_if::msg::RadarGenFourInput>(
-    "/crp/radar_gen4_input", 10, std::bind(&ScenarioAbstraction::radarInputCallback, this, std::placeholders::_1));   
+    /*m_sub_radarInput_ = this->create_subscription<crp_srs_if::msg::RadarGenFourInput>(
+    "/crp/radar_gen4_input", 10, std::bind(&ScenarioAbstraction::radarInputCallback, this, std::placeholders::_1));*/
+    m_sub_movingObjects_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
+    "/sensing/objects/local_objects", 10, std::bind(&ScenarioAbstraction::movingObjectsCallback, this, std::placeholders::_1));   
+
+    m_sub_cameraPath_ = this->create_subscription<tier4_planning_msgs::msg::PathWithLaneId>(
+    "/sensing/lane/local_lanes", 10, std::bind(&ScenarioAbstraction::cameraPathCallback, this, std::placeholders::_1));
+
 
     m_pub_movingObjects_   = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_moving_objects", 10);
     m_pub_obstacles_       = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_obstacles", 10);
@@ -40,7 +34,7 @@ crp::cil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     RCLCPP_INFO(this->get_logger(), "scenario_abstraction has been started");
 }
 
-tier4_planning_msgs::msg::PathWithLaneId crp::cil::ScenarioAbstraction::calculateLocalPathFromMap()
+tier4_planning_msgs::msg::PathWithLaneId crp::sil::ScenarioAbstraction::calculateLocalPathFromMap()
 {
     tier4_planning_msgs::msg::PathWithLaneId outPath;
     outPath.header.stamp = this->now();
@@ -135,17 +129,27 @@ tier4_planning_msgs::msg::PathWithLaneId crp::cil::ScenarioAbstraction::calculat
 }
 
 
-void crp::cil::ScenarioAbstraction::publishCallback()
+void crp::sil::ScenarioAbstraction::publishCallback()
 {
-    tier4_planning_msgs::msg::PathWithLaneId outPath=calculateLocalPathFromMap();
     
 
-    m_pub_lanePath_->publish(outPath);
+    if (m_mapPath.points.empty() && !m_cameraPath.points.empty()) 
+    {
+        m_pub_lanePath_->publish(m_cameraPath);
+    } 
+    else 
+    {
+        m_pub_lanePath_->publish(m_mapPath);
+    }
+    
     m_pub_movingObjects_->publish(m_msg_movingObjects);
 }
+    /*m_pub_lanePath_->publish(outPath);
+    m_pub_movingObjects_->publish(m_msg_movingObjects);*/
 
 
-void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg)
+
+void crp::sil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg)
 {
     RCLCPP_INFO(this->get_logger(), "Loading map from file");
     lanelet::utils::conversion::fromBinMsg(*msg, m_laneletMap);
@@ -154,11 +158,12 @@ void crp::cil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map
     m_mapFrameId = msg->header.frame_id;
 
     m_isMapLoaded = true;
+    m_mapPath = calculateLocalPathFromMap();
     RCLCPP_INFO(this->get_logger(), "Map loaded");
 }
 
 
-void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
+void crp::sil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
 {
     if (!m_isMapLoaded)
         return;
@@ -172,59 +177,20 @@ void crp::cil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseW
     // transform ego pose to map frame
     tf2::doTransform(*msg, m_egoPoseMapFrame, m_gps2mapTransform);
 }
-void crp::cil::ScenarioAbstraction::radarInputCallback(const crp_srs_if::msg::RadarGenFourInput::SharedPtr msg)
+void crp::sil::ScenarioAbstraction::movingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)
 {
-    
-    m_msg_movingObjects.header = msg->zzz_header;
-    m_msg_movingObjects.header.frame_id = "base_link";
-    m_msg_movingObjects.objects.clear();
+    m_msg_movingObjects = *msg;
+}
 
-    // 1. Ego lane
-    if (msg->object_distance_ego_lane_m > 0) {
-        autoware_perception_msgs::msg::PredictedObject obj;
-        
-        obj.kinematics.initial_pose_with_covariance.pose.position.x = msg->object_distance_ego_lane_m;
-        obj.kinematics.initial_pose_with_covariance.pose.position.y = 0.0;
-           
-        obj.kinematics.initial_twist_with_covariance.twist.linear.x = msg->object_velocity_ego_lane_mps;
-        obj.kinematics.initial_acceleration_with_covariance.accel.linear.x = msg->object_acceleration_ego_lane;
-        
-        m_msg_movingObjects.objects.push_back(obj);
-    }
-
-    // 2. Left lane
-    if (msg->object_distance_left_neighbouring_lane_m > 0) {
-        autoware_perception_msgs::msg::PredictedObject obj;
-       
-        obj.kinematics.initial_pose_with_covariance.pose.position.x = msg->object_distance_left_neighbouring_lane_m;
-        obj.kinematics.initial_pose_with_covariance.pose.position.y = 0;
-        
-        obj.kinematics.initial_twist_with_covariance.twist.linear.x = msg->object_velocity_left_neighbouring_lane_mps;
-        obj.kinematics.initial_acceleration_with_covariance.accel.linear.x = msg->object_acceleration_left_neighbouring_lane;
-        
-        m_msg_movingObjects.objects.push_back(obj);
-    }
-
-    // 3. right lane
-    if (msg->object_distance_right_neighbouring_lane_m > 0) {
-        autoware_perception_msgs::msg::PredictedObject obj;
-        
-        obj.kinematics.initial_pose_with_covariance.pose.position.x = msg->object_distance_right_neighbouring_lane_m;
-        obj.kinematics.initial_pose_with_covariance.pose.position.y = 0;
-        
-        obj.kinematics.initial_twist_with_covariance.twist.linear.x = msg->object_velocity_right_neighbouring_lane_mps;
-        obj.kinematics.initial_acceleration_with_covariance.accel.linear.x = msg->object_acceleration_right_neighbouring_lane;
-        
-        m_msg_movingObjects.objects.push_back(obj);
-    }
-
-    
+void crp::sil::ScenarioAbstraction::cameraPathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg)
+{
+    m_cameraPath = *msg;
 }
 
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<crp::cil::ScenarioAbstraction>());
+    rclcpp::spin(std::make_shared<crp::sil::ScenarioAbstraction>());
     rclcpp::shutdown();
     return 0;
 }

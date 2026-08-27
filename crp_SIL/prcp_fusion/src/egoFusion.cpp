@@ -1,7 +1,7 @@
 #include "prcp_situation_analysis/egoFusion.hpp"
 
 
-crp::apl::EgoFusion::EgoFusion() : Node("ego_fusion")
+crp::sil::EgoFusion::EgoFusion() : Node("ego_fusion")
 {
     m_sub_egoKinematicState_ = this->create_subscription<autoware_localization_msgs::msg::KinematicState>(
         "/cai/kinematic_state", 10, std::bind(&EgoFusion::egoKinematicStateCallback, this, std::placeholders::_1)
@@ -23,7 +23,7 @@ crp::apl::EgoFusion::EgoFusion() : Node("ego_fusion")
     RCLCPP_INFO(this->get_logger(), "ego_fusion has been started");
 }
 
-void crp::apl::EgoFusion::publishCallback()
+void crp::sil::EgoFusion::publishCallback()
 {
     // correct the orientation
     double orientationQuaternion[4];
@@ -41,7 +41,7 @@ void crp::apl::EgoFusion::publishCallback()
     m_pub_ego_->publish(m_ego);
 }
 
-void crp::apl::EgoFusion::egoKinematicStateCallback(const autoware_localization_msgs::msg::KinematicState::SharedPtr msg)
+void crp::sil::EgoFusion::egoKinematicStateCallback(const autoware_localization_msgs::msg::KinematicState::SharedPtr msg)
 {
     m_ego.header = msg->header;
     m_ego.pose = msg->pose_with_covariance;
@@ -118,13 +118,13 @@ void crp::apl::EgoFusion::egoKinematicStateCallback(const autoware_localization_
     
 }
 
-void crp::apl::EgoFusion::gnssFixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg)
+void crp::sil::EgoFusion::gnssFixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg)
 {
     m_ego.header = msg->header;
     m_ego.gnss_fix = *msg;
 }
 
-void crp::apl::EgoFusion::egoStatusCallback(const crp_msgs::msg::EgoStatus::SharedPtr msg)
+void crp::sil::EgoFusion::egoStatusCallback(const crp_msgs::msg::EgoStatus::SharedPtr msg)
 {
     m_ego.header = msg->header;
     m_ego.tire_angle_front = msg->tire_angle_front;
@@ -135,7 +135,7 @@ void crp::apl::EgoFusion::egoStatusCallback(const crp_msgs::msg::EgoStatus::Shar
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<crp::apl::EgoFusion>());
+    rclcpp::spin(std::make_shared<crp::sil::EgoFusion>());
     rclcpp::shutdown();
     return 0;
 }

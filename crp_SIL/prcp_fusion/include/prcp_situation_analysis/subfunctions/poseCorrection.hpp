@@ -5,7 +5,7 @@
 
 namespace crp
 {
-    namespace apl
+    namespace sil
     {
         class PoseCorrection{
             public:

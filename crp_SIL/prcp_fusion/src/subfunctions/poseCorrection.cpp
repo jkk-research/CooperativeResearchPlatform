@@ -2,7 +2,7 @@
 
 namespace crp
 {
-    namespace apl
+    namespace sil
     {
         void PoseCorrection::run(const double orientation[4], const double position[2], const double velocity)
         {

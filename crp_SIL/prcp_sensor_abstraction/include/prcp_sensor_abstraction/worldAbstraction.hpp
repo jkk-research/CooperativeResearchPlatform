@@ -7,7 +7,7 @@
 
 namespace crp
 {
-namespace cil
+namespace vil
 {
 
 class WorldAbstraction : public rclcpp::Node

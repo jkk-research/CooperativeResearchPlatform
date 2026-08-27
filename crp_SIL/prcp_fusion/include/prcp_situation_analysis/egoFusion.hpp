@@ -11,7 +11,7 @@
 
 namespace crp
 {
-namespace apl
+namespace sil
 {
 
 class EgoFusion : public rclcpp::Node

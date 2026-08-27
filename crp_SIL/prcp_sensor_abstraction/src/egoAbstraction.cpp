@@ -1,55 +1,34 @@
 #include "prcp_sensor_abstraction/egoAbstraction.hpp"
 
 
-crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
+crp::sil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
 {
-    this->declare_parameter<std::string>("vehicle_tire_angle_topic", "/sensing/vehicle/tire_angle");
-    this->declare_parameter<std::string>("vehicle_steering_wheel_rate_topic", "/sensing/vehicle/steering_wheel_rate");
-    this->declare_parameter<std::string>("localization_source", "ekf");
-    this->declare_parameter<std::string>("twist_topic", "/sensing/vehicle/twist");
-    this->declare_parameter<std::string>("accel_topic", "/sensing/vehicle/accel");
-
-    std::string tireAngleTopic, localizationSource, steeringWheelRateTopic, twistTopic, accelTopic;
-    this->get_parameter<std::string>("vehicle_tire_angle_topic", tireAngleTopic);
-    this->get_parameter<std::string>("vehicle_steering_wheel_rate_topic", steeringWheelRateTopic);
-    this->get_parameter<std::string>("localization_source", localizationSource);
-    this->get_parameter<std::string>("twist_topic", twistTopic);
-    this->get_parameter<std::string>("accel_topic", accelTopic);
-    std::string localizationTopic = "";
-    if (localizationSource == "ekf")
-        localizationTopic = "/sensing/ekf/estimated_pose";
-    else if (localizationSource == "gnss")
-        localizationTopic = "/sensing/gnss/pose_with_covariance";
-    else
-        throw std::runtime_error("Unknown localization source: " + localizationSource);
     
     m_sub_navSatFix_ = this->create_subscription<sensor_msgs::msg::NavSatFix>(
         "/sensing/gnss/nav_sat_fix", 10, std::bind(&EgoAbstraction::navSatFixCallback, this, std::placeholders::_1)
     );
     m_sub_pose_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
-        localizationTopic, 10, std::bind(&EgoAbstraction::poseCallback, this, std::placeholders::_1)
+        "/sensing/gnss/pose_with_covariance", 10, std::bind(&EgoAbstraction::poseCallback, this, std::placeholders::_1)
     );
     m_sub_twist_ = this->create_subscription<geometry_msgs::msg::TwistWithCovarianceStamped>(
-        twistTopic, 10, std::bind(&EgoAbstraction::twistCallback, this, std::placeholders::_1)
+        "/sensing/vehicle/twist", 10, std::bind(&EgoAbstraction::twistCallback, this, std::placeholders::_1)
     );
     m_sub_odometry_ = this->create_subscription<nav_msgs::msg::Odometry>(
         "/odometry/kinematic_state/odometry", 10, std::bind(&EgoAbstraction::odometryCallback, this, std::placeholders::_1)
     );
     m_sub_accel_ = this->create_subscription<geometry_msgs::msg::AccelWithCovarianceStamped>(
-        accelTopic, 10, std::bind(&EgoAbstraction::accelCallback, this, std::placeholders::_1)
+        "/sensing/vehicle/accel", 10, std::bind(&EgoAbstraction::accelCallback, this, std::placeholders::_1)
     );
     m_sub_tireAngle_ = this->create_subscription<std_msgs::msg::Float32>(
-        tireAngleTopic, 10, std::bind(&EgoAbstraction::tireAngleCallback, this, std::placeholders::_1)
+        "/sensing/vehicle/tire_angle", 10, std::bind(&EgoAbstraction::tireAngleCallback, this, std::placeholders::_1)
     );
     m_sub_steeringWheelRate_ = this->create_subscription<std_msgs::msg::Float32>(
-        steeringWheelRateTopic, 10, std::bind(&EgoAbstraction::steeringWheelRateCallback, this, std::placeholders::_1)
+        "/sensing/vehicle/steering_wheel_rate", 10, std::bind(&EgoAbstraction::steeringWheelRateCallback, this, std::placeholders::_1)
     );
     m_sub_blinker_ = this->create_subscription<std_msgs::msg::Int8>(
         "/sensing/vehicle/blinker", 10, std::bind(&EgoAbstraction::blinkerCallback, this, std::placeholders::_1)
     );
-    m_sub_srsVehicle_ = this->create_subscription<crp_srs_if::msg::VehicleKinematics>(
-    "/crp/srs_vehicle_kinematics", 10, std::bind(&EgoAbstraction::srs_vehicle_callback, this, std::placeholders::_1)
-    );
+
 
     m_pub_kinematicState_ = this->create_publisher<autoware_localization_msgs::msg::KinematicState>("/cai/kinematic_state", 10);
     m_pub_egoStatus_      = this->create_publisher<crp_msgs::msg::EgoStatus>("/cai/ego_status", 10);
@@ -61,94 +40,65 @@ crp::cil::EgoAbstraction::EgoAbstraction() : Node("ego_abstraction")
     RCLCPP_INFO(this->get_logger(), "ego_abstraction has been started");
 }
 
-void crp::cil::EgoAbstraction::publishCallback()
+void crp::sil::EgoAbstraction::publishCallback()
 {
     m_pub_kinematicState_->publish(m_kinematicState);
     m_pub_egoStatus_->publish(m_egoStatus);
 }
 
-void crp::cil::EgoAbstraction::blinkerCallback(const std_msgs::msg::Int8::SharedPtr msg)
+void crp::sil::EgoAbstraction::blinkerCallback(const std_msgs::msg::Int8::SharedPtr msg)
 {
     m_egoStatus.blinker.data = msg->data;
 }
 
-void crp::cil::EgoAbstraction::steeringWheelRateCallback(const std_msgs::msg::Float32::SharedPtr msg)
+void crp::sil::EgoAbstraction::steeringWheelRateCallback(const std_msgs::msg::Float32::SharedPtr msg)
 {
     m_egoStatus.steering_wheel_rate = msg->data;
 }
 
-void crp::cil::EgoAbstraction::navSatFixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg)
+void crp::sil::EgoAbstraction::navSatFixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg)
 {
     m_gnssFix = *msg;
 }
 
-void crp::cil::EgoAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
+void crp::sil::EgoAbstraction::poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg)
 {
     m_kinematicState.header = msg->header;
     m_kinematicState.pose_with_covariance.pose = msg->pose.pose;
     m_kinematicState.pose_with_covariance.covariance = msg->pose.covariance;
 }
 
-void crp::cil::EgoAbstraction::twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg)
+void crp::sil::EgoAbstraction::twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg)
 {
     // m_kinematicState.header = msg->header;
     m_kinematicState.twist_with_covariance.twist.linear = msg->twist.twist.linear;
     // m_kinematicState.twist_with_covariance.covariance = msg->twist.covariance;
 }
 
-void crp::cil::EgoAbstraction::odometryCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
+void crp::sil::EgoAbstraction::odometryCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
     m_kinematicState.header = msg->header;
     m_kinematicState.twist_with_covariance.twist.angular = msg->twist.twist.angular;
     m_kinematicState.twist_with_covariance.covariance = msg->twist.covariance;
 }
 
-void crp::cil::EgoAbstraction::accelCallback(const geometry_msgs::msg::AccelWithCovarianceStamped::SharedPtr msg)
+void crp::sil::EgoAbstraction::accelCallback(const geometry_msgs::msg::AccelWithCovarianceStamped::SharedPtr msg)
 {
     m_kinematicState.header = msg->header;
     m_kinematicState.accel_with_covariance.accel = msg->accel.accel;
     m_kinematicState.accel_with_covariance.covariance = msg->accel.covariance;
 }
 
-void crp::cil::EgoAbstraction::tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg)
+void crp::sil::EgoAbstraction::tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg)
 {
     m_egoStatus.tire_angle_front = msg->data;
 }
 
-void crp::cil::EgoAbstraction::srs_vehicle_callback(const crp_srs_if::msg::VehicleKinematics::SharedPtr msg)
-{
-    m_kinematicState.header = msg->zzz_header;
-    m_gnssFix.header = msg->zzz_header;
-
-    //--- Accelerations ---
-    m_kinematicState.accel_with_covariance.accel.linear.x = msg->ax_ego_mps2;
-    m_kinematicState.accel_with_covariance.accel.linear.y = msg->ay_ego_mps2;
-    m_kinematicState.accel_with_covariance.accel.linear.z = msg->az_ego_mps2;
-
-    //--- Speeds ---
-    m_kinematicState.twist_with_covariance.twist.linear.x = msg->vx_ego_mps;
-    m_kinematicState.twist_with_covariance.twist.angular.x = msg->roll_rate_radps;
-    m_kinematicState.twist_with_covariance.twist.angular.y = msg->pitch_rate_radps;
-    m_kinematicState.twist_with_covariance.twist.angular.z = msg->yaw_rate_radps;   
-
-    //--- Positions ---
-    m_kinematicState.pose_with_covariance.pose.position.x = msg->global_position_x;
-    m_kinematicState.pose_with_covariance.pose.position.y = msg->global_position_y;
-    m_kinematicState.pose_with_covariance.pose.position.z = msg->global_position_z;
-
-    //--- Orientations ---
-    m_egoStatus.blinker.data = msg->blinker;
-    m_egoStatus.steering_wheel_rate = msg->steering_wheel_gradient;
-    m_egoStatus.tire_angle_front = msg->road_wheel_angle_front_rad;
-
-    //---Gnss---
-    m_gnssFix.status.status = msg->gnss_status;
-}
 
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<crp::cil::EgoAbstraction>());
+    rclcpp::spin(std::make_shared<crp::sil::EgoAbstraction>());
     rclcpp::shutdown();
     return 0;
 }

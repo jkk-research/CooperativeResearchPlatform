@@ -1,7 +1,7 @@
 #include "prcp_situation_analysis/scenarioFusion.hpp"
 
 
-crp::apl::ScenarioFusion::ScenarioFusion() : Node("scenario_fusion")
+crp::sil::ScenarioFusion::ScenarioFusion() : Node("scenario_fusion")
 {
     m_sub_localMovingObjects_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
         "/cai/local_moving_objects", 10,
@@ -24,27 +24,27 @@ crp::apl::ScenarioFusion::ScenarioFusion() : Node("scenario_fusion")
 }
 
 
-void crp::apl::ScenarioFusion::publishCallback()
+void crp::sil::ScenarioFusion::publishCallback()
 {
     m_pub_scenario_->publish(m_scenario);
 }
 
 
-void crp::apl::ScenarioFusion::localMovingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)
+void crp::sil::ScenarioFusion::localMovingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)
 {
     m_scenario.header = msg->header;
     m_scenario.local_moving_objects = *msg;
 }
 
 
-void crp::apl::ScenarioFusion::localObstaclesCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)
+void crp::sil::ScenarioFusion::localObstaclesCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)
 {
     m_scenario.header = msg->header;
     m_scenario.local_obstacles = *msg;
 }
 
 
-void crp::apl::ScenarioFusion::localPathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg)
+void crp::sil::ScenarioFusion::localPathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg)
 {
     m_scenario.paths.clear();
 
@@ -58,7 +58,7 @@ void crp::apl::ScenarioFusion::localPathCallback(const tier4_planning_msgs::msg:
 }
 
 
-void crp::apl::ScenarioFusion::localDrivableSurfaceCallback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg)
+void crp::sil::ScenarioFusion::localDrivableSurfaceCallback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg)
 {
     m_scenario.header = msg->header;
     m_scenario.free_space = *msg;
@@ -68,7 +68,7 @@ void crp::apl::ScenarioFusion::localDrivableSurfaceCallback(const nav_msgs::msg:
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<crp::apl::ScenarioFusion>());
+    rclcpp::spin(std::make_shared<crp::sil::ScenarioFusion>());
     rclcpp::shutdown();
     return 0;
 }
