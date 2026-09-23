@@ -63,20 +63,6 @@ def generate_launch_description():
         default_value='/lexus3/gps/nova',
         description='Frame id of the Novatel GPS')
 
-    # duro gps
-    duro_ip_arg = DeclareLaunchArgument(
-        'duro_ip',
-        default_value='192.168.10.11',
-        description='IP address of the duro GPS')
-    duro_port_arg = DeclareLaunchArgument(
-        'duro_port',
-        default_value='55555',
-        description='Port of the duro GPS')
-    duro_namespace_arg = DeclareLaunchArgument(
-        'duro_namespace',
-        default_value='/lexus3/gps/duro',
-        description='Namespace for the Duro GPS')
-    
     # radar
     radar_use_extended_pointcloud_arg = DeclareLaunchArgument(
         'radar_use_extended_pointcloud',
@@ -156,52 +142,6 @@ def generate_launch_description():
         description='Timeout for the trigger topic. The trigger is changed if the current trigger times out.'
     )
 
-    # ekf
-    ekf_current_pose_topic_arg = DeclareLaunchArgument(
-        'ekf_current_pose_topic',
-        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/current_pose'],
-        description='Name of the current pose (geometry_msgs/PoseStamped) topic')
-    ekf_vehicle_status_topic_arg = DeclareLaunchArgument(
-        'ekf_vehicle_status_topic',
-        default_value='/lexus3/vehicle_status',
-        description='Name of the vehicle status (geometry_msgs/TwistStamped) topic where linear.x is the speed and angular.z is the tire angle')
-    ekf_navsatfix_name = SetLaunchConfiguration(
-        'navsatfix_name',
-        PythonExpression([
-            "'fix' if '", LaunchConfiguration('select_gps'), "' == 'nova' else 'navsatfix'"
-        ])
-    )
-    ekf_nav_sat_fix_topic_arg = DeclareLaunchArgument(
-        'ekf_nav_sat_fix_topic',
-        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/', LaunchConfiguration('navsatfix_name')],
-        description='Name of the nav sat fix (sensor_msgs/NavSatFix) topic')
-    ekf_imu_topic_arg = DeclareLaunchArgument(
-        'ekf_imu_topic',
-        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/imu'],
-        description='Name of the IMU (sensor_msgs/Imu) topic')
-    ekf_frame_arg = DeclareLaunchArgument(
-        'ekf_frame',
-        default_value='map',
-        description='Frame of the EKF pose')
-
-    # lanelet handler
-    lanelet_file_path_arg = DeclareLaunchArgument(
-        'map_file_path',
-        default_value='/home/dev/crp_ws/src/lanelet2_maps/ZalaZone/ZalaZone.osm',
-        description='Length of the scenario in meters')
-    lanelet_map_frame_id_arg = DeclareLaunchArgument(
-        'map_frame_id',
-        default_value="map_zala_0",
-        description='Frame id of the lanelet2 map')
-    lanelet_output_topic_arg = DeclareLaunchArgument(
-        'map_output_topic',
-        default_value='map/global_static_map_from_file/lanelet2_map',
-        description='Length of the scenario in meters')
-    lanelet_visualization_topic_arg = DeclareLaunchArgument(
-        'map_visualization_topic',
-        default_value="/map/global_static_map_from_file/lanelet2_map_visualization",
-        description='Output topic for the lanelet2 map binary')
-
     # sensor abstraction
     vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
         'vehicle_tire_angle_topic',
@@ -211,38 +151,6 @@ def generate_launch_description():
         'local_path_length',
         default_value='100.0',
         description='Length of the scenario in meters')
-    
-    # vehicle control
-    lat_accel_limit_arg = DeclareLaunchArgument(
-        'lat_accel_lim',
-        default_value='3.0',
-        description='Lateral acceleration limit')
-    jerk_limit_arg = DeclareLaunchArgument(
-        'jerk_lim',
-        default_value='0.5',
-        description='Jerk limit')
-
-    # controllers
-    ctrl_use_combined_controller_arg = DeclareLaunchArgument(
-        'ctrl_use_combined_controller',
-        default_value='false',
-        description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
-    )
-    ctrl_combined_method_arg = DeclareLaunchArgument(
-        'ctrl_combined_method',
-        default_value='lqr',
-        description='Lat controller to use. Possible values: lqr'
-    )
-    ctrl_lat_method_arg = DeclareLaunchArgument(
-        'ctrl_lat_method',
-        default_value='nmpc',
-        description='Lat controller to use. Possible values: comp, purep, stanley, nmpc'
-    )
-    ctrl_long_method_arg = DeclareLaunchArgument(
-        'ctrl_long_method',
-        default_value='long',
-        description='Controller to use. Possible values: long'
-    )
 
     # vehicle parameters
     vehicle_params = load_yaml(join(
@@ -318,16 +226,6 @@ def generate_launch_description():
 
         ),
         condition = LaunchConfigurationEquals('select_gps', 'nova')
-    )
-
-    duro_gps = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('duro_gps_wrapper'),
-                'launch',
-                'duro.launch.py')
-        ),
-        condition = LaunchConfigurationEquals('select_gps', 'duro')
     )
 
     os_lidars_merged = IncludeLaunchDescription(
@@ -616,17 +514,7 @@ def generate_launch_description():
             'pcdmerger/merge_trigger_timeout_sec': LaunchConfiguration('pcdmerger/merge_trigger_timeout_sec'),
         }.items()
     )
-    
 
-    ekf_wrapper = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('ekf_wrapper'),
-                'launch',
-                'ekfWrapper.launch.py')
-        ),
-        condition = LaunchConfigurationEquals('localization_source', 'ekf')
-    )
 
     static_tf = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -665,14 +553,7 @@ def generate_launch_description():
         )
     )
 
-    lanelet_file_loader = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('lanelet_handler'),
-                'launch',
-                'laneletFileLoader.launch.py')
-        )
-    )
+
 
     sensor_abstraction = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -700,10 +581,6 @@ def generate_launch_description():
         novatel_imu_frame_id_arg,
         novatel_frame_id_arg,
 
-        duro_ip_arg,
-        duro_port_arg,
-        duro_namespace_arg,
-
         radar_use_extended_pointcloud_arg,
         radar_publish_debug_arg,
         doppcomp_input_pcd_topic_arg,
@@ -717,28 +594,9 @@ def generate_launch_description():
         radar_pointcloud_merger_out_topic_arg,
         radar_pointcloud_merger_ego_frame_arg,
         radar_pointcloud_merger_merge_trigger_timeout_arg,
-        
-        ekf_current_pose_topic_arg,
-        ekf_vehicle_status_topic_arg,
-        ekf_navsatfix_name,
-        ekf_nav_sat_fix_topic_arg,
-        ekf_imu_topic_arg,
-        ekf_frame_arg,
-
-        lanelet_file_path_arg,
-        lanelet_map_frame_id_arg,
-        lanelet_output_topic_arg,
-        lanelet_visualization_topic_arg,
 
         vehicle_tire_angle_topic_arg,
         local_path_length_arg,
-        lat_accel_limit_arg,
-        jerk_limit_arg,
-
-        ctrl_use_combined_controller_arg,
-        ctrl_combined_method_arg,
-        ctrl_lat_method_arg,
-        ctrl_long_method_arg,
 
         vehicle_param_c1_arg,
         vehicle_param_c2_arg,
@@ -756,7 +614,6 @@ def generate_launch_description():
         static_tf,
         novatel_gps_wrapper,
         novatel_gps_oem7_driver,
-        duro_gps,
         os_lidars_merged,
         radar_driver_fc,
         radar_doppler_compensator_fc,
@@ -774,11 +631,7 @@ def generate_launch_description():
         radar_doppler_compensator_rr,
         radar_pointcloud_aggregator_rr,
         radar_pointcloud_merger,
-        ekf_wrapper,
         vehicle_can,
         pacmod_extender,
         sensor_abstraction,
-        vehicle_speed_control,
-
-        lanelet_file_loader,
     ])
