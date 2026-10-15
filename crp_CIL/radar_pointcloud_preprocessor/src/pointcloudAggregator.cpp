@@ -1,6 +1,7 @@
 #include <radar_pointcloud_preprocessor/pointcloudAggregator.hpp>
 
 #include <cmath>
+#include <cstring>
 
 
 crp::cil::PointcloudAggregator::PointcloudAggregator() : Node("pointcloud_aggregator")
@@ -89,6 +90,36 @@ void crp::cil::PointcloudAggregator::integrateTwist(const builtin_interfaces::ms
     }
 }
 
+void crp::cil::PointcloudAggregator::appendDeltaTimeField(sensor_msgs::msg::PointCloud2 & cloud, float deltaTime)
+{
+    sensor_msgs::msg::PointCloud2 sourceCloud = cloud;
+
+    sensor_msgs::msg::PointField deltaTimeField;
+    deltaTimeField.name = "delta_t";
+    deltaTimeField.offset = sourceCloud.point_step;
+    deltaTimeField.datatype = sensor_msgs::msg::PointField::FLOAT32;
+    deltaTimeField.count = 1;
+    cloud.fields.push_back(deltaTimeField);
+
+    cloud.point_step += sizeof(float);
+    cloud.row_step = cloud.width * cloud.point_step;
+    cloud.data.resize(cloud.row_step * cloud.height);
+
+    for (uint32_t pointIndex = 0; pointIndex < sourceCloud.width * sourceCloud.height; ++pointIndex)
+    {
+        std::memcpy(
+            &cloud.data[pointIndex * cloud.point_step],
+            &sourceCloud.data[pointIndex * sourceCloud.point_step],
+            sourceCloud.point_step
+        );
+        std::memcpy(
+            &cloud.data[pointIndex * cloud.point_step + deltaTimeField.offset],
+            &deltaTime,
+            sizeof(float)
+        );
+    }
+}
+
 void crp::cil::PointcloudAggregator::pclCallback(const sensor_msgs::msg::PointCloud2::SharedPtr msg)
 {
     if (!m_isEgo2radTransformSet)
@@ -151,6 +182,9 @@ void crp::cil::PointcloudAggregator::pclCallback(const sensor_msgs::msg::PointCl
         tf2::doTransform(item.cloud, transformedPcd, transform);
         transformedPcd.header = item.cloud.header;
 
+        const float deltaTime = static_cast<float>((rclcpp::Time(msg->header.stamp) - rclcpp::Time(item.cloud.header.stamp)).seconds());
+        appendDeltaTimeField(transformedPcd, deltaTime);
+
         sensor_msgs::msg::PointCloud2 result;
         pcl::concatenatePointCloud(mergedPcd, transformedPcd, result);
         mergedPcd = result;
@@ -161,9 +195,12 @@ void crp::cil::PointcloudAggregator::pclCallback(const sensor_msgs::msg::PointCl
     currentTimedCloud.cloud = *msg;
     currentTimedCloud.pose = m_currentPcdPose;
     m_aggregationPool.push_back(currentTimedCloud);
-    
+
+    sensor_msgs::msg::PointCloud2 currentPcd = *msg;
+    appendDeltaTimeField(currentPcd, 0.0f);
+
     sensor_msgs::msg::PointCloud2 result;
-    pcl::concatenatePointCloud(mergedPcd, *msg, result);
+    pcl::concatenatePointCloud(mergedPcd, currentPcd, result);
     mergedPcd = result;
 
     mergedPcd.header = msg->header;

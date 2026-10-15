@@ -39,6 +39,7 @@ namespace cil
         void twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg);
 
         void integrateTwist(const builtin_interfaces::msg::Time & stamp);
+        void appendDeltaTimeField(sensor_msgs::msg::PointCloud2 & cloud, float deltaTime);
 
 
         rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr m_sub_inPcl_;
