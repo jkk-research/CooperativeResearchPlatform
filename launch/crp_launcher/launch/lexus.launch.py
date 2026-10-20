@@ -63,21 +63,12 @@ def generate_launch_description():
         default_value='/lexus3/gps/nova',
         description='Frame id of the Novatel GPS')
 
-    # duro gps
-    duro_ip_arg = DeclareLaunchArgument(
-        'duro_ip',
-        default_value='192.168.10.11',
-        description='IP address of the duro GPS')
-    duro_port_arg = DeclareLaunchArgument(
-        'duro_port',
-        default_value='55555',
-        description='Port of the duro GPS')
-    duro_namespace_arg = DeclareLaunchArgument(
-        'duro_namespace',
-        default_value='/lexus3/gps/duro',
-        description='Namespace for the Duro GPS')
-    
     # radar
+    radar_use_extended_pointcloud_arg = DeclareLaunchArgument(
+        'radar_use_extended_pointcloud',
+        default_value='false',
+        description='Whether to use extended point cloud data'
+    )
     radar_publish_debug_arg = DeclareLaunchArgument(
         'radar/settings/publish_debug',
         default_value='true',
@@ -97,7 +88,7 @@ def generate_launch_description():
     )
     doppcomp_override_ego_twist_frame_arg = DeclareLaunchArgument(
         'doppcomp/override_ego_twist_frame',
-        default_value='base_link', # TODO add frame_id to twist topic then remove this
+        default_value='lexus3/base_link', # TODO add frame_id to twist topic then remove this
         description='Override the frame of the radar for the transformation of the points. Leave empty to use the frameid defined in the input point cloud message.'
     )
 
@@ -119,7 +110,7 @@ def generate_launch_description():
     )
     pcdagg_ego_twist_frame_arg = DeclareLaunchArgument(
         'pcdagg/override_ego_twist_frame',
-        default_value='base_link', # TODO add frame_id to twist topic then remove this
+        default_value='lexus3/base_link', # TODO add frame_id to twist topic then remove this
         description='Override the frame of the radar for the transformation of the points. Leave empty to use the frameid defined in the input point cloud message.'
     )
 
@@ -216,38 +207,6 @@ def generate_launch_description():
         'local_path_length',
         default_value='100.0',
         description='Length of the scenario in meters')
-    
-    # vehicle control
-    lat_accel_limit_arg = DeclareLaunchArgument(
-        'lat_accel_lim',
-        default_value='3.0',
-        description='Lateral acceleration limit')
-    jerk_limit_arg = DeclareLaunchArgument(
-        'jerk_lim',
-        default_value='0.5',
-        description='Jerk limit')
-
-    # controllers
-    ctrl_use_combined_controller_arg = DeclareLaunchArgument(
-        'ctrl_use_combined_controller',
-        default_value='false',
-        description='Whether to use combined controller (if set to false then separate lateral and longitudinal controllers will be used)'
-    )
-    ctrl_combined_method_arg = DeclareLaunchArgument(
-        'ctrl_combined_method',
-        default_value='lqr',
-        description='Lat controller to use. Possible values: lqr'
-    )
-    ctrl_lat_method_arg = DeclareLaunchArgument(
-        'ctrl_lat_method',
-        default_value='nmpc',
-        description='Lat controller to use. Possible values: comp, purep, stanley, nmpc'
-    )
-    ctrl_long_method_arg = DeclareLaunchArgument(
-        'ctrl_long_method',
-        default_value='long',
-        description='Controller to use. Possible values: long'
-    )
 
     # vehicle parameters
     vehicle_params = load_yaml(join(
@@ -325,23 +284,13 @@ def generate_launch_description():
         condition = LaunchConfigurationEquals('select_gps', 'nova')
     )
 
-    duro_gps = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('duro_gps_wrapper'),
-                'launch',
-                'duro.launch.py')
-        ),
-        condition = LaunchConfigurationEquals('select_gps', 'duro')
-    )
-
     os_lidars_merged = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
                 get_package_share_directory('lexus_bringup'),
                 'launch',
                 'drivers',
-                'os_composable_raw_merged_b_autoware.launch.py')
+                'lidar_os_center.launch.py')
         )
     )
 
@@ -353,11 +302,12 @@ def generate_launch_description():
                 'rd6.launch.py')
         ),
         launch_arguments={
-            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','fcRadarParams.yaml'),
-            'radar_interface'   : 'can4',
-            'radar_namespace'   : '/sensing/radar/fc',
-            'radar_locations_frame_id' : 'radar_front_center',
-            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
+            'radar_config_file'             : join(get_package_share_directory('crp_launcher'),'config','radar','fcRadarParams.yaml'),
+            'radar_interface'               : 'can8',
+            'radar_namespace'               : '/sensing/radar/fc',
+            'radar_locations_frame_id'      : 'lexus3/radar_front_center',
+            'radar_use_extended_pointcloud' : LaunchConfiguration('radar_use_extended_pointcloud'),
+            'publish_debug'                 : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -404,11 +354,12 @@ def generate_launch_description():
                 'rd6.launch.py')
         ),
         launch_arguments={
-            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','flRadarParams.yaml'),
-            'radar_interface'   : 'can2',
-            'radar_namespace'   : '/sensing/radar/fl',
-            'radar_locations_frame_id' : 'radar_front_left',
-            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
+            'radar_config_file'             : join(get_package_share_directory('crp_launcher'),'config','radar','flRadarParams.yaml'),
+            'radar_interface'               : 'can6',
+            'radar_namespace'               : '/sensing/radar/fl',
+            'radar_locations_frame_id'      : 'lexus3/radar_front_left',
+            'radar_use_extended_pointcloud' : LaunchConfiguration('radar_use_extended_pointcloud'),
+            'publish_debug'                 : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -455,11 +406,12 @@ def generate_launch_description():
                 'rd6.launch.py')
         ),
         launch_arguments={
-            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','frRadarParams.yaml'),
-            'radar_interface'   : 'can3',
-            'radar_namespace'   : '/sensing/radar/fr',
-            'radar_locations_frame_id' : 'radar_front_right',
-            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
+            'radar_config_file'             : join(get_package_share_directory('crp_launcher'),'config','radar','frRadarParams.yaml'),
+            'radar_interface'               : 'can7',
+            'radar_namespace'               : '/sensing/radar/fr',
+            'radar_locations_frame_id'      : 'lexus3/radar_front_right',
+            'radar_use_extended_pointcloud' : LaunchConfiguration('radar_use_extended_pointcloud'),
+            'publish_debug'                 : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -506,11 +458,12 @@ def generate_launch_description():
                 'rd6.launch.py')
         ),
         launch_arguments={
-            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rlRadarParams.yaml'),
-            'radar_interface'   : 'can0',
-            'radar_namespace'   : '/sensing/radar/rl',
-            'radar_locations_frame_id' : 'radar_rear_left',
-            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
+            'radar_config_file'             : join(get_package_share_directory('crp_launcher'),'config','radar','rlRadarParams.yaml'),
+            'radar_interface'               : 'can4',
+            'radar_namespace'               : '/sensing/radar/rl',
+            'radar_locations_frame_id'      : 'lexus3/radar_rear_left',
+            'radar_use_extended_pointcloud' : LaunchConfiguration('radar_use_extended_pointcloud'),
+            'publish_debug'                 : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -557,11 +510,12 @@ def generate_launch_description():
                 'rd6.launch.py')
         ),
         launch_arguments={
-            'radar_config_file' : join(get_package_share_directory('crp_launcher'),'config','radar','rrRadarParams.yaml'),
-            'radar_interface'   : 'can1',
-            'radar_namespace'   : '/sensing/radar/rr',
-            'radar_locations_frame_id' : 'radar_rear_right',
-            'publish_debug'   : LaunchConfiguration('radar/settings/publish_debug')
+            'radar_config_file'             : join(get_package_share_directory('crp_launcher'),'config','radar','rrRadarParams.yaml'),
+            'radar_interface'               : 'can5',
+            'radar_namespace'               : '/sensing/radar/rr',
+            'radar_locations_frame_id'      : 'lexus3/radar_rear_right',
+            'radar_use_extended_pointcloud' : LaunchConfiguration('radar_use_extended_pointcloud'),
+            'publish_debug'                 : LaunchConfiguration('radar/settings/publish_debug')
         }.items()
     )
 
@@ -616,17 +570,7 @@ def generate_launch_description():
             'pcdmerger/merge_trigger_timeout_sec': LaunchConfiguration('pcdmerger/merge_trigger_timeout_sec'),
         }.items()
     )
-    
 
-    ekf_wrapper = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('ekf_wrapper'),
-                'launch',
-                'ekfWrapper.launch.py')
-        ),
-        condition = LaunchConfigurationEquals('localization_source', 'ekf')
-    )
 
     static_tf = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -643,15 +587,6 @@ def generate_launch_description():
                 get_package_share_directory('pacmod_extender'),
                 'launch',
                 'pacmod_extender.launch.py')
-        )
-    )
-
-    camera_mpc = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('mpc_camera_driver'),
-                'launch',
-                'mpc_driver.launch.py')
         )
     )
 
@@ -674,14 +609,7 @@ def generate_launch_description():
         )
     )
 
-    lanelet_file_loader = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('lanelet_handler'),
-                'launch',
-                'laneletFileLoader.launch.py')
-        )
-    )
+
 
     sensor_abstraction = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -709,10 +637,7 @@ def generate_launch_description():
         novatel_imu_frame_id_arg,
         novatel_frame_id_arg,
 
-        duro_ip_arg,
-        duro_port_arg,
-        duro_namespace_arg,
-
+        radar_use_extended_pointcloud_arg,
         radar_publish_debug_arg,
         doppcomp_input_pcd_topic_arg,
         doppcomp_output_pcd_topic_arg,
@@ -725,28 +650,9 @@ def generate_launch_description():
         radar_pointcloud_merger_out_topic_arg,
         radar_pointcloud_merger_ego_frame_arg,
         radar_pointcloud_merger_merge_trigger_timeout_arg,
-        
-        ekf_current_pose_topic_arg,
-        ekf_vehicle_status_topic_arg,
-        ekf_navsatfix_name,
-        ekf_nav_sat_fix_topic_arg,
-        ekf_imu_topic_arg,
-        ekf_frame_arg,
-
-        lanelet_file_path_arg,
-        lanelet_map_frame_id_arg,
-        lanelet_output_topic_arg,
-        lanelet_visualization_topic_arg,
 
         vehicle_tire_angle_topic_arg,
         local_path_length_arg,
-        lat_accel_limit_arg,
-        jerk_limit_arg,
-
-        ctrl_use_combined_controller_arg,
-        ctrl_combined_method_arg,
-        ctrl_lat_method_arg,
-        ctrl_long_method_arg,
 
         vehicle_param_c1_arg,
         vehicle_param_c2_arg,
@@ -767,7 +673,6 @@ def generate_launch_description():
         static_tf,
         novatel_gps_wrapper,
         novatel_gps_oem7_driver,
-        duro_gps,
         os_lidars_merged,
         radar_driver_fc,
         radar_doppler_compensator_fc,
@@ -785,12 +690,7 @@ def generate_launch_description():
         radar_doppler_compensator_rr,
         radar_pointcloud_aggregator_rr,
         radar_pointcloud_merger,
-        ekf_wrapper,
         vehicle_can,
-        camera_mpc,
         pacmod_extender,
         sensor_abstraction,
-        vehicle_speed_control,
-
-        lanelet_file_loader,
     ])
