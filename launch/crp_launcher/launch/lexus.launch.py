@@ -142,6 +142,62 @@ def generate_launch_description():
         description='Timeout for the trigger topic. The trigger is changed if the current trigger times out.'
     )
 
+    # ekf
+    ekf_current_pose_topic_arg = DeclareLaunchArgument(
+        'ekf_current_pose_topic',
+        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/current_pose'],
+        description='Name of the current pose (geometry_msgs/PoseStamped) topic')
+    ekf_vehicle_status_topic_arg = DeclareLaunchArgument(
+        'ekf_vehicle_status_topic',
+        default_value='/lexus3/vehicle_status',
+        description='Name of the vehicle status (geometry_msgs/TwistStamped) topic where linear.x is the speed and angular.z is the tire angle')
+    ekf_navsatfix_name = SetLaunchConfiguration(
+        'navsatfix_name',
+        PythonExpression([
+            "'fix' if '", LaunchConfiguration('select_gps'), "' == 'nova' else 'navsatfix'"
+        ])
+    )
+    ekf_nav_sat_fix_topic_arg = DeclareLaunchArgument(
+        'ekf_nav_sat_fix_topic',
+        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/', LaunchConfiguration('navsatfix_name')],
+        description='Name of the nav sat fix (sensor_msgs/NavSatFix) topic')
+    ekf_imu_topic_arg = DeclareLaunchArgument(
+        'ekf_imu_topic',
+        default_value=['/lexus3/gps/', LaunchConfiguration('select_gps'), '/imu'],
+        description='Name of the IMU (sensor_msgs/Imu) topic')
+    ekf_frame_arg = DeclareLaunchArgument(
+        'ekf_frame',
+        default_value='map',
+        description='Frame of the EKF pose')
+
+    # lanelet handler
+    lanelet_file_path_arg = DeclareLaunchArgument(
+        'map_file_path',
+        default_value='/home/dev/crp_ws/src/lanelet2_maps/ZalaZone/ZalaZone.osm',
+        description='Length of the scenario in meters')
+    lanelet_map_frame_id_arg = DeclareLaunchArgument(
+        'map_frame_id',
+        default_value="map_zala_0",
+        description='Frame id of the lanelet2 map')
+    lanelet_output_topic_arg = DeclareLaunchArgument(
+        'map_output_topic',
+        default_value='map/global_static_map_from_file/lanelet2_map',
+        description='Length of the scenario in meters')
+    lanelet_visualization_topic_arg = DeclareLaunchArgument(
+        'map_visualization_topic',
+        default_value="/map/global_static_map_from_file/lanelet2_map_visualization",
+        description='Output topic for the lanelet2 map binary')
+    
+    # pdp
+    pdm = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('pdp_wrapper'),
+                'launch',
+                'pdpWrapper.launch.py')
+        ),
+    )
+
     # sensor abstraction
     vehicle_tire_angle_topic_arg = DeclareLaunchArgument(
         'vehicle_tire_angle_topic',
@@ -606,6 +662,9 @@ def generate_launch_description():
         vehicle_param_l2_arg,
         vehicle_param_swr_arg,
         vehicle_param_L_arg,
+
+        # pdp
+        pdm,
 
         # core
         crp_core,

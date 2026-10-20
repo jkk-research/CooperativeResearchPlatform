@@ -128,14 +128,14 @@ def generate_launch_description():
 
     # NODES
 
-    static_tf = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            join(
-                get_package_share_directory('tf_crp'),
-                'launch',
-                'tf_static.launch.py')
-        )
-    )
+    # static_tf = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         join(
+    #             get_package_share_directory('tf_crp'),
+    #             'launch',
+    #             'tf_static.launch.py')
+    #     )
+    # )
 
     # vehicle_speed_control = IncludeLaunchDescription(
     #     AnyLaunchDescriptionSource(
@@ -164,6 +164,14 @@ def generate_launch_description():
         )
     )
 
+    can_driver = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('can_driver'),
+                'launch',
+                'can_driver.launch.py')
+        )
+    )
 
     return LaunchDescription([
         # args
@@ -193,8 +201,8 @@ def generate_launch_description():
         crp_core,
 
         # vehicle nodes
-        static_tf,
         sensor_abstraction,
 
         lanelet_file_loader,
+        can_driver,
     ])

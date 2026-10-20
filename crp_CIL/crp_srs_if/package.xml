@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>crp_srs_if</name>
+  <version>1.0.0</version>
+  <description>Package for the ROS2 interfaces</description>
+  <maintainer email="Samuel.Ferenczi@hu.bosch.com">fse2bp</maintainer>
+  <license>@copyright (c) 2024 by Robert Bosch GmbH. All rights reserved.</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+  <depend>std_msgs</depend>
+
+  <!-- IF generation -->
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+</package>

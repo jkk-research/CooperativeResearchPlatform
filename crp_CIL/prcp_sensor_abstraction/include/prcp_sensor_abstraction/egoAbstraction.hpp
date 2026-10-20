@@ -11,6 +11,7 @@
 #include <std_msgs/msg/float32.hpp>
 #include <std_msgs/msg/int8.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
+#include "crp_srs_if/msg/vehicle_kinematics.hpp"
 
 
 namespace crp
@@ -32,11 +33,13 @@ private:
     void tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg);
     void steeringWheelRateCallback(const std_msgs::msg::Float32::SharedPtr msg);
     void blinkerCallback(const std_msgs::msg::Int8::SharedPtr msg);
+    void srs_vehicle_callback(const crp_srs_if::msg::VehicleKinematics::SharedPtr msg);
     void publishCallback();
 
     rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr                    m_sub_navSatFix_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr  m_sub_pose_;
     rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr m_sub_twist_;
+    rclcpp::Subscription<crp_srs_if::msg::VehicleKinematics>::SharedPtr             m_sub_srsVehicle_;
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr m_sub_odometry_;
     rclcpp::Subscription<geometry_msgs::msg::AccelWithCovarianceStamped>::SharedPtr m_sub_accel_;
     rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_tireAngle_;

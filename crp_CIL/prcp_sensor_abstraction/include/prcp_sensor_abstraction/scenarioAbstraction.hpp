@@ -21,6 +21,7 @@
 #include <tf2/LinearMath/Quaternion.h>
 
 #include "prcp_sensor_abstraction/abstractionUtils.hpp"
+#include "crp_srs_if/msg/radar_gen_four_input.hpp"
 
 
 namespace crp
@@ -36,10 +37,13 @@ public:
 private:
     void staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
+    void radarInputCallback(const crp_srs_if::msg::RadarGenFourInput::SharedPtr msg);
     void publishCallback();
+    tier4_planning_msgs::msg::PathWithLaneId calculateLocalPathFromMap();
 
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr         m_sub_staticMapFromFile_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr m_sub_pose_;
+    rclcpp::Subscription<crp_srs_if::msg::RadarGenFourInput>::SharedPtr            m_sub_radarInput_;
 
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_movingObjects_;
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_obstacles_;
@@ -58,6 +62,7 @@ private:
     std::string                                   m_mapFrameId;
     geometry_msgs::msg::TransformStamped          m_gps2mapTransform;
     rclcpp::TimerBase::SharedPtr                  m_publishTimer_;
+    autoware_perception_msgs::msg::PredictedObjects m_msg_movingObjects;
 
     AbstractionUtils m_abstractionUtils;
 };
