@@ -33,6 +33,14 @@ def generate_launch_description():
         'centerpoint/tracking_frame',
         default_value='map',
         description='Fixed frame used for tracking.')
+    centerpoint_dds_profile_arg = DeclareLaunchArgument(
+        'centerpoint/dds_profile',
+        default_value='loopback',
+        description='Fast DDS profile of the container: [udp, loopback, <host file>, none]. loopback reaches the CycloneDDS stack restricted to lo.')
+    centerpoint_memory_arg = DeclareLaunchArgument(
+        'centerpoint/memory',
+        default_value='8g',
+        description='Memory limit of the container (docker run --memory, no extra swap); none: unlimited.')
 
     # LEXUS
 
@@ -60,6 +68,8 @@ def generate_launch_description():
             'model_frame'      : LaunchConfiguration('centerpoint/model_frame'),
             'tracking_enabled' : LaunchConfiguration('centerpoint/tracking_enabled'),
             'tracking_frame'   : LaunchConfiguration('centerpoint/tracking_frame'),
+            'dds_profile'      : LaunchConfiguration('centerpoint/dds_profile'),
+            'memory'           : LaunchConfiguration('centerpoint/memory'),
         }.items()
     )
 
@@ -72,6 +82,8 @@ def generate_launch_description():
         centerpoint_model_frame_arg,
         centerpoint_tracking_enabled_arg,
         centerpoint_tracking_frame_arg,
+        centerpoint_dds_profile_arg,
+        centerpoint_memory_arg,
 
         # lexus
         lexus,
