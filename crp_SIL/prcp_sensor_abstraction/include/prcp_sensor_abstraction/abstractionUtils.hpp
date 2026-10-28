@@ -12,6 +12,7 @@
 #include <vector>
 
 namespace crp
+
 {
 namespace sil
 {
