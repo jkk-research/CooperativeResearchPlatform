@@ -1,4 +1,0 @@
-[0.000000] (-) TimerEvent: {}
-[0.001182] (-) JobUnselected: {'identifier': 'prcp_late_fusion'}
-[0.001344] (-) JobUnselected: {'identifier': 'prcp_sensor_abstraction'}
-[0.002548] (-) EventReactorShutdown: {}
