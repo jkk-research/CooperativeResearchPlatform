@@ -81,7 +81,7 @@ def generate_launch_description():
     ctrlLqrConfigFileArg = DeclareLaunchArgument(
         'ctrlLqrConfigFile',
         default_value=join(
-            get_package_share_directory('crp_launcher'),
+            get_package_share_directory('apl_launcher'),
             'config',
             'control',
             'ctrlLqrParams.yaml'
@@ -91,7 +91,7 @@ def generate_launch_description():
     ctrlCompensatoryConfigFileArg = DeclareLaunchArgument(
         'ctrlCompensatoryConfigFile',
         default_value=join(
-            get_package_share_directory('crp_launcher'),
+            get_package_share_directory('apl_launcher'),
             'config',
             'control',
             'ctrlCompensatoryParams.yaml'
@@ -101,7 +101,7 @@ def generate_launch_description():
     ctrlPurePConfigFileArg = DeclareLaunchArgument(
         'ctrlPurePConfigFile',
         default_value=join(
-            get_package_share_directory('crp_launcher'),
+            get_package_share_directory('apl_launcher'),
             'config',
             'control',
             'ctrlPurePParams.yaml'
@@ -111,7 +111,7 @@ def generate_launch_description():
     ctrlStanleyConfigFileArg = DeclareLaunchArgument(
         'ctrlStanleyConfigFile',
         default_value=join(
-            get_package_share_directory('crp_launcher'),
+            get_package_share_directory('apl_launcher'),
             'config',
             'control',
             'ctrlStanleyParams.yaml'
@@ -121,7 +121,7 @@ def generate_launch_description():
     ctrlNmpcConfigFileArg = DeclareLaunchArgument(
         'ctrlNmpcConfigFile',
         default_value=join(
-            get_package_share_directory('crp_launcher'),
+            get_package_share_directory('apl_launcher'),
             'config',
             'control',
             'ctrlNmpcParams.yaml'
@@ -131,7 +131,7 @@ def generate_launch_description():
     ctrlLongConfigFileArg = DeclareLaunchArgument(
         'ctrlLongConfigFile',
         default_value=join(
-            get_package_share_directory('crp_launcher'),
+            get_package_share_directory('apl_launcher'),
             'config',
             'control',
             'ctrlLongParams.yaml'

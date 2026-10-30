@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #include "plannerInterfaces/plannerInterfaces.hpp"
-#include <pdp_if/msg/pdp_personalized_params_active.hpp>
+
 
 namespace crp
 {
