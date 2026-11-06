@@ -4,7 +4,7 @@
 crp::apl::PlanWrapperBase::PlanWrapperBase(const std::string & node_name, const rclcpp::NodeOptions & options)
     : rclcpp::Node(node_name, options)
 {
-    m_sub_strategy_ = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
+    m_sub_strategy_ = this->create_subscription<autoware_internal_planning_msgs::msg::Scenario>(
         "plan/strategy", 10, std::bind(&PlanWrapperBase::strategyCallback, this, std::placeholders::_1));
     m_sub_targetSpace_ = this->create_subscription<crp_msgs::msg::TargetSpace>(
         "plan/target_space", 10, std::bind(&PlanWrapperBase::targetSpaceCallback, this, std::placeholders::_1));
@@ -16,7 +16,7 @@ crp::apl::PlanWrapperBase::PlanWrapperBase(const std::string & node_name, const 
     m_timer_ = this->create_wall_timer(std::chrono::milliseconds(20), std::bind(&PlanWrapperBase::run, this));
 }
 
-void crp::apl::PlanWrapperBase::strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
+void crp::apl::PlanWrapperBase::strategyCallback(const autoware_internal_planning_msgs::msg::Scenario::SharedPtr msg)
 {
     m_input.currentScenario = msg->current_scenario;
 }
@@ -50,7 +50,7 @@ void crp::apl::PlanWrapperBase::targetSpaceCallback(const crp_msgs::msg::TargetS
     // path
     m_input.path.pathPoints.clear();
     m_input.path.targetSpeed.clear();
-    for (const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint : msg->path.path.points)
+    for (const autoware_internal_planning_msgs::msg::PathPointWithLaneId & pathPoint : msg->path.path.points)
     {
         PlannerInputPathPoint inputPoint;
         inputPoint.pose.position.x = pathPoint.point.pose.position.x;

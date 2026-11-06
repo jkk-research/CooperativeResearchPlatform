@@ -7,7 +7,7 @@ float crp::sil::AbstractionUtils::distanceBetweenPoints(const lanelet::BasicPoin
 }
 
 
-float crp::sil::AbstractionUtils::distanceBetweenPoints(const tier4_planning_msgs::msg::PathPointWithLaneId a, const tier4_planning_msgs::msg::PathPointWithLaneId b)
+float crp::sil::AbstractionUtils::distanceBetweenPoints(const autoware_internal_planning_msgs::msg::PathPointWithLaneId a, const autoware_internal_planning_msgs::msg::PathPointWithLaneId b)
 {
     return sqrt(pow(b.point.pose.position.x-a.point.pose.position.x, 2)+pow(b.point.pose.position.y-a.point.pose.position.y, 2));
 }
@@ -32,8 +32,8 @@ uint16_t crp::sil::AbstractionUtils::getGPSNNPointIdx(const lanelet::BasicPoint2
 
 
 float crp::sil::AbstractionUtils::calcYawAngle(
-    const tier4_planning_msgs::msg::PathPointWithLaneId & prevPoint,
-    const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint)
+    const autoware_internal_planning_msgs::msg::PathPointWithLaneId & prevPoint,
+    const autoware_internal_planning_msgs::msg::PathPointWithLaneId & pathPoint)
 {
     // calculate yaw angle with derivative
     return atan2(
@@ -63,10 +63,10 @@ void crp::sil::AbstractionUtils::filterMovingAverage(std::vector<float> & data, 
 
 
 void crp::sil::AbstractionUtils::calcPathOrientation(
-    tier4_planning_msgs::msg::PathWithLaneId & path)
+    autoware_internal_planning_msgs::msg::PathWithLaneId & path)
 {
     std::vector<float> orientations;
-    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = path.points[0];
+    autoware_internal_planning_msgs::msg::PathPointWithLaneId prevPoint = path.points[0];
     orientations.push_back(calcYawAngle(prevPoint, path.points[1]));
     for (uint16_t i = 1; i < path.points.size(); i++)
         orientations.push_back(calcYawAngle(path.points[i-1], path.points[i]));
@@ -97,8 +97,8 @@ float crp::sil::AbstractionUtils::getYawFromQuaternion(const geometry_msgs::msg:
 }
 
 
-tier4_planning_msgs::msg::PathPointWithLaneId crp::sil::AbstractionUtils::transformToLocal(
-    const tier4_planning_msgs::msg::PathPointWithLaneId & pathPoint,
+autoware_internal_planning_msgs::msg::PathPointWithLaneId crp::sil::AbstractionUtils::transformToLocal(
+    const autoware_internal_planning_msgs::msg::PathPointWithLaneId & pathPoint,
     const geometry_msgs::msg::PoseWithCovarianceStamped & ego)
 {
     float egoYaw = getYawFromQuaternion(ego.pose.pose.orientation);
@@ -112,7 +112,7 @@ tier4_planning_msgs::msg::PathPointWithLaneId crp::sil::AbstractionUtils::transf
     translatedX = pathPoint.point.pose.position.x - ego.pose.pose.position.x;
     translatedY = pathPoint.point.pose.position.y - ego.pose.pose.position.y;
 
-    tier4_planning_msgs::msg::PathPointWithLaneId outPoint;
+    autoware_internal_planning_msgs::msg::PathPointWithLaneId outPoint;
     outPoint.point.pose.position.x = R[0] * translatedX + R[1] * translatedY;
     outPoint.point.pose.position.y = -R[1] * translatedX + R[0] * translatedY;
     outPoint.point.longitudinal_velocity_mps = pathPoint.point.longitudinal_velocity_mps;
@@ -121,10 +121,10 @@ tier4_planning_msgs::msg::PathPointWithLaneId crp::sil::AbstractionUtils::transf
 }
 
 
-tier4_planning_msgs::msg::PathPointWithLaneId crp::sil::AbstractionUtils::laneletPtToPathPoint(
+autoware_internal_planning_msgs::msg::PathPointWithLaneId crp::sil::AbstractionUtils::laneletPtToPathPoint(
     const lanelet::ConstPoint2d & pt, float speedLimit)
 {
-    tier4_planning_msgs::msg::PathPointWithLaneId pathPoint;
+    autoware_internal_planning_msgs::msg::PathPointWithLaneId pathPoint;
     pathPoint.point.pose.position.x = pt.x();
     pathPoint.point.pose.position.y = pt.y();
     pathPoint.point.longitudinal_velocity_mps = speedLimit;

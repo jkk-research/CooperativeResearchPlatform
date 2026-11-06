@@ -3,7 +3,7 @@
 
 crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
 {
-    m_sub_strategy_   = this->create_subscription<tier4_planning_msgs::msg::Scenario>(
+    m_sub_strategy_   = this->create_subscription<autoware_internal_planning_msgs::msg::Scenario>(
         "plan/strategy", 10, std::bind(&MotionHandler::scenarioCallback, this, std::placeholders::_1));
     m_sub_plan_latLaneFollow_ = this->create_subscription<autoware_planning_msgs::msg::Trajectory>(
         "plan/lat_lane_follow_ldm/trajectory", 10, std::bind(&MotionHandler::planLatLaneFollowCallback, this, std::placeholders::_1));
@@ -21,7 +21,7 @@ crp::apl::MotionHandler::MotionHandler() : Node("motion_handler")
     RCLCPP_INFO(this->get_logger(), "motion_handler has been started");
 }
 
-void crp::apl::MotionHandler::scenarioCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg)
+void crp::apl::MotionHandler::scenarioCallback(const autoware_internal_planning_msgs::msg::Scenario::SharedPtr msg)
 {
     if(msg->current_scenario == "laneFollowWithSpeedAdjust"){
         m_currentStrategy = "laneFollowWithSpeedAdjust";

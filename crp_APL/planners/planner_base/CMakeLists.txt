@@ -9,7 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(crp_msgs REQUIRED)
-find_package(tier4_planning_msgs REQUIRED)
+find_package(autoware_internal_planning_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
 find_package(autoware_perception_msgs REQUIRED)
 find_package(tf2 REQUIRED)
@@ -39,7 +39,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/../../crp_utils/geometryUtils/src/geometricPathCalcu
 add_library(plan_wrapper_base SHARED
   src/planWrapperBase.cpp ${utils_source}
 )
-ament_target_dependencies(plan_wrapper_base rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs autoware_perception_msgs tf2 tf2_geometry_msgs nav_msgs )
+ament_target_dependencies(plan_wrapper_base rclcpp crp_msgs autoware_internal_planning_msgs autoware_planning_msgs autoware_perception_msgs tf2 tf2_geometry_msgs nav_msgs )
 
 install(
   DIRECTORY include/
@@ -58,6 +58,6 @@ install(
 ament_export_include_directories(${INTERFACES_DIR})
 ament_export_include_directories(${UTILS_DIR})
 ament_export_targets(plan_wrapper_base HAS_LIBRARY_TARGET)
-ament_export_dependencies(rclcpp crp_msgs tier4_planning_msgs autoware_planning_msgs tf2 tf2_geometry_msgs )
+ament_export_dependencies(rclcpp crp_msgs autoware_internal_planning_msgs autoware_planning_msgs tf2 tf2_geometry_msgs )
 
 ament_package()

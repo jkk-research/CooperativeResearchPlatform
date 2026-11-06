@@ -16,13 +16,13 @@ crp::sil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     m_sub_movingObjects_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
     "/sensing/objects/local_objects", 10, std::bind(&ScenarioAbstraction::movingObjectsCallback, this, std::placeholders::_1));   
 
-    m_sub_cameraPath_ = this->create_subscription<tier4_planning_msgs::msg::PathWithLaneId>(
+    m_sub_cameraPath_ = this->create_subscription<autoware_internal_planning_msgs::msg::PathWithLaneId>(
     "/sensing/lane/local_lanes", 10, std::bind(&ScenarioAbstraction::cameraPathCallback, this, std::placeholders::_1));
 
 
     m_pub_movingObjects_   = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_moving_objects", 10);
     m_pub_obstacles_       = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_obstacles", 10);
-    m_pub_lanePath_        = this->create_publisher<tier4_planning_msgs::msg::PathWithLaneId>("cai/local_lane/path", 10);
+    m_pub_lanePath_        = this->create_publisher<autoware_internal_planning_msgs::msg::PathWithLaneId>("cai/local_lane/path", 10);
     m_pub_drivableSurface_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("cai/local_drivable_surface", 10);
 
     m_publishTimer_ = this->create_wall_timer(
@@ -31,9 +31,9 @@ crp::sil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     RCLCPP_INFO(this->get_logger(), "scenario_abstraction has been started");
 }
 
-tier4_planning_msgs::msg::PathWithLaneId crp::sil::ScenarioAbstraction::calculateLocalPathFromMap()
+autoware_internal_planning_msgs::msg::PathWithLaneId crp::sil::ScenarioAbstraction::calculateLocalPathFromMap()
 {
-    tier4_planning_msgs::msg::PathWithLaneId outPath;
+    autoware_internal_planning_msgs::msg::PathWithLaneId outPath;
     outPath.header.stamp = this->now();
 
     if (!m_isMapLoaded)
@@ -58,7 +58,7 @@ tier4_planning_msgs::msg::PathWithLaneId crp::sil::ScenarioAbstraction::calculat
     float currentPathLength = 0;
     float egoLaneletSpeedLimit = limit.speedLimit.value();
     lanelet::ConstLineString2d egoCenterline = egoLanelet.centerline2d();
-    tier4_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],egoLaneletSpeedLimit); 
+    autoware_internal_planning_msgs::msg::PathPointWithLaneId prevPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],egoLaneletSpeedLimit); 
     outPath.points.push_back(
         m_abstractionUtils.transformToLocal(
             m_abstractionUtils.laneletPtToPathPoint(egoCenterline[nearestPointIdx],egoLaneletSpeedLimit),
@@ -69,7 +69,7 @@ tier4_planning_msgs::msg::PathWithLaneId crp::sil::ScenarioAbstraction::calculat
     while (currentPathLength < localPathLength && currentPointIdx < egoCenterline.size())
     {
         // add points to path from ego lanelet
-        tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[currentPointIdx],egoLaneletSpeedLimit);
+        autoware_internal_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(egoCenterline[currentPointIdx],egoLaneletSpeedLimit);
         currentPathLength += m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
         outPath.points.push_back(
             m_abstractionUtils.transformToLocal(currentPoint, m_egoPoseMapFrame)
@@ -97,7 +97,7 @@ tier4_planning_msgs::msg::PathWithLaneId crp::sil::ScenarioAbstraction::calculat
             while (currentPathLength < localPathLength && currentPointIdx < currentCenterline.size())
             {
                 // add points to path from current lanelet
-                tier4_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx],currentLaneletSpeedLimit);
+                autoware_internal_planning_msgs::msg::PathPointWithLaneId currentPoint = m_abstractionUtils.laneletPtToPathPoint(currentCenterline[currentPointIdx],currentLaneletSpeedLimit);
                 float distanceBetweenPoints = m_abstractionUtils.distanceBetweenPoints(prevPoint, currentPoint);
                 if (distanceBetweenPoints > 0.01f)
                 {
@@ -179,7 +179,7 @@ void crp::sil::ScenarioAbstraction::movingObjectsCallback(const autoware_percept
     m_msg_movingObjects = *msg;
 }
 
-void crp::sil::ScenarioAbstraction::cameraPathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg)
+void crp::sil::ScenarioAbstraction::cameraPathCallback(const autoware_internal_planning_msgs::msg::PathWithLaneId::SharedPtr msg)
 {
     m_cameraPath = *msg;
 }

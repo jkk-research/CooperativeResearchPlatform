@@ -6,8 +6,8 @@
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <autoware_perception_msgs/msg/predicted_objects.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
-#include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
-#include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
+#include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
+#include <autoware_internal_planning_msgs/msg/path_point_with_lane_id.hpp>
 #include <nav_msgs/msg/occupancy_grid.hpp>
 
 #include <lanelet2_core/LaneletMap.h>
@@ -37,20 +37,20 @@ private:
     void staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
     void movingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg);
-    void cameraPathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg);
+    void cameraPathCallback(const autoware_internal_planning_msgs::msg::PathWithLaneId::SharedPtr msg);
     void publishCallback();
-    tier4_planning_msgs::msg::PathWithLaneId calculateLocalPathFromMap();
+    autoware_internal_planning_msgs::msg::PathWithLaneId calculateLocalPathFromMap();
 
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr         m_sub_staticMapFromFile_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr m_sub_pose_;
     rclcpp::Subscription<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_sub_movingObjects_;
-    rclcpp::Subscription<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr      m_sub_cameraPath_;
+    rclcpp::Subscription<autoware_internal_planning_msgs::msg::PathWithLaneId>::SharedPtr      m_sub_cameraPath_;
 
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_movingObjects_;
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_obstacles_;
-    rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lane_path_;
+    rclcpp::Publisher<autoware_internal_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lane_path_;
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivable_surface_;
-    rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lanePath_;
+    rclcpp::Publisher<autoware_internal_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lanePath_;
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivableSurface_;
 
     bool m_isMapLoaded{false};
@@ -64,8 +64,8 @@ private:
     geometry_msgs::msg::TransformStamped          m_gps2mapTransform;
     rclcpp::TimerBase::SharedPtr                  m_publishTimer_;
     autoware_perception_msgs::msg::PredictedObjects m_msg_movingObjects;
-    tier4_planning_msgs::msg::PathWithLaneId      m_cameraPath;
-    tier4_planning_msgs::msg::PathWithLaneId      m_mapPath;
+    autoware_internal_planning_msgs::msg::PathWithLaneId      m_cameraPath;
+    autoware_internal_planning_msgs::msg::PathWithLaneId      m_mapPath;
 
     AbstractionUtils m_abstractionUtils;
 };

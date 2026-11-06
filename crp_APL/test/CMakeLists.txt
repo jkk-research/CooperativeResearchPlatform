@@ -16,7 +16,7 @@ find_package(autoware_map_msgs REQUIRED)
 find_package(autoware_planning_msgs REQUIRED)
 find_package(autoware_control_msgs REQUIRED)
 
-find_package(tier4_planning_msgs REQUIRED)
+find_package(autoware_internal_planning_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
@@ -34,7 +34,7 @@ add_executable(test_node src/testNode.cpp)
   autoware_localization_msgs
   autoware_planning_msgs 
   autoware_control_msgs 
-  tier4_planning_msgs 
+  autoware_internal_planning_msgs 
   tf2
   tf2_ros 
   tf2_geometry_msgs

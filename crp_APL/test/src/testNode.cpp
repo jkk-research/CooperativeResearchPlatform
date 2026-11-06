@@ -9,7 +9,7 @@ crp::apl::TestNode::TestNode() : Node("test_node")
     // new setup
     m_pub_movingObjects_   = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_moving_objects", 10);
     m_pub_obstacles_       = this->create_publisher<autoware_perception_msgs::msg::PredictedObjects>("cai/local_obstacles", 10);
-    m_pub_lanePath_        = this->create_publisher<tier4_planning_msgs::msg::PathWithLaneId>("cai/local_lane/path", 10);
+    m_pub_lanePath_        = this->create_publisher<autoware_internal_planning_msgs::msg::PathWithLaneId>("cai/local_lane/path", 10);
     m_pub_drivableSurface_ = this->create_publisher<nav_msgs::msg::OccupancyGrid>("cai/local_drivable_surface", 10);
 
     m_pub_kinematicState_ = this->create_publisher<autoware_localization_msgs::msg::KinematicState>("cai/kinematic_state", 10);
@@ -134,7 +134,7 @@ void crp::apl::TestNode::mapPath()
         if (m_localPath_x.at(i)>=0)
         {
             // add points to path from simulated path
-            tier4_planning_msgs::msg::PathPointWithLaneId currentPoint;
+            autoware_internal_planning_msgs::msg::PathPointWithLaneId currentPoint;
             currentPoint.point.pose.position.x = m_localPath_x.at(i);
             currentPoint.point.pose.position.y = m_localPath_y.at(i);
             tf2::Quaternion quat;

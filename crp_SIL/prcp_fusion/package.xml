@@ -14,7 +14,7 @@
   <depend>sensor_msgs</depend>
   <depend>autoware_perception_msgs</depend>
   <depend>autoware_localization_msgs</depend>
-  <depend>tier4_planning_msgs</depend>
+  <depend>autoware_internal_planning_msgs</depend>
   <depend>foxglove_msgs</depend>
 
   <export>

@@ -12,7 +12,7 @@ find_package(crp_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(autoware_perception_msgs REQUIRED)
 find_package(autoware_localization_msgs REQUIRED)
-find_package(tier4_planning_msgs REQUIRED)
+find_package(autoware_internal_planning_msgs REQUIRED)
 find_package(foxglove_msgs REQUIRED)
 
 include_directories(include)
@@ -21,7 +21,7 @@ add_executable(ego_fusion src/egoFusion.cpp src/subfunctions/poseCorrection.cpp)
 ament_target_dependencies(ego_fusion rclcpp crp_msgs sensor_msgs autoware_localization_msgs foxglove_msgs)
 
 add_executable(scenario_fusion src/scenarioFusion.cpp)
-ament_target_dependencies(scenario_fusion rclcpp crp_msgs tier4_planning_msgs autoware_perception_msgs)
+ament_target_dependencies(scenario_fusion rclcpp crp_msgs autoware_internal_planning_msgs autoware_perception_msgs)
 
 install(TARGETS
   ego_fusion

@@ -8,8 +8,8 @@
 #include <crp_msgs/msg/target_space.hpp>
 #include <crp_msgs/msg/behavior.hpp>
 #include <autoware_planning_msgs/msg/lanelet_route.hpp>
-#include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
-#include <tier4_planning_msgs/msg/scenario.hpp>
+#include <autoware_internal_planning_msgs/msg/path_point_with_lane_id.hpp>
+#include <autoware_internal_planning_msgs/msg/scenario.hpp>
 #include <visualization_msgs/msg/marker.hpp>
 
 
@@ -37,7 +37,7 @@ private:
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                        m_sub_ego_;
     rclcpp::Subscription<crp_msgs::msg::Behavior>::SharedPtr                   m_sub_behavior_;
 
-    rclcpp::Publisher<tier4_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy_;
+    rclcpp::Publisher<autoware_internal_planning_msgs::msg::Scenario>::SharedPtr m_pub_strategy_;
     rclcpp::Publisher<crp_msgs::msg::TargetSpace>::SharedPtr         m_pub_targetSpace_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr    m_pub_laneVisualization_;
     rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr    m_pub_targetSpeedVisualization_;
