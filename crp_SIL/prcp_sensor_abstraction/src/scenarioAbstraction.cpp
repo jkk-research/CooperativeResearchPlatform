@@ -1,5 +1,4 @@
 #include "prcp_sensor_abstraction/scenarioAbstraction.hpp"
-#include "crp_srs_if/msg/radar_gen_four_input.hpp"
 
 
 crp::sil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstraction")
@@ -14,8 +13,6 @@ crp::sil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
     m_sub_pose_ = this->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
         "/sensing/gnss/pose_with_covariance", 10, std::bind(&ScenarioAbstraction::poseCallback, this, std::placeholders::_1));
 
-    /*m_sub_radarInput_ = this->create_subscription<crp_srs_if::msg::RadarGenFourInput>(
-    "/crp/radar_gen4_input", 10, std::bind(&ScenarioAbstraction::radarInputCallback, this, std::placeholders::_1));*/
     m_sub_movingObjects_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
     "/sensing/objects/local_objects", 10, std::bind(&ScenarioAbstraction::movingObjectsCallback, this, std::placeholders::_1));   
 

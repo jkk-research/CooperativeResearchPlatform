@@ -21,7 +21,6 @@
 #include <tf2/LinearMath/Quaternion.h>
 
 #include "prcp_sensor_abstraction/abstractionUtils.hpp"
-#include "crp_srs_if/msg/radar_gen_four_input.hpp"
 
 
 namespace crp
@@ -37,7 +36,6 @@ public:
 private:
     void staticMapFromFileCallback(const autoware_map_msgs::msg::LaneletMapBin::SharedPtr msg);
     void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
-    void radarInputCallback(const crp_srs_if::msg::RadarGenFourInput::SharedPtr msg);
     void movingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg);
     void cameraPathCallback(const tier4_planning_msgs::msg::PathWithLaneId::SharedPtr msg);
     void publishCallback();
@@ -45,7 +43,6 @@ private:
 
     rclcpp::Subscription<autoware_map_msgs::msg::LaneletMapBin>::SharedPtr         m_sub_staticMapFromFile_;
     rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr m_sub_pose_;
-    //rclcpp::Subscription<crp_srs_if::msg::RadarGenFourInput>::SharedPtr            m_sub_radarInput_;
     rclcpp::Subscription<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_sub_movingObjects_;
     rclcpp::Subscription<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr      m_sub_cameraPath_;
 
