@@ -21,6 +21,7 @@
   <depend>ctrl_vehicle_control_nmpc</depend>
   <depend>ctrl_vehicle_control_long</depend>
   <depend>test_node</depend>
+  <depend>prcp_late_fusion</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

@@ -41,6 +41,17 @@ def generate_launch_description():
         )
     )
 
+    # FUSION (turns the test node's cai/* topics into /ego and /scenario)
+
+    prcp_late_fusion = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            join(
+                get_package_share_directory('prcp_late_fusion'),
+                'launch',
+                'prcp_late_fusion.launch.py')
+        )
+    )
+
     # TEST NODE
 
     test_node = IncludeLaunchDescription(
@@ -63,5 +74,6 @@ def generate_launch_description():
         # nodes
 
         test_node,
+        prcp_late_fusion,
         crp_core,
     ])
