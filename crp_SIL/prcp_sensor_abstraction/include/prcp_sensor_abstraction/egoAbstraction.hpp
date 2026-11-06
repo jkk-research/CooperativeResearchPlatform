@@ -1,0 +1,61 @@
+#ifndef CRP_CIL_EGO_ABSTRACTION_PRCPSENSORABSTRACTION_HPP
+#define CRP_CIL_EGO_ABSTRACTION_PRCPSENSORABSTRACTION_HPP
+
+#include <rclcpp/rclcpp.hpp>
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <geometry_msgs/msg/twist_with_covariance_stamped.hpp>
+#include <geometry_msgs/msg/accel_with_covariance_stamped.hpp>
+#include <autoware_localization_msgs/msg/kinematic_state.hpp>
+#include <nav_msgs/msg/odometry.hpp>
+#include <crp_msgs/msg/ego_status.hpp>
+#include <std_msgs/msg/float32.hpp>
+#include <std_msgs/msg/int8.hpp>
+#include <sensor_msgs/msg/nav_sat_fix.hpp>
+#include "crp_srs_if/msg/vehicle_kinematics.hpp"
+
+
+namespace crp
+{
+namespace sil
+{
+
+class EgoAbstraction : public rclcpp::Node
+{
+public:
+    EgoAbstraction();
+
+private:
+    void navSatFixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg);
+    void poseCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg);
+    void twistCallback(const geometry_msgs::msg::TwistWithCovarianceStamped::SharedPtr msg);
+    void odometryCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
+    void accelCallback(const geometry_msgs::msg::AccelWithCovarianceStamped::SharedPtr msg);
+    void tireAngleCallback(const std_msgs::msg::Float32::SharedPtr msg);
+    void steeringWheelRateCallback(const std_msgs::msg::Float32::SharedPtr msg);
+    void blinkerCallback(const std_msgs::msg::Int8::SharedPtr msg);
+    void publishCallback();
+
+    rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr                    m_sub_navSatFix_;
+    rclcpp::Subscription<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr  m_sub_pose_;
+    rclcpp::Subscription<geometry_msgs::msg::TwistWithCovarianceStamped>::SharedPtr m_sub_twist_;
+    rclcpp::Subscription<crp_srs_if::msg::VehicleKinematics>::SharedPtr             m_sub_srsVehicle_;
+    rclcpp::Subscription<geometry_msgs::msg::AccelWithCovarianceStamped>::SharedPtr m_sub_accel_;
+    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr                        m_sub_odometry_;
+    rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_tireAngle_;
+    rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr                         m_sub_steeringWheelRate_;
+    rclcpp::Subscription<std_msgs::msg::Int8>::SharedPtr                            m_sub_blinker_;
+
+    rclcpp::Publisher<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_pub_kinematicState_;
+    rclcpp::Publisher<sensor_msgs::msg::NavSatFix>::SharedPtr                     m_pub_gnssFix_;
+    rclcpp::Publisher<crp_msgs::msg::EgoStatus>::SharedPtr                        m_pub_egoStatus_;
+
+    autoware_localization_msgs::msg::KinematicState m_kinematicState;
+    sensor_msgs::msg::NavSatFix                     m_gnssFix;
+    crp_msgs::msg::EgoStatus                        m_egoStatus;
+
+    rclcpp::TimerBase::SharedPtr m_publishTimer_;
+};
+
+} // namespace cil
+} // namespace crp
+#endif // CRP_CIL_EGO_ABSTRACTION_PRCPSENSORABSTRACTION_HPP
