@@ -3,6 +3,10 @@
 
 crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
 {
+    // maximum speed while the ego blinker is on (cornering) [m/s]
+    this->declare_parameter<float>("/plan/behavior/cornering_speed", 3.0f);
+    this->get_parameter<float>("/plan/behavior/cornering_speed", m_corneringSpeed);
+
     m_sub_route_    = this->create_subscription<autoware_planning_msgs::msg::LaneletRoute>(
         "plan/route", 10, std::bind(&BehaviorPlanner::routeCallback, this, std::placeholders::_1));
     m_sub_scenario_ = this->create_subscription<crp_msgs::msg::Scenario>(
