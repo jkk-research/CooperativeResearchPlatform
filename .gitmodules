@@ -1,59 +1,9 @@
-[submodule "crp_VIL/mpc_cam_driver"]
-	path = crp_VIL/mpc_camera_driver
-	url = git@github.com:jkk-research/mpc_cam_driver
-[submodule "external/tier4_autoware_msgs"]
-	path = external/tier4_autoware_msgs
-	url = git@github.com:tier4/tier4_autoware_msgs.git
-[submodule "external/autoware_msgs"]
-	path = external/autoware_msgs
-	url = git@github.com:autowarefoundation/autoware_msgs.git
 [submodule "crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode"]
 	path = crp_APL/planners/plan_lat_lane_follow_ldm/src/functionCode
 	url = git@github.com:jkk-research/plan_lateral_planner_ldm.git
-[submodule "crp_VIL/novatel_gps_driver"]
-	path = crp_VIL/novatel_gps_driver
-	url = git@github.com:jkk-research/novatel_gps_driver.git
-[submodule "crp_VIL/nissan_can_driver"]
-	path = crp_VIL/nissan_can_driver
-	url = git@github.com:jkk-research/nissan_can_driver.git
-[submodule "crp_VIL/lexus_bringup"]
-	path = crp_VIL/lexus_bringup
-	url = git@github.com:jkk-research/lexus_bringup
-[submodule "crp_VIL/nissan_bringup"]
-	path = crp_VIL/nissan_bringup
-	url = git@github.com:szenergy/nissan_bringup
-[submodule "crp_VIL/kvaser_interface"]
-	path = crp_VIL/kvaser_interface
-	url = git@github.com:astuff/kvaser_interface.git
-	branch = ros2_master
-[submodule "crp_VIL/duro_gps_driver"]
-	path = crp_VIL/duro_gps_driver
-	url = git@github.com:szenergy/duro_gps_driver
-	branch = ros2-humble
-[submodule "crp_VIL/kalman_pos"]
-	path = crp_CIL/kalman_pos
-	url = git@github.com:jkk-research/kalman_pos.git
-	branch = ros2
 [submodule "crp_APL/controllers/ctrl_vehicle_control_nmpc/jkk_controllers"]
 	path = crp_APL/controllers/ctrl_vehicle_control_nmpc/jkk_controllers
 	url = git@github.com:jkk-research/jkk_controllers.git
-[submodule "crp_VIL/radar_driver"]
-	path = crp_VIL/radar_driver
-	url = git@github.com:jkk-research/radar_driver.git
-	branch = ros2-humble
-[submodule "crp_VIL/net_srs_golf"]
-	path = crp_VIL/net_srs_golf
-	url = https://github.boschdevcloud.com/FSE2BP/pdp-net.git
-[submodule "crp_VIL/novatel_oem7_driver"]
-	path = crp_VIL/novatel_oem7_driver
-	url = git@github.com:jkk-research/novatel_oem7_driver.git
-	branch = humble
-[submodule "crp_VIL/usb_cam"]
-	path = crp_VIL/usb_cam
-	url = git@github.com:jkk-research/usb_cam.git
-[submodule "crp_VIL/ouster_ros"]
-	path = crp_VIL/ouster_ros
-	url = git@github.com:jkk-research/ouster-ros.git
 [submodule "crp_APL/crp_msgs"]
 	path = crp_APL/crp_msgs
 	url = https://github.com/jkk-research/crp_msgs.git
