@@ -35,9 +35,9 @@ def generate_launch_description():
     crp_core = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             join(
-                get_package_share_directory('crp_launcher'),
+                get_package_share_directory('apl_launcher'),
                 'launch',
-                'core.launch.py')
+                'apl.launch.py')
         )
     )
 

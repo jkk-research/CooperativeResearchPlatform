@@ -9,11 +9,18 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>tf2_ros</depend>
-  <depend>prcp_situation_analysis</depend>
   <depend>plan_behavior_planning</depend>
   <depend>plan_motion_planning</depend>
+  <depend>plan_lat_lane_follow_ldm</depend>
+  <depend>plan_lon_intelligent_speed_adjust</depend>
   <depend>ctrl_vehicle_control</depend>
+  <depend>ctrl_vehicle_control_lqr</depend>
+  <depend>ctrl_vehicle_control_lat_compensatory</depend>
+  <depend>ctrl_vehicle_control_lat_pure_p</depend>
+  <depend>ctrl_vehicle_control_lat_stanley</depend>
+  <depend>ctrl_vehicle_control_nmpc</depend>
+  <depend>ctrl_vehicle_control_long</depend>
+  <depend>test_node</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
