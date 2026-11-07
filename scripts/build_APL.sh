@@ -17,5 +17,8 @@ packages+=(
 
 packages_string=${packages[*]}
 
-rosdep install --from-paths $script_dir/../crp_APL --ignore-src -r -y
+# install the dependencies of everything colcon builds below (apl_launcher also pulls in prcp_late_fusion from crp_SIL)
+packages_paths=$(colcon list --packages-up-to $packages_string -p)
+
+rosdep install --from-paths $packages_paths --ignore-src -r -y
 colcon build --packages-up-to $packages_string $build_args
