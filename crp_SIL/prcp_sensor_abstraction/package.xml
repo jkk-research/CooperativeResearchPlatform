@@ -18,6 +18,8 @@
   <depend>autoware_internal_planning_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>lanelet2_core</depend>
+  <depend>lanelet2_routing</depend>
+  <depend>lanelet2_traffic_rules</depend>
   <depend>autoware_lanelet2_extension</depend>
   <depend>crp_msgs</depend>
   <depend>std_msgs</depend>
