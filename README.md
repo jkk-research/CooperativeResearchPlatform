@@ -70,3 +70,8 @@ src/CooperativeResearchPlatform/scripts/build_APL.sh
 src/CooperativeResearchPlatform/scripts/build_SIL.sh
 ```
 The Autoware message packages (`autoware_*_msgs`, `autoware_internal_planning_msgs`) and `autoware_lanelet2_extension` come from apt through rosdep; they are not submodules.
+
+The default lateral controller, `ctrl_vehicle_control_nmpc` (from the `jkk_controllers` submodule), imports the Python package `casadi`, which rosdep does not install:
+```bash
+pip install casadi
+```
