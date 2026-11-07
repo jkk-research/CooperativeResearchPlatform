@@ -128,9 +128,10 @@ autoware_internal_planning_msgs::msg::PathWithLaneId crp::sil::ScenarioAbstracti
 
 void crp::sil::ScenarioAbstraction::publishCallback()
 {
-    
+    // recompute the map path from the current ego pose every cycle (empty until the map is loaded)
+    m_mapPath = calculateLocalPathFromMap();
 
-    if (m_mapPath.points.empty() && !m_cameraPath.points.empty()) 
+    if (m_mapPath.points.empty() && !m_cameraPath.points.empty())
     {
         m_pub_lanePath_->publish(m_cameraPath);
     } 
@@ -155,7 +156,6 @@ void crp::sil::ScenarioAbstraction::staticMapFromFileCallback(const autoware_map
     m_mapFrameId = msg->header.frame_id;
 
     m_isMapLoaded = true;
-    m_mapPath = calculateLocalPathFromMap();
     RCLCPP_INFO(this->get_logger(), "Map loaded");
 }
 
