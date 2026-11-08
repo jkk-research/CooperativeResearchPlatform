@@ -60,8 +60,6 @@ Core layout:
 - `launch/apl_launcher`: `apl.launch.py` starts the planners and controllers
 - `launch/sil_launcher`: `sil.launch.py` starts the sensor abstraction and fusion
 
-The `functionCode` (`plan_lateral_planner_ldm`) and `jkk_controllers` submodules use `git@github.com:` URLs, so cloning them needs SSH access to GitHub and read access to those repositories.
-
 To build, clone the repository with its submodules into the `src/` folder of a ROS 2 Humble colcon workspace and run the build scripts. They install the dependencies with rosdep and build from the workspace root:
 ```bash
 git clone --recurse-submodules https://github.com/jkk-research/CooperativeResearchPlatform.git src/CooperativeResearchPlatform
