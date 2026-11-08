@@ -14,6 +14,23 @@ jobs:
     container: ros:humble-ros-base-jammy
 
     steps:
+      # ✅ Install the SSH client (the ROS base image has none)
+      - name: Install SSH client
+        run: apt-get update && apt-get install -y openssh-client
+
+      # ✅ SSH key for the private jkk_controllers submodule (secret: read-only deploy key of jkk-research/jkk_controllers)
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # ✅ Add GitHub to known hosts to avoid verification errors (ssh reads /root/.ssh in the container)
+      - name: Add GitHub to known hosts
+        run: |
+          mkdir -p /root/.ssh
+          ssh-keyscan github.com >> /root/.ssh/known_hosts
+          chmod 600 /root/.ssh/known_hosts
+
       # ✅ Checkout the repository (without submodules yet)
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,7 +43,7 @@ jobs:
       - name: Configure git safe directory
         run: git config --global --add safe.directory '*'
 
-      # ✅ Pull the core submodules (all public, over HTTPS)
+      # ✅ Pull the core submodules (jkk_controllers over SSH, the public ones over HTTPS)
       - name: Pull submodules
         run: git submodule update --init --recursive
 

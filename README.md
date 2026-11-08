@@ -60,6 +60,8 @@ Core layout:
 - `launch/apl_launcher`: `apl.launch.py` starts the planners and controllers
 - `launch/sil_launcher`: `sil.launch.py` starts the sensor abstraction and fusion
 
+The `jkk_controllers` submodule (the NMPC lateral controller) is a private repository with an SSH URL, so cloning it needs SSH access to GitHub and read access to jkk-research/jkk_controllers. The other submodules are public and use HTTPS.
+
 To build, clone the repository with its submodules into the `src/` folder of a ROS 2 Humble colcon workspace and run the build scripts. They install the dependencies with rosdep and build from the workspace root:
 ```bash
 git clone --recurse-submodules https://github.com/jkk-research/CooperativeResearchPlatform.git src/CooperativeResearchPlatform
