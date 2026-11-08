@@ -1,5 +1,6 @@
-logs/
+log/
 build/
 install/
+__pycache__/
 
 .vscode/

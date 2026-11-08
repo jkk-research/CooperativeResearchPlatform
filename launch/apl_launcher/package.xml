@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>apl_launcher</name>
+  <version>0.0.0</version>
+  <description>Launchers for the CRP project.</description>
+  <maintainer email="jozsa.david@sze.hu">AnonymDavid</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>plan_behavior_planning</depend>
+  <depend>plan_motion_planning</depend>
+  <depend>plan_lat_lane_follow_ldm</depend>
+  <depend>plan_lon_intelligent_speed_adjust</depend>
+  <depend>ctrl_vehicle_control</depend>
+  <depend>ctrl_vehicle_control_lqr</depend>
+  <depend>ctrl_vehicle_control_lat_compensatory</depend>
+  <depend>ctrl_vehicle_control_lat_pure_p</depend>
+  <depend>ctrl_vehicle_control_lat_stanley</depend>
+  <depend>ctrl_vehicle_control_nmpc</depend>
+  <depend>ctrl_vehicle_control_long</depend>
+  <depend>test_node</depend>
+  <depend>prcp_late_fusion</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

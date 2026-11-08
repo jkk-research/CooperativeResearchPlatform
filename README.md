@@ -1,5 +1,5 @@
 # Cooperative Research Platform
-[![Build test](git@github.com:jkk-research/CooperativeResearchPlatform/actions/workflows/build_test.yml/badge.svg)](git@github.com:jkk-research/CooperativeResearchPlatform/actions/workflows/build_test.yml)
+[![Build test](https://github.com/jkk-research/CooperativeResearchPlatform/actions/workflows/build_test.yml/badge.svg)](https://github.com/jkk-research/CooperativeResearchPlatform/actions/workflows/build_test.yml)
 ## Overview
 This platform is developed and maintained by University of Győr - Vehicle Research Center in cooperation with ZalaZONE Innovation Park. The project is supported by Robert Bosch Engineering Center Budapest.\
 <br />
@@ -48,4 +48,30 @@ classDef light fill:#34aec5,stroke:#152742,stroke-width:2px,color:#152742
 classDef dark fill:#152742,stroke:#34aec5,stroke-width:2px,color:#34aec5
 classDef white fill:#ffffff,stroke:#152742,stroke-width:2px,color:#152742
 classDef red fill:#ef4638,stroke:#152742,stroke-width:2px,color:#fff
+```
+
+## Core repository and vehicle integrations
+This repository contains the vehicle-independent core of the platform. Vehicle integrations (drivers, vehicle launchers, vehicle configuration and recording scripts) live in separate repositories:
+- [CooperativeResearchPlatform_Lexus](https://github.com/jkk-research/CooperativeResearchPlatform_Lexus)
+
+Core layout:
+- `crp_APL`: planners, controllers, their interfaces and utilities, the `crp_msgs` submodule and the Foxglove layouts
+- `crp_SIL`: sensor abstraction and late fusion
+- `launch/apl_launcher`: `apl.launch.py` starts the planners and controllers
+- `launch/sil_launcher`: `sil.launch.py` starts the sensor abstraction and fusion
+
+The `jkk_controllers` submodule (the NMPC lateral controller) is a private repository with an SSH URL, so cloning it needs SSH access to GitHub and read access to jkk-research/jkk_controllers. The other submodules are public and use HTTPS.
+
+To build, clone the repository with its submodules into the `src/` folder of a ROS 2 Humble colcon workspace and run the build scripts. They install the dependencies with rosdep and build from the workspace root:
+```bash
+git clone --recurse-submodules https://github.com/jkk-research/CooperativeResearchPlatform.git src/CooperativeResearchPlatform
+source /opt/ros/humble/setup.bash
+src/CooperativeResearchPlatform/scripts/build_APL.sh
+src/CooperativeResearchPlatform/scripts/build_SIL.sh
+```
+The Autoware message packages (`autoware_*_msgs`, `autoware_internal_planning_msgs`) and `autoware_lanelet2_extension` come from apt through rosdep; they are not submodules.
+
+The default lateral controller, `ctrl_vehicle_control_nmpc` (from the `jkk_controllers` submodule), imports the Python package `casadi`, which rosdep does not install:
+```bash
+pip install casadi
 ```

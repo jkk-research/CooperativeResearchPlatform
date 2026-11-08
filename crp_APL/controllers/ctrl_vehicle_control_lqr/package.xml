@@ -16,9 +16,12 @@
   <exec_depend>python3-numpy</exec_depend>
   <exec_depend>python3-scipy</exec_depend>
   <exec_depend>rclpy</exec_depend>
-  <exec_depend>crp_msgs</exec_depend>
-  <exec_depend>autoware_control_msgs</exec_depend>
-  <exec_depend>autoware_planning_msgs</exec_depend>
+  <depend>crp_msgs</depend>
+  <depend>autoware_control_msgs</depend>
+  <depend>autoware_planning_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>nav_msgs</depend>
 
   <export>
     <build_type>ament_cmake</build_type>

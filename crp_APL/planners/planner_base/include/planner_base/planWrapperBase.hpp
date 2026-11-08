@@ -13,8 +13,8 @@
 #include <nav_msgs/msg/occupancy_grid.hpp>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
-#include <tier4_planning_msgs/msg/scenario.hpp>
-#include <pdp_if/msg/pdp_personalized_params_active.hpp>
+#include <autoware_internal_planning_msgs/msg/scenario.hpp>
+
 
 #include "plannerInterfaces/plannerInterfaces.hpp"
 
@@ -36,11 +36,11 @@ protected:
     bool inputPlausibilityCheck(const PlannerInput & input);
 
 private:
-    void strategyCallback(const tier4_planning_msgs::msg::Scenario::SharedPtr msg);
+    void strategyCallback(const autoware_internal_planning_msgs::msg::Scenario::SharedPtr msg);
     void targetSpaceCallback(const crp_msgs::msg::TargetSpace::SharedPtr msg);
     void egoCallback(const crp_msgs::msg::Ego::SharedPtr msg);
     void behaviorCallback(const crp_msgs::msg::Behavior::SharedPtr msg);
-    void PdpPersonalizedParamsActiveCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg);
+
     
     float getYawFromQuaternion(const geometry_msgs::msg::Quaternion & quaternion);
     OccupancyGrid convertMsgToOccupancyGrid(const nav_msgs::msg::OccupancyGrid & msg);
@@ -49,11 +49,11 @@ private:
     void publishTrajectory(const PlannerOutput & trajectory);
     void run();
 
-    rclcpp::Subscription<tier4_planning_msgs::msg::Scenario>::SharedPtr     m_sub_strategy_;
+    rclcpp::Subscription<autoware_internal_planning_msgs::msg::Scenario>::SharedPtr     m_sub_strategy_;
     rclcpp::Subscription<crp_msgs::msg::TargetSpace>::SharedPtr             m_sub_targetSpace_;
     rclcpp::Subscription<crp_msgs::msg::Ego>::SharedPtr                     m_sub_ego_;
     rclcpp::Subscription<crp_msgs::msg::Behavior>::SharedPtr                m_sub_behavior_;
-    rclcpp::Subscription<pdp_if::msg::PdpPersonalizedParamsActive>::SharedPtr m_pdp_subscriber_;
+   
 
     rclcpp::Publisher<autoware_planning_msgs::msg::Trajectory>::SharedPtr m_pub_trajectory_;
 

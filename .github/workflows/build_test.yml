@@ -14,41 +14,57 @@ jobs:
     container: ros:humble-ros-base-jammy
 
     steps:
-      # 🧰 Install SSH and Git tools
-      - name: Install SSH and Git tools
-        run: apt update && apt install -y openssh-client git
+      # ✅ Install the SSH client (the ROS base image has none)
+      - name: Install SSH client
+        run: apt-get update && apt-get install -y openssh-client
 
-      # 🔑 Set up SSH agent
+      # ✅ SSH key for the private jkk_controllers submodule (secret: read-only deploy key of jkk-research/jkk_controllers)
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # 🧱 Add GitHub to known hosts — inside container root
+      # ✅ Add GitHub to known hosts to avoid verification errors (ssh reads /root/.ssh in the container)
       - name: Add GitHub to known hosts
         run: |
           mkdir -p /root/.ssh
           ssh-keyscan github.com >> /root/.ssh/known_hosts
           chmod 600 /root/.ssh/known_hosts
-          echo "Verified known_hosts content:"
-          cat /root/.ssh/known_hosts
 
-      # ✅ Checkout repo
+      # ✅ Checkout the repository (without submodules yet)
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          submodules: true
-          token: ${{ secrets.GITHUB_TOKEN }}
 
+      # ✅ Create workspace
+      - name: Create a ROS2 workspace
+        run: mkdir -p ros2_ws/src
 
-      # 🧩 Allow git commands in container
+      # ✅ Allow git commands in the container environment
       - name: Configure git safe directory
         run: git config --global --add safe.directory '*'
 
-      # 🚀 Pull selected submodules
-      - name: Pull selected submodules
-        run: git submodule update --init --recursive external/autoware_msgs/ external/tier4_autoware_msgs/
+      # ✅ Pull the core submodules (jkk_controllers over SSH, the public ones over HTTPS)
+      - name: Pull submodules
+        run: git submodule update --init --recursive
 
-      # 📂 Copy packages to workspace
+      # ✅ Copy source packages into workspace
       - name: Copy packages to workspace
-        run: cp -r crp
+        run: cp -r crp_APL crp_SIL launch ros2_ws/src
+
+      # ✅ Install ROS 2 package dependencies (Autoware message packages come from apt)
+      - name: Install dependencies
+        shell: bash
+        run: |
+          cd ros2_ws
+          source /opt/ros/humble/setup.bash
+          apt-get update
+          rosdep update
+          rosdep install --from-paths src --ignore-src -r -y
+
+      # ✅ Build the ROS 2 workspace
+      - name: Build the workspace
+        shell: bash
+        run: |
+          cd ros2_ws
+          source /opt/ros/humble/setup.bash
+          colcon build

@@ -1,0 +1,74 @@
+#include "prcp_situation_analysis/scenarioFusion.hpp"
+
+
+crp::sil::ScenarioFusion::ScenarioFusion() : Node("scenario_fusion")
+{
+    m_sub_localMovingObjects_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
+        "/cai/local_moving_objects", 10,
+        std::bind(&ScenarioFusion::localMovingObjectsCallback, this, std::placeholders::_1));
+    m_sub_localObstacles_ = this->create_subscription<autoware_perception_msgs::msg::PredictedObjects>(
+        "/cai/local_obstacles", 10,
+        std::bind(&ScenarioFusion::localObstaclesCallback, this, std::placeholders::_1));
+    m_sub_localPath_ = this->create_subscription<autoware_internal_planning_msgs::msg::PathWithLaneId>(
+        "/cai/local_lane/path", 10,
+        std::bind(&ScenarioFusion::localPathCallback, this, std::placeholders::_1));
+    m_sub_localDrivableSurface_ = this->create_subscription<nav_msgs::msg::OccupancyGrid>(
+        "/cai/local_drivable_surface", 10,
+        std::bind(&ScenarioFusion::localDrivableSurfaceCallback, this, std::placeholders::_1));
+
+    m_pub_scenario_ = this->create_publisher<crp_msgs::msg::Scenario>("/scenario", 10);
+
+    m_publishTimer_ = this->create_wall_timer(std::chrono::milliseconds(50), std::bind(&ScenarioFusion::publishCallback, this));
+
+    RCLCPP_INFO(this->get_logger(), "scenario_fusion has been started");
+}
+
+
+void crp::sil::ScenarioFusion::publishCallback()
+{
+    m_pub_scenario_->publish(m_scenario);
+}
+
+
+void crp::sil::ScenarioFusion::localMovingObjectsCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)
+{
+    m_scenario.header = msg->header;
+    m_scenario.local_moving_objects = *msg;
+}
+
+
+void crp::sil::ScenarioFusion::localObstaclesCallback(const autoware_perception_msgs::msg::PredictedObjects::SharedPtr msg)
+{
+    m_scenario.header = msg->header;
+    m_scenario.local_obstacles = *msg;
+}
+
+
+void crp::sil::ScenarioFusion::localPathCallback(const autoware_internal_planning_msgs::msg::PathWithLaneId::SharedPtr msg)
+{
+    m_scenario.paths.clear();
+
+    m_scenario.header = msg->header;
+
+    crp_msgs::msg::PathWithTrafficRules pathWithTrafficRules;
+    pathWithTrafficRules.header = msg->header;
+    pathWithTrafficRules.path = *msg;
+
+    m_scenario.paths.push_back(pathWithTrafficRules);
+}
+
+
+void crp::sil::ScenarioFusion::localDrivableSurfaceCallback(const nav_msgs::msg::OccupancyGrid::SharedPtr msg)
+{
+    m_scenario.header = msg->header;
+    m_scenario.free_space = *msg;
+}
+
+
+int main(int argc, char *argv[])
+{
+    rclcpp::init(argc, argv);
+    rclcpp::spin(std::make_shared<crp::sil::ScenarioFusion>());
+    rclcpp::shutdown();
+    return 0;
+}

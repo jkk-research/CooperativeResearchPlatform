@@ -17,8 +17,8 @@
 #include <autoware_control_msgs/msg/control.hpp>
 #include <autoware_perception_msgs/msg/predicted_objects.hpp>
 #include <autoware_localization_msgs/msg/kinematic_state.hpp>
-#include <tier4_planning_msgs/msg/path_point_with_lane_id.hpp>
-#include <tier4_planning_msgs/msg/path_with_lane_id.hpp>
+#include <autoware_internal_planning_msgs/msg/path_point_with_lane_id.hpp>
+#include <autoware_internal_planning_msgs/msg/path_with_lane_id.hpp>
 
 
 namespace crp
@@ -57,7 +57,7 @@ private:
     // new setup 
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_movingObjects_;
     rclcpp::Publisher<autoware_perception_msgs::msg::PredictedObjects>::SharedPtr m_pub_obstacles_;
-    rclcpp::Publisher<tier4_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lanePath_;
+    rclcpp::Publisher<autoware_internal_planning_msgs::msg::PathWithLaneId>::SharedPtr        m_pub_lanePath_;
     rclcpp::Publisher<nav_msgs::msg::OccupancyGrid>::SharedPtr                    m_pub_drivableSurface_;
 
     rclcpp::Publisher<autoware_localization_msgs::msg::KinematicState>::SharedPtr m_pub_kinematicState_;
@@ -66,7 +66,7 @@ private:
     rclcpp::Publisher<crp_msgs::msg::Behavior>::SharedPtr m_pub_behavior_;
 
     // new messages
-    tier4_planning_msgs::msg::PathWithLaneId m_outPathMsg;
+    autoware_internal_planning_msgs::msg::PathWithLaneId m_outPathMsg;
     autoware_perception_msgs::msg::PredictedObjects m_movingObjectsMsg;
     autoware_perception_msgs::msg::PredictedObjects m_obstaclesMsg;
     nav_msgs::msg::OccupancyGrid m_drivableSurfaceMsg;

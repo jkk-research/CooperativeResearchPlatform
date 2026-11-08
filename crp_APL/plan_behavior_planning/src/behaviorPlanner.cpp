@@ -3,6 +3,10 @@
 
 crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
 {
+    // maximum speed while the ego blinker is on (cornering) [m/s]
+    this->declare_parameter<float>("/plan/behavior/cornering_speed", 3.0f);
+    this->get_parameter<float>("/plan/behavior/cornering_speed", m_corneringSpeed);
+
     m_sub_route_    = this->create_subscription<autoware_planning_msgs::msg::LaneletRoute>(
         "plan/route", 10, std::bind(&BehaviorPlanner::routeCallback, this, std::placeholders::_1));
     m_sub_scenario_ = this->create_subscription<crp_msgs::msg::Scenario>(
@@ -14,11 +18,7 @@ crp::apl::BehaviorPlanner::BehaviorPlanner() : Node("behavior_planner")
         "/ui/behavior", 10,
         std::bind(&BehaviorPlanner::behaviorCallback, this, std::placeholders::_1));
 
-    m_pdp_subscriber_ = this->create_subscription<pdp_if::msg::PdpPersonalizedParamsActive>(
-        "/PdpPersonalizedParamsActive", 10, std::bind(&BehaviorPlanner::PdpPersonalizedParamsActiveCallback, this, std::placeholders::_1));
-
-
-    m_pub_strategy_    = this->create_publisher<tier4_planning_msgs::msg::Scenario>("plan/strategy", 10);
+    m_pub_strategy_    = this->create_publisher<autoware_internal_planning_msgs::msg::Scenario>("plan/strategy", 10);
     m_pub_targetSpace_ = this->create_publisher<crp_msgs::msg::TargetSpace>("plan/target_space", 10);
     m_pub_laneVisualization_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/laneVisualization", 10);
     m_pub_targetSpeedVisualization_ = this->create_publisher<visualization_msgs::msg::Marker>("plan/targetSpeedVisualization", 10);
@@ -36,25 +36,6 @@ void crp::apl::BehaviorPlanner::routeCallback(const autoware_planning_msgs::msg:
     return;
 }
 
-void crp::apl::BehaviorPlanner::PdpPersonalizedParamsActiveCallback(const pdp_if::msg::PdpPersonalizedParamsActive::SharedPtr msg)
-{
-    if (msg->pdpout_accmap_lat_mode == 1U)
-    {
-        m_corneringSpeed = 3.0f;
-    }
-    else if(msg->pdpout_accmap_lat_mode == 2U)
-    {
-        m_corneringSpeed = 4.0f;
-    }
-    else if(msg->pdpout_accmap_lat_mode == 3U)
-    {
-        m_corneringSpeed = 6.0f;
-    }
-    else
-    {
-        m_corneringSpeed = 3.0f;
-    }
-}
 
 void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::SharedPtr msg)
 {
@@ -66,7 +47,7 @@ void crp::apl::BehaviorPlanner::scenarioCallback(const crp_msgs::msg::Scenario::
         // compensate the orientation error
         for (int i=0; i<targetSpaceMsg.path.path.points.size(); i++)
         {
-            tier4_planning_msgs::msg::PathPointWithLaneId point;
+            autoware_internal_planning_msgs::msg::PathPointWithLaneId point;
             point.point.pose.position.x = targetSpaceMsg.path.path.points.at(i).point.pose.position.x*std::cos(m_orientationError) - targetSpaceMsg.path.path.points.at(i).point.pose.position.y*std::sin(m_orientationError);
             point.point.pose.position.y = targetSpaceMsg.path.path.points.at(i).point.pose.position.x*std::sin(m_orientationError) + targetSpaceMsg.path.path.points.at(i).point.pose.position.y*std::cos(m_orientationError);  
             fixedPathWithTrafficRules.path.points.push_back(point);
@@ -169,7 +150,7 @@ void crp::apl::BehaviorPlanner::loop()
     // possible Scenrios: "off", "laneFollowWithDefaultSpeed", "", "laneFollow", "speedAdjust"
     std::string currentScenarioMsg = "laneFollowWithSpeedAdjust";
 
-    tier4_planning_msgs::msg::Scenario scenario_msg;
+    autoware_internal_planning_msgs::msg::Scenario scenario_msg;
     scenario_msg.current_scenario = currentScenarioMsg;
 
     m_pub_strategy_->publish(scenario_msg);
