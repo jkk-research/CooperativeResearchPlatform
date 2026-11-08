@@ -7,6 +7,11 @@ crp::sil::ScenarioAbstraction::ScenarioAbstraction() : Node("scenario_abstractio
 
     m_laneletMap = std::make_shared<lanelet::LaneletMap>();
 
+    // created once for the node's lifetime: constructing and destroying a TransformListener
+    // inside a callback can hang in its destructor and block the executor
+    m_tfBuffer   = std::make_shared<tf2_ros::Buffer>(this->get_clock());
+    m_tfListener = std::make_shared<tf2_ros::TransformListener>(*m_tfBuffer);
+
     m_sub_staticMapFromFile_ = this->create_subscription<autoware_map_msgs::msg::LaneletMapBin>(
         "map/global_static_map_from_file/lanelet2_map", rclcpp::QoS{1}.transient_local(), std::bind(&ScenarioAbstraction::staticMapFromFileCallback, this, std::placeholders::_1));
 
@@ -166,9 +171,7 @@ void crp::sil::ScenarioAbstraction::poseCallback(const geometry_msgs::msg::PoseW
         return;
     if (!m_isGpsTransformSet)
     {
-        tf2_ros::Buffer tfBuffer(this->get_clock());
-        tf2_ros::TransformListener tfListener(tfBuffer);
-        m_gps2mapTransform = tfBuffer.lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(5, 0));
+        m_gps2mapTransform = m_tfBuffer->lookupTransform(m_mapFrameId, msg->header.frame_id, rclcpp::Time(0), rclcpp::Duration(5, 0));
         m_isGpsTransformSet = true;
     }
     // transform ego pose to map frame

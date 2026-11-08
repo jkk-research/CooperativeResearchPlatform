@@ -62,6 +62,8 @@ private:
     geometry_msgs::msg::PoseWithCovarianceStamped m_egoPoseMapFrame;
     std::string                                   m_mapFrameId;
     geometry_msgs::msg::TransformStamped          m_gps2mapTransform;
+    std::shared_ptr<tf2_ros::Buffer>              m_tfBuffer;
+    std::shared_ptr<tf2_ros::TransformListener>   m_tfListener;
     rclcpp::TimerBase::SharedPtr                  m_publishTimer_;
     autoware_perception_msgs::msg::PredictedObjects m_msg_movingObjects;
     autoware_internal_planning_msgs::msg::PathWithLaneId      m_cameraPath;
